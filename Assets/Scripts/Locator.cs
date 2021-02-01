@@ -5,12 +5,20 @@ using UnityEngine;
 public class Locator : MonoBehaviour
 {
     private static CanvasData canvasData;
+    private static int numCanvasData = 0;
+    GameObject currentCanvasData;
     bool hello = false;
 
-    public static void init(){
+    private void Awake(){
         GameObject canvas = GameObject.Find("UIDocument");
-        Debug.Log("hello");
         canvasData = canvas.GetComponent<CanvasData>();
+        if(numCanvasData == 0){
+            currentCanvasData = this.gameObject;
+            numCanvasData++;
+        }
+        else{
+            Debug.Log("there is already a canvasData");
+        }
     }
     public static void changeText(){
         if(canvasData == null)

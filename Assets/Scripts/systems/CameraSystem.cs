@@ -10,10 +10,10 @@ public class CameraSystem : SystemBase
     {
         Entities
             .WithoutBurst()
-            .ForEach((CameraData cameraData) => {
-                Transform transform = cameraData.camera.GetComponent<Transform>();
-                Translation playerPosition = manager.GetComponentData<Translation>(cameraData.player);
-                transform.position = playerPosition.Value + cameraData.offset;
+            .ForEach((FollowingData followingData) => {
+                Transform transform = followingData.gameObjectFollowing.GetComponent<Transform>();
+                Translation entityPosition = manager.GetComponentData<Translation>(followingData.entityToFollow);
+                transform.position = entityPosition.Value + followingData.offset;
             }).Run();
     }
 }

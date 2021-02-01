@@ -1,38 +1,42 @@
 using Unity.Entities;
 using System;
-using Unity.Physics;
 using Unity.Physics.Systems;
+using Unity.Physics;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Unity.Jobs;
 using Unity.Collections;
 
-[UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 public class DisplayTextSystem : SystemBase
 {   
-    private BuildPhysicsWorld buildPhysicsWorld;
-    StepPhysicsWorld m_StepPhysicsWorld;
-    EntityCommandBuffer tempBuffer = new EntityCommandBuffer(Allocator.Temp);
-
+    public BuildPhysicsWorld buildPhysicsWorld;
+    public StepPhysicsWorld physicsWorld;
     protected override void OnCreate()
         {
-            m_StepPhysicsWorld = World.GetOrCreateSystem<StepPhysicsWorld>();
+            buildPhysicsWorld = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<BuildPhysicsWorld>();
+            physicsWorld = World.GetExistingSystem<StepPhysicsWorld>();
         }
 
 
     
     protected override void OnUpdate()
-    {
-        SimulationCallbacks.Callback testTriggerEventsCallback = (ref ISimulation simulation, ref PhysicsWorld world, JobHandle inDeps) =>{
-            return new startText{
-                TextGroup = GetComponentDataFromEntity<Text>()
-            }.Schedule(simulation, ref world, inDeps);
-        };
-
-        m_StepPhysicsWorld.EnqueueCallback(SimulationCallbacks.Phase.PostSolveJacobians, testTriggerEventsCallback, Dependency);
-
+    {   
+        Debug.Log("Simulation Type: " + physicsWorld.Simulation.GetType());
+        var triggerEvents =  ((Simulation)physicsWorld.Simulation).TriggerEvents;
+        ComponentDataFromEntity<Text> TextGroup;
+        TextGroup = GetComponentDataFromEntity<Text>();
+        foreach(TriggerEvent triggerEvent in triggerEvents){
+            Entity entityA = triggerEvent.EntityA;
+            Entity entityB = triggerEvent.EntityB;
+            if(TextGroup.HasComponent(entityA)){
+                Locator.changeText();
+            }
+            else if(TextGroup.HasComponent(entityB)){
+                Locator.changeText();
+            }
+        }
     }   
-    
+    /*
     struct startText : ITriggerEventsJob
     {
         public ComponentDataFromEntity<Text> TextGroup;
@@ -54,6 +58,7 @@ public class DisplayTextSystem : SystemBase
             }
         }
     }
+    */
 }
 
 

@@ -3,9 +3,9 @@ using Unity.Mathematics;
 using UnityEngine;
 
 [GenerateAuthoringComponent]
-public class CameraData : IComponentData
+public class FollowingData : IComponentData
 {
-    public GameObject camera;
+    public GameObject gameObjectFollowing;
     public float3 offset;
-    public Entity player;
+    public Entity entityToFollow;
 }
