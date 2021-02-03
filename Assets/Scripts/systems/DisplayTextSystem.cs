@@ -1,64 +1,66 @@
 using Unity.Entities;
-using System;
 using Unity.Physics.Systems;
 using Unity.Physics;
-using UnityEngine;
 using UnityEngine.UIElements;
-using Unity.Jobs;
-using Unity.Collections;
 
+//Is used to check if the player hit a triggerzone to begin a cutscene
 public class DisplayTextSystem : SystemBase
 {   
-    public BuildPhysicsWorld buildPhysicsWorld;
-    public StepPhysicsWorld physicsWorld;
-    protected override void OnCreate()
-        {
-            buildPhysicsWorld = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<BuildPhysicsWorld>();
-            physicsWorld = World.GetExistingSystem<StepPhysicsWorld>();
+    public StepPhysicsWorld physicsWorld;EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
+    UIDocument UIDoc;
+
+    protected override void OnCreate(){
+        base.OnCreate();
+        m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+        physicsWorld = World.GetExistingSystem<StepPhysicsWorld>();
+
+        EntityQuery UIGroup = GetEntityQuery(typeof(UIDocument));
+        UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
+
+        foreach(UIDocument UIdoc in UIDocs){
+            UIDoc = UIdoc;
         }
-
-
-    
+    }
     protected override void OnUpdate()
     {   
-        Debug.Log("Simulation Type: " + physicsWorld.Simulation.GetType());
         var triggerEvents =  ((Simulation)physicsWorld.Simulation).TriggerEvents;
-        ComponentDataFromEntity<Text> TextGroup;
-        TextGroup = GetComponentDataFromEntity<Text>();
         foreach(TriggerEvent triggerEvent in triggerEvents){
             Entity entityA = triggerEvent.EntityA;
             Entity entityB = triggerEvent.EntityB;
-            if(TextGroup.HasComponent(entityA)){
-                Locator.changeText();
+           
+            var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
+            var rootVisualElement = UIDoc.rootVisualElement;
+            VisualElement charaterText = rootVisualElement.Q<VisualElement>("characterText");
+            Label textBoxText = rootVisualElement.Q<Label>("text");
+
+            Entities
+            .WithNone<TextBoxData>()
+            .WithoutBurst()
+            .ForEach((Entity entity, Text text) => {
+                if(entity.Equals(entityA)){
+                    ecb.AddComponent(entityA, new TextBoxData{
+                        textBoxText = textBoxText
+                    });
+                    ecb.AddComponent(entityB, new CutsceneData{
+                        isReadingDialogue = true
+                    });
+                    textBoxText.text = "";
+                    charaterText.visible = true;
+                }
+                if(entity.Equals(entityB)){
+                    ecb.AddComponent(entityB, new TextBoxData{
+                        textBoxText = textBoxText
+                    });
+                    ecb.AddComponent(entityA, new CutsceneData{
+                        isReadingDialogue = true
+                    });
+                    textBoxText.text = "";
+                    charaterText.visible = true;
+                }
             }
-            else if(TextGroup.HasComponent(entityB)){
-                Locator.changeText();
-            }
+            ).Run();
         }
     }   
-    /*
-    struct startText : ITriggerEventsJob
-    {
-        public ComponentDataFromEntity<Text> TextGroup;
-        public void Execute(TriggerEvent triggerEvent)
-        {
-            Debug.Log("moo");
-            Entity entityA = triggerEvent.EntityA;
-            Entity entityB = triggerEvent.EntityB;
-
-            World tempWorld = World.DefaultGameObjectInjectionWorld;
-            var tempBuffer = tempWorld.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
-            EntityCommandBuffer tempComBuffer = tempBuffer.CreateCommandBuffer();
-            if(TextGroup.HasComponent(entityA)){
-                
-                tempComBuffer.AddComponent(entityA, typeof(Test));
-            }
-            else if(TextGroup.HasComponent(entityB)){
-                tempComBuffer.AddComponent(entityA, typeof(Test));
-            }
-        }
-    }
-    */
 }
 
 

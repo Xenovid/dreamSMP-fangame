@@ -9,6 +9,7 @@ public class MovementSystem : SystemBase
         float dT = Time.DeltaTime;
 
         Entities
+            .WithNone<CutsceneData>()
             .ForEach(
                 (ref Translation pos,in MovementData move) =>
                 {

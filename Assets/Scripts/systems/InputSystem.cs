@@ -8,16 +8,19 @@ public class InputSystem : SystemBase
     {
         Entities
         .WithoutBurst()
-        .ForEach((ref MovementData move, in InputData inputData) => {
+        .ForEach((ref MovementData move, ref SelectionInputData select, in InputData inputData) => {
             bool isRightKeyPressed = Input.GetKey(inputData.rightKey);
             bool isLeftKeyPressed = Input.GetKey(inputData.leftKey);
             bool isUpKeyPressed = Input.GetKey(inputData.upKey);
             bool isDownKeyPressed = Input.GetKey(inputData.downKey);
+            bool isSelectKeyPressed= Input.GetKey(inputData.selectKey);
 
             move.direction.x = isRightKeyPressed ? 1 : 0;
             move.direction.x -= isLeftKeyPressed ? 1 : 0;
             move.direction.y = isUpKeyPressed ? 1 : 0;
             move.direction.y -= isDownKeyPressed ? 1 : 0;
+
+            select.isSelectedOrBack = isSelectKeyPressed ? 1 : 0;
          }).Run();
     }
 }
