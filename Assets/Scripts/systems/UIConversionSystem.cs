@@ -6,8 +6,8 @@ public class UIConversionSystem : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
-        Entities.ForEach((UIDocument UIdoc, EventSystem eventSystem) => {
-            AddHybridComponent(UIdoc);
+        Entities.ForEach((UIDocument UIDoc, EventSystem eventSystem) => {
+            AddHybridComponent(UIDoc);
             AddHybridComponent(eventSystem);
         });
         

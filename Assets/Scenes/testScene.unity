@@ -372,9 +372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text:
-  - hello
-  - my name is
-  - david
+  - Hello
 --- !u!4 &44351523
 Transform:
   m_ObjectHideFlags: 0
