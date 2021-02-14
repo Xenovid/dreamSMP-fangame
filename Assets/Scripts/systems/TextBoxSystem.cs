@@ -11,7 +11,6 @@ public class TextBoxSystem : SystemBase
 
     protected override void OnCreate(){
         base.OnCreate();
-
         
         m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
     }
@@ -34,25 +33,26 @@ public class TextBoxSystem : SystemBase
         var DeltaTime = Time.DeltaTime;
         Entities
         .WithoutBurst()
-        .ForEach((ref TextBoxData textBoxData, ref Entity entity, ref DynamicBuffer<Text> text) => {
+        .ForEach((ref TextBoxData textBoxData, ref Entity entity, ref DynamicBuffer<Text> text, in AudioInfo audioInfo) => {
             textBoxData.timeFromLastChar += DeltaTime;
-            Debug.Log(textBoxData.currentPage);
-            Debug.Log(text.Length);
             if(textBoxData.currentPage >= text.Length){
                     charaterText.visible = false;
                     ecb.RemoveComponent<TextBoxData>(entity);
                     ecb.RemoveComponent<Text>(entity);
             }
-            while(textBoxData.timeFromLastChar >= charTime && !textBoxData.isFinishedPage){
-                string textstring = text[textBoxData.currentPage].text.ToString();
-                if(textBoxData.currentChar == 0){
-                    textBoxText.text = "";
-                }
-                textBoxText.text += textstring[textBoxData.currentChar];
-                textBoxData.currentChar++;
-                textBoxData.timeFromLastChar -= charTime;
-                if(textBoxData.currentChar >= textstring.Length){
-                    textBoxData.isFinishedPage = true;
+            else{
+                while(textBoxData.timeFromLastChar >= charTime && !textBoxData.isFinishedPage){
+                    string textstring = text[textBoxData.currentPage].text.ToString();
+                    if(textBoxData.currentChar == 0){
+                        textBoxText.text = "";
+                        AudioManager.playDialogue(audioInfo.audioName, textBoxData.currentPage);
+                    }
+                    textBoxText.text += textstring[textBoxData.currentChar];
+                    textBoxData.currentChar++;
+                    textBoxData.timeFromLastChar -= charTime;
+                    if(textBoxData.currentChar >= textstring.Length){
+                        textBoxData.isFinishedPage = true;
+                    }
                 }
             }
         }).Run();
