@@ -14,8 +14,11 @@ public class AudioManager : MonoBehaviour
 
     private void Awake(){
         foreach( AudioData dialogue in dialoguess){
+            int i = 0;
             foreach(AudioClip clip in dialogue.clips){
                 dialogue.audioSources.Add(gameObject.AddComponent<AudioSource>());
+                dialogue.audioSources[i].clip = clip;
+                i++;
             }
             dialogues.Add(dialogue);
         }
@@ -30,9 +33,11 @@ public class AudioManager : MonoBehaviour
     public static void playDialogue(string audioName, int index){
         bool wasFound = false;
         foreach(AudioData dialogue in dialogues){
+            Debug.Log("audio found");
             if(dialogue.audioName == audioName){
                 try{
                     dialogue.audioSources[index].Play();
+                    Debug.Log("played Dialogue");
                 }
                 catch(Exception e){
                     Debug.Log("something went wrong when trying to play the dialogue");

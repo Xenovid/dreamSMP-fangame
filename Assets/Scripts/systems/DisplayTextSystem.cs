@@ -26,6 +26,7 @@ public class DisplayTextSystem : SystemBase
     }
     protected override void OnUpdate()
     {   
+        EntityManager.CompleteAllJobs();
         var triggerEvents =  ((Simulation)physicsWorld.Simulation).TriggerEvents;
         foreach(TriggerEvent triggerEvent in triggerEvents){
             if(UIDoc == null){

@@ -1,11 +1,14 @@
-using Unity.Entities;
-using UnityEngine.UIElements;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class TextBoxSystem : SystemBase
+using Unity.Entities;
+using UnityEngine.UIElements;
+
+public class TextBoxWithAudioSystem : SystemBase
 {
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
-    private float charTime = .1f;
+    private float charTime = 1.0f;
     Label textBoxText;
     VisualElement charaterText;
     IMGUIContainer charaterImage;
@@ -26,7 +29,11 @@ public class TextBoxSystem : SystemBase
         charaterText = rootVisualElement.Q<VisualElement>("characterText");
         textBoxText = rootVisualElement.Q<Label>("text");
         charaterImage = rootVisualElement.Q<IMGUIContainer>("charaterImage");
+        if(charaterImage == null){
+            Debug.Log("didn't find image");
+        }
     }
+    
     protected override void OnUpdate()
     {
         var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
@@ -34,8 +41,8 @@ public class TextBoxSystem : SystemBase
         var DeltaTime = Time.DeltaTime;
         Entities
         .WithoutBurst()
-        .WithNone<AudioInfo>()
-        .ForEach((ref TextBoxData textBoxData, ref Entity entity, ref DynamicBuffer<Text> text, in ImagesData images) => {
+        .WithNone<DialogueData>()
+        .ForEach((ref TextBoxData textBoxData, ref Entity entity, ref DynamicBuffer<Text> text, in AudioInfo audioInfo, in ImagesData images) => {
             textBoxData.timeFromLastChar += DeltaTime;
             if(textBoxData.currentPage >= text.Length){
                     charaterText.visible = false;
@@ -46,8 +53,9 @@ public class TextBoxSystem : SystemBase
                 while(textBoxData.timeFromLastChar >= charTime && !textBoxData.isFinishedPage){
                     string textstring = text[textBoxData.currentPage].text.ToString();
                     if(textBoxData.currentChar == 0){
-                        charaterImage.style.backgroundImage = images.images[textBoxData.currentPage];
                         textBoxText.text = "";
+                        charaterImage.style.backgroundImage = images.images[textBoxData.currentPage];;
+                        AudioManager.playDialogue(audioInfo.audioName, textBoxData.currentPage);
                     }
                     textBoxText.text += textstring[textBoxData.currentChar];
                     textBoxData.currentChar++;
@@ -60,3 +68,4 @@ public class TextBoxSystem : SystemBase
         }).Run();
     }
 }
+

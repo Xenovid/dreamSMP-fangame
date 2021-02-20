@@ -134,8 +134,9 @@ GameObject:
   - component: {fileID: 44351523}
   - component: {fileID: 44351518}
   - component: {fileID: 44351520}
-  - component: {fileID: 44351521}
   - component: {fileID: 44351524}
+  - component: {fileID: 44351525}
+  - component: {fileID: 44351521}
   - component: {fileID: 44351522}
   - component: {fileID: 44351519}
   m_Layer: 0
@@ -400,12 +401,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 44351517}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3226ecbcd257cb8e3bc1a31298296e98, type: 3}
+  m_Script: {fileID: 11500000, guid: d9506a546177e852e903331bd12219ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSources:
-  - {fileID: 1126653078}
-  - {fileID: 1217676751}
+  audioName: convo1
+--- !u!114 &44351525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 44351517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b78adda3cf7071b908694dfa0428da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  images:
+  - {fileID: 2800000, guid: 8e40520ac332eb42ea08e11074dfeafd, type: 3}
+  - {fileID: 2800000, guid: f42a42ba8280770dc9b6b83e4f9ceb79, type: 3}
 --- !u!1 &448583548
 GameObject:
   m_ObjectHideFlags: 0
@@ -1269,9 +1283,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialoguess:
   - clips:
-    - {fileID: 0}
+    - {fileID: 8300000, guid: a7c1bdc6b544fdcb0b1c4f5633f3ce08, type: 3}
+    - {fileID: 8300000, guid: 1715fc7eb395d1a3090e4fe72ff9201f, type: 3}
     audioSources: []
-    id: 0
+    audioName: convo1
   gameSoundss: []
   gameMusics: []
 --- !u!4 &1847510910
