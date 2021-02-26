@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 44351522}
   - component: {fileID: 44351519}
   m_Layer: 0
-  m_Name: Temp
+  m_Name: Temptexttrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
