@@ -1,6 +1,14 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:VisualElement name="characterText" style="left: 0; top: 78%; height: 22%; background-color: rgba(56, 59, 63, 0.8); display: flex; visibility: hidden;">
-        <ui:IMGUIContainer name="charaterImage" style="background-image: url(&apos;/Assets/Art/tommyinnitface.png&apos;); -unity-slice-top: 0; width: 11%; height: 100%; -unity-background-scale-mode: scale-to-fit; background-color: rgb(0, 0, 0); left: 0; top: 0; right: 0; bottom: 0; min-width: auto; min-height: auto; max-width: none; max-height: 100%; position: absolute;" />
-        <ui:Label text="&#10;" display-tooltip-when-elided="true" name="text" style="left: 11%; width: 89%; height: 100%; color: rgb(0, 0, 0); font-size: 20%; top: 0; background-image: none; min-height: auto; position: absolute;" />
+    <Style src="/Assets/testero.uss" />
+    <ui:VisualElement name="UI" style="left: 0; top: 78%; height: 22%; background-color: rgba(56, 59, 63, 0); display: flex; visibility: visible; min-height: 22%; max-height: 22%; position: absolute; width: 100%;">
+        <ui:VisualElement name="characterText" style="width: 18%; height: 100%; max-height: 100%; max-width: 12%;">
+            <ui:IMGUIContainer name="charaterImage" style="background-image: url(&apos;/Assets/Art/tommyinnitface.png&apos;); -unity-slice-top: 0; width: 50%; height: 50%; -unity-background-scale-mode: scale-to-fit; background-color: rgb(0, 0, 0); left: 0; top: 0; right: 0; bottom: 0; min-width: auto; min-height: auto; max-width: none; max-height: none; position: absolute;" />
+            <ui:Label text="&#10;" display-tooltip-when-elided="true" name="text" style="left: 0; width: 100%; height: 100%; color: rgb(0, 0, 0); font-size: 20%; top: 0; background-image: none; min-height: auto; position: absolute; visibility: hidden;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="battleUI" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; width: 100%; height: 100%; min-height: 100%; visibility: visible; background-color: rgb(94, 94, 94);">
+            <ui:Label text="Attack&#10;" display-tooltip-when-elided="true" name="AttackLabel" style="width: 50%; height: 50%; -unity-text-align: upper-center; font-size: 50%; -unity-font-style: normal;" />
+            <ui:Label text="Items&#10;" display-tooltip-when-elided="true" name="ItemLabel" style="position: absolute; width: 50%; height: 50%; left: 50%; font-size: 50%; -unity-text-align: upper-center;" />
+            <ui:Label text="Run&#10;" display-tooltip-when-elided="true" name="RunLabel" style="position: absolute; bottom: auto; top: 50%; width: 50%; height: 50%; font-size: 50%; -unity-text-align: upper-center;" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

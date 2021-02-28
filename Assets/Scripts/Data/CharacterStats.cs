@@ -1,13 +1,15 @@
 using Unity.Entities;
 using UnityEngine;
 
-public struct charaterStats : IComponentData
+[GenerateAuthoringComponent]
+public struct CharacterStats : IComponentData
 {
     public float health;
     public float recoverTime;
     public int attackMultiplier;
+    public Weapon equipedWeapon;
 }
-public struct weapon{
+public struct Weapon{
     public WeaponType weaponType;
     public float attack;
     public float attackSpeed;

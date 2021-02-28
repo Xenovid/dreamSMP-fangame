@@ -15,13 +15,15 @@ public class TextBoxSystem : SystemBase
         
         m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
     }
-    
     protected override void OnStartRunning(){
         base.OnStartRunning();
 
         EntityQuery UIGroup = GetEntityQuery(typeof(UIDocument));
         UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
         UIDocument UIDoc = UIDocs[0];
+        if(UIDoc == null){
+            Debug.Log("doc not found");
+        }
         var rootVisualElement = UIDoc.rootVisualElement;
         charaterText = rootVisualElement.Q<VisualElement>("characterText");
         textBoxText = rootVisualElement.Q<Label>("text");
@@ -55,7 +57,7 @@ public class TextBoxSystem : SystemBase
                     if(textBoxData.currentChar >= textstring.Length){
                         textBoxData.isFinishedPage = true;
                     }
-                }
+                } 
             }
         }).Run();
     }

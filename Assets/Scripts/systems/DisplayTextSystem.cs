@@ -7,7 +7,8 @@ using UnityEngine;
 //Is used to check if the player hit a triggerzone to begin a cutscene
 public class DisplayTextSystem : SystemBase
 {   
-    public StepPhysicsWorld physicsWorld;EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
+    public StepPhysicsWorld physicsWorld;
+    EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
     UIDocument UIDoc;
 
     protected override void OnCreate(){
@@ -30,7 +31,7 @@ public class DisplayTextSystem : SystemBase
         var triggerEvents =  ((Simulation)physicsWorld.Simulation).TriggerEvents;
         foreach(TriggerEvent triggerEvent in triggerEvents){
             if(UIDoc == null){
-                Debug.Log("hi");
+                Debug.Log("UIDocument not found");
             }
             Entity entityA = triggerEvent.EntityA;
             Entity entityB = triggerEvent.EntityB;

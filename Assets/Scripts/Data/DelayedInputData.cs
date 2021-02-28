@@ -8,4 +8,24 @@ public struct DelayedInputData : IComponentData
     public bool isSelectPressed;
     [HideInInspector]
     public bool wasSelectPressed;
+
+    [HideInInspector]
+    public bool wasUpPressed;
+    [HideInInspector]
+    public bool isUpPressed;
+
+    [HideInInspector]
+    public bool wasDownPressed;
+    [HideInInspector]
+    public bool isDownPressed;
+
+    [HideInInspector]
+    public bool wasRightPressed;
+    [HideInInspector]
+    public bool isRightPressed;
+
+    [HideInInspector]
+    public bool wasLeftPressed;
+    [HideInInspector]
+    public bool isLeftPressed;
 }
