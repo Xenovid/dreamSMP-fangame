@@ -8,6 +8,7 @@ public struct CharacterStats : IComponentData
     public float recoverTime;
     public int attackMultiplier;
     public Weapon equipedWeapon;
+    public int id;
 }
 public struct Weapon{
     public WeaponType weaponType;

@@ -1,7 +1,6 @@
 using Unity.Entities;
 using UnityEngine;
 
-[GenerateAuthoringComponent]
 public struct BattleData : IComponentData
 {
     public selectables selected;
