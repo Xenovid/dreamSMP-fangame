@@ -41,6 +41,7 @@ public class TextBoxSystem : SystemBase
             textBoxData.timeFromLastChar += DeltaTime;
             if(textBoxData.currentPage >= text.Length){
                     charaterText.visible = false;
+                    textBoxText.visible = false;
                     ecb.RemoveComponent<TextBoxData>(entity);
                     ecb.RemoveComponent<Text>(entity);
             }

@@ -1,7 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="/Assets/testero.uss" />
     <ui:VisualElement name="UI" style="left: 0; top: 78%; height: 22%; background-color: rgba(56, 59, 63, 0); display: flex; visibility: visible; min-height: 22%; max-height: 22%; position: absolute; width: 100%;">
-        <ui:VisualElement name="characterText" style="width: 100%; height: 100%; max-height: 100%; max-width: 100%; visibility: visible; background-color: rgb(115, 115, 115);">
+        <ui:VisualElement name="characterText" style="width: 100%; height: 100%; max-height: 100%; max-width: 100%; visibility: hidden; background-color: rgb(115, 115, 115);">
             <ui:IMGUIContainer name="charaterImage" style="background-image: url(&apos;/Assets/Art/tommyinnitface.png&apos;); -unity-slice-top: 0; width: 20%; height: 100%; -unity-background-scale-mode: scale-to-fit; background-color: rgb(0, 0, 0); left: 0; top: 0; right: 0; bottom: 0; min-width: auto; min-height: auto; max-width: none; max-height: none; position: absolute; visibility: hidden;" />
             <ui:Label text="&#10;" display-tooltip-when-elided="true" name="text" style="left: 20%; width: 80%; height: 100%; color: rgb(0, 0, 0); font-size: 20%; top: 0; background-image: none; min-height: auto; position: absolute; visibility: visible;" />
         </ui:VisualElement>
