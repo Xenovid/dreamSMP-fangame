@@ -52,9 +52,13 @@ public class BattleMenuSystem : SystemBase
         }
         else{
         attackLabel = rootVisualElement.Q<Label>("AttackLabel");
-        itemLabel = rootVisualElement.Q<Label>("ItemLabel");
+        itemLabel= rootVisualElement.Q<Label>("ItemsLabel");
         runLabel = rootVisualElement.Q<Label>("RunLabel");
         battleUI = rootVisualElement.Q<VisualElement>("battleUI");
+
+        //attackLabel.ToggleInClassList("test");
+        //attackLabel.EnableInClassList("test", true);
+        
 
         Entities
         .WithoutBurst()
@@ -76,15 +80,19 @@ public class BattleMenuSystem : SystemBase
                         }
                         else{
                             battleData.selected = selectables.none;
-                            if(input.moveright){
-                                currentSelection = selectables.items;
-                                attackLabel.style.color = grey;
-                                itemLabel.style.color = black;
+                            if(input.moveup){
+                                currentSelection = selectables.run;
+                                attackLabel.RemoveFromClassList("battle-label-selected");
+                                attackLabel.AddToClassList("battle-label");
+                                runLabel.RemoveFromClassList("battle-label");
+                                runLabel.AddToClassList("battle-label-selected");
                             }
                             else if(input.movedown){
-                                currentSelection = selectables.run;
-                                attackLabel.style.color = grey;
-                                runLabel.style.color = black;
+                                currentSelection = selectables.items;
+                                attackLabel.RemoveFromClassList("battle-label-selected");
+                                attackLabel.AddToClassList("battle-label");
+                                itemLabel.RemoveFromClassList("battle-label");
+                                itemLabel.AddToClassList("battle-label-selected");
                             }
                         }
                         break;
@@ -94,15 +102,19 @@ public class BattleMenuSystem : SystemBase
                         }
                         else{
                             battleData.selected = selectables.none;
-                            if(input.moveleft){
+                            if(input.moveup){
                                 currentSelection = selectables.attack;
-                                attackLabel.style.color = black;
-                                itemLabel.style.color = grey;
+                                attackLabel.RemoveFromClassList("battle-label");
+                                attackLabel.AddToClassList("battle-label-selected");
+                                itemLabel.RemoveFromClassList("battle-label-selected");
+                                itemLabel.AddToClassList("battle-label");
                             }
                             else if(input.movedown){
-                                //currentSelection = selectables.run;
-                                //itemLabel.style.color = grey;
-                                //runLabel.style.color = black;
+                                currentSelection = selectables.run;
+                                itemLabel.RemoveFromClassList("battle-label-selected");
+                                itemLabel.AddToClassList("battle-label");
+                                runLabel.RemoveFromClassList("battle-label");
+                                runLabel.AddToClassList("battle-label-selected");
                             }
                         }
                         break;
@@ -113,14 +125,18 @@ public class BattleMenuSystem : SystemBase
                         else{
                             battleData.selected = selectables.none;
                             if(input.movedown){
-                            //currentSelection = selectables.attack;
-                            //attackLabel.style.color = black;
-                            //runLabel.style.color = grey;
+                                currentSelection = selectables.attack;
+                                attackLabel.RemoveFromClassList("battle-label");
+                                attackLabel.AddToClassList("battle-label-selected");
+                                runLabel.RemoveFromClassList("battle-label-selected");
+                                runLabel.AddToClassList("battle-label");
                             }
                             else if(input.moveup){
-                                currentSelection = selectables.attack;
-                                attackLabel.style.color = black;
-                                runLabel.style.color = grey;
+                                currentSelection = selectables.items;
+                                runLabel.RemoveFromClassList("battle-label-selected");
+                                runLabel.AddToClassList("battle-label");
+                                itemLabel.RemoveFromClassList("battle-label");
+                                itemLabel.AddToClassList("battle-label-selected");
                             }
                         }
                         

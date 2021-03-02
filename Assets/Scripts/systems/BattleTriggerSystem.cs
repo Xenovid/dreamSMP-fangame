@@ -39,7 +39,7 @@ public class BattleTriggerSystem : SystemBase
 
         foreach(TriggerEvent triggerEvent in triggerEvents){
             var rootVisualElement = UIDoc.rootVisualElement;
-            battleUI = rootVisualElement.Q<VisualElement>("battleUI");
+            battleUI = rootVisualElement.Q<VisualElement>("BattleUI");
             Entity entityA = triggerEvent.EntityA;
             Entity entityB = triggerEvent.EntityB;
             if(GetComponentDataFromEntity<PlayerTag>().HasComponent(entityA) && GetComponentDataFromEntity<BattleTriggerData>().HasComponent(entityB)){
