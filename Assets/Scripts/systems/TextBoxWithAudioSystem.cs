@@ -11,7 +11,7 @@ public class TextBoxWithAudioSystem : SystemBase
     private float charTime = 1.0f;
     Label textBoxText;
     VisualElement charaterText;
-    IMGUIContainer charaterImage;
+    VisualElement charaterImage;
 
     protected override void OnCreate(){
         base.OnCreate();
@@ -26,9 +26,9 @@ public class TextBoxWithAudioSystem : SystemBase
         UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
         UIDocument UIDoc = UIDocs[0];
         var rootVisualElement = UIDoc.rootVisualElement;
-        charaterText = rootVisualElement.Q<VisualElement>("characterText");
-        textBoxText = rootVisualElement.Q<Label>("text");
-        charaterImage = rootVisualElement.Q<IMGUIContainer>("charaterImage");
+        charaterText = rootVisualElement.Q<VisualElement>("TextBoxUI");
+        textBoxText = rootVisualElement.Q<Label>("TextBoxText");
+        charaterImage = rootVisualElement.Q<VisualElement>("CharacterImage");
         if(charaterImage == null){
             Debug.Log("didn't find image");
         }

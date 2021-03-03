@@ -37,8 +37,8 @@ public class DisplayTextSystem : SystemBase
             Entity entityB = triggerEvent.EntityB;
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
             var rootVisualElement = UIDoc.rootVisualElement;
-            VisualElement charaterText = rootVisualElement.Q<VisualElement>("characterText");
-            Label textBoxText = rootVisualElement.Q<Label>("text");
+            VisualElement charaterText = rootVisualElement.Q<VisualElement>("TextBoxUI");
+            Label textBoxText = rootVisualElement.Q<Label>("TextBoxText");
 
             Entities
             .WithNone<TextBoxData>()

@@ -12,7 +12,7 @@ public class BattleSystem : SystemBase
             //EntityQuery PlayersGroup = GetEntityQuery(ComponentType.ReadOnly<PlayerPartyData>());
             EntityQuery characterStatsGroup = GetEntityQuery(ComponentType.ReadWrite<CharacterStats>(), ComponentType.ReadWrite<BattleData>());
             NativeArray<Entity> battleManagers = BattleManagerGroup.ToEntityArray(Allocator.Temp);
-            BattleManagerTag battleManager;
+            //BattleManagerTag battleManager;
 
             
             

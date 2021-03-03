@@ -26,7 +26,7 @@ public class CutsceneInputSystem : SystemBase
         UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
         UIDocument UIDoc = UIDocs[0];
         var rootVisualElement = UIDoc.rootVisualElement;
-        textBoxText = rootVisualElement.Q<Label>("text");
+        textBoxText = rootVisualElement.Q<Label>("TextBoxText");
       }
 
       protected override void OnUpdate()
