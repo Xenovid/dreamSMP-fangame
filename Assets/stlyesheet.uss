@@ -3,7 +3,7 @@
     border-right-width: 3px;
     border-top-width: 3px;
     border-bottom-width: 3px;
-    color: rgba(34, 34, 34, 255);
+    color: rgb(34, 34, 34);
 }
 
 .battle-label {

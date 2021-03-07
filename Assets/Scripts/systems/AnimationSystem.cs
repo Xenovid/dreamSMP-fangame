@@ -33,7 +33,7 @@ public class AnimationSystem : SystemBase
             }
             else if(Mathf.Abs(movement.direction.x) > Mathf.Abs(movement.direction.y)){
                 animationData.inIdleAnimation = false;
-                if(movement.direction.x < 0){
+                if(movement.direction.x > 0){
                     
                     animationData.previouslyFacing = Direction.right;
                     animator.Play(animationData.walkRightAnimationName);

@@ -22,6 +22,7 @@ public class BattleMenuSystem : SystemBase
         EntityQuery UIGroup = GetEntityQuery(typeof(UIDocument));
         UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
         UIDoc = UIDocs[0];
+
     }
 
     protected override void OnUpdate()
@@ -82,15 +83,15 @@ public class BattleMenuSystem : SystemBase
                             if(input.moveup){
                                 currentSelection = selectables.run;
                                 attackLabel.RemoveFromClassList("battle-label-selected");
-                                //attackLabel.AddToClassList("battle-label");
-                                //runLabel.RemoveFromClassList("battle-label");
+                                attackLabel.AddToClassList("battle-label");
+                                runLabel.RemoveFromClassList("battle-label");
                                 runLabel.AddToClassList("battle-label-selected");
                             }
                             else if(input.movedown){
                                 currentSelection = selectables.items;
                                 attackLabel.RemoveFromClassList("battle-label-selected");
-                                //attackLabel.AddToClassList("battle-label");
-                                //itemLabel.RemoveFromClassList("battle-label");
+                                attackLabel.AddToClassList("battle-label");
+                                itemLabel.RemoveFromClassList("battle-label");
                                 itemLabel.AddToClassList("battle-label-selected");
                             }
                         }
@@ -103,16 +104,16 @@ public class BattleMenuSystem : SystemBase
                             battleData.selected = selectables.none;
                             if(input.moveup){
                                 currentSelection = selectables.attack;
-                                //attackLabel.RemoveFromClassList("battle-label");
+                                attackLabel.RemoveFromClassList("battle-label");
                                 attackLabel.AddToClassList("battle-label-selected");
                                 itemLabel.RemoveFromClassList("battle-label-selected");
-                                //itemLabel.AddToClassList("battle-label");
+                                itemLabel.AddToClassList("battle-label");
                             }
                             else if(input.movedown){
                                 currentSelection = selectables.run;
                                 itemLabel.RemoveFromClassList("battle-label-selected");
-                                //itemLabel.AddToClassList("battle-label");
-                                //runLabel.RemoveFromClassList("battle-label");
+                                itemLabel.AddToClassList("battle-label");
+                                runLabel.RemoveFromClassList("battle-label");
                                 runLabel.AddToClassList("battle-label-selected");
                             }
                         }
@@ -125,16 +126,16 @@ public class BattleMenuSystem : SystemBase
                             battleData.selected = selectables.none;
                             if(input.movedown){
                                 currentSelection = selectables.attack;
-                                //attackLabel.RemoveFromClassList("battle-label");
+                                attackLabel.RemoveFromClassList("battle-label");
                                 attackLabel.AddToClassList("battle-label-selected");
                                 runLabel.RemoveFromClassList("battle-label-selected");
-                                //runLabel.AddToClassList("battle-label");
+                                runLabel.AddToClassList("battle-label");
                             }
                             else if(input.moveup){
                                 currentSelection = selectables.items;
                                 runLabel.RemoveFromClassList("battle-label-selected");
-                                //runLabel.AddToClassList("battle-label");
-                                //itemLabel.RemoveFromClassList("battle-label");
+                                runLabel.AddToClassList("battle-label");
+                                itemLabel.RemoveFromClassList("battle-label");
                                 itemLabel.AddToClassList("battle-label-selected");
                             }
                         }
