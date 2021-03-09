@@ -1,8 +1,11 @@
 using Unity.Entities;
+using Unity.Collections;
 using UnityEngine;
 
-[GenerateAuthoringComponent]
-public class DialogueData : IComponentData
+public struct DialogueData : IBufferElementData
 {
-    public string dialogueName;
+    public FixedString512 dialogue;
+    public float dialogueStartTime;
+    public float dialogueEndTime;
+    public float keepDialogueUpTime;
 }

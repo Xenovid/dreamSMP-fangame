@@ -11,6 +11,7 @@ public class BattleMenuSystem : SystemBase
     public Label itemLabel;
     public Label runLabel;
     UIDocument UIDoc;
+    public int test = 0;
 
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
 
@@ -22,7 +23,6 @@ public class BattleMenuSystem : SystemBase
         EntityQuery UIGroup = GetEntityQuery(typeof(UIDocument));
         UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
         UIDoc = UIDocs[0];
-
     }
 
     protected override void OnUpdate()
@@ -32,7 +32,7 @@ public class BattleMenuSystem : SystemBase
         EntityQuery BattleManagerGroup = GetEntityQuery(typeof(BattleManagerTag));
         NativeArray<Entity> battleManagers = BattleManagerGroup.ToEntityArray(Allocator.Temp);
         bool isBattling = false;
-
+        
         foreach(Entity entity in battleManagers){
             Debug.Log("there is a battle manager");
             isBattling = true;
@@ -54,6 +54,8 @@ public class BattleMenuSystem : SystemBase
         itemLabel= rootVisualElement.Q<Label>("ItemsLabel");
         runLabel = rootVisualElement.Q<Label>("RunLabel");
         battleUI = rootVisualElement.Q<VisualElement>("BattleUI");
+        
+        
         if(!isBattling){
             battleUI.visible = false;
         }

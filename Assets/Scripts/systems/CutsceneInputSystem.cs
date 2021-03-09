@@ -45,6 +45,7 @@ public class CutsceneInputSystem : SystemBase
 
         Entities
         .WithoutBurst()
+        .WithNone<DialogueData>()
         .ForEach((ref Entity entity, in CutsceneData cutsceneData, in DelayedInputData delayedInput) => {
           //there should only be one entity with a textbox and text at a given time
           text = EntityManager.GetBuffer<Text>(entities[0]);

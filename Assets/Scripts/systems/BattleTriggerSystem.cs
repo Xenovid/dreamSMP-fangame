@@ -4,6 +4,7 @@ using Unity.Physics.Systems;
 using Unity.Collections;
 using UnityEngine.UIElements;
 using UnityEngine;
+using UnityEditor;
 
 public class BattleTriggerSystem : SystemBase
 {
@@ -30,6 +31,7 @@ public class BattleTriggerSystem : SystemBase
 
     protected override void OnUpdate()
     {
+        
         EntityManager.CompleteAllJobs();
 
         var triggerEvents =  ((Simulation)physicsWorld.Simulation).TriggerEvents;
@@ -39,7 +41,6 @@ public class BattleTriggerSystem : SystemBase
 
         foreach(TriggerEvent triggerEvent in triggerEvents){
             var rootVisualElement = UIDoc.rootVisualElement;
-            battleUI = rootVisualElement.Q<VisualElement>("BattleUI");
             Entity entityA = triggerEvent.EntityA;
             Entity entityB = triggerEvent.EntityB;
             if(GetComponentDataFromEntity<PlayerTag>().HasComponent(entityA) && GetComponentDataFromEntity<BattleTriggerData>().HasComponent(entityB)){
