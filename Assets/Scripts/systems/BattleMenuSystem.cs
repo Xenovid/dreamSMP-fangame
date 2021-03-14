@@ -68,6 +68,7 @@ public class BattleMenuSystem : SystemBase
         .WithStructuralChanges()
         .ForEach((ref BattleData battleData, ref CharacterStats characterStat, in Entity entity, in UIInputData input) =>{
             if(!isBattling){
+                AudioManager.stopSong("tempBattleMusic");
                 battleUI.visible = false;
                 EntityManager.RemoveComponent<BattleData>(entity);
                 EntityManager.RemoveComponent<UIInputData>(entity);

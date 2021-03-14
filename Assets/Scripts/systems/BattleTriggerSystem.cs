@@ -41,9 +41,12 @@ public class BattleTriggerSystem : SystemBase
 
         foreach(TriggerEvent triggerEvent in triggerEvents){
             var rootVisualElement = UIDoc.rootVisualElement;
+
+            battleUI = rootVisualElement.Q<VisualElement>("BattleUI");
             Entity entityA = triggerEvent.EntityA;
             Entity entityB = triggerEvent.EntityB;
             if(GetComponentDataFromEntity<PlayerTag>().HasComponent(entityA) && GetComponentDataFromEntity<BattleTriggerData>().HasComponent(entityB)){
+                AudioManager.playSong("tempBattleMusic");
                 DynamicBuffer<EnemyBattleData> temp = GetBuffer<EnemyBattleData>(entityB);
                 NativeArray<EnemyBattleData> enemyBattleDatas = temp.ToNativeArray(Allocator.Temp);
                 EntityManager.CompleteAllJobs();
@@ -66,8 +69,11 @@ public class BattleTriggerSystem : SystemBase
                     EntityManager.RemoveComponent<BattleTriggerData>(entityB);
             }
             else if(GetComponentDataFromEntity<PlayerTag>().HasComponent(entityB) && GetComponentDataFromEntity<BattleTriggerData>().HasComponent(entityB)){
+                AudioManager.playSong("tempBattleMusic");
                 DynamicBuffer<EnemyBattleData> temp = GetBuffer<EnemyBattleData>(entityA);
                 NativeArray<EnemyBattleData> enemyBattleDatas = temp.ToNativeArray(Allocator.Temp);
+
+                battleUI = rootVisualElement.Q<VisualElement>("BattleUI");
 
                 EntityManager.CompleteAllJobs();
                 EntityManager.AddComponent<BattleData>(entityB);

@@ -43,7 +43,7 @@ public class TextBoxWithAudioSystem : SystemBase
         .WithoutBurst()
         .WithNone<DialogueData>()
         .ForEach((ref TextBoxData textBoxData, ref Entity entity, ref DynamicBuffer<Text> text, in AudioInfo audioInfo, in ImagesData images) => {
-            textBoxData.timeFromLastChar += DeltaTime;
+            /*textBoxData.timeFromLastChar += DeltaTime;
             if(textBoxData.currentPage >= text.Length){
                     charaterText.visible = false;
                     ecb.RemoveComponent<TextBoxData>(entity);
@@ -64,7 +64,7 @@ public class TextBoxWithAudioSystem : SystemBase
                         textBoxData.isFinishedPage = true;
                     }
                 }
-            }
+            }*/
         }).Run();
     }
 }

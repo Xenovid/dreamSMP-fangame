@@ -25,13 +25,15 @@ public class TriggerCutsceneSystem : SystemBase
         EntityQuery UIGroup = GetEntityQuery(typeof(UIDocument));
         UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
         UIDoc = UIDocs[0];
-        dialogueBoxTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/ui/TextBubble.uxml");
+        dialogueBoxTree = Resources.Load<VisualTreeAsset>("TextBubble");
+        if(dialogueBoxTree == null){
+            Debug.Log("didn't work");
+        }
     }
     protected override void OnUpdate()
     {   
         var triggerEvents =  ((Simulation)physicsWorld.Simulation).TriggerEvents;
         foreach(TriggerEvent triggerEvent in triggerEvents){
-            Debug.Log("there is a trigger event");
             Entity entityA = triggerEvent.EntityA;
             Entity entityB = triggerEvent.EntityB;
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
@@ -40,8 +42,7 @@ public class TriggerCutsceneSystem : SystemBase
             EntityQuery characterStatsGroup = GetEntityQuery(typeof(CharacterStats));
             NativeArray<CharacterStats> characters = characterStatsGroup.ToComponentDataArray<CharacterStats>(Allocator.TempJob);
             NativeArray<Entity> characterEntities = characterStatsGroup.ToEntityArray(Allocator.TempJob);
-
-            Debug.Log("triggerevents");
+            Debug.Log(characterEntities.Length);
             //checks if the trigger event has a player and cutscenetriggerdata
             if((GetComponentDataFromEntity<PlayerTag>().HasComponent(entityA) || GetComponentDataFromEntity<PlayerTag>().HasComponent(entityB)) && (GetComponentDataFromEntity<CutsceneTriggerTag>().HasComponent(entityB) || GetComponentDataFromEntity<CutsceneTriggerTag>().HasComponent(entityB))){
 
@@ -73,8 +74,13 @@ public class TriggerCutsceneSystem : SystemBase
                         }
                     }
                         //remove the trigger so it doesn't repeat
+                        AudioManager.playDialogue(cutsceneTriggerData.dialogueAudioName);
+
+                        ecb.AddComponent(entity, new CutsceneManagerData{
+                            dialogueLength = cutsceneTriggerData.cutsceneLength
+                        });
                         ecb.RemoveComponent<CutsceneTriggerData>(entity);
-                        ecb.AddComponent<CutsceneManagerData>(entity);
+                        
                         ecb.RemoveComponent<CutsceneTriggerTag>(entity);
                     }
                     // goes throw all of the characters that are going to have dialogue finds there equivalent charactersheets and adds them to the 

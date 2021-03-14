@@ -4,23 +4,25 @@ using System.Collections.Generic;
 
 public class AudioManager : MonoBehaviour
 {
-    public AudioData[] dialoguess;
+    public SoundData[] dialoguess;
     public SoundData[] gameSoundss;
     public SoundData[] gameMusics;
 
-    private static List<AudioData> dialogues = new List<AudioData>();
+    private static List<SoundData> dialogues = new List<SoundData>();
     private static List<SoundData> gameSounds = new List<SoundData>();
     private static List<SoundData> gameMusic = new List<SoundData>();
 
     private void Awake(){
-        foreach( AudioData dialogue in dialoguess){
-            int i = 0;
-            foreach(AudioClip clip in dialogue.clips){
-                dialogue.audioSources.Add(gameObject.AddComponent<AudioSource>());
-                dialogue.audioSources[i].clip = clip;
-                i++;
-            }
+        foreach( SoundData dialogue in dialoguess){
+            dialogue.audioSource = gameObject.AddComponent<AudioSource>();
+            dialogue.audioSource.clip = dialogue.clip;
             dialogues.Add(dialogue);
+        }
+
+        foreach(SoundData music in gameMusics){
+            music.audioSource = gameObject.AddComponent<AudioSource>();
+            music.audioSource.clip = music.clip;
+            gameMusic.Add(music);
         }
     }
 
@@ -28,15 +30,14 @@ public class AudioManager : MonoBehaviour
     /// <summary>
     /// starts playing a seleted piece of dialogue
     /// </summary>
-    /// <param name="id">the parameter used to determine what chain of diague that you want to play from</param>
-    /// <param name="index">the index of the dialogue in the chain of dialogue</param>
-    public static void playDialogue(string audioName, int index){
+    /// <param name="soundName">the parameter used to determine what dialogue that you want to play from</param>
+    public static void playDialogue(string soundName){
         bool wasFound = false;
-        foreach(AudioData dialogue in dialogues){
+        foreach(SoundData dialogue in dialogues){
             Debug.Log("audio found");
-            if(dialogue.audioName == audioName){
+            if(dialogue.soundName == soundName){
                 try{
-                    dialogue.audioSources[index].Play();
+                    dialogue.audioSource.Play();
                     Debug.Log("played Dialogue");
                 }
                 catch(Exception e){
@@ -58,12 +59,12 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     /// <param name="id">the parameter used to determine what chain of diague that you want to stop playing from</param>
     /// <param name="index">the index of the dialogue in the chain of dialogue</param>
-    public static void stopDialogue(string audioName, int index){
+    public static void stopDialogue(string soundName){
         bool wasFound = false;
-        foreach(AudioData dialogue in dialogues){
-            if(dialogue.audioName == audioName){
+        foreach(SoundData dialogue in dialogues){
+            if(dialogue.soundName == soundName){
                 try{
-                    dialogue.audioSources[index].Stop();
+                    dialogue.audioSource.Stop();
                 }
                 catch(Exception e){
                     Debug.Log("something went wrong when trying to stop the dialogue");
@@ -136,6 +137,7 @@ public class AudioManager : MonoBehaviour
     public static void playSong(string name){
         bool wasFound = false;
         foreach(SoundData sound in gameMusic){
+            Debug.Log("found matching name");
             if(sound.soundName == name){
                 try{
                     sound.audioSource.Play();

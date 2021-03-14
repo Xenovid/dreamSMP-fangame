@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class BattleSystem : SystemBase
 {
+      EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
+      protected override void OnCreate(){
+            base.OnCreate();
+            m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+      }
+
       protected override void OnUpdate()
       {
 
@@ -29,6 +35,7 @@ public class BattleSystem : SystemBase
                               foreach(CharacterStats character in characterStatsList){
                                     if( character.id.Equals(battleData.targetingId)){
                                           Debug.Log("found character");
+                                          
                                           if(character.health <= 0){
                                                 foreach(Entity ent in battleManagers){
                                                       Debug.Log("attempting to remove tag");

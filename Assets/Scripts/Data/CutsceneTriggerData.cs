@@ -5,6 +5,7 @@ using UnityEngine;
 public class CutsceneTriggerData : IComponentData
 {
     public tempCharacterDialogue[] characterDialogues;
+    public float cutsceneLength;
     public string dialogueAudioName;
 }
 

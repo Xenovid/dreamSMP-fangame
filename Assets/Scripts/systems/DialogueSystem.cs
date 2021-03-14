@@ -8,6 +8,7 @@ using UnityEngine;
 public class DialogueSystem : SystemBase
 { 
     UIDocument UIDoc;
+    Camera camera = new Camera();
 
 
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
@@ -23,17 +24,25 @@ public class DialogueSystem : SystemBase
         EntityQuery UIGroup = GetEntityQuery(typeof(UIDocument));  
         UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
         UIDoc = UIDocs[0];
+
+        EntityQuery cameraGroup = GetEntityQuery(typeof(Camera));
+        Camera[] cameras = cameraGroup.ToComponentArray<Camera>();
+        if(cameras.Length > 0){
+            camera = cameras[0];
+        }
+        else{
+            Debug.Log("camera not found");
+        }
     }
   
     protected override void OnUpdate()
     {
         var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
 
-        CutsceneManagerData cutsceneManager = new CutsceneManagerData();
-        var DeltaTime = Time.DeltaTime;
+        
         EntityQuery CutsceneManagerGroup = GetEntityQuery(typeof(CutsceneManagerData));
         NativeArray<CutsceneManagerData> cutsceneManagers = CutsceneManagerGroup.ToComponentDataArray<CutsceneManagerData>(Allocator.Temp);
-
+        CutsceneManagerData cutsceneManager = new CutsceneManagerData();
 
 
         VisualElement root = UIDoc.rootVisualElement;
@@ -47,9 +56,13 @@ public class DialogueSystem : SystemBase
         
         Entities
         .WithoutBurst()
-        .ForEach((Entity entity,DialogueBoxData dialogueBoxData, ref CutsceneData cutsceneData,in Translation translation, in DynamicBuffer<DialogueData> dialogues) => {
+        .ForEach((Entity entity,DialogueBoxData dialogueBoxData, ref CutsceneData cutsceneData,in Translation translation, in DynamicBuffer<DialogueData> dialogues, in CharacterName character) => {
             //remove anything related to a cutscene if there is a cutscene
+            Vector3 characterPositonOnScreen = camera.WorldToScreenPoint(new Vector3(translation.Value.x, translation.Value.y, translation.Value.z));
+            Vector2 newPosition = new Vector2(characterPositonOnScreen.x, characterPositonOnScreen.y);
+            Debug.Log(camera.WorldToScreenPoint(new Vector3(translation.Value.x, translation.Value.y, translation.Value.z)));
             if(!isThereACutscene){
+                Debug.Log("deleting cutsceneData");
                 ecb.RemoveComponent<CutsceneData>(entity);
                 //dialogues.Clear();
                 root.Remove(dialogueBoxData.dialogueBox);
@@ -57,31 +70,34 @@ public class DialogueSystem : SystemBase
             }
             //do anything you need to do for a cutscene if there is a cutscene
             else{
-                DialogueData currentDialogue;
-                int dialogueNumber = -1;
+                DialogueData currentDialogue = new DialogueData();
                 for(int i = 0; i < dialogues.Length; i++){
-                    if((dialogues[i].keepDialogueUpTime <= cutsceneManager.totalTime)){
-                        dialogueNumber++;
+                    //Debug.Log("dialogue keep time:" +dialogues[i].keepDialogueUpTime.ToString() + "cutscene total time:" + cutsceneManager.totalTime.ToString());
+                    //Debug.Log(dialogues[i].keepDialogueUpTime <= cutsceneManager.totalTime);
+                    if(dialogues[i].dialogueStartTime <= cutsceneManager.totalTime){
+                        //Debug.Log("current dialogue is:" + dialogues[i].dialogue.ToString());
+                        currentDialogue = dialogues[i];
                     }
                 }
-                Debug.Log(dialogueNumber);
-                Debug.Log(cutsceneManager.totalTime);
-                currentDialogue = dialogues[dialogueNumber];
+                //Debug.Log(cutsceneManager.totalTime);
                 if(currentDialogue.dialogueStartTime > cutsceneManager.totalTime){
                     dialogueBoxData.dialogueBox.visible = false;
                 }
                 else if(currentDialogue.dialogueEndTime > cutsceneManager.totalTime){
                     dialogueBoxData.dialogueBox.visible = true;
                     //find out which letter it is at
-                    float timePerCharacter = (currentDialogue.dialogueEndTime/ currentDialogue.dialogueStartTime)/ currentDialogue.dialogue.Length;
+                    float timePerCharacter = (currentDialogue.dialogueEndTime- currentDialogue.dialogueStartTime)/ currentDialogue.dialogue.Length;
                     float timePassFromStart = cutsceneManager.totalTime - currentDialogue.dialogueStartTime;
                     int numberOfCharacters = Mathf.FloorToInt(timePassFromStart / timePerCharacter);
                     string textToDisplay = currentDialogue.dialogue.ToString().Substring(0, numberOfCharacters);
-                    Debug.Log("hello");
 
                     Label bubbleText = dialogueBoxData.dialogueBox.Q<Label>("bubbleText");
+                    //bubbleText.layout.Set(newPosition.x, newPosition.y, bubbleText.layout.width, bubbleText.layout.height);
+                    Debug.Log(camera.pixelHeight);
+                    bubbleText.style.left = newPosition.x /2;
+                    bubbleText.style.bottom = (newPosition.y - camera.pixelHeight)/2;
                     if(bubbleText != null){
-                        bubbleText.text = textToDisplay;
+                        bubbleText.text = character.name +  ":" + textToDisplay;
                     }
                     else{
                         Debug.Log("didn't find bubbleText");
@@ -92,8 +108,11 @@ public class DialogueSystem : SystemBase
                 else if(currentDialogue.keepDialogueUpTime > cutsceneManager.totalTime){
                     dialogueBoxData.dialogueBox.visible = true;
                     Label bubbleText = dialogueBoxData.dialogueBox.Q<Label>("bubbleText");
+                    bubbleText.style.left = newPosition.x /2;
+                    bubbleText.style.bottom = (newPosition.y - camera.pixelHeight)/2;
+                    Debug.Log(bubbleText.style.bottom);
                     if(bubbleText != null){
-                        bubbleText.text = currentDialogue.dialogue.ToString();
+                        bubbleText.text = character.name + ":" + currentDialogue.dialogue.ToString();
                     }
                     else{
                         Debug.Log("didn't find bubbleText");
