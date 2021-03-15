@@ -12,10 +12,13 @@ public class BattleDamageSystem : SystemBase
     protected override void OnUpdate()
     {
         var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
-        Entities.ForEach((Entity entity,ref AnimationData animationData, ref CharacterStats characterStats, in DamageData damage) => {
-            characterStats.health -= damage.damage;
-            animationData.hasTakenDamage = true;
-            ecb.RemoveComponent<DamageData>(entity);
-        }).Schedule();
+        Entities
+            .WithoutBurst()
+            .ForEach((Entity entity, AnimationData animationData, ref CharacterStats characterStats, in DamageData damage) =>
+            {
+                characterStats.health -= damage.damage;
+                animationData.hasTakenDamage = true;
+                ecb.RemoveComponent<DamageData>(entity);
+            }).Run();
     }
 }

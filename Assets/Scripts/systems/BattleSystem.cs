@@ -14,6 +14,7 @@ public class BattleSystem : SystemBase
       {
 
             EntityManager.CompleteAllJobs();
+            var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
             EntityQuery BattleManagerGroup = GetEntityQuery(ComponentType.ReadWrite<BattleManagerTag>());
             //EntityQuery PlayersGroup = GetEntityQuery(ComponentType.ReadOnly<PlayerPartyData>());
             EntityQuery characterStatsGroup = GetEntityQuery(ComponentType.ReadWrite<CharacterStats>(), ComponentType.ReadWrite<BattleData>());
@@ -24,7 +25,10 @@ public class BattleSystem : SystemBase
             
             NativeArray<Entity> BattleManagers = BattleManagerGroup.ToEntityArray(Allocator.Temp);
             NativeArray<CharacterStats> characterStatsList = characterStatsGroup.ToComponentDataArray<CharacterStats>(Allocator.TempJob);
-            
+            NativeArray<Entity> characterEntities = characterStatsGroup.ToEntityArray(Allocator.TempJob);
+            foreach(Entity ent in battleManagers) {
+                BattleManagerData battleManager = 
+            }
             Entities
             .WithStructuralChanges()
             .WithoutBurst()
@@ -32,10 +36,10 @@ public class BattleSystem : SystemBase
                   switch(battleData.selected){
                         case selectables.attack:
                               Debug.Log("attacking with character");
+                              int i = 0;                
                               foreach(CharacterStats character in characterStatsList){
                                     if( character.id.Equals(battleData.targetingId)){
-                                          Debug.Log("found character");
-                                          
+                                    ecb.AddComponent(characterEntities[i], new DamageData { damage = 1 });
                                           if(character.health <= 0){
                                                 foreach(Entity ent in battleManagers){
                                                       Debug.Log("attempting to remove tag");
@@ -44,6 +48,7 @@ public class BattleSystem : SystemBase
                                                 }
                                           }
                                     }
+                                    i++;
                               }
                               break;
                         case selectables.items:
@@ -58,6 +63,7 @@ public class BattleSystem : SystemBase
                 }
             }).Run();
             EntityManager.CompleteAllJobs();
+            characterEntities.Dispose();
             characterStatsList.Dispose();
             battleManagers.Dispose();
             //BattleManagerGroup.Dispose();
