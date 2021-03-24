@@ -392,7 +392,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3859999}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f36c32b8b897dd6b79056669bde78071, type: 3}
+  m_Script: {fileID: 11500000, guid: ba75e783802bac5dfa2c40fe1eacf95d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Values: 00000000
@@ -447,6 +447,7 @@ GameObject:
   - component: {fileID: 448583559}
   - component: {fileID: 448583557}
   - component: {fileID: 448583561}
+  - component: {fileID: 448583563}
   - component: {fileID: 448583560}
   - component: {fileID: 448583558}
   - component: {fileID: 448583562}
@@ -862,6 +863,8 @@ MonoBehaviour:
   previouslyFacing: 1
   currentAnimation: downIdle
   inIdleAnimation: 1
+  hasTakenDamage: 0
+  isDown: 0
   idleUpAnimationName: UpIdle
   idleDownAnimationName: downIdle
   idleRightAnimationName: RightIdle
@@ -883,6 +886,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Tommy
+--- !u!114 &448583563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448583548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43c21a063b4a6245693917cb163ad4a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Values: 01000000
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

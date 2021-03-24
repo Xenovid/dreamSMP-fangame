@@ -5,7 +5,7 @@ using UnityEngine;
 [GenerateAuthoringComponent]
 public struct EnemyBattleData : IBufferElementData
 {
-    public int enemyid;
+    public int id;
 }
 
 

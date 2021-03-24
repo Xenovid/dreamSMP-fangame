@@ -54,7 +54,7 @@ public class BattleMenuSystem : SystemBase
         itemLabel= rootVisualElement.Q<Label>("ItemsLabel");
         runLabel = rootVisualElement.Q<Label>("RunLabel");
         battleUI = rootVisualElement.Q<VisualElement>("BattleUI");
-        
+        battleUI.visible = true;
         
         if(!isBattling){
             battleUI.visible = false;
@@ -68,9 +68,10 @@ public class BattleMenuSystem : SystemBase
         .WithStructuralChanges()
         .ForEach((ref BattleData battleData, ref CharacterStats characterStat, in Entity entity, in UIInputData input) =>{
             if(!isBattling){
+                //To Do: should display victory screen
+
                 AudioManager.stopSong("tempBattleMusic");
                 battleUI.visible = false;
-                EntityManager.RemoveComponent<BattleData>(entity);
                 EntityManager.RemoveComponent<UIInputData>(entity);
             }
             else{
