@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 public class TextBoxWithAudioSystem : SystemBase
 {
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
-    private float charTime = 1.0f;
+    //private float charTime = 1.0f;
     Label textBoxText;
     VisualElement charaterText;
     VisualElement charaterImage;

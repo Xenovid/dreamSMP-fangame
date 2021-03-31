@@ -15,6 +15,7 @@ public class BattleSystem : SystemBase
 
             EntityManager.CompleteAllJobs();
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
+
             EntityQuery BattleManagerGroup = GetEntityQuery(ComponentType.ReadWrite<BattleManagerTag>());
             EntityQuery characterStatsGroup = GetEntityQuery(ComponentType.ReadWrite<CharacterStats>(), ComponentType.ReadWrite<BattleData>());
             EntityQuery PlayerParty = GetEntityQuery(ComponentType.ReadWrite<PlayerPartyData>());
@@ -25,7 +26,7 @@ public class BattleSystem : SystemBase
             NativeArray<CharacterStats> characterStatsList = characterStatsGroup.ToComponentDataArray<CharacterStats>(Allocator.TempJob);
             NativeArray<Entity> characterEntities = characterStatsGroup.ToEntityArray(Allocator.TempJob);
 
-            int playersDown = 0;
+            //int playersDown = 0;
             int enemiesDown = 0;
 
             if(battleManagers.Length > 0){
@@ -53,7 +54,6 @@ public class BattleSystem : SystemBase
                         .WithStructuralChanges()
                         .WithoutBurst()
                         .ForEach((ref BattleData battleData ,ref CharacterStats characterStats) => {
-                              
                               //-- need to add some kind of detection to tell if a team lost
                               //switches based on what a character seletcted
                               switch(battleData.selected){
@@ -64,7 +64,7 @@ public class BattleSystem : SystemBase
                                           foreach(CharacterStats character in characterStatsList){
                                                 //if the the id of the character matches the target, deal damage to the character
                                                 if( character.id.Equals(battleData.targetingId)){
-                                                      ecb.AddComponent(characterEntities[i], new DamageData { damage = 10 });
+                                                      EntityManager.AddComponentObject(characterEntities[i], new DamageData{damage = 10});
                                                 }
                                                 i++;
                                           }
@@ -90,5 +90,6 @@ public class BattleSystem : SystemBase
             characterEntities.Dispose();
             characterStatsList.Dispose();
             battleManagers.Dispose();
+            m_EndSimulationEcbSystem.AddJobHandleForProducer(this.Dependency);
       }
 }

@@ -87,13 +87,13 @@ public class InputSystem : SystemBase
 
          Entities
          .WithoutBurst()
-         .ForEach((ref MovementData move, ref DelayedInputData delayedInputData, ref UIInputData uIInputData, in InputData inputData) => {
-
+         .ForEach((ref DelayedInputData delayedInputData, ref UIInputData uIInputData, in InputData inputData) => {
             bool isRightKeyPressed = Input.GetKey(inputData.rightKey);
             bool isLeftKeyPressed = Input.GetKey(inputData.leftKey);
             bool isUpKeyPressed = Input.GetKey(inputData.upKey);
             bool isDownKeyPressed = Input.GetKey(inputData.downKey);
             bool isSelectKeyPressed= Input.GetKey(inputData.selectKey);
+            bool isBackKeyPressed = Input.GetKey(inputData.backKey);
 
             if(isSelectKeyPressed && delayedInputData.isSelectPressed){
                 delayedInputData.wasSelectPressed = true;
@@ -135,9 +135,17 @@ public class InputSystem : SystemBase
             }
             delayedInputData.isUpPressed = isUpKeyPressed;
             
+            if(isBackKeyPressed && delayedInputData.isBackPressed){
+                delayedInputData.wasBackPressed = true;
+            }
+            else if(!isBackKeyPressed){
+                delayedInputData.wasBackPressed = false;
+            }
+            delayedInputData.isBackPressed = isBackKeyPressed;
 
 
-            uIInputData.goselected = isSelectKeyPressed && !delayedInputData.wasSelectPressed;
+            uIInputData.goselected = (isSelectKeyPressed && !delayedInputData.wasSelectPressed) && !isBackKeyPressed;
+            uIInputData.goback = (isBackKeyPressed && !delayedInputData.wasSelectPressed) && ! isSelectKeyPressed;
 
             uIInputData.moveup = isUpKeyPressed && !isDownKeyPressed && !delayedInputData.wasUpPressed;
             uIInputData.movedown = isDownKeyPressed && !isUpKeyPressed && !delayedInputData.wasDownPressed;
@@ -145,7 +153,7 @@ public class InputSystem : SystemBase
             uIInputData.moveleft = isLeftKeyPressed && !isRightKeyPressed && !delayedInputData.wasLeftPressed;
             uIInputData.moveright = isRightKeyPressed && !isLeftKeyPressed && !delayedInputData.wasRightPressed;
 
-            move.direction = new float3(0, 0, 0);
+            //move.direction = new float3(0, 0, 0);
          }).Run();
     }
 }

@@ -28,4 +28,9 @@ public struct DelayedInputData : IComponentData
     public bool wasLeftPressed;
     [HideInInspector]
     public bool isLeftPressed;
+
+    [HideInInspector]
+    public bool isBackPressed;
+    [HideInInspector]
+    public bool wasBackPressed;
 }

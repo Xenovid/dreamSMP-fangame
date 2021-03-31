@@ -9,4 +9,5 @@ public struct UIInputData : IComponentData
     public bool moveright;
     public bool moveleft;
     public bool goselected;
+    public bool goback;
 }

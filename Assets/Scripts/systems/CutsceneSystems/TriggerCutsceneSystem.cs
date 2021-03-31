@@ -42,7 +42,6 @@ public class TriggerCutsceneSystem : SystemBase
             EntityQuery characterStatsGroup = GetEntityQuery(typeof(CharacterStats));
             NativeArray<CharacterStats> characters = characterStatsGroup.ToComponentDataArray<CharacterStats>(Allocator.TempJob);
             NativeArray<Entity> characterEntities = characterStatsGroup.ToEntityArray(Allocator.TempJob);
-            Debug.Log(characterEntities.Length);
             //checks if the trigger event has a player and cutscenetriggerdata
             if((GetComponentDataFromEntity<PlayerTag>().HasComponent(entityA) || GetComponentDataFromEntity<PlayerTag>().HasComponent(entityB)) && (GetComponentDataFromEntity<CutsceneTriggerTag>().HasComponent(entityB) || GetComponentDataFromEntity<CutsceneTriggerTag>().HasComponent(entityB))){
 

@@ -1,7 +1,7 @@
 using Unity.Entities;
 using UnityEngine;
 
-public struct DamageData : IComponentData
+public class DamageData : IComponentData
 {
     public float damage;
 }
