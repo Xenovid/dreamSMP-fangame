@@ -1,6 +1,8 @@
 using Unity.Entities;
 using Unity.Scenes;
+using Unity.Collections;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class titleSubSceneLoader : ComponentSystem
@@ -15,7 +17,24 @@ public class titleSubSceneLoader : ComponentSystem
 
   protected override void OnUpdate()  
   {
-    Entities.ForEach((Entity entity, SubScene scene ) =>{
+    EntityQuery SubSceneDataGroup = GetEntityQuery(typeof(SubSceneData));
+    NativeArray<SubSceneData> subSceneDatas = SubSceneDataGroup.ToComponentDataArray<SubSceneData>(Allocator.TempJob);
+
+    Entities
+    .ForEach((Entity entity, SubScene scene ) =>{
+      Debug.Log(scene.SceneName);
+      Debug.Log(scene.IsLoaded);
+      //EntityManager.RemoveComponent<RequestSceneLoaded>(entity);
+      sceneSystem.LoadSceneAsync(scene.SceneGUID);
+      //sceneSystem.UnloadScene(scene.SceneGUID, SceneSystem.UnloadParameters.DontRemoveRequestSceneLoaded);
+      foreach(SubSceneData subSceneData in subSceneDatas){
+        if(subSceneData.subsceneName.ToString() == scene.SceneName){
+          Debug.Log("helllooooo");
+          Debug.Log(scene.IsLoaded);
+        }
+      }
     });
+
+    subSceneDatas.Dispose();
   }
 }
