@@ -8,7 +8,7 @@ public class MovementSystem : SystemBase
     protected override void OnUpdate(){
         float dT = Time.DeltaTime;
         Entities
-        .WithAll<UIInputData>()
+        .WithAny<UIInputData, stopInputTag>()
         .ForEach((ref MovementData move) => {
             move.direction = new float3(0,0,0);
         }).Schedule();

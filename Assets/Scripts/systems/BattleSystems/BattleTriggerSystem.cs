@@ -30,10 +30,13 @@ public class BattleTriggerSystem : SystemBase
       {
             // getting all the ui infomation to be used in the loop
             base.OnStartRunning();
-            EntityQuery UIGroup = GetEntityQuery(typeof(UIDocument));  
-            UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
-            UIDoc = UIDocs[0];
-
+            Entities
+            .WithoutBurst()
+            .WithAll<BattleUITag>()
+            .ForEach((UIDocument UI) =>{
+                    UIDoc = UI;
+            }).Run();
+            Debug.Log(UIDoc == null);
             enemySelectionUITemplate = Resources.Load<VisualTreeAsset>("EnemyDetails");
       }
 

@@ -10,4 +10,5 @@ public class InputData : IComponentData
     public KeyCode leftKey;
     public KeyCode selectKey;
     public KeyCode backKey;
+    public KeyCode escapeKey;
 }

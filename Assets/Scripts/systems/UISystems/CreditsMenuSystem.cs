@@ -20,7 +20,7 @@ public class CreditsMenuSystem : SystemBase
         .WithStructuralChanges()
         .WithoutBurst()
         .WithAll<CreditsTag>()
-        .ForEach((UIDocument UIDoc, UIInputData input) =>{
+        .ForEach((in UIDocument UIDoc, in UIInputData input) =>{
             VisualElement root = UIDoc.rootVisualElement;
             if(root == null){
                 Debug.Log("root not found");

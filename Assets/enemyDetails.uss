@@ -9,3 +9,12 @@
     border-bottom-width: 2px;
     background-color: rgb(161, 34, 34);
 }
+
+.enemyDown {
+    background-color: rgba(24, 24, 24, 0.52);
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.37);
+}
+
+.enemyBase {
+    background-color: rgba(106, 106, 106, 0.75);
+}

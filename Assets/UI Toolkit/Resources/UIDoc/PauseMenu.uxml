@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="/Assets/pauseMenuStyleSheet.uss" />
+    <ui:VisualElement style="width: 100%; height: 100%; background-color: rgba(55, 55, 55, 0.68); align-items: center;">
+        <ui:Label text="Pause Menu" display-tooltip-when-elided="true" name="Title" style="align-items: auto; -unity-font: resource(&apos;Fonts &amp; Materials/elf-boy-classic-font/Elfboyclassic-PKZgZ&apos;); font-size: 100%; background-color: rgba(63, 63, 63, 255); color: rgba(255, 255, 255, 255);" />
+        <ui:Label text="Title Screen" display-tooltip-when-elided="true" name="TitleScreenButton" style="-unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); font-size: 20%; padding-top: 8px;" />
+        <ui:Label text="Resume" display-tooltip-when-elided="true" name="ResumeButton" class="selected" style="-unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); font-size: 20%; padding-top: 6px;" />
+    </ui:VisualElement>
+</ui:UXML>

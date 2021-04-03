@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="/Assets/enemyDetails.uss" />
-    <ui:VisualElement name="Base" style="width: 10%; height: 18%; background-color: rgb(113, 113, 113); align-items: center;">
-        <ui:Label text="Label" display-tooltip-when-elided="true" name="EnemyName" />
-        <ui:VisualElement name="EnemyPicture" />
+    <ui:VisualElement name="Base" class="enemyBase" style="width: 153px; height: 149px; align-items: center;">
+        <ui:Label text="Zombie" display-tooltip-when-elided="true" name="EnemyName" style="-unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); font-size: 20px;" />
+        <ui:VisualElement name="EnemyPicture" style="background-image: url(&apos;/Assets/Art/zombie.png#zombie_0&apos;); width: 99px; height: 99px;" />
     </ui:VisualElement>
 </ui:UXML>

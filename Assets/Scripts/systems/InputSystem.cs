@@ -2,21 +2,31 @@ using Unity.Entities;
 using System;
 using UnityEngine;
 using Unity.Mathematics;
+using Unity.Scenes;
 
 public class InputSystem : SystemBase
 {
+    private SceneSystem sceneSystem;
+
+    protected override void OnStartRunning()
+    {
+        sceneSystem = World.GetOrCreateSystem<SceneSystem>(); 
+    }
+
+  
 
     protected override void OnUpdate()
     {
         Entities
         .WithoutBurst()
-        .WithNone<UIInputData, CutsceneData>()
+        .WithNone<UIInputData, CutsceneData, stopInputTag>()
         .ForEach((ref MovementData move, ref DelayedInputData delayInputData ,in InputData inputData) => {
             bool isRightKeyPressed = Input.GetKey(inputData.rightKey);
             bool isLeftKeyPressed = Input.GetKey(inputData.leftKey);
             bool isUpKeyPressed = Input.GetKey(inputData.upKey);
             bool isDownKeyPressed = Input.GetKey(inputData.downKey);
             bool isSelectKeyPressed= Input.GetKey(inputData.selectKey);
+            bool isEscapeKeyPressed = Input.GetKey(inputData.escapeKey);
 
             move.direction.x = isRightKeyPressed ? 1 : 0;
             move.direction.x -= isLeftKeyPressed ? 1 : 0;
@@ -30,11 +40,21 @@ public class InputSystem : SystemBase
                 delayInputData.wasSelectPressed = false;
             }
             delayInputData.isSelectPressed = isSelectKeyPressed;
+
+            if(isEscapeKeyPressed && delayInputData.isEscapePressed){
+                delayInputData.wasEscapePressed = true;
+            }
+            else if(!isEscapeKeyPressed){
+                delayInputData.wasEscapePressed = false;
+            }
+            delayInputData.isEscapePressed = isEscapeKeyPressed;
+
+            
          }).Run();
 
         Entities
         .WithoutBurst()
-        .WithNone<UIInputData>()
+        .WithNone<UIInputData, stopInputTag>()
         .ForEach((ref MovementData move, ref DelayedInputData delayedInputData, in InputData inputData, in CutsceneData cutsceneData) =>{
             move.direction = new float3(0,0,0);
             bool isRightKeyPressed = Input.GetKey(inputData.rightKey);
@@ -87,6 +107,7 @@ public class InputSystem : SystemBase
 
          Entities
          .WithoutBurst()
+         .WithNone<stopInputTag>()
          .ForEach((ref DelayedInputData delayedInputData, ref UIInputData uIInputData, in InputData inputData) => {
             bool isRightKeyPressed = Input.GetKey(inputData.rightKey);
             bool isLeftKeyPressed = Input.GetKey(inputData.leftKey);
@@ -94,6 +115,7 @@ public class InputSystem : SystemBase
             bool isDownKeyPressed = Input.GetKey(inputData.downKey);
             bool isSelectKeyPressed= Input.GetKey(inputData.selectKey);
             bool isBackKeyPressed = Input.GetKey(inputData.backKey);
+            bool isEscapeKeyPressed = Input.GetKey(inputData.escapeKey);
 
             if(isSelectKeyPressed && delayedInputData.isSelectPressed){
                 delayedInputData.wasSelectPressed = true;
@@ -143,6 +165,14 @@ public class InputSystem : SystemBase
             }
             delayedInputData.isBackPressed = isBackKeyPressed;
 
+            if(isEscapeKeyPressed && delayedInputData.isEscapePressed){
+                delayedInputData.wasEscapePressed = true;
+            }
+            else if(!isEscapeKeyPressed){
+                delayedInputData.wasEscapePressed = false;
+            }
+            delayedInputData.isEscapePressed = isEscapeKeyPressed;
+
 
             uIInputData.goselected = (isSelectKeyPressed && !delayedInputData.wasSelectPressed) && !isBackKeyPressed;
             uIInputData.goback = (isBackKeyPressed && !delayedInputData.wasSelectPressed) && ! isSelectKeyPressed;
@@ -152,8 +182,6 @@ public class InputSystem : SystemBase
 
             uIInputData.moveleft = isLeftKeyPressed && !isRightKeyPressed && !delayedInputData.wasLeftPressed;
             uIInputData.moveright = isRightKeyPressed && !isLeftKeyPressed && !delayedInputData.wasRightPressed;
-
-            //move.direction = new float3(0, 0, 0);
          }).Run();
     }
 }

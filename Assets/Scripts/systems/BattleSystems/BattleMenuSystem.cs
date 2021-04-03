@@ -28,6 +28,10 @@ public class BattleMenuSystem : SystemBase
         EntityQuery UIGroup = GetEntityQuery(typeof(UIDocument));
         UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
         UIDoc = UIDocs[0];
+
+        Label attackLabel = UIDoc.rootVisualElement.Q<Label>("AttackLabel");
+        attackLabel.RemoveFromClassList("battle-label");
+        attackLabel.AddToClassList("battle-label-selected");
     }
 
     protected override void OnUpdate()
@@ -69,8 +73,6 @@ public class BattleMenuSystem : SystemBase
             battleUI = rootVisualElement.Q<VisualElement>("BattleUI");
 
             VisualElement enemySelector = rootVisualElement.Q<VisualElement>("EnemySelector");
-            //attackLabel.ToggleInClassList("test");
-            //attackLabel.EnableInClassList("test", true);
             Entities
             .WithoutBurst()
             .WithStructuralChanges()
@@ -94,6 +96,7 @@ public class BattleMenuSystem : SystemBase
                                 else{
                                     battleData.selected = selectables.none;
                                     if(input.moveup){
+                                        AudioManager.playSound("menuchange");
                                         currentSelection = selectables.run;
                                         attackLabel.RemoveFromClassList("battle-label-selected");
                                         attackLabel.AddToClassList("battle-label");
@@ -101,6 +104,7 @@ public class BattleMenuSystem : SystemBase
                                         runLabel.AddToClassList("battle-label-selected");
                                     }
                                     else if(input.movedown){
+                                        AudioManager.playSound("menuchange");
                                         currentSelection = selectables.items;
                                         attackLabel.RemoveFromClassList("battle-label-selected");
                                         attackLabel.AddToClassList("battle-label");
@@ -111,11 +115,13 @@ public class BattleMenuSystem : SystemBase
                                 break;
                             case selectables.items:
                                 if(input.goselected){
+                                    AudioManager.playSound("menuchange");
                                     battleData.selected = selectables.items;
                                 }
                                 else{
                                     battleData.selected = selectables.none;
                                     if(input.moveup){
+                                        AudioManager.playSound("menuchange");
                                         currentSelection = selectables.attack;
                                         attackLabel.RemoveFromClassList("battle-label");
                                         attackLabel.AddToClassList("battle-label-selected");
@@ -123,6 +129,7 @@ public class BattleMenuSystem : SystemBase
                                         itemLabel.AddToClassList("battle-label");
                                     }
                                     else if(input.movedown){
+                                        AudioManager.playSound("menuchange");
                                         currentSelection = selectables.run;
                                         itemLabel.RemoveFromClassList("battle-label-selected");
                                         itemLabel.AddToClassList("battle-label");
@@ -133,11 +140,13 @@ public class BattleMenuSystem : SystemBase
                                 break;
                             case selectables.run:
                                 if(input.goselected){
+                                    AudioManager.playSound("menuchange");
                                     battleData.selected = selectables.run;
                                 }
                                 else{
                                     battleData.selected = selectables.none;
                                     if(input.movedown){
+                                        AudioManager.playSound("menuchange");
                                         currentSelection = selectables.attack;
                                         attackLabel.RemoveFromClassList("battle-label");
                                         attackLabel.AddToClassList("battle-label-selected");
@@ -145,6 +154,7 @@ public class BattleMenuSystem : SystemBase
                                         runLabel.AddToClassList("battle-label");
                                     }
                                     else if(input.moveup){
+                                        AudioManager.playSound("menuchange");
                                         currentSelection = selectables.items;
                                         runLabel.RemoveFromClassList("battle-label-selected");
                                         runLabel.AddToClassList("battle-label");
@@ -160,10 +170,12 @@ public class BattleMenuSystem : SystemBase
                             battleUI.visible = false;
                             enemySelector.visible = true;
 
-                            if(input.moveup){
+                            if(input.moveleft){
+                                AudioManager.playSound("menuchange");
                                 currentCharacterSelected--;
                             }
-                            else if(input.movedown){
+                            else if(input.moveright){
+                                AudioManager.playSound("menuchange");
                                 currentCharacterSelected++;
                             }
                             if(currentCharacterSelected == EnemyIds.Length){
@@ -175,7 +187,14 @@ public class BattleMenuSystem : SystemBase
 
                             foreach(Entity ent in enemyUiSelection){
                                     EnemySelectorData temp = GetComponent<EnemySelectorData>(ent);
-                                    if(temp.enemyId == EnemyIds[currentCharacterSelected].id){
+
+                                    if(temp.isDead && temp.enemyId == EnemyIds[currentCharacterSelected].id){
+                                        currentCharacterSelected++;
+                                        if(currentCharacterSelected == EnemyIds.Length){
+                                            currentCharacterSelected = 0;
+                                        }
+                                    }
+                                    else if(temp.enemyId == EnemyIds[currentCharacterSelected].id){
                                         Debug.Log(temp.enemyId.ToString() + ": should be selected");
                                         temp.isSelected = true;
                                         EntityManager.SetComponentData(ent, temp);
@@ -185,13 +204,16 @@ public class BattleMenuSystem : SystemBase
                                         temp.isSelected = false;
                                         EntityManager.SetComponentData(ent, temp);
                                     }
+
                                     
                             }
 
                             if(input.goback){
+                                AudioManager.playSound("menuchange");
                                 currentMenu = menuType.battleMenu;
                             }                           
                             if(input.goselected){
+                                AudioManager.playSound("menuchange");
                                 battleData.targetingId = EnemyIds[currentCharacterSelected].id;
                                 battleData.selected = selectables.attack;
                             }

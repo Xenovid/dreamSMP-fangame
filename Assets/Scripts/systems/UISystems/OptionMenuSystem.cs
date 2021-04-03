@@ -7,7 +7,6 @@ public class OptionMenuSystem : SystemBase
 {
       private Slider volume;
       private optionMenuSelectables currentSelection = optionMenuSelectables.volume;
-      private selectionStates selectionState = selectionStates.selecting;
       private SceneSystem sceneSystem;
       private float audioVolume;
       private bool isVolumeSet;
@@ -25,7 +24,7 @@ public class OptionMenuSystem : SystemBase
             .WithStructuralChanges()
             .WithoutBurst()
             .WithAll<OptionMenuTag, TitleMenuTag>()
-            .ForEach((UIDocument UIDoc, UIInputData input) =>{
+            .ForEach((in UIDocument UIDoc, in UIInputData input) =>{
                   VisualElement root = UIDoc.rootVisualElement;
                   if(root == null){
                         Debug.Log("root not found");
