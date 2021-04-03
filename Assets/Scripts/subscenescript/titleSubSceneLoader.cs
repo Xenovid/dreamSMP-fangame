@@ -22,15 +22,12 @@ public class titleSubSceneLoader : ComponentSystem
 
     Entities
     .ForEach((Entity entity, SubScene scene ) =>{
-      Debug.Log(scene.SceneName);
-      Debug.Log(scene.IsLoaded);
       //EntityManager.RemoveComponent<RequestSceneLoaded>(entity);
-      sceneSystem.LoadSceneAsync(scene.SceneGUID);
       //sceneSystem.UnloadScene(scene.SceneGUID, SceneSystem.UnloadParameters.DontRemoveRequestSceneLoaded);
       foreach(SubSceneData subSceneData in subSceneDatas){
-        if(subSceneData.subsceneName.ToString() == scene.SceneName){
-          Debug.Log("helllooooo");
-          Debug.Log(scene.IsLoaded);
+        if(subSceneData.subsceneName.ToString() == scene.SceneName && !subSceneData.shouldBeLoaded){
+          Debug.Log("elllo");
+          sceneSystem.UnloadScene(entity);
         }
       }
     });

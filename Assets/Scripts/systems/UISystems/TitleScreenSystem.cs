@@ -2,18 +2,19 @@ using Unity.Entities;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using Unity.Scenes;
 using System.Collections;
 
 public class TitleScreenSystem : SystemBase
 {
-    private currentTitleMenu currentMenu;
     private titleMenuSelectables currentSelection;
+    private SceneSystem sceneSystem;
 
     protected override void OnStartRunning()
     {
+        sceneSystem = World.GetOrCreateSystem<SceneSystem>();
         base.OnStartRunning();
 
-        currentMenu = currentTitleMenu.MainMenu;
         currentSelection = titleMenuSelectables.Start;
     }
 
@@ -25,7 +26,10 @@ public class TitleScreenSystem : SystemBase
 
         Entities
         .WithoutBurst()
-        .ForEach((in UIDocument UIDoc, in TitleMenuTag titleMenuTag, in UIInputData input) => {
+        .WithStructuralChanges()
+        .WithAll<TitleMenuTag>()
+        .WithNone<OptionMenuTag>()
+        .ForEach((in UIDocument UIDoc, in UIInputData input) => {
             VisualElement root = UIDoc.rootVisualElement;
             if(root == null){
                 Debug.Log("root wasn't found");
@@ -36,17 +40,16 @@ public class TitleScreenSystem : SystemBase
                 VisualElement optionsButton = root.Q<VisualElement>("Options");
                 VisualElement creditsButton = root.Q<VisualElement>("Credits");
                 VisualElement exitButton = root.Q<VisualElement>("exit");
-
-                switch(currentMenu){
-                    case currentTitleMenu.MainMenu:
-                        Debug.Log("test");
                         switch(currentSelection){
                             case(titleMenuSelectables.Start):
                                 if(input.goselected){
-                                    Debug.Log("changing scenes");
+                                    AudioManager.playSound("menuchange");
+                                    sceneSystem.UnloadScene(TitleSubSceneReferences.Instance.titleSubScene.SceneGUID);
+                                    EntityManager.CompleteAllJobs();
                                     SceneManager.LoadSceneAsync("testScene");
                                 }
                                 else if(input.moveup){
+                                    AudioManager.playSound("menuchange");
                                     currentSelection = titleMenuSelectables.Exit;
                                     Debug.Log("moving buttons");
 
@@ -58,6 +61,7 @@ public class TitleScreenSystem : SystemBase
 
                                 }
                                 else if(input.movedown){
+                                    AudioManager.playSound("menuchange");
                                     currentSelection = titleMenuSelectables.Options;
 
                                     optionsButton.RemoveFromClassList("not_selected");
@@ -69,9 +73,12 @@ public class TitleScreenSystem : SystemBase
                                 break;
                             case(titleMenuSelectables.Options):
                                 if(input.goselected){
-                                    currentMenu = currentTitleMenu.OptionsMenu;
+                                    AudioManager.playSound("menuchange");
+                                    sceneSystem.LoadSceneAsync(TitleSubSceneReferences.Instance.OptionSubScene.SceneGUID);
+                                    sceneSystem.UnloadScene(TitleSubSceneReferences.Instance.titleSubScene.SceneGUID);
                                 }
                                 else if(input.moveup){
+                                    AudioManager.playSound("menuchange");
                                     currentSelection = titleMenuSelectables.Start;
 
                                     startButton.RemoveFromClassList("not_selected");
@@ -81,6 +88,7 @@ public class TitleScreenSystem : SystemBase
                                     optionsButton.AddToClassList("not_selected");
                                 }
                                 else if(input.movedown){
+                                    AudioManager.playSound("menuchange");
                                     currentSelection = titleMenuSelectables.Credits;
 
                                     creditsButton.RemoveFromClassList("not_selected");
@@ -92,9 +100,12 @@ public class TitleScreenSystem : SystemBase
                                 break;
                             case(titleMenuSelectables.Credits):
                                 if(input.goselected){
-                                    currentMenu = currentTitleMenu.Credits;
+                                    AudioManager.playSound("menuchange");
+                                    sceneSystem.LoadSceneAsync(TitleSubSceneReferences.Instance.CreditsSubScene.SceneGUID);
+                                    sceneSystem.UnloadScene(TitleSubSceneReferences.Instance.titleSubScene.SceneGUID);
                                 }
                                 else if(input.moveup){
+                                    AudioManager.playSound("menuchange");
                                     currentSelection = titleMenuSelectables.Options;
 
                                     optionsButton.RemoveFromClassList("not_selected");
@@ -105,6 +116,7 @@ public class TitleScreenSystem : SystemBase
 
                                 }
                                 else if(input.movedown){
+                                    AudioManager.playSound("menuchange");
                                     currentSelection = titleMenuSelectables.Exit;
 
                                     exitButton.RemoveFromClassList("not_selected");
@@ -116,9 +128,11 @@ public class TitleScreenSystem : SystemBase
                                 break;
                             case(titleMenuSelectables.Exit):
                                 if(input.goselected){
+                                    AudioManager.playSound("menuchange");
                                     Application.Quit();
                                 }
                                 else if(input.moveup){
+                                    AudioManager.playSound("menuchange");
                                     currentSelection = titleMenuSelectables.Credits;
 
                                     creditsButton.RemoveFromClassList("not_selected");
@@ -129,6 +143,7 @@ public class TitleScreenSystem : SystemBase
 
                                 }
                                 else if(input.movedown){
+                                    AudioManager.playSound("menuchange");
                                     currentSelection = titleMenuSelectables.Start;
 
                                     startButton.RemoveFromClassList("not_selected");
@@ -138,12 +153,8 @@ public class TitleScreenSystem : SystemBase
                                     exitButton.AddToClassList("not_selected");
                                 }
                                 break;
-                        }
-                        break;
 
-                    case currentTitleMenu.OptionsMenu:
-                        
-                        break;
+
                 }
             }
             }).Run();

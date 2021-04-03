@@ -12,6 +12,13 @@ public class AudioManager : MonoBehaviour
     private static List<SoundData> gameSounds = new List<SoundData>();
     private static List<SoundData> gameMusic = new List<SoundData>();
 
+    public static float volume = .5f;
+    
+    public static void changeVolume(float newVolume){
+        volume = newVolume;
+        Debug.Log(volume);
+    }
+
     private void Awake(){
         foreach( SoundData dialogue in dialoguess){
             dialogue.audioSource = gameObject.AddComponent<AudioSource>();
@@ -23,6 +30,12 @@ public class AudioManager : MonoBehaviour
             music.audioSource = gameObject.AddComponent<AudioSource>();
             music.audioSource.clip = music.clip;
             gameMusic.Add(music);
+        }
+
+        foreach(SoundData sound in gameSoundss){
+            sound.audioSource = gameObject.AddComponent<AudioSource>();
+            sound.audioSource.clip = sound.clip;
+            gameSounds.Add(sound);
         }
     }
 
@@ -37,6 +50,7 @@ public class AudioManager : MonoBehaviour
             Debug.Log("audio found");
             if(dialogue.soundName == soundName){
                 try{
+                    dialogue.audioSource.volume = volume;
                     dialogue.audioSource.Play();
                     Debug.Log("played Dialogue");
                 }
@@ -89,6 +103,7 @@ public class AudioManager : MonoBehaviour
         foreach(SoundData sound in gameSounds){
             if(sound.soundName == name){
                 try{
+                    sound.audioSource.volume = volume;
                     sound.audioSource.Play();
                 }
                 catch(Exception e){
@@ -140,6 +155,7 @@ public class AudioManager : MonoBehaviour
             Debug.Log("found matching name");
             if(sound.soundName == name){
                 try{
+                    sound.audioSource.volume = volume;
                     sound.audioSource.Play();
                 }
                 catch(Exception e){
