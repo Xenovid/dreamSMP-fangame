@@ -8,10 +8,26 @@ public class CreditsMenuSystem : SystemBase
     private bool isLinked;
     SceneSystem sceneSystem;
 
+    private Entity creditsSubScene;
+    private Entity titleSubScene;
+
     protected override void OnStartRunning()
     {
         sceneSystem = World.GetOrCreateSystem<SceneSystem>();
           isLinked = false;
+
+            Entities
+            .WithoutBurst()
+            .WithAll<TitleSubSceneTag>()
+            .ForEach((Entity ent) => {
+                titleSubScene = ent;
+            }).Run();
+            Entities
+            .WithoutBurst()
+            .WithAll<CreditsSubSceneTag>()
+            .ForEach((Entity ent) => {
+                creditsSubScene = ent;
+            }).Run();
     }
   
     protected override void OnUpdate()
@@ -53,8 +69,8 @@ public class CreditsMenuSystem : SystemBase
                 }
                 if(input.goback){
                     AudioManager.playSound("menuchange");
-                    sceneSystem.LoadSceneAsync(TitleSubSceneReferences.Instance.titleSubScene.SceneGUID);
-                    sceneSystem.UnloadScene(TitleSubSceneReferences.Instance.CreditsSubScene.SceneGUID);
+                    sceneSystem.LoadSceneAsync(titleSubScene);
+                    sceneSystem.UnloadScene(creditsSubScene);
                 }
             }
         }).Run();

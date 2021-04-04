@@ -10,6 +10,8 @@ public class PauseMenuSystem : SystemBase
 {
       private PauseMenuSelectables currentSelection;
       private SceneSystem sceneSystem;
+      
+      private Entity pauseMenuSubScene;
 
       protected override void OnStartRunning()
       {
@@ -25,9 +27,15 @@ public class PauseMenuSystem : SystemBase
             EntityQuery UIGroup = GetEntityQuery(queryDescription);
             UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
             foreach(UIDocument UIDoc in UIDocs){
-                  UIDoc.rootVisualElement.visible = false;
+                  //UIDoc.rootVisualElement.visible = false;
             }
 
+            Entities
+            .WithoutBurst()
+            .WithAll<PauseMenuSubSceneTag>()
+            .ForEach((Entity ent) =>{
+                  pauseMenuSubScene = ent;
+            }).Run();
             
       }
 
@@ -50,7 +58,8 @@ public class PauseMenuSystem : SystemBase
                         switch(currentSelection){
                               case PauseMenuSelectables.Resume:
                                     if(input.goselected || input.goback){ 
-                                          sceneSystem.UnloadScene(SubSceneReferences.Instance.pauseMenuSubScene.SceneGUID);
+                                          AudioManager.playSound("menuchange");
+                                          sceneSystem.UnloadScene(pauseMenuSubScene);
                                           foreach(Entity ent in stopedEntities){
                                                 EntityManager.RemoveComponent<stopInputTag>(ent);
                                           }
@@ -58,6 +67,7 @@ public class PauseMenuSystem : SystemBase
                                           //unload pause menu
                                     }
                                     else if(input.movedown || input.moveup){
+                                          AudioManager.playSound("menuchange");
                                           currentSelection = PauseMenuSelectables.Title;
                                           resumeButton.RemoveFromClassList("selected");
                                           titleScreenButton.AddToClassList("selected");
@@ -65,19 +75,22 @@ public class PauseMenuSystem : SystemBase
                                     break;
                               case PauseMenuSelectables.Title:
                                     if(input.goselected){
+                                          AudioManager.playSound("menuchange");
                                           //load title
-                                          sceneSystem.UnloadScene(SubSceneReferences.Instance.pauseMenuSubScene.SceneGUID);
+                                          sceneSystem.UnloadScene(pauseMenuSubScene);
                                           sceneSystem.UnloadScene(SubSceneReferences.Instance.WorldSubScene.SceneGUID);
-                                          SceneManager.LoadSceneAsync("StartMenu");
+                                          sceneSystem.LoadSceneAsync(SubSceneReferences.Instance.TitleSubScene.SceneGUID);
                                     }
                                     else if(input.goback){
-                                          sceneSystem.UnloadScene(SubSceneReferences.Instance.pauseMenuSubScene.SceneGUID);
+                                          AudioManager.playSound("menuchange");
+                                          sceneSystem.UnloadScene(pauseMenuSubScene);
                                           foreach(Entity ent in stopedEntities){
                                                 EntityManager.RemoveComponent<stopInputTag>(ent);
                                           }
                                           //unload pause menu
                                     }
                                     else if(input.moveup || input.movedown){
+                                          AudioManager.playSound("menuchange");
                                           currentSelection = PauseMenuSelectables.Resume;
 
                                           titleScreenButton.RemoveFromClassList("selected");

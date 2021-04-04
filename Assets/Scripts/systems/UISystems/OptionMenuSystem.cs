@@ -11,11 +11,27 @@ public class OptionMenuSystem : SystemBase
       private float audioVolume;
       private bool isVolumeSet;
 
+      private Entity titleSubScene;
+      private Entity optionsSubScene;
+
       protected override void OnStartRunning()
       {
             audioVolume = AudioManager.volume;
             sceneSystem = World.GetOrCreateSystem<SceneSystem>();
             isVolumeSet = false;
+
+            Entities
+            .WithoutBurst()
+            .WithAll<OptionsSubSceneTag>()
+            .ForEach((Entity ent) => {
+                  optionsSubScene = ent;
+            }).Run();
+            Entities
+            .WithoutBurst()
+            .WithAll<TitleSubSceneTag>()
+            .ForEach((Entity ent) => {
+                  titleSubScene = ent;
+            }).Run();
       }
 
       protected override void OnUpdate()
@@ -39,8 +55,8 @@ public class OptionMenuSystem : SystemBase
                         switch(currentSelection){
                               case optionMenuSelectables.back:
                                     if(input.goselected || input.goback){
-                                          sceneSystem.UnloadScene(TitleSubSceneReferences.Instance.OptionSubScene.SceneGUID);
-                                          sceneSystem.LoadSceneAsync(TitleSubSceneReferences.Instance.titleSubScene.SceneGUID);
+                                          sceneSystem.UnloadScene(optionsSubScene);
+                                          sceneSystem.LoadSceneAsync(titleSubScene);
                                     }
                                     else if(input.moveup){
                                           currentSelection = optionMenuSelectables.volume;
@@ -49,8 +65,8 @@ public class OptionMenuSystem : SystemBase
                               case optionMenuSelectables.volume:
                                           if(input.goback){
                                                 AudioManager.playSound("menuchange");
-                                                sceneSystem.UnloadScene(TitleSubSceneReferences.Instance.OptionSubScene.SceneGUID);
-                                                sceneSystem.LoadSceneAsync(TitleSubSceneReferences.Instance.titleSubScene.SceneGUID);
+                                                sceneSystem.UnloadScene(optionsSubScene);
+                                                sceneSystem.LoadSceneAsync(titleSubScene);
                                           }
                                           else if(input.moveright){
                                                 AudioManager.playSound("menuchange");

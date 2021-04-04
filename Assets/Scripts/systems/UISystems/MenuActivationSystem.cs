@@ -6,7 +6,9 @@ public class MenuActivationSystem : SystemBase
 {
     private SceneSystem sceneSystem;
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
-    private bool loadedAMenu;
+
+    private Entity pauseMenuSubScene;
+    private bool loadedAMenu = true;
     
 
     protected override void OnStartRunning()
@@ -16,6 +18,13 @@ public class MenuActivationSystem : SystemBase
 
         sceneSystem = World.GetOrCreateSystem<SceneSystem>();
         loadedAMenu = true;
+
+        Entities
+        .WithoutBurst()
+        .WithAll<PauseMenuSubSceneTag>()
+        .ForEach((Entity ent) =>{
+            pauseMenuSubScene = ent;
+        }).Run();
     }
 
   
@@ -31,14 +40,15 @@ public class MenuActivationSystem : SystemBase
         .WithNone<stopInputTag>()
         .ForEach((Entity entity, in DelayedInputData input) => {
             if(input.isEscapePressed && !input.wasEscapePressed && !loadedAMenu){
-                Debug.Log("hello");
                 // load pause menu
                 loadedAMenu = true;
-                sceneSystem.LoadSceneAsync(SubSceneReferences.Instance.pauseMenuSubScene.SceneGUID);
+                    sceneSystem.LoadSceneAsync(pauseMenuSubScene);
                 ecb.AddComponent<stopInputTag>(entity);
             }
-            loadedAMenu = false;
+            else{
+                loadedAMenu = false;
+            }
+            Debug.Log(loadedAMenu);
         }).Run();
-
     }
   }
