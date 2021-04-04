@@ -22,9 +22,12 @@ public class TriggerCutsceneSystem : SystemBase
     protected override void OnStartRunning(){
         base.OnStartRunning();
 
-        EntityQuery UIGroup = GetEntityQuery(typeof(UIDocument));
-        UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
-        UIDoc = UIDocs[0];
+        Entities
+        .WithoutBurst()
+        .WithAll<CutSceneUITag>()
+        .ForEach((UIDocument uiDocument) => {
+            UIDoc = uiDocument;
+        }).Run();
         dialogueBoxTree = Resources.Load<VisualTreeAsset>("TextBubble");
         if(dialogueBoxTree == null){
             Debug.Log("didn't work");
@@ -34,6 +37,14 @@ public class TriggerCutsceneSystem : SystemBase
     {   
         var triggerEvents =  ((Simulation)physicsWorld.Simulation).TriggerEvents;
         foreach(TriggerEvent triggerEvent in triggerEvents){
+            Entities
+            .WithoutBurst()
+            .WithAll<CutSceneUITag>()
+            .ForEach((UIDocument uiDocument) => {
+                UIDoc = uiDocument;
+            }).Run();
+
+            Debug.Log(UIDoc.name + "hello");
             Entity entityA = triggerEvent.EntityA;
             Entity entityB = triggerEvent.EntityB;
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
@@ -80,7 +91,7 @@ public class TriggerCutsceneSystem : SystemBase
                         });
                         ecb.RemoveComponent<CutsceneTriggerData>(entity);
                         
-                        ecb.RemoveComponent<CutsceneTriggerTag>(entity);
+                        EntityManager.RemoveComponent<CutsceneTriggerTag>(entity);
                     }
                     // goes throw all of the characters that are going to have dialogue finds there equivalent charactersheets and adds them to the 
                 }

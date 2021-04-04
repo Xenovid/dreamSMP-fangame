@@ -69,7 +69,7 @@ public class TitleScreenSystem : SystemBase
                             case(titleMenuSelectables.Start):
                                 if(input.goselected){
                                     AudioManager.playSound("menuchange");
-                                    sceneSystem.UnloadScene(titleSubScene);
+                                    sceneSystem.UnloadScene(SubSceneReferences.Instance.TitleSubScene.SceneGUID);
                                     sceneSystem.LoadSceneAsync(SubSceneReferences.Instance.WorldSubScene.SceneGUID);
 
                                 }
@@ -134,6 +134,8 @@ public class TitleScreenSystem : SystemBase
                                     AudioManager.playSound("menuchange");
                                     sceneSystem.LoadSceneAsync(creditsSubScene);
                                     sceneSystem.UnloadScene(titleSubScene);
+
+                                    currentSelection = titleMenuSelectables.Start;
                                 }
                                 else if(input.moveup){
                                     AudioManager.playSound("menuchange");

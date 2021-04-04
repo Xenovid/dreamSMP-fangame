@@ -21,18 +21,19 @@ public class DialogueSystem : SystemBase
     {
         base.OnStartRunning();
 
-        EntityQuery UIGroup = GetEntityQuery(typeof(UIDocument));  
-        UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
-        UIDoc = UIDocs[0];
+        Entities
+        .WithoutBurst()
+        .WithAll<CutSceneUITag>()
+        .ForEach((UIDocument uiDocument) => {
+            UIDoc = uiDocument;
+        }).Run();
 
-        EntityQuery cameraGroup = GetEntityQuery(typeof(Camera));
-        Camera[] cameras = cameraGroup.ToComponentArray<Camera>();
-        if(cameras.Length > 0){
-            camera = cameras[0];
-        }
-        else{
-            Debug.Log("camera not found");
-        }
+        Entities
+        .WithoutBurst()
+        .WithAll<PlayerCamerTag>()
+        .ForEach((Camera cam) => {
+            camera = cam;
+        }).Run();
     }
   
     protected override void OnUpdate()
@@ -93,8 +94,8 @@ public class DialogueSystem : SystemBase
 
                     Label bubbleText = dialogueBoxData.dialogueBox.Q<Label>("bubbleText");
                     //bubbleText.layout.Set(newPosition.x, newPosition.y, bubbleText.layout.width, bubbleText.layout.height);
-                    bubbleText.style.left =newPosition.x;
-                    bubbleText.style.top = newPosition.y;
+                    bubbleText.style.left = newPosition.x;//newPosition.x;
+                    bubbleText.style.top = -newPosition.y + camera.pixelHeight; //newPosition.y;
                     Debug.Log(bubbleText.style.top);
                     if(bubbleText != null){
                         bubbleText.text = character.name +  ":" + textToDisplay;
@@ -108,9 +109,8 @@ public class DialogueSystem : SystemBase
                 else if(currentDialogue.keepDialogueUpTime > cutsceneManager.totalTime){
                     dialogueBoxData.dialogueBox.visible = true;
                     Label bubbleText = dialogueBoxData.dialogueBox.Q<Label>("bubbleText");
-                    bubbleText.style.left = newPosition.x;
-                    bubbleText.style.top = newPosition.y;
-                    Debug.Log(bubbleText.style.top);
+                    bubbleText.style.left = newPosition.x;//newPosition.x;
+                    bubbleText.style.top = -newPosition.y + camera.pixelHeight;//newPosition.y;
                     if(bubbleText != null){
                         bubbleText.text = character.name + ":" + currentDialogue.dialogue.ToString();
                     }

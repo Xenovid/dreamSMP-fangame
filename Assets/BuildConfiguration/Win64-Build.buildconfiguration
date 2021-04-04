@@ -1,6 +1,6 @@
 {
     "Dependencies": [
-        "GlobalObjectId_V1-1-f19661c01bdcad546b54998aa9a0d08a-93214019566545601-0"
+        "GlobalObjectId_V1-1-c60702c1d417f8ca0926411c4da66723-93214019566545601-0"
     ],
     "Components": [
         {
@@ -8,6 +8,41 @@
             "$version": 1,
             "Platform": "win",
             "Configuration": 2
+        },
+        {
+            "$type": "Unity.Build.Common.SceneList, Unity.Build",
+            "$version": 1,
+            "BuildCurrentScene": false,
+            "SceneInfos": [
+                {
+                    "Scene": "GlobalObjectId_V1-1-2cda990e2423bbf4892e6590ba056729-102900000-0",
+                    "AutoLoad": true
+                },
+                {
+                    "Scene": "GlobalObjectId_V1-1-6a56304e9c27fe91b817bccef4d254e3-102900000-0",
+                    "AutoLoad": false
+                },
+                {
+                    "Scene": "GlobalObjectId_V1-1-849bf149cbc645af083d3af9562d1005-102900000-0",
+                    "AutoLoad": false
+                },
+                {
+                    "Scene": "GlobalObjectId_V1-1-bd5411a717ac0df80bba2a9b7ae75cad-102900000-0",
+                    "AutoLoad": false
+                },
+                {
+                    "Scene": "GlobalObjectId_V1-1-e1fff625b23502a77ac9e69b107df364-102900000-0",
+                    "AutoLoad": false
+                },
+                {
+                    "Scene": "GlobalObjectId_V1-1-5d03ec40118abc8d78738bff1b874472-102900000-0",
+                    "AutoLoad": false
+                },
+                {
+                    "Scene": "GlobalObjectId_V1-1-389a26348dbc0fea7b330e684b13b81f-102900000-0",
+                    "AutoLoad": false
+                }
+            ]
         }
     ]
 }

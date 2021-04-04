@@ -20,19 +20,19 @@ public class DisplayTextSystem : SystemBase
 
     protected override void OnStartRunning(){
         base.OnStartRunning();
-
-        EntityQuery UIGroup = GetEntityQuery(typeof(UIDocument));
-        UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
-        UIDoc = UIDocs[0];
+        Entities
+        .WithoutBurst()
+        //not actually supposed to run
+        .WithAll<CutSceneUITag, MovementData>()
+        .ForEach((UIDocument uiDocument) => {
+            UIDoc = uiDocument;
+        }).Run();
     }
     protected override void OnUpdate()
     {   
         EntityManager.CompleteAllJobs();
         var triggerEvents =  ((Simulation)physicsWorld.Simulation).TriggerEvents;
         foreach(TriggerEvent triggerEvent in triggerEvents){
-            if(UIDoc == null){
-                Debug.Log("UIDocument not found");
-            }
             Entity entityA = triggerEvent.EntityA;
             Entity entityB = triggerEvent.EntityB;
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();

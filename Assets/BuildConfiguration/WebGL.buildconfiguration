@@ -1,0 +1,19 @@
+{
+    "Dependencies": [
+        "GlobalObjectId_V1-1-c60702c1d417f8ca0926411c4da66723-93214019566545601-0"
+    ],
+    "Components": [
+        {
+            "$type": "Unity.Build.Common.GeneralSettings, Unity.Build",
+            "ProductName": "DreamSMP fan game",
+            "CompanyName": "Sturdypower1",
+            "Version": "1.0.0"
+        },
+        {
+            "$type": "Unity.Build.Classic.ClassicBuildProfile, Unity.Build.Classic",
+            "$version": 1,
+            "Platform": "webgl",
+            "Configuration": 3
+        }
+    ]
+}
