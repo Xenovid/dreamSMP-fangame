@@ -93,9 +93,9 @@ public class DialogueSystem : SystemBase
 
                     Label bubbleText = dialogueBoxData.dialogueBox.Q<Label>("bubbleText");
                     //bubbleText.layout.Set(newPosition.x, newPosition.y, bubbleText.layout.width, bubbleText.layout.height);
-                    Debug.Log(camera.pixelHeight);
-                    bubbleText.style.left = newPosition.x /2;
-                    bubbleText.style.bottom = (newPosition.y - camera.pixelHeight)/2;
+                    bubbleText.style.left =newPosition.x;
+                    bubbleText.style.top = newPosition.y;
+                    Debug.Log(bubbleText.style.top);
                     if(bubbleText != null){
                         bubbleText.text = character.name +  ":" + textToDisplay;
                     }
@@ -108,9 +108,9 @@ public class DialogueSystem : SystemBase
                 else if(currentDialogue.keepDialogueUpTime > cutsceneManager.totalTime){
                     dialogueBoxData.dialogueBox.visible = true;
                     Label bubbleText = dialogueBoxData.dialogueBox.Q<Label>("bubbleText");
-                    bubbleText.style.left = newPosition.x /2;
-                    bubbleText.style.bottom = (newPosition.y - camera.pixelHeight)/2;
-                    Debug.Log(bubbleText.style.bottom);
+                    bubbleText.style.left = newPosition.x;
+                    bubbleText.style.top = newPosition.y;
+                    Debug.Log(bubbleText.style.top);
                     if(bubbleText != null){
                         bubbleText.text = character.name + ":" + currentDialogue.dialogue.ToString();
                     }
