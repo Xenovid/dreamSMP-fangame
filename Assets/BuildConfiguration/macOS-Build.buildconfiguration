@@ -4,16 +4,10 @@
     ],
     "Components": [
         {
-            "$type": "Unity.Build.Common.GeneralSettings, Unity.Build",
-            "ProductName": "DreamSMP fan game",
-            "CompanyName": "Sturdypower1",
-            "Version": "1.0.0"
-        },
-        {
             "$type": "Unity.Build.Classic.ClassicBuildProfile, Unity.Build.Classic",
             "$version": 1,
-            "Platform": "webgl",
-            "Configuration": 3
+            "Platform": "macos",
+            "Configuration": 2
         },
         {
             "$type": "Unity.Build.Common.SceneList, Unity.Build",
@@ -23,10 +17,6 @@
                 {
                     "Scene": "GlobalObjectId_V1-1-2cda990e2423bbf4892e6590ba056729-102900000-0",
                     "AutoLoad": true
-                },
-                {
-                    "Scene": "GlobalObjectId_V1-1-6a56304e9c27fe91b817bccef4d254e3-102900000-0",
-                    "AutoLoad": false
                 },
                 {
                     "Scene": "GlobalObjectId_V1-1-849bf149cbc645af083d3af9562d1005-102900000-0",
@@ -47,8 +37,18 @@
                 {
                     "Scene": "GlobalObjectId_V1-1-389a26348dbc0fea7b330e684b13b81f-102900000-0",
                     "AutoLoad": false
+                },
+                {
+                    "Scene": "GlobalObjectId_V1-1-cca4bbc87c59149b6820fd8a1076318a-102900000-0",
+                    "AutoLoad": false
                 }
             ]
+        },
+        {
+            "$type": "Unity.Build.Common.GeneralSettings, Unity.Build",
+            "ProductName": "DreamSMPfangame",
+            "CompanyName": "Sturdypower1",
+            "Version": "1.0.0"
         }
     ]
 }
