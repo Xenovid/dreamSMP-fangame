@@ -1,0 +1,33 @@
+.item {
+    background-color: rgba(132, 132, 132, 0.19);
+    border-left-color: rgba(75, 75, 75, 255);
+    border-right-color: rgba(75, 75, 75, 255);
+    border-top-color: rgba(75, 75, 75, 255);
+    border-bottom-color: rgba(75, 75, 75, 255);
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    flex-shrink: 0;
+    flex-grow: 1;
+    margin-left: 1px;
+    margin-right: 1px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+.notselectable {
+    -unity-background-image-tint-color: rgba(99, 99, 99, 255);
+    background-color: rgba(111, 111, 111, 255);
+}
+
+.itembar {
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-top: 0;
+    margin-bottom: 0;
+}

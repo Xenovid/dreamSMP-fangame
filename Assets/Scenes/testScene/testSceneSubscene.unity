@@ -452,6 +452,7 @@ GameObject:
   - component: {fileID: 448583560}
   - component: {fileID: 448583558}
   - component: {fileID: 448583562}
+  - component: {fileID: 448583564}
   m_Layer: 0
   m_Name: tempplayer
   m_TagString: Untagged
@@ -907,6 +908,109 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Values: 01000000
+--- !u!114 &448583564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448583548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f33046db6406e9569041eb63a98aa36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory:
+  - itemType: 1
+    sprite: {fileID: 21300000, guid: dd5d532594d511769834e0928f9ffd52, type: 3}
+    weapon:
+      power: 8
+      attackTime: 0.2
+      rechargeTime: 1
+  - itemType: 0
+    sprite: {fileID: 0}
+    weapon:
+      power: 0
+      attackTime: 0
+      rechargeTime: 0
+  - itemType: 0
+    sprite: {fileID: 0}
+    weapon:
+      power: 0
+      attackTime: 0
+      rechargeTime: 0
+  - itemType: 0
+    sprite: {fileID: 0}
+    weapon:
+      power: 0
+      attackTime: 0
+      rechargeTime: 0
+  - itemType: 0
+    sprite: {fileID: 0}
+    weapon:
+      power: 0
+      attackTime: 0
+      rechargeTime: 0
+  - itemType: 0
+    sprite: {fileID: 0}
+    weapon:
+      power: 0
+      attackTime: 0
+      rechargeTime: 0
+  - itemType: 0
+    sprite: {fileID: 0}
+    weapon:
+      power: 0
+      attackTime: 0
+      rechargeTime: 0
+  - itemType: 0
+    sprite: {fileID: 0}
+    weapon:
+      power: 0
+      attackTime: 0
+      rechargeTime: 0
+  - itemType: 0
+    sprite: {fileID: 0}
+    weapon:
+      power: 0
+      attackTime: 0
+      rechargeTime: 0
+  - itemType: 0
+    sprite: {fileID: 0}
+    weapon:
+      power: 0
+      attackTime: 0
+      rechargeTime: 0
+  - itemType: 0
+    sprite: {fileID: 0}
+    weapon:
+      power: 0
+      attackTime: 0
+      rechargeTime: 0
+  - itemType: 0
+    sprite: {fileID: 0}
+    weapon:
+      power: 0
+      attackTime: 0
+      rechargeTime: 0
+  - itemType: 0
+    sprite: {fileID: 0}
+    weapon:
+      power: 0
+      attackTime: 0
+      rechargeTime: 0
+  - itemType: 0
+    sprite: {fileID: 0}
+    weapon:
+      power: 0
+      attackTime: 0
+      rechargeTime: 0
+  - itemType: 0
+    sprite: {fileID: 0}
+    weapon:
+      power: 0
+      attackTime: 0
+      rechargeTime: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

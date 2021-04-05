@@ -75,7 +75,6 @@ public class BattleTriggerSystem : SystemBase
 
             //checks if the player hit an entity with battle data on it, and if so triggers a battle
             if(GetComponentDataFromEntity<PlayerTag>().HasComponent(entityA) && GetComponentDataFromEntity<BattleTriggerData>().HasComponent(entityB) && loopNumber < 1){
-                loopNumber++;
                 AudioManager.playSong("tempBattleMusic");
 
                 //adds the nessesary data for the player to be considered in the battle
@@ -115,13 +114,13 @@ public class BattleTriggerSystem : SystemBase
                         // the lists of players and the enemyies that will be fought
                         for(int i = 0; i < playerLength; i++){
                             if(!addedIds.Contains(characterStats.id) && characterStats.id == players[i].playerId){
+                                CharacterInventoryData inventory = EntityManager.GetComponentObject<CharacterInventoryData>(entity);
                                 ecb.AddComponent<BattleData>(entity);
                                 addedIds.Add(characterStats.id);
                             }
                         }
                         for(int i = 0; i < enemyLength; i++){
                             if(!addedIds.Contains(characterStats.id) && characterStats.id == enemyBattleDatas[i].id){
-                                
                                 VisualElement enemyDetails = enemySelectionUITemplate.CloneTree();
                                 enemySelector.Add(enemyDetails);
                                 ecb.AddComponent<BattleData>(entity);

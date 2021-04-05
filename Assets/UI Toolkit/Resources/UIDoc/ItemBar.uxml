@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="/Assets/UI Toolkit/Resources/StyleSheet/itembarstlyesheet.uss" />
+    <ui:Label text="TommyInnit" display-tooltip-when-elided="true" name="character_name" style="-unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); font-size: 12%; -unity-text-align: upper-center;" />
+    <ui:VisualElement name="background" style="flex-direction: row; justify-content: flex-start; border-left-color: rgba(0, 0, 0, 255); border-right-color: rgba(0, 0, 0, 255); border-top-color: rgba(0, 0, 0, 255); border-bottom-color: rgba(0, 0, 0, 255); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; flex-shrink: 0; flex-grow: 1;">
+        <ui:VisualElement name="item1" class="item" style="-unity-slice-left: 0; -unity-slice-top: 0; -unity-slice-right: 0; -unity-slice-bottom: 0;" />
+        <ui:VisualElement name="item2" class="item" />
+        <ui:VisualElement name="item3" class="item" />
+        <ui:VisualElement name="item4" class="item" />
+        <ui:VisualElement name="item5" class="item" />
+        <ui:VisualElement name="run" class="item" />
+    </ui:VisualElement>
+</ui:UXML>
