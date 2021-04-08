@@ -30,6 +30,7 @@ public class VictoryScreenSystem : SystemBase
                   Debug.Log("didn't find root visual element");
             }
             VisualElement battleUI = rootVisualElement.Q<VisualElement>("BattleUI");
+            VisualElement itemDesc = rootVisualElement.Q<VisualElement>("Itemdesc");
             VisualElement enemySelector = rootVisualElement.Q<VisualElement>("EnemySelector");
             VisualElement victoryScreen = rootVisualElement.Q<VisualElement>("VictoryScreen");
 
@@ -37,6 +38,7 @@ public class VictoryScreenSystem : SystemBase
                   AudioManager.stopSong("tempBattleMusic");
                   victoryScreen.visible = true;
                   battleUI.visible = false;
+                  itemDesc.visible = false;
             }
             else if(enemySelector.visible){
                   AudioManager.stopSong("tempBattleMusic");

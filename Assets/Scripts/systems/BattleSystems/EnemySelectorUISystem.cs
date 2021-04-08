@@ -11,7 +11,6 @@ public class EnemySelectorUISystem : SystemBase
             .ForEach((EnemySelectorUI enemySelectorUI,ref EnemySelectorData enemySelectorData, in CharacterStats characterStats) => {
 
                 VisualElement enemyPicture = enemySelectorUI.enemySelectorUI.Q<VisualElement>("EnemyPicture");
-                Debug.Log("test");
                 if(enemySelectorData.isSelected){
                     enemySelectorUI.enemySelectorUI.RemoveFromClassList("enemyBase");
                     enemySelectorUI.enemySelectorUI.AddToClassList("enemySelected");

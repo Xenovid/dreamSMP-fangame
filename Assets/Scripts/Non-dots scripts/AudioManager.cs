@@ -16,7 +16,6 @@ public class AudioManager : MonoBehaviour
     
     public static void changeVolume(float newVolume){
         volume = newVolume;
-        Debug.Log(volume);
     }
 
     private void Awake(){

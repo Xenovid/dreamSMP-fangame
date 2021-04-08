@@ -50,7 +50,6 @@ public class AnimationSystem : SystemBase
                     animator.Play(animationData.walkUpAnimationName);
                 }
                 else{
-                    Debug.Log(animationData.walkDownAnimationName );
                     animationData.previouslyFacing = Direction.down;
                     animator.Play(animationData.walkDownAnimationName);
                 }

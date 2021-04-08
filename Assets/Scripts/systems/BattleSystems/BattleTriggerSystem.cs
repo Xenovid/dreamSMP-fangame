@@ -30,13 +30,7 @@ public class BattleTriggerSystem : SystemBase
       {
             // getting all the ui infomation to be used in the loop
             base.OnStartRunning();
-            Entities
-            .WithoutBurst()
-            .WithAll<BattleUITag>()
-            .ForEach((UIDocument UI) =>{
-                    UIDoc = UI;
-            }).Run();
-            Debug.Log(UIDoc == null);
+            
             enemySelectionUITemplate = Resources.Load<VisualTreeAsset>("EnemyDetails");
       }
 
@@ -44,7 +38,13 @@ public class BattleTriggerSystem : SystemBase
 
     protected override void OnUpdate()
     {
-        
+        Entities
+        .WithoutBurst()
+        .WithAll<BattleUITag>()
+        .ForEach((UIDocument UI) =>{
+                UIDoc = UI;
+        }).Run();
+
         EntityManager.CompleteAllJobs();
         int loopNumber = 0;
         
@@ -57,6 +57,7 @@ public class BattleTriggerSystem : SystemBase
         foreach(TriggerEvent triggerEvent in triggerEvents){
             var rootVisualElement = UIDoc.rootVisualElement;
             battleUI = rootVisualElement.Q<VisualElement>("BattleUI");
+            VisualElement itemDesc = rootVisualElement.Q<VisualElement>("Itemdesc");
             VisualElement enemySelector = rootVisualElement.Q<VisualElement>("EnemySelector");
 
 
@@ -90,6 +91,7 @@ public class BattleTriggerSystem : SystemBase
                 DynamicBuffer<PlayerPartyData> tempPlayers = GetBuffer<PlayerPartyData>(entityA);
 
                 List<PlayerPartyData> players = new List<PlayerPartyData>();
+                //transfering the data of the player data into lists so its a copy instead of a reference, making it so I can make structral changes to the game without affecting the list
                 foreach(PlayerPartyData temp in tempPlayers){
                     players.Add(temp);
                 }
@@ -110,11 +112,23 @@ public class BattleTriggerSystem : SystemBase
                 .WithStructuralChanges()
                 .WithNone<EnemySelectorData, BattleData>()
                 .ForEach((int entityInQueryIndex,ref Entity entity, in CharacterStats characterStats) => {
-
                         // the lists of players and the enemyies that will be fought
                         for(int i = 0; i < playerLength; i++){
                             if(!addedIds.Contains(characterStats.id) && characterStats.id == players[i].playerId){
+
+                                string tempstr = "character" + (i + 1).ToString();
+                                VisualElement currentCharacter = battleUI.Q<VisualElement>(tempstr);
+                                //Debug.Log("character" + (i + 1).ToString());
+
                                 CharacterInventoryData inventory = EntityManager.GetComponentObject<CharacterInventoryData>(entity);
+                                for(int j = 0; j < 5; j++){
+                                    tempstr = "item" + (j + 1).ToString();
+                                    VisualElement currentItem = currentCharacter.Q<VisualElement>("item1");
+                                    if(inventory.inventory[j].sprite != null){
+                                        currentItem.style.backgroundImage = Background.FromSprite(inventory.inventory[j].sprite);
+                                    }
+                                }
+                                EntityManager.AddComponentObject(entity, new PlayerSelectorUI{UI = currentCharacter, currentItem = 0, isSelected = false, isHovered = i== 0});
                                 ecb.AddComponent<BattleData>(entity);
                                 addedIds.Add(characterStats.id);
                             }
@@ -163,6 +177,7 @@ public class BattleTriggerSystem : SystemBase
                     //players.Dispose();
 
                     battleUI.visible =true;
+                    itemDesc.visible = true;
                     EntityManager.RemoveComponent<BattleTriggerData>(entityB);
                     EntityManager.RemoveComponent<PhysicsCollider>(entityB);
             }

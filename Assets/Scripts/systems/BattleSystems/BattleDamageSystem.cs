@@ -11,7 +11,6 @@ public class BattleDamageSystem : SystemBase
 
     protected override void OnUpdate()
     {
-        Debug.Log("is updating");
         var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
         Entities
             .WithoutBurst()

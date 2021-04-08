@@ -21,13 +21,6 @@ public class TriggerCutsceneSystem : SystemBase
 
     protected override void OnStartRunning(){
         base.OnStartRunning();
-
-        Entities
-        .WithoutBurst()
-        .WithAll<CutSceneUITag>()
-        .ForEach((UIDocument uiDocument) => {
-            UIDoc = uiDocument;
-        }).Run();
         dialogueBoxTree = Resources.Load<VisualTreeAsset>("TextBubble");
         if(dialogueBoxTree == null){
             Debug.Log("didn't work");
@@ -44,7 +37,6 @@ public class TriggerCutsceneSystem : SystemBase
                 UIDoc = uiDocument;
             }).Run();
 
-            Debug.Log(UIDoc.name + "hello");
             Entity entityA = triggerEvent.EntityA;
             Entity entityB = triggerEvent.EntityB;
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();

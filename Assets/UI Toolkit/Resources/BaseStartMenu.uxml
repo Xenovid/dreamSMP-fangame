@@ -1,8 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="/Assets/BaseStartMenuStyle.uss" />
-    <ui:VisualElement name="Background" style="align-items: center; justify-content: flex-start; top: auto; width: 100%; height: 100%; background-color: rgb(255, 255, 255);">
-        <ui:VisualElement name="Title" style="top: 10%; width: 80%; height: 10%; background-color: rgb(154, 139, 66); align-items: center; justify-content: center; font-size: 30px; -unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;);">
-            <ui:Label text="The Dream Smp Fan JRPG" display-tooltip-when-elided="true" style="align-items: center; justify-content: center; font-size: 30%;" />
+    <Style src="StyleSheet/BaseStartMenuStyle.uss" />
+    <ui:VisualElement name="Background" style="align-items: center; justify-content: flex-start; top: auto; width: 100%; height: 100%; background-color: rgb(42, 200, 65);">
+        <ui:VisualElement name="Title" style="top: 10%; width: 80%; height: 10%; background-color: rgb(241, 241, 241); align-items: center; justify-content: center; font-size: 400px; -unity-font: resource(&apos;Fonts &amp; Materials/elf-boy-classic-font/Elfboyclassic-PKZgZ&apos;);">
+            <ui:Label text="The Dream Smp Fan JRPG" display-tooltip-when-elided="true" style="align-items: center; justify-content: center; font-size: 80%;" />
         </ui:VisualElement>
         <ui:VisualElement name="Start" class="selected" style="top: 20%; width: 40%; height: 10%; align-items: center; justify-content: center; -unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); font-size: 20px;">
             <ui:Label text="Start" display-tooltip-when-elided="true" />

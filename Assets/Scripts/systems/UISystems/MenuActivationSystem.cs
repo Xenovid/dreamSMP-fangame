@@ -48,7 +48,6 @@ public class MenuActivationSystem : SystemBase
             else{
                 loadedAMenu = false;
             }
-            Debug.Log(loadedAMenu);
         }).Run();
     }
   }

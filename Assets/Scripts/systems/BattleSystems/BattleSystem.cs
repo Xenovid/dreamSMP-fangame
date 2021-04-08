@@ -64,7 +64,7 @@ public class BattleSystem : SystemBase
                                           foreach(CharacterStats character in characterStatsList){
                                                 //if the the id of the character matches the target, deal damage to the character
                                                 if( character.id.Equals(battleData.targetingId)){
-                                                      EntityManager.AddComponentObject(characterEntities[i], new DamageData{damage = 10});
+                                                      EntityManager.AddComponentObject(characterEntities[i], new DamageData{damage = battleData.damage});
                                                 }
                                                 i++;
                                           }
@@ -79,7 +79,6 @@ public class BattleSystem : SystemBase
                                           break;
                                     // when nothing is selected
                                     case selectables.none:
-                                          Debug.Log("character id:" + characterStats.id.ToString() + "doing nothing");
                                           break;
                         }
                         }).Run();

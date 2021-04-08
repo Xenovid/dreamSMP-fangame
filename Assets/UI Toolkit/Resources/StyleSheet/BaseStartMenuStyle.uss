@@ -6,12 +6,12 @@
 }
 
 .selected {
-    background-color: rgb(217, 209, 130);
+    background-color: rgb(80, 168, 61);
     -unity-background-image-tint-color: rgb(255, 255, 255);
-    border-left-color: rgba(105, 126, 149, 255);
-    border-right-color: rgba(105, 126, 149, 255);
-    border-top-color: rgba(105, 126, 149, 255);
-    border-bottom-color: rgba(105, 126, 149, 255);
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
     border-left-width: 5px;
     border-right-width: 5px;
     border-top-width: 5px;
@@ -19,5 +19,5 @@
 }
 
 .not_selected {
-    background-color: rgb(108, 95, 64);
+    background-color: rgb(60, 99, 66);
 }

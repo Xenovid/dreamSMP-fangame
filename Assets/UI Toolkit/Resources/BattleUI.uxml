@@ -1,9 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="/Assets/stlyesheet.uss" />
     <Style src="StyleSheet/itembarstlyesheet.uss" />
     <ui:VisualElement style="width: 100%; height: 100%; justify-content: flex-end;">
-        <ui:VisualElement name="BattleUI" picking-mode="Ignore" style="position: relative; width: auto; height: 13.5%; top: auto; visibility: visible; -unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); -unity-text-align: middle-center; align-items: stretch; justify-content: flex-start; flex-grow: 0; flex-shrink: 0; flex-basis: auto; flex-direction: row; left: auto; bottom: auto; font-size: 40%;">
-            <ui:VisualElement name="character1" style="flex-grow: 1; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; background-color: rgba(125, 125, 125, 0.13);">
+        <ui:VisualElement name="BattleUI" picking-mode="Ignore" style="position: relative; width: auto; height: 13.5%; top: auto; visibility: hidden; -unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); -unity-text-align: middle-center; align-items: stretch; justify-content: flex-start; flex-grow: 0; flex-shrink: 0; flex-basis: auto; flex-direction: row; left: auto; bottom: auto; font-size: 40%; display: flex;">
+            <ui:VisualElement name="character1" class="hovering" style="flex-grow: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); width: 33.3%;">
                 <ui:VisualElement name="characterDetails" style="height: 40%; flex-direction: row; justify-content: flex-start; align-items: stretch;">
                     <ui:VisualElement name="character_image" style="background-image: url(&apos;/Assets/Art/tommyinnitface.png#tommyinnitface&apos;); width: 10%; height: 100%; flex-grow: 0; margin-left: 0.5%; margin-right: 0.5%; margin-top: 0.5%; margin-bottom: 0.5%;" />
                     <ui:Label text="Tommy" display-tooltip-when-elided="true" name="character_name" />
@@ -15,15 +14,15 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="Itembar" class="itembar" style="flex-grow: 1; flex-direction: row;">
-                    <ui:VisualElement name="item1" class="item" style="background-image: url(&apos;/Assets/Art/basicsword.png&apos;);" />
-                    <ui:VisualElement name="item2" class="item" />
+                    <ui:VisualElement name="item1" class="item_selected" />
+                    <ui:VisualElement name="item2" class="item" style="border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px;" />
                     <ui:VisualElement name="item3" class="item" />
                     <ui:VisualElement name="item4" class="item" />
                     <ui:VisualElement name="item5" class="item" />
                     <ui:VisualElement name="run" class="item" />
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="character2" style="flex-grow: 1; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; background-color: rgba(125, 125, 125, 0.13);">
+            <ui:VisualElement name="character2" class="notselected" style="flex-grow: 1; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px;">
                 <ui:VisualElement name="characterDetails" style="height: 40%; flex-direction: row; justify-content: flex-start; align-items: stretch;">
                     <ui:VisualElement name="character_image" style="background-image: url(&apos;/Assets/Art/wilbursootface.png#wilbursootface&apos;); width: 10%; height: 100%; flex-grow: 0; margin-left: 0.5%; margin-right: 0.5%; margin-top: 0.5%; margin-bottom: 0.5%;" />
                     <ui:Label text="Wilbur" display-tooltip-when-elided="true" name="character_name" />
@@ -35,7 +34,7 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="Itembar" class="itembar" style="flex-grow: 1; flex-direction: row;">
-                    <ui:VisualElement name="item1" class="item" />
+                    <ui:VisualElement name="item1" class="item_selected" />
                     <ui:VisualElement name="item2" class="item" />
                     <ui:VisualElement name="item3" class="item" />
                     <ui:VisualElement name="item4" class="item" />
@@ -43,7 +42,7 @@
                     <ui:VisualElement name="run" class="item" />
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="character3" class="notselectable" style="flex-grow: 1; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; background-color: rgba(125, 125, 125, 0.13);">
+            <ui:VisualElement name="character3" class="notselectable" style="flex-grow: 1; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; background-color: rgba(125, 125, 125, 0.13);">
                 <ui:VisualElement name="characterDetails" style="height: 40%; flex-direction: row; justify-content: flex-start; align-items: stretch;">
                     <ui:VisualElement name="character_image" class="notselectable" style="background-image: url(&apos;/Assets/Art/technoface.png#technoface&apos;); width: 10%; height: 100%; flex-grow: 0; margin-left: 0.5%; margin-right: 0.5%; margin-top: 0.5%; margin-bottom: 0.5%;" />
                     <ui:Label text="Techno" display-tooltip-when-elided="true" name="character_name" />
@@ -64,7 +63,10 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="EnemySelector" style="justify-content: center; top: 0; height: 20%; visibility: hidden; align-items: center; flex-direction: row;" />
+        <ui:VisualElement name="Itemdesc" style="flex-grow: 0; height: 20%; background-color: rgba(106, 106, 106, 0.34); visibility: hidden;">
+            <ui:Label text="Test text" display-tooltip-when-elided="true" name="itemTextBox" style="-unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); font-size: 20px; color: rgb(14, 14, 14);" />
+        </ui:VisualElement>
+        <ui:VisualElement name="EnemySelector" style="justify-content: center; top: auto; height: 20%; visibility: hidden; align-items: center; flex-direction: row; display: flex; position: absolute; width: 100%; bottom: 0;" />
     </ui:VisualElement>
     <ui:VisualElement name="VictoryScreen" style="width: 100%; height: 100%; background-color: rgba(200, 153, 33, 0.58); justify-content: space-between; position: absolute; top: 0; left: 0; visibility: hidden; display: flex;">
         <ui:Label text="Victory" display-tooltip-when-elided="true" name="title" style="-unity-font: resource(&apos;Fonts &amp; Materials/elf-boy-classic-font/Elfboyclassic-PKZgZ&apos;); font-size: 60px; -unity-text-align: upper-center;" />

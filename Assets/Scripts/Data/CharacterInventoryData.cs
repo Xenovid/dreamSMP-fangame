@@ -20,6 +20,8 @@ public struct Item{
     public Weapon weapon;
     public Potion potion;
     public Food food;
+    public string description;
+    public float useTime;
 }
 [System.Serializable]
 public struct Weapon{

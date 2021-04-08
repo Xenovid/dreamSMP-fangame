@@ -7,15 +7,16 @@ public class BattleMenuSystem : SystemBase
 {
     public selectables currentSelection = selectables.attack;
     public VisualElement battleUI;
-    public Label attackLabel;
-    public Label itemLabel;
-    public Label runLabel;
     UIDocument UIDoc;
     public int test = 0;
 
     //private bool isBattleMenuOn = false;
     private menuType currentMenu;
     private int currentCharacterSelected;
+    private int currentEnemySelected;
+
+    public int playerNumber;
+    public bool hasMoved;
 
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
 
@@ -25,18 +26,26 @@ public class BattleMenuSystem : SystemBase
 
         m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
 
-        EntityQuery UIGroup = GetEntityQuery(typeof(UIDocument));
-        UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
-        UIDoc = UIDocs[0];
+        Entities
+        .WithoutBurst()
+        .WithAll<BattleUITag>()
+        .ForEach((UIDocument UI) =>{
+                UIDoc = UI;
+         }).Run();
 
-        Label attackLabel = UIDoc.rootVisualElement.Q<Label>("AttackLabel");
-        attackLabel.RemoveFromClassList("battle-label");
-        attackLabel.AddToClassList("battle-label-selected");
+        int templength = 0;
+        Entities
+        .ForEach((DynamicBuffer<PlayerPartyData> party) =>{
+            templength = party.Length;
+        }).Run();
+
+        playerNumber = templength;
     }
 
     protected override void OnUpdate()
     {
         EntityManager.CompleteAllJobs();
+        float deltaTime = Time.DeltaTime;
 
         EntityQuery BattleManagerGroup = GetEntityQuery(typeof(BattleManagerTag));
         NativeArray<Entity> battleManagers = BattleManagerGroup.ToEntityArray(Allocator.Temp);
@@ -58,6 +67,14 @@ public class BattleMenuSystem : SystemBase
             
         }
 
+        UIInputData input = new UIInputData();
+        Entities
+        .WithoutBurst()
+        .WithAll<BattleUITag>()
+        .ForEach((UIInputData temp) =>{
+                input = temp;
+         }).Run();
+
         var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
 
         Color black = Color.black;
@@ -67,140 +84,144 @@ public class BattleMenuSystem : SystemBase
             Debug.Log("didn't find root visual element");
         }
         else{
-            attackLabel = rootVisualElement.Q<Label>("AttackLabel");
-            itemLabel= rootVisualElement.Q<Label>("ItemsLabel");
-            runLabel = rootVisualElement.Q<Label>("RunLabel");
             battleUI = rootVisualElement.Q<VisualElement>("BattleUI");
+            VisualElement itemDesc = rootVisualElement.Q<VisualElement>("Itemdesc");
+            Label itemTextBox = rootVisualElement.Q<Label>("itemTextBox");
 
             VisualElement enemySelector = rootVisualElement.Q<VisualElement>("EnemySelector");
             Entities
             .WithoutBurst()
             .WithStructuralChanges()
-            .ForEach((ref BattleData battleData, ref CharacterStats characterStat, in Entity entity, in UIInputData input) =>{
+            .ForEach((CharacterInventoryData inventory, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStat, in Entity entity) =>{
+                battleData.selected = selectables.none;
                 if(!isBattling){
                     //To Do: should display victory screen
-                    
                 }
-                else{
+                else if(battleData.useTime <= 0){
                     //isBattleMenuOn = true;
                     switch(currentMenu){
                         case menuType.battleMenu:
                             battleUI.visible = true;
+                            itemDesc.visible = true;
                             enemySelector.visible = false;
+                            if(selectorUI.isHovered && currentCharacterSelected == entityInQueryIndex && !hasMoved){
+                                selectorUI.UI.AddToClassList("hovering");
+                                if(input.goselected){
+                                    AudioManager.playSound("menuchange");
+                                    selectorUI.isHovered = false;
+                                    selectorUI.isSelected = true;
 
-                            switch(currentSelection){
-                            case selectables.attack:
-                                if(input.goselected){
-                                    currentMenu = menuType.attackMenu;
+                                    selectorUI.UI.RemoveFromClassList("hovering");
+                                    selectorUI.UI.AddToClassList("selected");
                                 }
-                                else{
-                                    battleData.selected = selectables.none;
-                                    if(input.moveup){
-                                        AudioManager.playSound("menuchange");
-                                        currentSelection = selectables.run;
-                                        attackLabel.RemoveFromClassList("battle-label-selected");
-                                        attackLabel.AddToClassList("battle-label");
-                                        runLabel.RemoveFromClassList("battle-label");
-                                        runLabel.AddToClassList("battle-label-selected");
-                                    }
-                                    else if(input.movedown){
-                                        AudioManager.playSound("menuchange");
-                                        currentSelection = selectables.items;
-                                        attackLabel.RemoveFromClassList("battle-label-selected");
-                                        attackLabel.AddToClassList("battle-label");
-                                        itemLabel.RemoveFromClassList("battle-label");
-                                        itemLabel.AddToClassList("battle-label-selected");
-                                    }
-                                }
-                                break;
-                            case selectables.items:
-                                if(input.goselected){
+                                else if(input.moveleft){
+                                    hasMoved = true;
                                     AudioManager.playSound("menuchange");
-                                    battleData.selected = selectables.items;
+                                    currentCharacterSelected--;
+
+                                    selectorUI.UI.RemoveFromClassList("hovering");
                                 }
-                                else{
-                                    battleData.selected = selectables.none;
-                                    if(input.moveup){
-                                        AudioManager.playSound("menuchange");
-                                        currentSelection = selectables.attack;
-                                        attackLabel.RemoveFromClassList("battle-label");
-                                        attackLabel.AddToClassList("battle-label-selected");
-                                        itemLabel.RemoveFromClassList("battle-label-selected");
-                                        itemLabel.AddToClassList("battle-label");
-                                    }
-                                    else if(input.movedown){
-                                        AudioManager.playSound("menuchange");
-                                        currentSelection = selectables.run;
-                                        itemLabel.RemoveFromClassList("battle-label-selected");
-                                        itemLabel.AddToClassList("battle-label");
-                                        runLabel.RemoveFromClassList("battle-label");
-                                        runLabel.AddToClassList("battle-label-selected");
-                                    }
-                                }
-                                break;
-                            case selectables.run:
-                                if(input.goselected){
+                                else if(input.moveright){
+                                    hasMoved = true;
                                     AudioManager.playSound("menuchange");
-                                    battleData.selected = selectables.run;
+                                    currentCharacterSelected++;
+
+                                    selectorUI.UI.RemoveFromClassList("hovering");
                                 }
-                                else{
-                                    battleData.selected = selectables.none;
-                                    if(input.movedown){
-                                        AudioManager.playSound("menuchange");
-                                        currentSelection = selectables.attack;
-                                        attackLabel.RemoveFromClassList("battle-label");
-                                        attackLabel.AddToClassList("battle-label-selected");
-                                        runLabel.RemoveFromClassList("battle-label-selected");
-                                        runLabel.AddToClassList("battle-label");
-                                    }
-                                    else if(input.moveup){
-                                        AudioManager.playSound("menuchange");
-                                        currentSelection = selectables.items;
-                                        runLabel.RemoveFromClassList("battle-label-selected");
-                                        runLabel.AddToClassList("battle-label");
-                                        itemLabel.RemoveFromClassList("battle-label");
-                                        itemLabel.AddToClassList("battle-label-selected");
+                                if(currentCharacterSelected < 0){
+                                    currentCharacterSelected = playerNumber - 1;
+                                }
+                                else if(currentCharacterSelected >= playerNumber){
+                                    currentCharacterSelected = 0;
+                                }
+                            }
+                            else if(selectorUI.isSelected){
+                                itemTextBox.text = inventory.inventory[selectorUI.currentItem].description;
+                                if(input.goback){
+                                    AudioManager.playSound("menuchange");
+                                    selectorUI.isSelected = false;
+                                    selectorUI.isHovered = true;
+
+                                    selectorUI.UI.RemoveFromClassList("selected");
+                                    selectorUI.UI.AddToClassList("hovering");
+                                }
+                                else if(input.goselected){
+                                    //use item and start a delay
+                                    Item currentItem = inventory.inventory[selectorUI.currentItem];
+                                    switch(currentItem.itemType){
+                                        case ItemType.weapon:
+                                            if(currentItem.weapon.rechargeTime <= 0){
+                                                currentMenu = menuType.attackMenu;
+                                            }
+                                            break;
                                     }
                                 }
-                                
-                                break;
-                        }
+                                else if(input.moveright){
+                                    AudioManager.playSound("menuchange");
+                                    VisualElement currentItemUI = selectorUI.UI.Q("item" + (selectorUI.currentItem + 1).ToString());
+                                    currentItemUI.AddToClassList("item");
+                                    currentItemUI.RemoveFromClassList("item_selected");
+                                    // change item
+                                    selectorUI.currentItem++;
+                                    if(selectorUI.currentItem >= 5){
+                                        selectorUI.currentItem = 0;
+                                    }
+                                    VisualElement nextItemUI = selectorUI.UI.Q("item" + (selectorUI.currentItem + 1).ToString());
+                                    nextItemUI.RemoveFromClassList("item");
+                                    nextItemUI.AddToClassList("item_selected");
+                                }
+                                else if(input.moveleft){
+                                    AudioManager.playSound("menuchange");
+                                    VisualElement currentItemUI = selectorUI.UI.Q("item" + (selectorUI.currentItem + 1).ToString());
+                                    currentItemUI.AddToClassList("item");
+                                    currentItemUI.RemoveFromClassList("item_selected");
+
+                                    selectorUI.currentItem--;
+                                    if(selectorUI.currentItem < 0){
+                                        selectorUI.currentItem = 4;
+                                    }
+                                    VisualElement nextItemUI = selectorUI.UI.Q("item" + (selectorUI.currentItem + 1).ToString());
+                                    nextItemUI.AddToClassList("item_selected");
+                                    nextItemUI.RemoveFromClassList("item");
+                                    //change item
+                                }
+                            }
+
                             break;
                         case menuType.attackMenu:
                             battleUI.visible = false;
+                            itemDesc.visible = false;
                             enemySelector.visible = true;
 
                             if(input.moveleft){
                                 AudioManager.playSound("menuchange");
-                                currentCharacterSelected--;
+                                currentEnemySelected--;
                             }
                             else if(input.moveright){
                                 AudioManager.playSound("menuchange");
-                                currentCharacterSelected++;
+                                currentEnemySelected++;
                             }
-                            if(currentCharacterSelected == EnemyIds.Length){
-                                currentCharacterSelected = 0;
+                            if(currentEnemySelected == EnemyIds.Length){
+                                currentEnemySelected = 0;
                             }
-                            else if(currentCharacterSelected < 0){
-                                currentCharacterSelected = EnemyIds.Length - 1;
+                            else if(currentEnemySelected < 0){
+                                currentEnemySelected = EnemyIds.Length - 1;
                             }
 
                             foreach(Entity ent in enemyUiSelection){
                                     EnemySelectorData temp = GetComponent<EnemySelectorData>(ent);
 
-                                    if(temp.isDead && temp.enemyId == EnemyIds[currentCharacterSelected].id){
-                                        currentCharacterSelected++;
-                                        if(currentCharacterSelected == EnemyIds.Length){
-                                            currentCharacterSelected = 0;
+                                    if(temp.isDead && temp.enemyId == EnemyIds[currentEnemySelected].id){
+                                        currentEnemySelected++;
+                                        if(currentEnemySelected == EnemyIds.Length){
+                                            currentEnemySelected = 0;
                                         }
                                     }
-                                    else if(temp.enemyId == EnemyIds[currentCharacterSelected].id){
-                                        Debug.Log(temp.enemyId.ToString() + ": should be selected");
+                                    else if(temp.enemyId == EnemyIds[currentEnemySelected].id){
                                         temp.isSelected = true;
                                         EntityManager.SetComponentData(ent, temp);
                                     }
                                     else{
-                                        Debug.Log(temp.enemyId.ToString() + ": should not be selected");
                                         temp.isSelected = false;
                                         EntityManager.SetComponentData(ent, temp);
                                     }
@@ -214,20 +235,48 @@ public class BattleMenuSystem : SystemBase
                             }                           
                             if(input.goselected){
                                 AudioManager.playSound("menuchange");
-                                battleData.targetingId = EnemyIds[currentCharacterSelected].id;
+                                battleData.targetingId = EnemyIds[currentEnemySelected].id;
                                 battleData.selected = selectables.attack;
-                            }
-                            else{
-                                battleData.selected = selectables.none;
+                                battleData.damage = inventory.inventory[selectorUI.currentItem].weapon.power;
+                                battleData.useTime = inventory.inventory[selectorUI.currentItem].useTime;
+
+                                inventory.inventory[selectorUI.currentItem].weapon.rechargeTime = inventory.inventory[selectorUI.currentItem].weapon.attackTime;                               
+
+                                currentMenu = menuType.battleMenu;
+
+                                selectorUI.isSelected = false;
+                                selectorUI.isHovered = true;
+
+                                battleUI.visible = true;
+                                itemDesc.visible = true;
+                                enemySelector.visible = false;
+
+                                selectorUI.UI.RemoveFromClassList("selected");
+                                selectorUI.UI.AddToClassList("hovering");
+                                Debug.Log("changed");
                             }
                             break;
                     }
+                    Debug.Log("test3");
+                    for(int i = 0; i < 4; i++){
+                            Item tempItem = inventory.inventory[i];
+                            Debug.Log("test2");
+                            if(tempItem.itemType == ItemType.weapon){
+                                Debug.Log("test1");
+                                inventory.inventory[i].weapon.rechargeTime = tempItem.weapon.rechargeTime < 0 ? tempItem.weapon.rechargeTime - deltaTime : 0;
+                            }
+                    }
                     
+                }
+                else{
+                    Debug.Log("time left" + battleData.useTime);
+                    battleData.useTime -= deltaTime;
                 }
             }).Run();
         }
         enemyUiSelection.Dispose();
         m_EndSimulationEcbSystem.AddJobHandleForProducer(this.Dependency);
+        hasMoved = false;
     }
 }
 
