@@ -8,6 +8,7 @@ public class AnimationSystem : SystemBase
     {
         Entities
         .WithoutBurst()
+        .WithNone<BattleData>()
         .ForEach((Animator animator, AnimationData animationData, in MovementData movement) =>{
             if(movement.direction.x == 0 && movement.direction.y == 0){
                 if(!animationData.inIdleAnimation){
@@ -52,6 +53,33 @@ public class AnimationSystem : SystemBase
                 else{
                     animationData.previouslyFacing = Direction.down;
                     animator.Play(animationData.walkDownAnimationName);
+                }
+            }
+        }).Run();
+
+        Entities
+        .WithoutBurst()
+        .ForEach((Animator animator, AnimationData animationData, in MovementData movement, in PlayerSelectorUI playerSelectorUI, in CharacterInventoryData inventory, in BattleData battleData) =>{
+            if(animationData.hasTakenDamage){
+                if(animationData.takenDamageAnimationName != ""){
+                    animator.Play(animationData.takenDamageAnimationName);
+                }
+            }
+            else{
+                switch(battleData.itemType){
+                    case ItemType.none:
+                        if(animationData.fistIdleAnimationName != "" && !(animationData.currentAnimation == animationData.fistIdleAnimationName)){
+                                animator.Play(animationData.fistIdleAnimationName);
+                                animationData.currentAnimation = animationData.fistIdleAnimationName;
+                        }
+                        break;
+                    case ItemType.sword:
+                        if(animationData.swordIdleAnimationName != "" && !(animationData.currentAnimation == animationData.swordIdleAnimationName)){
+                                animator.Play(animationData.swordIdleAnimationName);
+                                animationData.currentAnimation = animationData.swordIdleAnimationName;
+                        }
+                        break;
+                    
                 }
             }
         }).Run();

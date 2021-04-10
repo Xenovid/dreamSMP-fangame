@@ -14,11 +14,21 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="Itembar" class="itembar" style="flex-grow: 1; flex-direction: row;">
-                    <ui:VisualElement name="item1" class="item_selected" />
-                    <ui:VisualElement name="item2" class="item" style="border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px;" />
-                    <ui:VisualElement name="item3" class="item" />
-                    <ui:VisualElement name="item4" class="item" />
-                    <ui:VisualElement name="item5" class="item" />
+                    <ui:VisualElement name="item1" class="item_selected" style="flex-direction: column-reverse;">
+                        <ui:VisualElement name="itemloader" style="flex-grow: 0; height: auto; background-color: rgba(67, 67, 67, 0.69);" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="item2" class="item" style="border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; flex-direction: column-reverse;">
+                        <ui:VisualElement name="itemloader" style="flex-grow: 0; height: 0; background-color: rgba(67, 67, 67, 0.69);" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="item3" class="item" style="flex-direction: column-reverse;">
+                        <ui:VisualElement name="itemloader" style="flex-grow: 0; height: 0; background-color: rgba(67, 67, 67, 0.69);" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="item4" class="item" style="flex-direction: column-reverse;">
+                        <ui:VisualElement name="itemloader" style="flex-grow: 0; height: 0; background-color: rgba(67, 67, 67, 0.69);" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="item5" class="item" style="flex-direction: column-reverse;">
+                        <ui:VisualElement name="itemloader" style="flex-grow: 0; height: 0; background-color: rgba(67, 67, 67, 0.69);" />
+                    </ui:VisualElement>
                     <ui:VisualElement name="run" class="item" />
                 </ui:VisualElement>
             </ui:VisualElement>

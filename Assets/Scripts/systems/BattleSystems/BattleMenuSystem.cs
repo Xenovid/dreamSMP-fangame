@@ -92,7 +92,7 @@ public class BattleMenuSystem : SystemBase
             Entities
             .WithoutBurst()
             .WithStructuralChanges()
-            .ForEach((CharacterInventoryData inventory, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStat, in Entity entity) =>{
+            .ForEach((CharacterInventoryData inventory, AnimationData animation, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStat, in Entity entity) =>{
                 battleData.selected = selectables.none;
                 if(!isBattling){
                     //To Do: should display victory screen
@@ -101,6 +101,7 @@ public class BattleMenuSystem : SystemBase
                     //isBattleMenuOn = true;
                     switch(currentMenu){
                         case menuType.battleMenu:
+                            battleData.itemType = inventory.inventory[selectorUI.currentItem].itemType;
                             battleUI.visible = true;
                             itemDesc.visible = true;
                             enemySelector.visible = false;
@@ -149,7 +150,7 @@ public class BattleMenuSystem : SystemBase
                                     //use item and start a delay
                                     Item currentItem = inventory.inventory[selectorUI.currentItem];
                                     switch(currentItem.itemType){
-                                        case ItemType.weapon:
+                                        case ItemType.sword:
                                             if(currentItem.weapon.rechargeTime <= 0){
                                                 currentMenu = menuType.attackMenu;
                                             }
@@ -253,23 +254,26 @@ public class BattleMenuSystem : SystemBase
 
                                 selectorUI.UI.RemoveFromClassList("selected");
                                 selectorUI.UI.AddToClassList("hovering");
-                                Debug.Log("changed");
                             }
                             break;
                     }
-                    Debug.Log("test3");
-                    for(int i = 0; i < 4; i++){
+                    for(int i = 0; i <= 4; i++){
+                            VisualElement currentItemUI = selectorUI.UI.Q("item" + (i + 1).ToString());
+                            VisualElement itemFilter = currentItemUI.Q<VisualElement>("itemloader");
                             Item tempItem = inventory.inventory[i];
-                            Debug.Log("test2");
-                            if(tempItem.itemType == ItemType.weapon){
-                                Debug.Log("test1");
-                                inventory.inventory[i].weapon.rechargeTime = tempItem.weapon.rechargeTime < 0 ? tempItem.weapon.rechargeTime - deltaTime : 0;
+                            if(tempItem.itemType == ItemType.sword || tempItem.itemType == ItemType.axe || tempItem.itemType == ItemType.none){
+                                if(tempItem.weapon.rechargeTime > 0){
+                                    itemFilter.style.height =  100 * ((tempItem.weapon.attackTime - tempItem.weapon.rechargeTime)/tempItem.weapon.attackTime);
+                                    inventory.inventory[i].weapon.rechargeTime = tempItem.weapon.rechargeTime - deltaTime;
+                                }
+                                else{
+                                    itemFilter.style.height = 0f;
+                                }
                             }
                     }
                     
                 }
                 else{
-                    Debug.Log("time left" + battleData.useTime);
                     battleData.useTime -= deltaTime;
                 }
             }).Run();

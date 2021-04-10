@@ -7,4 +7,12 @@ public struct BattleData : IComponentData
     public float useTime;
     public int targetingId;
     public float damage;
+
+    public ItemType equiptype;
+    public ItemType itemType;
+}
+public enum weaponType{
+    fist,
+    axe,
+    sword
 }

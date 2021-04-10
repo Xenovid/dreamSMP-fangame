@@ -9,7 +9,8 @@ public class CharacterInventoryData : IComponentData
 
 public enum ItemType{
     none,
-    weapon,
+    axe,
+    sword,
     potion,
     food
 }
