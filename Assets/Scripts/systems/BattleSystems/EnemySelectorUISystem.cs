@@ -8,14 +8,27 @@ public class EnemySelectorUISystem : SystemBase
       {
             Entities
             .WithoutBurst()
-            .ForEach((EnemySelectorUI enemySelectorUI,ref EnemySelectorData enemySelectorData, in CharacterStats characterStats) => {
-
+            .ForEach((EnemySelectorUI enemySelectorUI,ref EnemySelectorData enemySelectorData, in CharacterStats characterStats, in SpriteRenderer sprite) => {
                 VisualElement enemyPicture = enemySelectorUI.enemySelectorUI.Q<VisualElement>("EnemyPicture");
                 if(enemySelectorData.isSelected){
+                    //make the enemy outline glow
+                    float factor = Mathf.Pow(2, 4);
+                    MaterialPropertyBlock myMatBlock = new MaterialPropertyBlock();
+                    sprite.GetPropertyBlock(myMatBlock);
+                    myMatBlock.SetColor("_Color", new Color(1 * factor, 1 * factor, 1 * factor));
+                    sprite.SetPropertyBlock(myMatBlock);
+
                     enemySelectorUI.enemySelectorUI.RemoveFromClassList("enemyBase");
                     enemySelectorUI.enemySelectorUI.AddToClassList("enemySelected");
                 }
                 else{
+                    //make the enemy not glow
+                    float factor = Mathf.Pow(2, 1);
+                    MaterialPropertyBlock myMatBlock = new MaterialPropertyBlock();
+                    sprite.GetPropertyBlock(myMatBlock);
+                    myMatBlock.SetColor("_Color", new Color(1 * factor, 1 * factor, 1 * factor));
+                    sprite.SetPropertyBlock(myMatBlock);
+
                     enemySelectorUI.enemySelectorUI.RemoveFromClassList("enemySelected");
                      enemySelectorUI.enemySelectorUI.AddToClassList("enemyBase");
                 }

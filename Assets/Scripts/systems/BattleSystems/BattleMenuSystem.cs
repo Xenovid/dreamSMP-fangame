@@ -97,9 +97,11 @@ public class BattleMenuSystem : SystemBase
                 if(!isBattling){
                     //To Do: should display victory screen
                 }
-                else if(battleData.useTime <= 0){
+                else if(selectorUI.isSelectable){
+                    VisualElement useBar = selectorUI.UI.Q<VisualElement>("useBar");
+                    useBar.style.width = 0;
                     //isBattleMenuOn = true;
-                    switch(currentMenu){
+                    switch (currentMenu){
                         case menuType.battleMenu:
                             battleData.itemType = inventory.inventory[selectorUI.currentItem].itemType;
                             battleUI.visible = true;
@@ -240,6 +242,7 @@ public class BattleMenuSystem : SystemBase
                                 battleData.selected = selectables.attack;
                                 battleData.damage = inventory.inventory[selectorUI.currentItem].weapon.power;
                                 battleData.useTime = inventory.inventory[selectorUI.currentItem].useTime;
+                                battleData.maxUseTime = inventory.inventory[selectorUI.currentItem].useTime;
 
                                 inventory.inventory[selectorUI.currentItem].weapon.rechargeTime = inventory.inventory[selectorUI.currentItem].weapon.attackTime;                               
 
@@ -254,6 +257,8 @@ public class BattleMenuSystem : SystemBase
 
                                 selectorUI.UI.RemoveFromClassList("selected");
                                 selectorUI.UI.AddToClassList("hovering");
+
+                                selectorUI.isSelectable = false;
                             }
                             break;
                     }
@@ -274,7 +279,21 @@ public class BattleMenuSystem : SystemBase
                     
                 }
                 else{
-                    battleData.useTime -= deltaTime;
+                    if(battleData.useTime > 0)
+                    {
+                        VisualElement useBar = selectorUI.UI.Q<VisualElement>("useBar");
+                        useBar.style.width = 400 * ((battleData.maxUseTime - battleData.useTime) / battleData.maxUseTime);
+                        battleData.useTime -= deltaTime;
+                    }
+                    else
+                    {
+                        VisualElement useBar = selectorUI.UI.Q<VisualElement>("useBar");
+
+                        Debug.Log("use bar length" + useBar.style.width);
+                        selectorUI.isSelectable = true;
+                        AudioManager.playSound("menuavailable");
+                        //play audio
+                    }
                 }
             }).Run();
         }

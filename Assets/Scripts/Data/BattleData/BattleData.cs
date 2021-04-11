@@ -4,6 +4,8 @@ using UnityEngine;
 public struct BattleData : IComponentData
 {
     public selectables selected;
+    [HideInInspector]
+    public float maxUseTime;
     public float useTime;
     public int targetingId;
     public float damage;

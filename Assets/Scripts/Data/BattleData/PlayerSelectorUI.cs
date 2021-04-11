@@ -7,5 +7,5 @@ public class PlayerSelectorUI : IComponentData
     public int currentItem;
     public bool isSelected;
     public bool isHovered;
-    public bool notSelectable;
+    public bool isSelectable;
 }
