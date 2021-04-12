@@ -15754,7 +15754,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _SceneAsset: {fileID: 102900000, guid: bd5411a717ac0df80bba2a9b7ae75cad, type: 3}
   _HierarchyColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  AutoLoadScene: 1
+  AutoLoadScene: 0
   _SceneGUID:
     Value:
       x: 2047952347
@@ -15924,6 +15924,9 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: 0b991bbf5622a9919aebe2f20d50debd, type: 3}
     audioSource: {fileID: 0}
     soundName: tempBattleMusic
+  - clip: {fileID: 8300000, guid: ea659ad0d77e23943a95da052239ba83, type: 3}
+    audioSource: {fileID: 0}
+    soundName: menuMusic
 --- !u!4 &1847510910
 Transform:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ public class OptionMenuSystem : SystemBase
       private optionMenuSelectables currentSelection = optionMenuSelectables.volume;
       private SceneSystem sceneSystem;
       private float audioVolume;
-      private bool isVolumeSet;
+      private bool isVolumeSet = false;
 
       private Entity titleSubScene;
       private Entity optionsSubScene;
@@ -48,10 +48,9 @@ public class OptionMenuSystem : SystemBase
                   else{
                         Slider volumeSlider = root.Q<Slider>("volume_slider");
                         if(!isVolumeSet){
-                              volumeSlider.value = AudioManager.volume;
+                              volumeSlider.value = audioVolume;
                               isVolumeSet = true;
                         }
-                        Debug.Log("hello mooo");
                         switch(currentSelection){
                               case optionMenuSelectables.back:
                                     if(input.goselected || input.goback){
@@ -67,6 +66,7 @@ public class OptionMenuSystem : SystemBase
                                                 AudioManager.playSound("menuchange");
                                                 sceneSystem.UnloadScene(optionsSubScene);
                                                 sceneSystem.LoadSceneAsync(titleSubScene);
+                                                isVolumeSet = false;
                                           }
                                           else if(input.moveright){
                                                 AudioManager.playSound("menuchange");

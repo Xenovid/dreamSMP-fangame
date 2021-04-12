@@ -21,6 +21,7 @@ public class TitleScreenSystem : SystemBase
         base.OnStartRunning();
 
         currentSelection = titleMenuSelectables.Start;
+        AudioManager.playSong("menuMusic");
 
         Entities
         .WithoutBurst()
@@ -71,7 +72,7 @@ public class TitleScreenSystem : SystemBase
                                     AudioManager.playSound("menuchange");
                                     sceneSystem.UnloadScene(SubSceneReferences.Instance.TitleSubScene.SceneGUID);
                                     sceneSystem.LoadSceneAsync(SubSceneReferences.Instance.WorldSubScene.SceneGUID);
-
+                                    AudioManager.stopSong("menuMusic");
                                 }
                                 else if(input.moveup){
                                     AudioManager.playSound("menuchange");

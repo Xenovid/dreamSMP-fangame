@@ -16,6 +16,21 @@ public class AudioManager : MonoBehaviour
     
     public static void changeVolume(float newVolume){
         volume = newVolume;
+
+        foreach(SoundData sound in gameSounds)
+        {
+            sound.audioSource.volume = newVolume;
+        }
+
+        foreach(SoundData music in gameMusic)
+        {
+            music.audioSource.volume = newVolume;
+        }
+
+        foreach(SoundData dialogue in dialogues)
+        {
+            dialogue.audioSource.volume = newVolume;
+        }
     }
 
     private void Awake(){
@@ -28,6 +43,7 @@ public class AudioManager : MonoBehaviour
         foreach(SoundData music in gameMusics){
             music.audioSource = gameObject.AddComponent<AudioSource>();
             music.audioSource.clip = music.clip;
+            music.audioSource.loop = true;
             gameMusic.Add(music);
         }
 
