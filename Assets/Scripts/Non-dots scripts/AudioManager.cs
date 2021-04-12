@@ -12,7 +12,7 @@ public class AudioManager : MonoBehaviour
     private static List<SoundData> gameSounds = new List<SoundData>();
     private static List<SoundData> gameMusic = new List<SoundData>();
 
-    public static float volume = .5f;
+    public static float volume = .1f;
     
     public static void changeVolume(float newVolume){
         volume = newVolume;

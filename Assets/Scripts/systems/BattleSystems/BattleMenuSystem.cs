@@ -268,7 +268,7 @@ public class BattleMenuSystem : SystemBase
                             Item tempItem = inventory.inventory[i];
                             if(tempItem.itemType == ItemType.sword || tempItem.itemType == ItemType.axe || tempItem.itemType == ItemType.none){
                                 if(tempItem.weapon.rechargeTime > 0){
-                                    itemFilter.style.height =  100 * ((tempItem.weapon.attackTime - tempItem.weapon.rechargeTime)/tempItem.weapon.attackTime);
+                                    itemFilter.style.height =  currentItemUI.contentRect.height * ((tempItem.weapon.attackTime - tempItem.weapon.rechargeTime)/tempItem.weapon.attackTime);
                                     inventory.inventory[i].weapon.rechargeTime = tempItem.weapon.rechargeTime - deltaTime;
                                 }
                                 else{
@@ -282,14 +282,16 @@ public class BattleMenuSystem : SystemBase
                     if(battleData.useTime > 0)
                     {
                         VisualElement useBar = selectorUI.UI.Q<VisualElement>("useBar");
-                        useBar.style.width = 400 * ((battleData.maxUseTime - battleData.useTime) / battleData.maxUseTime);
+
+                        useBar.style.width = selectorUI.UI.contentRect.width * ((battleData.maxUseTime - battleData.useTime) / battleData.maxUseTime);
                         battleData.useTime -= deltaTime;
                     }
                     else
                     {
                         VisualElement useBar = selectorUI.UI.Q<VisualElement>("useBar");
 
-                        Debug.Log("use bar length" + useBar.style.width);
+                        
+                  
                         selectorUI.isSelectable = true;
                         AudioManager.playSound("menuavailable");
                         //play audio

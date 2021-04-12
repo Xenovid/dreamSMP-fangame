@@ -12,7 +12,7 @@ public class EnemySelectorUISystem : SystemBase
                 VisualElement enemyPicture = enemySelectorUI.enemySelectorUI.Q<VisualElement>("EnemyPicture");
                 if(enemySelectorData.isSelected){
                     //make the enemy outline glow
-                    float factor = Mathf.Pow(2, 4);
+                    float factor = Mathf.Pow(2, 6);
                     MaterialPropertyBlock myMatBlock = new MaterialPropertyBlock();
                     sprite.GetPropertyBlock(myMatBlock);
                     myMatBlock.SetColor("_Color", new Color(1 * factor, 1 * factor, 1 * factor));
