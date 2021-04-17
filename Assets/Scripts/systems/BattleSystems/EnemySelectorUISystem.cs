@@ -4,13 +4,21 @@ using UnityEngine;
 
 public class EnemySelectorUISystem : SystemBase
 {
-     protected override void OnUpdate()
+    protected override void OnUpdate()
       {
             Entities
             .WithoutBurst()
             .ForEach((EnemySelectorUI enemySelectorUI,ref EnemySelectorData enemySelectorData, in CharacterStats characterStats, in SpriteRenderer sprite) => {
                 VisualElement enemyPicture = enemySelectorUI.enemySelectorUI.Q<VisualElement>("EnemyPicture");
-                if(enemySelectorData.isSelected){
+                VisualElement enemyHealthBar = enemySelectorUI.enemySelectorUI.Q<VisualElement>("EnemyHealth");
+                Label enemyNameLabel = enemySelectorUI.enemySelectorUI.Q<Label>("EnemyName");
+
+                enemyNameLabel.text = characterStats.characterName.ToString();
+                enemyPicture.style.backgroundImage = Background.FromSprite(sprite.sprite);
+                enemyHealthBar.style.width = (characterStats.health / characterStats.maxHealth) * enemySelectorUI.enemySelectorUI.contentRect.width;
+                Debug.Log("enemy health is currently" + enemyHealthBar.style.width);
+
+                if (enemySelectorData.isSelected){
                     //make the enemy outline glow
                     float factor = Mathf.Pow(2, 6);
                     MaterialPropertyBlock myMatBlock = new MaterialPropertyBlock();

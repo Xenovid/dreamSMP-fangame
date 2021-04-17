@@ -32,11 +32,14 @@ public class CreditsMenuSystem : SystemBase
   
     protected override void OnUpdate()
     {
+        EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
+        UIInputData input = uiInputQuery.GetSingleton<UIInputData>();
+
         Entities
         .WithStructuralChanges()
         .WithoutBurst()
         .WithAll<CreditsTag>()
-        .ForEach((in UIDocument UIDoc, in UIInputData input) =>{
+        .ForEach((in UIDocument UIDoc) =>{
             VisualElement root = UIDoc.rootVisualElement;
             if(root == null){
                 Debug.Log("root not found");

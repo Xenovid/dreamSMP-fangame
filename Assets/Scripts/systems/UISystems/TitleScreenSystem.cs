@@ -42,20 +42,22 @@ public class TitleScreenSystem : SystemBase
             titleSubScene = ent;
         }).Run();
 
+        InputGatheringSystem.currentInput = CurrentInput.ui;
     }
 
   
 
     protected override void OnUpdate()
     {
-
+        EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
+        UIInputData input = uiInputQuery.GetSingleton<UIInputData>();
 
         Entities
         .WithoutBurst()
         .WithStructuralChanges()
         .WithAll<TitleMenuTag>()
         .WithNone<OptionMenuTag>()
-        .ForEach((in UIDocument UIDoc, in UIInputData input) => {
+        .ForEach((in UIDocument UIDoc) => {
             VisualElement root = UIDoc.rootVisualElement;
             if(root == null){
                 Debug.Log("root wasn't found");
@@ -70,6 +72,7 @@ public class TitleScreenSystem : SystemBase
                             case(titleMenuSelectables.Start):
                                 if(input.goselected){
                                     AudioManager.playSound("menuchange");
+                                    InputGatheringSystem.currentInput = CurrentInput.overworld;
                                     sceneSystem.UnloadScene(SubSceneReferences.Instance.TitleSubScene.SceneGUID);
                                     sceneSystem.LoadSceneAsync(SubSceneReferences.Instance.WorldSubScene.SceneGUID);
                                     AudioManager.stopSong("menuMusic");

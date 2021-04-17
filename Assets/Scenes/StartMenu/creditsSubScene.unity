@@ -133,9 +133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 447706620}
   - component: {fileID: 447706619}
-  - component: {fileID: 447706623}
-  - component: {fileID: 447706622}
-  - component: {fileID: 447706621}
   - component: {fileID: 447706624}
   m_Layer: 5
   m_Name: CreditsMenu
@@ -174,66 +171,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &447706621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 447706618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 938a032eecee70543ac7c7765b55af45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveup: 0
-  movedown: 0
-  moveright: 0
-  moveleft: 0
-  goselected: 0
-  goback: 0
---- !u!114 &447706622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 447706618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0afc107c9786889568d531da9c4a5470, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isSelectPressed: 0
-  wasSelectPressed: 0
-  wasUpPressed: 0
-  isUpPressed: 0
-  wasDownPressed: 0
-  isDownPressed: 0
-  wasRightPressed: 0
-  isRightPressed: 0
-  wasLeftPressed: 0
-  isLeftPressed: 0
-  isBackPressed: 0
-  wasBackPressed: 0
---- !u!114 &447706623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 447706618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e951ccb8245639078a7ddf94887b44ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upKey: 273
-  downKey: 274
-  rightKey: 275
-  leftKey: 276
-  selectKey: 122
-  backKey: 120
 --- !u!114 &447706624
 MonoBehaviour:
   m_ObjectHideFlags: 0

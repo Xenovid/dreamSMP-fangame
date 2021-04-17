@@ -41,12 +41,14 @@ public class CutsceneInputSystem : SystemBase
         NativeArray<TextBoxData> textBoxDatas = textBoxGroup.ToComponentDataArray<TextBoxData>(Allocator.Temp);
         DynamicBuffer<Text> text;
         TextBoxData textBoxData;
-        
+
+        EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
+        UIInputData input = uiInputQuery.GetSingleton<UIInputData>();
 
         Entities
         .WithoutBurst()
         .WithNone<DialogueData>()
-        .ForEach((ref Entity entity, in CutsceneData cutsceneData, in DelayedInputData delayedInput) => {
+        .ForEach((ref Entity entity, in CutsceneData cutsceneData) => {
           //there should only be one entity with a textbox and text at a given time
           text = EntityManager.GetBuffer<Text>(entities[0]);
           textBoxData = textBoxDatas[0];
@@ -54,7 +56,7 @@ public class CutsceneInputSystem : SystemBase
           int textLength = textString.Length;
           if(cutsceneData.isReadingDialogue){
               //when the player presses the selected button, it should either go to the next page or finish writing the current one
-              if(!delayedInput.wasSelectPressed && delayedInput.isSelectPressed){
+              if(input.goselected){
                 if(textBoxData.isFinishedPage){
                   textBoxData.currentPage += 1;
                   textBoxData.isFinishedPage = false;

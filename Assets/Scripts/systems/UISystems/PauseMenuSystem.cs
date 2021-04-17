@@ -41,13 +41,14 @@ public class PauseMenuSystem : SystemBase
 
       protected override void OnUpdate()
       {
-            EntityQuery stopedInputGroup = GetEntityQuery(typeof(stopInputTag));
-            NativeArray<Entity> stopedEntities = stopedInputGroup.ToEntityArray(Allocator.TempJob);
+        EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
+        UIInputData input = uiInputQuery.GetSingleton<UIInputData>();
+
             Entities
             .WithoutBurst()
             .WithStructuralChanges()
             .WithAll<PauseMenuTag>()
-            .ForEach((in UIDocument UIDoc,in UIInputData input) =>{
+            .ForEach((in UIDocument UIDoc) =>{
                   VisualElement root = UIDoc.rootVisualElement;
                   if(root == null){
 
@@ -60,11 +61,7 @@ public class PauseMenuSystem : SystemBase
                                     if(input.goselected || input.goback){ 
                                           AudioManager.playSound("menuchange");
                                           sceneSystem.UnloadScene(pauseMenuSubScene);
-                                          foreach(Entity ent in stopedEntities){
-                                                EntityManager.RemoveComponent<stopInputTag>(ent);
-                                          }
-
-                                          //unload pause menu
+                                        InputGatheringSystem.currentInput = CurrentInput.overworld;
                                     }
                                     else if(input.movedown || input.moveup){
                                           AudioManager.playSound("menuchange");
@@ -84,10 +81,7 @@ public class PauseMenuSystem : SystemBase
                                     else if(input.goback){
                                           AudioManager.playSound("menuchange");
                                           sceneSystem.UnloadScene(pauseMenuSubScene);
-                                          foreach(Entity ent in stopedEntities){
-                                                EntityManager.RemoveComponent<stopInputTag>(ent);
-                                          }
-                                          //unload pause menu
+                                        InputGatheringSystem.currentInput = CurrentInput.overworld;
                                     }
                                     else if(input.moveup || input.movedown){
                                           AudioManager.playSound("menuchange");
@@ -101,7 +95,6 @@ public class PauseMenuSystem : SystemBase
                         
                   }
             }).Run();
-            stopedEntities.Dispose();
       }
       protected override void OnStopRunning()
       {

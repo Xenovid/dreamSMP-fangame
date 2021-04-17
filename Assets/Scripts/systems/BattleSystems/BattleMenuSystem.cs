@@ -63,17 +63,9 @@ public class BattleMenuSystem : SystemBase
             EnemyIds = GetBuffer<EnemyBattleData>(entity);
             isBattling = true;
         }
-        if(!isBattling){
-            
-        }
 
-        UIInputData input = new UIInputData();
-        Entities
-        .WithoutBurst()
-        .WithAll<BattleUITag>()
-        .ForEach((UIInputData temp) =>{
-                input = temp;
-         }).Run();
+        EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
+        UIInputData input = uiInputQuery.GetSingleton<UIInputData>();
 
         var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
 
@@ -237,12 +229,13 @@ public class BattleMenuSystem : SystemBase
                                 currentMenu = menuType.battleMenu;
                             }                           
                             if(input.goselected){
-                                AudioManager.playSound("menuchange");
+                                AudioManager.playSound("swordswing");
                                 battleData.targetingId = EnemyIds[currentEnemySelected].id;
                                 battleData.selected = selectables.attack;
                                 battleData.damage = inventory.inventory[selectorUI.currentItem].weapon.power;
                                 battleData.useTime = inventory.inventory[selectorUI.currentItem].useTime;
                                 battleData.maxUseTime = inventory.inventory[selectorUI.currentItem].useTime;
+
 
                                 inventory.inventory[selectorUI.currentItem].weapon.rechargeTime = inventory.inventory[selectorUI.currentItem].weapon.attackTime;                               
 

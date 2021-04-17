@@ -13,16 +13,15 @@ public class VictoryScreenSystem : SystemBase
 
             m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
 
-            EntityQuery UIGroup = GetEntityQuery(typeof(UIDocument));
+            EntityQuery UIGroup = GetEntityQuery(typeof(UIDocument), typeof(BattleUITag));
             UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
-            foreach(UIDocument uIDocument in UIDocs){
-            }
             UIDoc = UIDocs[0];
       }
 
       protected override void OnUpdate()
       {
-
+            EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
+            UIInputData input = uiInputQuery.GetSingleton<UIInputData>();
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
 
             var rootVisualElement = UIDoc.rootVisualElement;
@@ -48,10 +47,10 @@ public class VictoryScreenSystem : SystemBase
 
             Entities
             .WithoutBurst()
-            .ForEach((Entity entity, in VictoryData victoryData, in UIInputData input) => {
+            .ForEach((Entity entity, in VictoryData victoryData) => {
                   if(input.goselected){
                         victoryScreen.visible = false;
-                        ecb.RemoveComponent<UIInputData>(entity);
+                        InputGatheringSystem.currentInput = CurrentInput.overworld;
                         ecb.RemoveComponent<VictoryData>(entity);
                   }
             }).Run();

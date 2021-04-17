@@ -7,18 +7,16 @@ public class MovementSystem : SystemBase
 {
     protected override void OnUpdate(){
         float dT = Time.DeltaTime;
-        Entities
-        .WithAny<UIInputData, stopInputTag>()
-        .ForEach((ref MovementData move) => {
-            move.direction = new float3(0,0,0);
-        }).Schedule();
+
+        EntityQuery uiInputQuery = GetEntityQuery(typeof(OverworldInputData));
+        OverworldInputData input = uiInputQuery.GetSingleton<OverworldInputData>();
 
         Entities
-            .WithNone<CutsceneData>()
             .ForEach(
-                (ref Translation pos,in MovementData move) =>
+                (ref Translation pos,ref MovementData move) =>
                 {
-                    float3 dir = math.normalizesafe( move.direction);
+                    move.direction = new float3(input.moveHorizontal, input.moveVertical, 0);
+                    float3 dir = math.normalizesafe(move.direction);
                     pos.Value += dir * move.velocity * dT;
                 }
             )

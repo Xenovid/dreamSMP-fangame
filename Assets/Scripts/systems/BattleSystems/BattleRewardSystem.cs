@@ -14,6 +14,7 @@ public class BattleRewardSystem : SystemBase
 
       protected override void OnUpdate()
       {
+        
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
 
             EntityQuery battleCharacterGroup = GetEntityQuery(ComponentType.ReadWrite<CharacterStats>(), ComponentType.ReadWrite<BattleData>());
@@ -28,14 +29,16 @@ public class BattleRewardSystem : SystemBase
 
                   //if a character loses or wins, say the results
                   if(battleManager.hasPlayerWon){
-                        foreach(Entity entity in battleCharacters){
+                    
+                    foreach (Entity entity in battleCharacters){
                               ecb.RemoveComponent<BattleData>(entity);
-                              if(GetComponentDataFromEntity<UIInputData>().HasComponent(entity)){
-                                    ecb.AddComponent<VictoryData>(entity);
+                              if(GetComponentDataFromEntity<BattleMenuTag>().HasComponent(entity)){
+                                    
                               }
                         }
                         ecb.RemoveComponent<BattleManagerData>(battleManagerEntity);
-                  }
+                        ecb.AddComponent<VictoryData>(battleManagerEntity);
+                }
             }).Run();
 
             battleCharacters.Dispose();
