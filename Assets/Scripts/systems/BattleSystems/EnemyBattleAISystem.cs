@@ -7,7 +7,9 @@ public class EnemyBattleAISystem : SystemBase
     {
         float deltaTime = Time.DeltaTime;
 
-        Entities.ForEach((EnemyBattleData enemyBattleData, BattleData battleData) =>
+        Entities
+            .WithAll<EnemySelectorUI>()
+            .ForEach((BattleData battleData) =>
         {
             EnemyAiTypes temp = EnemyAiTypes.random;
             //have something to remember the ai type and do actions accordingly

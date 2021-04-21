@@ -1,6 +1,7 @@
 using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
+using Unity.Physics;
 using Unity.Entities;
 
 public class MovementSystem : SystemBase
@@ -13,11 +14,37 @@ public class MovementSystem : SystemBase
 
         Entities
             .ForEach(
-                (ref Translation pos,ref MovementData move) =>
+                (ref Rotation rot,ref MovementData move, ref PhysicsVelocity vel) =>
                 {
                     move.direction = new float3(input.moveHorizontal, input.moveVertical, 0);
+                    if(Mathf.Abs(move.direction.x) > Mathf.Abs(move.direction.y))
+                    {
+                        if(move.direction.x > 0)
+                        {
+                            move.facing = Direction.right;
+                        }
+                        else
+                        {
+                            move.facing = Direction.left;
+                        }
+                    }
+                    else if(Mathf.Abs(move.direction.y) > Mathf.Abs(move.direction.x))
+                    {
+                        if(move.direction.y > 0)
+                        {
+                            move.facing = Direction.up;
+                        }
+                        else
+                        {
+                            move.facing = Direction.down;
+                        }
+                    }
                     float3 dir = math.normalizesafe(move.direction);
-                    pos.Value += dir * move.velocity * dT;
+                    
+                    vel.Angular = 0;
+                    rot.Value = quaternion.EulerZXY(new float3(0,0,0));
+                    vel.Linear = dir * move.velocity;
+                    //pos.Value += dir * move.velocity * dT;
                 }
             )
             .Schedule();

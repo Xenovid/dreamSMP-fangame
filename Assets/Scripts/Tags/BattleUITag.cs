@@ -2,6 +2,6 @@ using Unity.Entities;
 
 
 [GenerateAuthoringComponent]
-public class BattleUITag : IComponentData
+public struct BattleUITag : IComponentData
 {
 }

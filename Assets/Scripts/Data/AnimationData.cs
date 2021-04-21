@@ -24,4 +24,6 @@ public class AnimationData : IComponentData
     public string fistIdleAnimationName;
     public string swordIdleAnimationName;
     public string takenDamageAnimationName;
+
+    public string basicSwordAnimationName;
 }

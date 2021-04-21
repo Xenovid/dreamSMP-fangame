@@ -84,7 +84,7 @@ public class BattleMenuSystem : SystemBase
             Entities
             .WithoutBurst()
             .WithStructuralChanges()
-            .ForEach((CharacterInventoryData inventory, AnimationData animation, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStat, in Entity entity) =>{
+            .ForEach((CharacterInventoryData inventory, AnimationData animation, Animator animator, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStat, in Entity entity) =>{
                 battleData.selected = selectables.none;
                 if(!isBattling){
                     //To Do: should display victory screen
@@ -229,6 +229,7 @@ public class BattleMenuSystem : SystemBase
                                 currentMenu = menuType.battleMenu;
                             }                           
                             if(input.goselected){
+                                animator.Play(animation.basicSwordAnimationName);
                                 AudioManager.playSound("swordswing");
                                 battleData.targetingId = EnemyIds[currentEnemySelected].id;
                                 battleData.selected = selectables.attack;
@@ -281,6 +282,7 @@ public class BattleMenuSystem : SystemBase
                     }
                     else
                     {
+                        animator.Play(animation.swordIdleAnimationName);
                         VisualElement useBar = selectorUI.UI.Q<VisualElement>("useBar");
 
                         

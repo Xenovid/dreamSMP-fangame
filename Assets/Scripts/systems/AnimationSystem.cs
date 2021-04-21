@@ -60,7 +60,8 @@ public class AnimationSystem : SystemBase
         Entities
         .WithoutBurst()
         .ForEach((Animator animator, AnimationData animationData, in MovementData movement, in PlayerSelectorUI playerSelectorUI, in CharacterInventoryData inventory, in BattleData battleData) =>{
-            if(animationData.hasTakenDamage){
+            /*
+            if (animationData.hasTakenDamage){
                 if(animationData.takenDamageAnimationName != ""){
                     animator.Play(animationData.takenDamageAnimationName);
                 }
@@ -82,8 +83,11 @@ public class AnimationSystem : SystemBase
                     
                 }
             }
+            */
         }).Run();
+        
     }
+    
 }
 
 public enum Direction{
