@@ -27,6 +27,7 @@ public class InputGatheringSystem : ComponentSystem,
     bool m_UIMovedDown;
 
     bool m_CharacterSelect;
+    bool m_CharacterSelected;
     bool m_UISelect;
     bool m_UISelected;
 
@@ -75,6 +76,8 @@ public class InputGatheringSystem : ComponentSystem,
                     goselected = false,
                     goback = false
                 });
+                m_UISelected = m_CharacterSelect;
+                m_UIBacked = m_CharacterBack;
 
                 m_OverWorldInputQuery.SetSingleton(new OverworldInputData
                 {
@@ -83,9 +86,10 @@ public class InputGatheringSystem : ComponentSystem,
 
                     escape = m_CharacterPause,
 
-                    select = m_CharacterSelect,
+                    select = m_CharacterSelect && !m_CharacterSelected,
                     back = m_CharacterBack
                 });
+                m_CharacterSelected = m_CharacterSelect;
                 break;
             case CurrentInput.ui:
                 m_UIInputInputQuery.SetSingleton(new UIInputData
@@ -114,6 +118,8 @@ public class InputGatheringSystem : ComponentSystem,
                     select = false,
                     back = false
                 });
+                m_CharacterSelected = m_UISelect;
+
                 break;
         }
     }

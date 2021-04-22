@@ -29,42 +29,51 @@ public class DisplayTextSystem : SystemBase
         }).Run();
     }
     protected override void OnUpdate()
-    {   
+    {   /*
         EntityManager.CompleteAllJobs();
         var triggerEvents =  ((Simulation)physicsWorld.Simulation).TriggerEvents;
         foreach(TriggerEvent triggerEvent in triggerEvents){
             Entity entityA = triggerEvent.EntityA;
             Entity entityB = triggerEvent.EntityB;
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
-            var rootVisualElement = UIDoc.rootVisualElement;
-            VisualElement charaterText = rootVisualElement.Q<VisualElement>("TextBoxUI");
-            Label textBoxText = rootVisualElement.Q<Label>("TextBoxText");
-
-            Entities
-            .WithNone<TextBoxData>()
-            .WithoutBurst()
-            .ForEach((ref Entity entity, ref DynamicBuffer<Text> text) => {
-                if(entity.Equals(entityA)){
-                    ecb.AddComponent(entityA, new TextBoxData{
-                    });
-                    ecb.AddComponent(entityB, new CutsceneData{
-                        isReadingDialogue = true
-                    });
-                    textBoxText.text = "";
-                    charaterText.visible = true;
+            if (UIDoc != null)
+            {
+                var rootVisualElement = UIDoc.rootVisualElement;
+                VisualElement charaterText = rootVisualElement.Q<VisualElement>("TextBoxUI");
+                Label textBoxText = rootVisualElement.Q<Label>("TextBoxText");
+                Entities
+                .WithNone<TextBoxData>()
+                .WithoutBurst()
+                .ForEach((ref Entity entity, ref DynamicBuffer<Text> text) =>
+                {
+                    if (entity.Equals(entityA))
+                    {
+                        ecb.AddComponent(entityA, new TextBoxData
+                        {
+                        });
+                        ecb.AddComponent(entityB, new CutsceneData
+                        {
+                            isReadingDialogue = true
+                        });
+                        textBoxText.text = "";
+                        charaterText.visible = true;
+                    }
+                    if (entity.Equals(entityB))
+                    {
+                        ecb.AddComponent(entityB, new TextBoxData
+                        {
+                        });
+                        ecb.AddComponent(entityA, new CutsceneData
+                        {
+                            isReadingDialogue = true
+                        });
+                        textBoxText.text = "";
+                        charaterText.visible = true;
+                    }
                 }
-                if(entity.Equals(entityB)){
-                    ecb.AddComponent(entityB, new TextBoxData{
-                    });
-                    ecb.AddComponent(entityA, new CutsceneData{
-                        isReadingDialogue = true
-                    });
-                    textBoxText.text = "";
-                    charaterText.visible = true;
-                }
-            }
-            ).Run();
-        }
+                ).Run();
+            }*/
+       // }
     }   
 }
 

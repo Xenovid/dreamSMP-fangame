@@ -21,7 +21,7 @@ public class TextBoxWithAudioSystem : SystemBase
     
     protected override void OnStartRunning(){
         base.OnStartRunning();
-
+        /*
         EntityQuery UIGroup = GetEntityQuery(typeof(UIDocument));
         UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
         UIDocument UIDoc = UIDocs[0];
@@ -31,7 +31,7 @@ public class TextBoxWithAudioSystem : SystemBase
         charaterImage = rootVisualElement.Q<VisualElement>("CharacterImage");
         if(charaterImage == null){
             Debug.Log("didn't find image");
-        }
+        }*/
     }
     
     protected override void OnUpdate()
@@ -43,7 +43,8 @@ public class TextBoxWithAudioSystem : SystemBase
         .WithoutBurst()
         .WithNone<DialogueData>()
         .ForEach((ref TextBoxData textBoxData, ref Entity entity, ref DynamicBuffer<Text> text, in AudioInfo audioInfo, in ImagesData images) => {
-            /*textBoxData.timeFromLastChar += DeltaTime;
+            /*
+            textBoxData.timeFromLastChar += DeltaTime;
             if(textBoxData.currentPage >= text.Length){
                     charaterText.visible = false;
                     ecb.RemoveComponent<TextBoxData>(entity);

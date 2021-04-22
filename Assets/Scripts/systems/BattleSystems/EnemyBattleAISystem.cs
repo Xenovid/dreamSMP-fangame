@@ -9,7 +9,7 @@ public class EnemyBattleAISystem : SystemBase
 
         Entities
             .WithAll<EnemySelectorUI>()
-            .ForEach((BattleData battleData) =>
+            .ForEach((ref BattleData battleData) =>
         {
             EnemyAiTypes temp = EnemyAiTypes.random;
             //have something to remember the ai type and do actions accordingly

@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="TextBoxUI" style="top: 80%; flex-direction: row; height: 20%; background-color: rgb(132, 132, 132); visibility: hidden;">
+        <ui:VisualElement name="CharacterImage" style="width: 11%;" />
+        <ui:Label text="test" display-tooltip-when-elided="true" name="TextBoxText" style="flex-grow: 1; font-size: 30%;" />
+    </ui:VisualElement>
+</ui:UXML>

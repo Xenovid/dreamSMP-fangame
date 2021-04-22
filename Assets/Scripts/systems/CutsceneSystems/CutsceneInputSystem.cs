@@ -22,15 +22,16 @@ public class CutsceneInputSystem : SystemBase
       protected override void OnStartRunning()
       {
         base.OnStartRunning();
-        EntityQuery UIGroup = GetEntityQuery(typeof(UIDocument));
+        /*EntityQuery UIGroup = GetEntityQuery(typeof(UIDocument));
         UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
         UIDocument UIDoc = UIDocs[0];
         var rootVisualElement = UIDoc.rootVisualElement;
-        textBoxText = rootVisualElement.Q<Label>("TextBoxText");
+        textBoxText = rootVisualElement.Q<Label>("TextBoxText");*/
       }
 
       protected override void OnUpdate()
       {
+        /*
         EntityCommandBuffer ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
         EntityManager.CompleteAllJobs();
         var textBoxGroup = entityManager.CreateEntityQuery(
@@ -79,5 +80,7 @@ public class CutsceneInputSystem : SystemBase
         textBoxGroup.CopyFromComponentDataArray<TextBoxData>(textBoxDatas);
         textBoxDatas.Dispose();
         entities.Dispose();
+        */
       }
+      
 }
