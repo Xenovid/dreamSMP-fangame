@@ -9,7 +9,7 @@ public class PixelPerfectCameraConverter : GameObjectConversionSystem
       {
         Entities.ForEach((PixelPerfectCamera pixelPerfect) =>
         {
-            AddHybridComponent(pixelPerfect);
+            //AddHybridComponent(pixelPerfect);
         });
       }
        

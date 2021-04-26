@@ -8,7 +8,7 @@ public class AdditionalCameraData : GameObjectConversionSystem
     {
         Entities.ForEach((UniversalAdditionalCameraData universe) =>
         {
-            AddHybridComponent(universe);
+            //AddHybridComponent(universe);
         });        
     }
 }

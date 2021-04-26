@@ -1,19 +1,22 @@
 fileFormatVersion: 2
-guid: 933e9e680386a4643b2fef8a5e9da7c2
+guid: f8a6f33ec4ec0564f905f5a972299788
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7963692938406888997
-    second: technoblade-walkleft_0
+      213: -7308191793247962980
+    second: zombie_basic_attack_0
   - first:
-      213: 4452406078968987355
-    second: technoblade-walkleft_1
+      213: 4727492178675011216
+    second: zombie_basic_attack_1
   - first:
-      213: 8510956665017080986
-    second: technoblade-walkleft_2
+      213: 7470018571149845747
+    second: zombie_basic_attack_2
   - first:
-      213: -1891578202695897696
-    second: technoblade-walkleft_3
+      213: 329525703033033992
+    second: zombie_basic_attack_3
+  - first:
+      213: -7906311510124276685
+    second: zombie_basic_attack_4
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -55,7 +58,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 32
@@ -103,85 +106,106 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: technoblade-walkleft_0
+      name: zombie_basic_attack_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 44
-        height: 36
-      alignment: 9
-      pivot: {x: 0.36, y: 0.18}
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bd978f947774b7190800000000000000
-      internalID: -7963692938406888997
+      spriteID: c98b705d846149a90800000000000000
+      internalID: -7308191793247962980
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: technoblade-walkleft_1
+      name: zombie_basic_attack_1
       rect:
         serializedVersion: 2
-        x: 44
+        x: 32
         y: 0
-        width: 44
-        height: 36
-      alignment: 9
-      pivot: {x: 0.36, y: 0.18}
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bde7cbc2dbf1acd30800000000000000
-      internalID: 4452406078968987355
+      spriteID: 09e8c54d61d6b9140800000000000000
+      internalID: 4727492178675011216
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: technoblade-walkleft_2
+      name: zombie_basic_attack_2
       rect:
         serializedVersion: 2
-        x: 88
+        x: 64
         y: 0
-        width: 44
-        height: 36
-      alignment: 9
-      pivot: {x: 0.36, y: 0.18}
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a9c161d6efdfc1670800000000000000
-      internalID: 8510956665017080986
+      spriteID: 3f425f60056daa760800000000000000
+      internalID: 7470018571149845747
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: technoblade-walkleft_3
+      name: zombie_basic_attack_3
       rect:
         serializedVersion: 2
-        x: 132
+        x: 96
         y: 0
-        width: 44
-        height: 36
-      alignment: 9
-      pivot: {x: 0.36, y: 0.18}
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0ad607b85a3cfb5e0800000000000000
-      internalID: -1891578202695897696
+      spriteID: 80515a981e5b29400800000000000000
+      internalID: 329525703033033992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zombie_basic_attack_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 334d57b2293274290800000000000000
+      internalID: -7906311510124276685
       vertices: []
       indices: 
       edges: []

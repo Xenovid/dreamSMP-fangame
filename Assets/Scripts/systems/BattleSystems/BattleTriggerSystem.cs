@@ -4,6 +4,7 @@ using Unity.Physics.Systems;
 using Unity.Collections;
 using UnityEngine.UIElements;
 using UnityEngine;
+using Unity.Transforms;
 using UnityEditor;
 using System.Collections.Generic;
 
@@ -45,6 +46,10 @@ public class BattleTriggerSystem : SystemBase
                 UIDoc = UI;
         }).Run();
 
+        EntityQuery cameraQuery = GetEntityQuery(typeof(Camera));
+        Camera camera = cameraQuery.ToComponentArray<Camera>()[0];
+
+
         EntityManager.CompleteAllJobs();
         int loopNumber = 0;
         
@@ -84,7 +89,6 @@ public class BattleTriggerSystem : SystemBase
 
                 //adds the nessesary data for the player to be considered in the battle
                 EntityManager.AddComponent<BattleManagerTag>(entityB);
-                //lastAddedManager = entityB;
 
                 EntityManager.AddComponentObject(entityB, new BattleManagerData { hasPlayerWon = false });
                 EntityManager.CompleteAllJobs();
@@ -94,20 +98,31 @@ public class BattleTriggerSystem : SystemBase
                 DynamicBuffer<PlayerPartyData> tempPlayers = GetBuffer<PlayerPartyData>(entityA);
 
                 List<PlayerPartyData> players = new List<PlayerPartyData>();
+                List<Vector3> playerPositions = new List<Vector3>();
                 //transfering the data of the player data into lists so its a copy instead of a reference, making it so I can make structral changes to the game without affecting the list
                 foreach (PlayerPartyData temp in tempPlayers)
                 {
                     players.Add(temp);
                 }
                 int playerLength = tempPlayers.Length;
+                for(int i = 0; i < playerLength; i++)
+                {
+                    Vector3 tempPos = camera.ScreenToWorldPoint(new Vector3(camera.pixelWidth * .1f, camera.pixelHeight / (i + 2), 0));
+                    playerPositions.Add(tempPos);
+                }
 
                 List<EnemyBattleData> enemyBattleDatas = new List<EnemyBattleData>();
+                List<Vector3> enemyPositions = new List<Vector3>();
                 foreach (EnemyBattleData temp in tempEnemy)
                 {
                     enemyBattleDatas.Add(temp);
                 }
                 int enemyLength = tempEnemy.Length;
-
+                for(int i = 0; i < enemyLength; i++)
+                {
+                    Vector3 tempPos = camera.ScreenToWorldPoint(new Vector3(camera.pixelWidth * .9f, camera.pixelHeight / (i + 2), 0));
+                    enemyPositions.Add(tempPos);
+                }
 
                 //NativeArray<PlayerPartyData> players = tempPlayers.AsNativeArray();
                 //NativeArray<EnemyBattleData> enemyBattleDatas = tempEnemy.AsNativeArray();
@@ -116,13 +131,11 @@ public class BattleTriggerSystem : SystemBase
                 Entities
                 .WithStructuralChanges()
                 .WithNone<EnemySelectorData, BattleData>()
-                .ForEach((int entityInQueryIndex, ref Entity entity, in CharacterStats characterStats) =>
+                .ForEach((int entityInQueryIndex, ref Translation translation, ref Entity entity, in CharacterStats characterStats) =>
                 {
                     // the lists of players and the enemyies that will be fought
                     for (int i = 0; i < playerLength; i++)
                     {
-                        Debug.Log(players[i].playerId + "is the current player id" + characterStats.id + "is the current current character id");
-                        Debug.Log("test5");
                         if (!addedIds.Contains(characterStats.id) && characterStats.id == players[i].playerId)
                         {
 
@@ -130,19 +143,19 @@ public class BattleTriggerSystem : SystemBase
                             VisualElement currentCharacter = battleUI.Q<VisualElement>(tempstr);
                             //Debug.Log("character" + (i + 1).ToString());
 
-                            Debug.Log("test4");
+                            translation.Value = new Vector3(playerPositions[i].x, playerPositions[i].y, 0);
+
                             CharacterInventoryData inventory = EntityManager.GetComponentObject<CharacterInventoryData>(entity);
                             for (int j = 0; j < 5; j++)
                             {
-                                Debug.Log("test3");
                                 tempstr = "item" + (j + 1).ToString();
                                 VisualElement currentItem = currentCharacter.Q<VisualElement>("item1");
                                 if (inventory.inventory[j].sprite != null)
                                 {
-                                    Debug.Log("test2");
 
                                     currentItem.style.backgroundImage = Background.FromSprite(inventory.inventory[j].sprite);
                                 }
+
                             }
                             EntityManager.AddComponentObject(entity, new PlayerSelectorUI { UI = currentCharacter, currentItem = 0, isSelected = false, isHovered = i == 0 });
                             ecb.AddComponent<BattleData>(entity);
@@ -151,8 +164,11 @@ public class BattleTriggerSystem : SystemBase
                     }
                     for (int i = 0; i < enemyLength; i++)
                     {
+                        
                         if (!addedIds.Contains(characterStats.id) && characterStats.id == enemyBattleDatas[i].id)
                         {
+                            translation.Value = new Vector3(enemyPositions[i].x, enemyPositions[i].y, 0);
+
                             VisualElement enemyDetails = enemySelectionUITemplate.CloneTree();
                             enemySelector.Add(enemyDetails);
                             ecb.AddComponent<BattleData>(entity);

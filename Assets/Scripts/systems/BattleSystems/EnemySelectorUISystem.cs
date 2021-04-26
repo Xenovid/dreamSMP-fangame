@@ -16,7 +16,7 @@ public class EnemySelectorUISystem : SystemBase
                 enemyNameLabel.text = characterStats.characterName.ToString();
                 enemyPicture.style.backgroundImage = Background.FromSprite(sprite.sprite);
                 enemyHealthBar.style.width = (characterStats.health / characterStats.maxHealth) * enemySelectorUI.enemySelectorUI.contentRect.width;
-                Debug.Log("enemy health is currently" + enemyHealthBar.style.width);
+                //Debug.Log("enemy health is currently" + enemyHealthBar.style.width);
 
                 if (enemySelectorData.isSelected){
                     //make the enemy outline glow

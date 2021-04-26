@@ -55,6 +55,7 @@ public class TextBoxSystem : SystemBase
             {
                 if (textBoxData.isFinishedPage)
                 {
+                    textBoxData.timeFromLastChar = 0.0f;
                     textBoxData.currentPage += 1;
                     textBoxData.isFinishedPage = false;
                     textBoxData.currentChar = 0;
@@ -72,7 +73,6 @@ public class TextBoxSystem : SystemBase
                 charaterText.visible = true;
                 if (!textBoxData.isFinishedPage)
                 {
-                    Debug.Log("adding the char time");
                     textBoxData.timeFromLastChar += DeltaTime;
                 }
                 textBoxData.timeFromLastChar += DeltaTime;
@@ -82,7 +82,6 @@ public class TextBoxSystem : SystemBase
                         textBoxText.text = "";
                         if(images.images[textBoxData.currentPage] == null)
                         {
-                            Debug.Log("went here");
                             charaterImage.style.width = 0;
                         }
                         else

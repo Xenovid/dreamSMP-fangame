@@ -61,7 +61,7 @@ public class DialogueSystem : SystemBase
             //remove anything related to a cutscene if there is a cutscene
             Vector3 characterPositonOnScreen = camera.WorldToScreenPoint(new Vector3(translation.Value.x, translation.Value.y, translation.Value.z));
             Vector2 newPosition = new Vector2(characterPositonOnScreen.x, characterPositonOnScreen.y);
-            Debug.Log(camera.WorldToScreenPoint(new Vector3(translation.Value.x, translation.Value.y, translation.Value.z)));
+
             if(!isThereACutscene){
                 Debug.Log("deleting cutsceneData");
                 ecb.RemoveComponent<CutsceneData>(entity);

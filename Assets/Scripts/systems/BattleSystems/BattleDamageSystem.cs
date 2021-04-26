@@ -16,6 +16,7 @@ public class BattleDamageSystem : SystemBase
             .WithoutBurst()
             .ForEach((Entity entity, int entityInQueryIndex, ref CharacterStats characterStats, in DamageData damage) =>
             {
+                Debug.Log("dealing damage");
                 characterStats.health -= damage.damage;
                 //animationData.hasTakenDamage = true;
                 ecb.RemoveComponent<DamageData>(entity);

@@ -86,6 +86,14 @@ public class BattleMenuSystem : SystemBase
             .WithStructuralChanges()
             .ForEach((CharacterInventoryData inventory, AnimationData animation, Animator animator, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStat, in Entity entity) =>{
                 battleData.selected = selectables.none;
+
+                Label healthText = selectorUI.UI.Q<Label>("health_text");
+                VisualElement healthBarBase = selectorUI.UI.Q<VisualElement>("health_bar_base");
+                VisualElement healthBar = selectorUI.UI.Q<VisualElement>("health_bar");
+
+                healthBar.style.width = healthBarBase.contentRect.width * (characterStat.health / characterStat.maxHealth);
+                healthText.text = "HP: " + characterStat.health.ToString() + "/" + characterStat.maxHealth.ToString();
+
                 if(!isBattling){
                     //To Do: should display victory screen
                 }

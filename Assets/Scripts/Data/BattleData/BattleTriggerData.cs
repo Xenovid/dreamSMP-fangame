@@ -4,5 +4,4 @@ using UnityEngine;
 [GenerateAuthoringComponent]
 public struct BattleTriggerData : IComponentData
 {
-    public bool isRepeatable;
 }

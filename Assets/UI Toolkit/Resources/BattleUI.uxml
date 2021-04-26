@@ -7,8 +7,8 @@
                     <ui:VisualElement name="character_image" style="background-image: url(&apos;/Assets/Art/tommyinnitface.png#tommyinnitface&apos;); width: 10%; height: 100%; flex-grow: 0; margin-left: 0.5%; margin-right: 0.5%; margin-top: 0.5%; margin-bottom: 0.5%;" />
                     <ui:Label text="Tommy" display-tooltip-when-elided="true" name="character_name" />
                     <ui:VisualElement name="character_health" style="flex-grow: 1;">
-                        <ui:Label text="HP: 50/100" display-tooltip-when-elided="true" name="heath_text" />
-                        <ui:VisualElement name="heath_bar_base" style="flex-grow: 1; background-color: rgb(245, 66, 72); margin-left: 1%; margin-right: 2%; margin-top: 1%; margin-bottom: 1%;">
+                        <ui:Label text="HP: 50/100" display-tooltip-when-elided="true" name="health_text" />
+                        <ui:VisualElement name="health_bar_base" style="flex-grow: 1; background-color: rgb(245, 66, 72); margin-left: 1%; margin-right: 2%; margin-top: 1%; margin-bottom: 1%;">
                             <ui:VisualElement name="health_bar" style="flex-grow: 1; background-color: rgb(62, 209, 68); width: 50%;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
