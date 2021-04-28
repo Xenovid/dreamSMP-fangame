@@ -8,6 +8,7 @@ public struct OverworldInputData : IComponentData
 
     public bool select;
     public bool back;
+    public bool sprint;
 
     public bool escape;
 }

@@ -23,6 +23,16 @@ public class TitleScreenSystem : SystemBase
         currentSelection = titleMenuSelectables.Start;
         AudioManager.playSong("menuMusic");
 
+
+
+        InputGatheringSystem.currentInput = CurrentInput.ui;
+    }
+
+  
+
+    protected override void OnUpdate()
+    {
+        Debug.Log("title system still running");
         Entities
         .WithoutBurst()
         .WithAll<OptionsSubSceneTag>()
@@ -42,13 +52,7 @@ public class TitleScreenSystem : SystemBase
             titleSubScene = ent;
         }).Run();
 
-        InputGatheringSystem.currentInput = CurrentInput.ui;
-    }
 
-  
-
-    protected override void OnUpdate()
-    {
         EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
         UIInputData input = uiInputQuery.GetSingleton<UIInputData>();
 
@@ -76,6 +80,7 @@ public class TitleScreenSystem : SystemBase
                                     sceneSystem.UnloadScene(SubSceneReferences.Instance.TitleSubScene.SceneGUID);
                                     sceneSystem.LoadSceneAsync(SubSceneReferences.Instance.WorldSubScene.SceneGUID);
                                     AudioManager.stopSong("menuMusic");
+                                    Enabled = false;
                                 }
                                 else if(input.moveup){
                                     AudioManager.playSound("menuchange");
@@ -196,6 +201,10 @@ public class TitleScreenSystem : SystemBase
             }
             }).Run();
         }
+    protected override void OnStopRunning()
+    {
+        base.OnStopRunning();
+    }
 }
 
 public enum currentTitleMenu{

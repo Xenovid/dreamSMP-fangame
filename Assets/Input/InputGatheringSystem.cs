@@ -20,6 +20,7 @@ public class InputGatheringSystem : ComponentSystem,
 
     Vector2 m_CharacterMove;
     Vector2 m_UIMove;
+    bool m_CharacterSprint;
 
     bool m_UIMovedRight;
     bool m_UIMovedLeft;
@@ -87,7 +88,8 @@ public class InputGatheringSystem : ComponentSystem,
                     escape = m_CharacterPause,
 
                     select = m_CharacterSelect && !m_CharacterSelected,
-                    back = m_CharacterBack
+                    back = m_CharacterBack,
+                    sprint = m_CharacterSprint
                 });
                 m_CharacterSelected = m_CharacterSelect;
                 break;
@@ -142,6 +144,11 @@ public class InputGatheringSystem : ComponentSystem,
     public void OnPause(InputAction.CallbackContext context)
     {
         m_CharacterPause = context.ReadValue<float>() > 0;
+    }
+
+    public void OnSprint(InputAction.CallbackContext context)
+    {
+        m_CharacterSprint = context.ReadValue<float>() > 0;
     }
 
     public void OnUIMove(InputAction.CallbackContext context)

@@ -39,6 +39,8 @@ public class BattleTriggerSystem : SystemBase
 
     protected override void OnUpdate()
     {
+        Debug.Log("battle menu running");
+
         Entities
         .WithoutBurst()
         .WithAll<BattleUITag>()
@@ -107,7 +109,7 @@ public class BattleTriggerSystem : SystemBase
                 int playerLength = tempPlayers.Length;
                 for(int i = 0; i < playerLength; i++)
                 {
-                    Vector3 tempPos = camera.ScreenToWorldPoint(new Vector3(camera.pixelWidth * .1f, camera.pixelHeight / (i + 2), 0));
+                    Vector3 tempPos = camera.ScreenToWorldPoint(new Vector3(camera.pixelWidth * .1f, ((i + 1) * (camera.pixelHeight / playerLength)) - camera.pixelHeight / (playerLength * 2), 0));
                     playerPositions.Add(tempPos);
                 }
 
@@ -120,7 +122,7 @@ public class BattleTriggerSystem : SystemBase
                 int enemyLength = tempEnemy.Length;
                 for(int i = 0; i < enemyLength; i++)
                 {
-                    Vector3 tempPos = camera.ScreenToWorldPoint(new Vector3(camera.pixelWidth * .9f, camera.pixelHeight / (i + 2), 0));
+                    Vector3 tempPos = camera.ScreenToWorldPoint(new Vector3(camera.pixelWidth * .9f, ((i + 1) * (camera.pixelHeight / enemyLength)) - camera.pixelHeight/(enemyLength *2)   , 0));
                     enemyPositions.Add(tempPos);
                 }
 
@@ -142,7 +144,7 @@ public class BattleTriggerSystem : SystemBase
                             string tempstr = "character" + (i + 1).ToString();
                             VisualElement currentCharacter = battleUI.Q<VisualElement>(tempstr);
                             //Debug.Log("character" + (i + 1).ToString());
-
+                            ecb.AddComponent(entity, new BeforeBattleData { previousLocation = translation.Value, colliderRef = GetComponent<PhysicsCollider>(entity).Value});
                             translation.Value = new Vector3(playerPositions[i].x, playerPositions[i].y, 0);
 
                             CharacterInventoryData inventory = EntityManager.GetComponentObject<CharacterInventoryData>(entity);
@@ -159,6 +161,7 @@ public class BattleTriggerSystem : SystemBase
                             }
                             EntityManager.AddComponentObject(entity, new PlayerSelectorUI { UI = currentCharacter, currentItem = 0, isSelected = false, isHovered = i == 0 });
                             ecb.AddComponent<BattleData>(entity);
+                            
                             addedIds.Add(characterStats.id);
                         }
                     }

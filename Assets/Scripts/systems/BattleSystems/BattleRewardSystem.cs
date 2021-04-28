@@ -1,5 +1,7 @@
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Transforms;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class BattleRewardSystem : SystemBase
@@ -10,15 +12,20 @@ public class BattleRewardSystem : SystemBase
             base.OnStartRunning();
 
             m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+            
       }
 
       protected override void OnUpdate()
       {
+            float deltaTime = Time.DeltaTime;
         
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
 
             EntityQuery battleCharacterGroup = GetEntityQuery(ComponentType.ReadWrite<CharacterStats>(), ComponentType.ReadWrite<BattleData>());
             NativeArray<Entity> battleCharacters = battleCharacterGroup.ToEntityArray(Allocator.TempJob);
+
+            EntityQuery beforeBattleGroup = GetEntityQuery(typeof(BeforeBattleData));
+            NativeArray<Entity> beforeBattleDatas = beforeBattleGroup.ToEntityArray(Allocator.TempJob);
 
             Entities
             .WithoutBurst()
@@ -29,18 +36,26 @@ public class BattleRewardSystem : SystemBase
 
                   //if a character loses or wins, say the results
                   if(battleManager.hasPlayerWon){
-                    
-                    foreach (Entity entity in battleCharacters){
+                        battleManager.translationTimePast += deltaTime;
+                        foreach (Entity entity in battleCharacters){
                               ecb.RemoveComponent<BattleData>(entity);
-                              if(GetComponentDataFromEntity<BattleMenuTag>().HasComponent(entity)){
-                                    
-                              }
+                                
                         }
-                        ecb.RemoveComponent<BattleManagerData>(battleManagerEntity);
-                        ecb.AddComponent<VictoryData>(battleManagerEntity);
-                }
+                    ecb.RemoveComponent<BattleManagerData>(battleManagerEntity);
+                        for(int i = 0; i < beforeBattleDatas.Length; i++)
+                        {
+                            BeforeBattleData beforeBattleData = GetComponent<BeforeBattleData>(beforeBattleDatas[i]);
+                            beforeBattleData.shouldChangeBack = true;
+                            ecb.AddComponent<VictoryData>(beforeBattleDatas[i]);
+                            ecb.AddComponent<TextBoxData>(beforeBattleDatas[i]);
+                            SetComponent<BeforeBattleData>(beforeBattleDatas[i], beforeBattleData);
+                        }
+                  }
+
             }).Run();
 
+
+            beforeBattleDatas.Dispose();
             battleCharacters.Dispose();
       }
 }

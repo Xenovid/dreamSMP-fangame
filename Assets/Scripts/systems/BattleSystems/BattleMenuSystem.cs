@@ -26,56 +26,54 @@ public class BattleMenuSystem : SystemBase
 
         m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
 
-        Entities
-        .WithoutBurst()
-        .WithAll<BattleUITag>()
-        .ForEach((UIDocument UI) =>{
-                UIDoc = UI;
-         }).Run();
+        EntityQuery playerGroup = GetEntityQuery(typeof(PlayerTag));
+        NativeArray<Entity> playerEntities = playerGroup.ToEntityArray(Allocator.Temp);
+        DynamicBuffer<PlayerPartyData> party = GetBuffer<PlayerPartyData>(playerEntities[0]);
 
-        int templength = 0;
-        Entities
-        .ForEach((DynamicBuffer<PlayerPartyData> party) =>{
-            templength = party.Length;
-        }).Run();
 
-        playerNumber = templength;
+        playerNumber = party.Length;
     }
 
     protected override void OnUpdate()
     {
-        EntityManager.CompleteAllJobs();
-        float deltaTime = Time.DeltaTime;
-
-        EntityQuery BattleManagerGroup = GetEntityQuery(typeof(BattleManagerTag));
-        NativeArray<Entity> battleManagers = BattleManagerGroup.ToEntityArray(Allocator.Temp);
-        
-        EntityQuery enemyUiSelectionGroup = GetEntityQuery(typeof(EnemySelectorUI), typeof(EnemySelectorData));
-        NativeArray<Entity> enemyUiSelection = enemyUiSelectionGroup.ToEntityArray(Allocator.TempJob);
-
-        DynamicBuffer<EnemyBattleData> EnemyIds = new DynamicBuffer<EnemyBattleData>();
-
-        EntityQuery battleCharacters = GetEntityQuery(typeof(CharacterStats), typeof(BattleData));
-
-        bool isBattling = false;
-        
-        foreach(Entity entity in battleManagers){
-            EnemyIds = GetBuffer<EnemyBattleData>(entity);
-            isBattling = true;
-        }
-
-        EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
-        UIInputData input = uiInputQuery.GetSingleton<UIInputData>();
-
-        var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
-
-        Color black = Color.black;
-        Color grey = Color.grey;
+        EntityQuery UIDocumentGroup = GetEntityQuery(typeof(UIDocument));
+        UIDoc = UIDocumentGroup.ToComponentArray<UIDocument>()[0];
         var rootVisualElement = UIDoc.rootVisualElement;
         if(rootVisualElement == null){
             Debug.Log("didn't find root visual element");
         }
         else{
+            EntityManager.CompleteAllJobs();
+            float deltaTime = Time.DeltaTime;
+
+            EntityQuery BattleManagerGroup = GetEntityQuery(typeof(BattleManagerTag));
+            NativeArray<Entity> battleManagers = BattleManagerGroup.ToEntityArray(Allocator.Temp);
+
+            EntityQuery enemyUiSelectionGroup = GetEntityQuery(typeof(EnemySelectorUI), typeof(EnemySelectorData));
+            NativeArray<Entity> enemyUiSelection = enemyUiSelectionGroup.ToEntityArray(Allocator.TempJob);
+
+            DynamicBuffer<EnemyBattleData> EnemyIds = new DynamicBuffer<EnemyBattleData>();
+
+            EntityQuery battleCharacters = GetEntityQuery(typeof(CharacterStats), typeof(BattleData));
+
+            bool isBattling = false;
+
+            foreach (Entity entity in battleManagers)
+            {
+                EnemyIds = GetBuffer<EnemyBattleData>(entity);
+                isBattling = true;
+            }
+
+            EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
+            UIInputData input = uiInputQuery.GetSingleton<UIInputData>();
+
+            var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
+
+            Color black = Color.black;
+            Color grey = Color.grey;
+
+
+
             battleUI = rootVisualElement.Q<VisualElement>("BattleUI");
             VisualElement itemDesc = rootVisualElement.Q<VisualElement>("Itemdesc");
             Label itemTextBox = rootVisualElement.Q<Label>("itemTextBox");
@@ -301,8 +299,9 @@ public class BattleMenuSystem : SystemBase
                     }
                 }
             }).Run();
+            enemyUiSelection.Dispose();
         }
-        enemyUiSelection.Dispose();
+        
         m_EndSimulationEcbSystem.AddJobHandleForProducer(this.Dependency);
         hasMoved = false;
     }

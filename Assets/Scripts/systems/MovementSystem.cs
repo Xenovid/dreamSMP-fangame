@@ -43,7 +43,8 @@ public class MovementSystem : SystemBase
                     
                     vel.Angular = 0;
                     rot.Value = quaternion.EulerZXY(new float3(0,0,0));
-                    vel.Linear = dir * move.velocity;
+                    float3 sprintBoost = input.sprint ? dir * move.velocity * .9f : 0;
+                    vel.Linear = dir * move.velocity + sprintBoost;
                     //pos.Value += dir * move.velocity * dT;
                 }
             )

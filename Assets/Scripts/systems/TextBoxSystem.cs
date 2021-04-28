@@ -44,7 +44,7 @@ public class TextBoxSystem : SystemBase
         var DeltaTime = Time.DeltaTime;
         Entities
         .WithoutBurst()
-        .WithNone<DialogueData>()
+        .WithNone<DialogueData,VictoryData>()
         .ForEach((ref TextBoxData textBoxData, ref Entity entity, ref DynamicBuffer<Text> text, in ImagesData images) => {
             if(textBoxData.currentPage >= text.Length){
                     charaterText.visible = false;

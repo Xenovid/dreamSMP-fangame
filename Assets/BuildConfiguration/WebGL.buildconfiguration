@@ -13,7 +13,7 @@
             "$type": "Unity.Build.Classic.ClassicBuildProfile, Unity.Build.Classic",
             "$version": 1,
             "Platform": "webgl",
-            "Configuration": 3
+            "Configuration": 1
         },
         {
             "$type": "Unity.Build.Common.SceneList, Unity.Build",

@@ -20,48 +20,40 @@ public class PauseMenuSystem : SystemBase
 
             currentSelection = PauseMenuSelectables.Resume;
 
-            var queryDescription = new EntityQueryDesc{
-                  None = new ComponentType[] {typeof(PauseMenuTag)},
-                  All = new ComponentType[] {typeof(UIDocument)}
-            };
-            EntityQuery UIGroup = GetEntityQuery(queryDescription);
-            UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
-            foreach(UIDocument UIDoc in UIDocs){
-                  //UIDoc.rootVisualElement.visible = false;
-            }
-
-            Entities
-            .WithoutBurst()
-            .WithAll<PauseMenuSubSceneTag>()
-            .ForEach((Entity ent) =>{
-                  pauseMenuSubScene = ent;
-            }).Run();
+            
             
       }
 
       protected override void OnUpdate()
       {
+        Entities
+            .WithoutBurst()
+            .WithAll<PauseMenuSubSceneTag>()
+            .ForEach((Entity ent) => {
+                pauseMenuSubScene = ent;
+            }).Run();
         EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
         UIInputData input = uiInputQuery.GetSingleton<UIInputData>();
 
             Entities
             .WithoutBurst()
             .WithStructuralChanges()
-            .WithAll<PauseMenuTag>()
-            .ForEach((in UIDocument UIDoc) =>{
+            .ForEach((in UIDocument UIDoc,in PauseMenuTag pausMenuTag) =>{
                   VisualElement root = UIDoc.rootVisualElement;
                   if(root == null){
-
+                
                   }
                   else{
                         Label titleScreenButton = root.Q<Label>("TitleScreenButton");
                         Label resumeButton = root.Q<Label>("ResumeButton");
                         switch(currentSelection){
                               case PauseMenuSelectables.Resume:
-                                    if(input.goselected || input.goback){ 
-                                          AudioManager.playSound("menuchange");
-                                          sceneSystem.UnloadScene(pauseMenuSubScene);
+                                    if(input.goselected || input.goback){
+                                        root.visible = false;
+                                        AudioManager.playSound("menuchange");
+                                        sceneSystem.UnloadScene(pauseMenuSubScene);
                                         InputGatheringSystem.currentInput = CurrentInput.overworld;
+                                        
                                     }
                                     else if(input.movedown || input.moveup){
                                           AudioManager.playSound("menuchange");
@@ -72,6 +64,7 @@ public class PauseMenuSystem : SystemBase
                                     break;
                               case PauseMenuSelectables.Title:
                                     if(input.goselected){
+                                          EntityManager.World.GetExistingSystem<TitleScreenSystem>().Enabled = true;
                                           AudioManager.playSound("menuchange");
                                           //load title
                                           sceneSystem.UnloadScene(pauseMenuSubScene);
@@ -95,19 +88,6 @@ public class PauseMenuSystem : SystemBase
                         
                   }
             }).Run();
-      }
-      protected override void OnStopRunning()
-      {
-            base.OnStopRunning();
-            var queryDescription = new EntityQueryDesc{
-                  None = new ComponentType[] {typeof(PauseMenuTag)},
-                  All = new ComponentType[] {typeof(UIDocument)}
-            };
-            EntityQuery UIGroup = GetEntityQuery(queryDescription);
-            UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
-            foreach(UIDocument UIDoc in UIDocs){
-                  UIDoc.rootVisualElement.visible = true;
-            }
       }
 }
 

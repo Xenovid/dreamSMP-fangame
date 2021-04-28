@@ -28,7 +28,8 @@ public class EnemyBattleAISystem : SystemBase
 
             float randomValue = Random.value;
             int Target = Random.Range(1, numPlayer);
-            if (battleData.useTime <= 0)
+            Debug.Log(battleData.isDown);
+            if (battleData.useTime <= 0 && !battleData.isDown)
             {
                 foreach (RandomAttack attack in randomAIData.attacks)
                 {

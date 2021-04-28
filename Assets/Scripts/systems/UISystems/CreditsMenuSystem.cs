@@ -16,22 +16,24 @@ public class CreditsMenuSystem : SystemBase
         sceneSystem = World.GetOrCreateSystem<SceneSystem>();
           isLinked = false;
 
-            Entities
+            
+    }
+  
+    protected override void OnUpdate()
+    {
+        Entities
             .WithoutBurst()
             .WithAll<TitleSubSceneTag>()
             .ForEach((Entity ent) => {
                 titleSubScene = ent;
             }).Run();
-            Entities
-            .WithoutBurst()
-            .WithAll<CreditsSubSceneTag>()
-            .ForEach((Entity ent) => {
-                creditsSubScene = ent;
-            }).Run();
-    }
-  
-    protected override void OnUpdate()
-    {
+        Entities
+        .WithoutBurst()
+        .WithAll<CreditsSubSceneTag>()
+        .ForEach((Entity ent) => {
+            creditsSubScene = ent;
+        }).Run();
+
         EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
         UIInputData input = uiInputQuery.GetSingleton<UIInputData>();
 

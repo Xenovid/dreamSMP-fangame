@@ -1,8 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="/Assets/BaseStartMenuStyle.uss" />
     <ui:VisualElement name="Background" style="width: 100%; height: 100%; background-color: rgb(255, 255, 255);">
         <ui:Label text="Options&#10;" display-tooltip-when-elided="true" name="Title" style="font-size: 75%; -unity-text-align: upper-center; background-color: rgb(255, 255, 255); -unity-font: resource(&apos;Fonts &amp; Materials/elf-boy-classic-font/Elfboyclassic-PKZgZ&apos;);" />
         <ui:Slider picking-mode="Ignore" label="Volume" value="100" high-value="1" direction="Horizontal" inverted="false" name="volume_slider" style="background-color: rgb(255, 255, 255); font-size: 30px; -unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;);" />
-        <ui:Label text="press z to go back" display-tooltip-when-elided="true" name="backbutton" class="not_selected" style="-unity-text-align: upper-center; -unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); background-color: rgba(255, 255, 255, 255); font-size: 20px;" />
+        <ui:Label text="press x to go back" display-tooltip-when-elided="true" name="backbutton" class="not_selected" style="-unity-text-align: upper-center; -unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); background-color: rgb(255, 255, 255); font-size: 20px;" />
     </ui:VisualElement>
 </ui:UXML>

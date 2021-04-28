@@ -49,6 +49,14 @@ public class @ActionMap : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""3f814683-12c9-4825-8a92-9c5258a3e1e3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -137,6 +145,17 @@ public class @ActionMap : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""48d1bad3-8648-4434-9562-b6d5c7c24573"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -266,6 +285,7 @@ public class @ActionMap : IInputActionCollection, IDisposable
         m_Overworld_Select = m_Overworld.FindAction("Select", throwIfNotFound: true);
         m_Overworld_Back = m_Overworld.FindAction("Back", throwIfNotFound: true);
         m_Overworld_Pause = m_Overworld.FindAction("Pause", throwIfNotFound: true);
+        m_Overworld_Sprint = m_Overworld.FindAction("Sprint", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_UIMove = m_UI.FindAction("UIMove", throwIfNotFound: true);
@@ -324,6 +344,7 @@ public class @ActionMap : IInputActionCollection, IDisposable
     private readonly InputAction m_Overworld_Select;
     private readonly InputAction m_Overworld_Back;
     private readonly InputAction m_Overworld_Pause;
+    private readonly InputAction m_Overworld_Sprint;
     public struct OverworldActions
     {
         private @ActionMap m_Wrapper;
@@ -332,6 +353,7 @@ public class @ActionMap : IInputActionCollection, IDisposable
         public InputAction @Select => m_Wrapper.m_Overworld_Select;
         public InputAction @Back => m_Wrapper.m_Overworld_Back;
         public InputAction @Pause => m_Wrapper.m_Overworld_Pause;
+        public InputAction @Sprint => m_Wrapper.m_Overworld_Sprint;
         public InputActionMap Get() { return m_Wrapper.m_Overworld; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -353,6 +375,9 @@ public class @ActionMap : IInputActionCollection, IDisposable
                 @Pause.started -= m_Wrapper.m_OverworldActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_OverworldActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_OverworldActionsCallbackInterface.OnPause;
+                @Sprint.started -= m_Wrapper.m_OverworldActionsCallbackInterface.OnSprint;
+                @Sprint.performed -= m_Wrapper.m_OverworldActionsCallbackInterface.OnSprint;
+                @Sprint.canceled -= m_Wrapper.m_OverworldActionsCallbackInterface.OnSprint;
             }
             m_Wrapper.m_OverworldActionsCallbackInterface = instance;
             if (instance != null)
@@ -369,6 +394,9 @@ public class @ActionMap : IInputActionCollection, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @Sprint.started += instance.OnSprint;
+                @Sprint.performed += instance.OnSprint;
+                @Sprint.canceled += instance.OnSprint;
             }
         }
     }
@@ -437,6 +465,7 @@ public class @ActionMap : IInputActionCollection, IDisposable
         void OnSelect(InputAction.CallbackContext context);
         void OnBack(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnSprint(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

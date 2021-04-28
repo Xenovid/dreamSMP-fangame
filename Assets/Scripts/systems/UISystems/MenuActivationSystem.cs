@@ -46,6 +46,7 @@ public class MenuActivationSystem : SystemBase
         .WithStructuralChanges()
         .ForEach((in OverworldInputData input) => {
             if(input.escape && !loadedAMenu){
+                Debug.Log("went through here");
                 // load pause menu
                 loadedAMenu = true;
                 sceneSystem.LoadSceneAsync(pauseMenuSubScene);

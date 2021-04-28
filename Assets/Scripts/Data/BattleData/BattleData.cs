@@ -3,6 +3,7 @@ using UnityEngine;
 
 public struct BattleData : IComponentData
 {
+    public bool isDown;
     public selectables selected;
     [HideInInspector]
     public float maxUseTime;

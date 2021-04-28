@@ -20,23 +20,24 @@ public class OptionMenuSystem : SystemBase
             sceneSystem = World.GetOrCreateSystem<SceneSystem>();
             isVolumeSet = false;
 
-            Entities
-            .WithoutBurst()
-            .WithAll<OptionsSubSceneTag>()
-            .ForEach((Entity ent) => {
-                  optionsSubScene = ent;
-            }).Run();
-            Entities
-            .WithoutBurst()
-            .WithAll<TitleSubSceneTag>()
-            .ForEach((Entity ent) => {
-                  titleSubScene = ent;
-            }).Run();
+            
       }
 
       protected override void OnUpdate()
       {
-            EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
+        Entities
+            .WithoutBurst()
+            .WithAll<OptionsSubSceneTag>()
+            .ForEach((Entity ent) => {
+                optionsSubScene = ent;
+            }).Run();
+        Entities
+        .WithoutBurst()
+        .WithAll<TitleSubSceneTag>()
+        .ForEach((Entity ent) => {
+            titleSubScene = ent;
+        }).Run();
+        EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
             UIInputData input = uiInputQuery.GetSingleton<UIInputData>();
 
             Entities
