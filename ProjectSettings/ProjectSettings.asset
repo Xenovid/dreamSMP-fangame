@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: sturdypower1
+  companyName: Sturdypower1
   productName: DreamSMPfangame
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}

@@ -7,7 +7,7 @@
             "$type": "Unity.Build.Classic.ClassicBuildProfile, Unity.Build.Classic",
             "$version": 1,
             "Platform": "macos",
-            "Configuration": 2
+            "Configuration": 3
         },
         {
             "$type": "Unity.Build.Common.SceneList, Unity.Build",
@@ -27,7 +27,7 @@
                     "AutoLoad": false
                 },
                 {
-                    "Scene": "GlobalObjectId_V1-1-bd5411a717ac0df80bba2a9b7ae75cad-102900000-0",
+                    "Scene": "GlobalObjectId_V1-1-cca4bbc87c59149b6820fd8a1076318a-102900000-0",
                     "AutoLoad": false
                 },
                 {

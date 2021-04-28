@@ -4,8 +4,8 @@
         <ui:VisualElement name="BattleUI" picking-mode="Ignore" style="position: relative; width: auto; height: 15.5%; top: auto; visibility: hidden; -unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); -unity-text-align: middle-center; align-items: stretch; justify-content: flex-start; flex-grow: 0; flex-shrink: 0; flex-basis: auto; flex-direction: row; left: auto; bottom: auto; font-size: 40%; display: flex;">
             <ui:VisualElement name="character1" class="hovering" style="flex-grow: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); width: 33.3%;">
                 <ui:VisualElement name="characterDetails" style="height: 40%; flex-direction: row; justify-content: flex-start; align-items: stretch;">
-                    <ui:VisualElement name="character_image" style="background-image: url(&apos;/Assets/Art/tommyinnitface.png#tommyinnitface&apos;); width: 10%; height: 100%; flex-grow: 0; margin-left: 0.5%; margin-right: 0.5%; margin-top: 0.5%; margin-bottom: 0.5%;" />
-                    <ui:Label text="Tommy" display-tooltip-when-elided="true" name="character_name" />
+                    <ui:VisualElement name="character_image" style="background-image: url(&apos;/Assets/Art/technoface.png#technoface&apos;); width: 10%; height: 100%; flex-grow: 0; margin-left: 0.5%; margin-right: 0.5%; margin-top: 0.5%; margin-bottom: 0.5%;" />
+                    <ui:Label text="Technoblade" display-tooltip-when-elided="true" name="character_name" />
                     <ui:VisualElement name="character_health" style="flex-grow: 1;">
                         <ui:Label text="HP: 50/100" display-tooltip-when-elided="true" name="health_text" />
                         <ui:VisualElement name="health_bar_base" style="flex-grow: 1; background-color: rgb(245, 66, 72); margin-left: 1%; margin-right: 2%; margin-top: 1%; margin-bottom: 1%;">
