@@ -1,3 +1,66 @@
 .selected {
-    background-color: rgba(152, 152, 152, 255);
+    background-color: rgb(152, 152, 152);
+}
+
+.button_unselected {
+    background-color: rgb(84, 84, 84);
+    border-left-color: rgb(164, 164, 164);
+    border-right-color: rgb(164, 164, 164);
+    border-top-color: rgb(164, 164, 164);
+    border-bottom-color: rgb(164, 164, 164);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 200%;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.button_selected {
+    background-color: rgb(130, 130, 130);
+    border-left-color: rgb(41, 41, 41);
+    border-right-color: rgb(41, 41, 41);
+    border-top-color: rgb(41, 41, 41);
+    border-bottom-color: rgb(41, 41, 41);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 200%;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.item_unselected {
+    font-size: 10px;
+    -unity-font: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7');
+    -unity-font-definition: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7 SDF');
+}
+
+.tab_selected {
+    background-color: rgb(123, 123, 123);
+}
+
+.tab_unselected {
+    background-color: rgb(79, 79, 79);
+}
+
+.character_unselected {
+    background-color: rgba(60, 60, 60, 0.49);
+}
+
+.character_selected {
+    background-color: rgba(115, 115, 115, 0.58);
+}
+
+.item_selected {
+    font-size: 10px;
+    -unity-font: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7');
+    -unity-font-definition: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7 SDF');
+    color: rgb(0, 0, 0);
 }

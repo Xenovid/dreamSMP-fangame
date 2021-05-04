@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 [AlwaysUpdateSystem]
 [UpdateBefore(typeof(MovementSystem))]
 [UpdateBefore(typeof(CreditsMenuSystem))]
-[UpdateBefore(typeof(MenuActivationSystem))]
 [UpdateBefore(typeof(OptionMenuSystem))]
 [UpdateBefore(typeof(PauseMenuSystem))]
 [UpdateBefore(typeof(TitleScreenSystem))]

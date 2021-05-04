@@ -101,7 +101,6 @@ public class BattleMenuSystem : SystemBase
                     //isBattleMenuOn = true;
                     switch (currentMenu){
                         case menuType.battleMenu:
-                            battleData.itemType = inventory.inventory[selectorUI.currentItem].itemType;
                             battleUI.visible = true;
                             itemDesc.visible = true;
                             enemySelector.visible = false;
@@ -137,7 +136,6 @@ public class BattleMenuSystem : SystemBase
                                 }
                             }
                             else if(selectorUI.isSelected){
-                                itemTextBox.text = inventory.inventory[selectorUI.currentItem].description;
                                 if(input.goback){
                                     AudioManager.playSound("menuchange");
                                     selectorUI.isSelected = false;
@@ -146,9 +144,15 @@ public class BattleMenuSystem : SystemBase
                                     selectorUI.UI.RemoveFromClassList("selected");
                                     selectorUI.UI.AddToClassList("hovering");
                                 }
+                                switch(selectorUI.currentSelection){
+                                    case battleSelectables.fight:
+                                        if(input.goselected){
+                                            characterStat.
+                                        }
+                                    break;
+                                }
                                 else if(input.goselected){
                                     //use item and start a delay
-                                    Item currentItem = inventory.inventory[selectorUI.currentItem];
                                     switch(currentItem.itemType){
                                         case ItemType.sword:
                                             if(currentItem.weapon.rechargeTime <= 0){

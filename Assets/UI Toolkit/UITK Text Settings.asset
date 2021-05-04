@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: UITK Text Settings
   m_EditorClassIdentifier: 
   m_Version: 
-  m_DefaultFontAsset: {fileID: 11400000, guid: 11620d32377004149ba4922e54514328, type: 2}
+  m_DefaultFontAsset: {fileID: 11400000, guid: 13ac03a6c27d53e499a097f718dd8848, type: 2}
   m_DefaultFontAssetPath: Fonts & Materials/
   m_FallbackFontAssets: []
   m_MatchMaterialPreset: 1

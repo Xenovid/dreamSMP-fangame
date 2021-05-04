@@ -5,6 +5,9 @@ using UnityEngine;
 public class CharacterInventoryData : IComponentData
 {
     public Item[] inventory;
+    public Weapon[] weapons;
+    public Armor[] armors;
+    public Charm[] charms;
 }
 
 public enum ItemType{
@@ -18,7 +21,6 @@ public enum ItemType{
 public struct Item{
     public ItemType itemType;
     public Sprite sprite;
-    public Weapon weapon;
     public Potion potion;
     public Food food;
     public string description;
@@ -29,6 +31,16 @@ public struct Weapon{
     public int power;
     public float attackTime;
     public float rechargeTime;
+    public string description;
+    public float useTime;
+}
+public struct Charm{
+    //add features
+    public string description;
+}
+public struct Armor{
+    public int defense;
+    public string description;
 }
 [System.Serializable]
 public struct Potion{
