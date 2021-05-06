@@ -5,31 +5,31 @@
             <ui:VisualElement name="character1" class="hovering" style="flex-grow: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); width: 33.3%;">
                 <ui:VisualElement name="characterDetails" style="height: 40%; flex-direction: row; justify-content: flex-start; align-items: stretch;">
                     <ui:VisualElement name="character_image" style="background-image: url(&apos;/Assets/Art/technoface.png#technoface&apos;); width: 10%; height: 100%; flex-grow: 0; margin-left: 0.5%; margin-right: 0.5%; margin-top: 0.5%; margin-bottom: 0.5%;" />
-                    <ui:Label text="Technoblade" display-tooltip-when-elided="true" name="character_name" />
+                    <ui:Label text="Technoblade" display-tooltip-when-elided="true" name="character_name" style="font-size: 9px;" />
                     <ui:VisualElement name="character_health" style="flex-grow: 1;">
-                        <ui:Label text="HP: 50/100" display-tooltip-when-elided="true" name="health_text" />
+                        <ui:Label text="HP: 50/100" display-tooltip-when-elided="true" name="health_text" style="font-size: 6px;" />
                         <ui:VisualElement name="health_bar_base" style="flex-grow: 1; background-color: rgb(245, 66, 72); margin-left: 1%; margin-right: 2%; margin-top: 1%; margin-bottom: 1%;">
                             <ui:VisualElement name="health_bar" style="flex-grow: 1; background-color: rgb(62, 209, 68); width: 50%;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="Itembar" class="itembar" style="flex-grow: 1; flex-direction: row;">
-                    <ui:VisualElement name="item1" class="item_selected" style="flex-direction: column-reverse; height: auto; max-height: 100%;">
-                        <ui:VisualElement name="itemloader" style="flex-grow: 0; height: auto; background-color: rgba(67, 67, 67, 0.69);" />
+                    <ui:VisualElement name="fight" class="item_selected" style="flex-direction: column-reverse; height: auto; max-height: 100%;">
+                        <ui:VisualElement name="attack_image" style="flex-grow: 0; height: 100%; background-image: url(&apos;/Assets/Art/basicsword.png#basicsword&apos;);" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="item2" class="item" style="border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; flex-direction: column-reverse;">
-                        <ui:VisualElement name="itemloader" style="flex-grow: 0; height: 0; background-color: rgba(67, 67, 67, 0.69);" />
+                    <ui:VisualElement name="skills" class="item" style="flex-direction: column-reverse;">
+                        <ui:VisualElement name="skills_image" style="flex-grow: 0; height: 100%;" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="item3" class="item" style="flex-direction: column-reverse;">
-                        <ui:VisualElement name="itemloader" style="flex-grow: 0; height: 0; background-color: rgba(67, 67, 67, 0.69);" />
+                    <ui:VisualElement name="items" class="item" style="flex-direction: column-reverse;">
+                        <ui:VisualElement name="itemloader" style="flex-grow: 0; height: 100%;" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="item4" class="item" style="flex-direction: column-reverse;">
-                        <ui:VisualElement name="itemloader" style="flex-grow: 0; height: 0; background-color: rgba(67, 67, 67, 0.69);" />
+                    <ui:VisualElement name="special" class="item" style="flex-direction: column-reverse;">
+                        <ui:VisualElement name="special_image" style="flex-grow: 0; height: 100%;" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="item5" class="item" style="flex-direction: column-reverse;">
-                        <ui:VisualElement name="itemloader" style="flex-grow: 0; height: 0; background-color: rgba(67, 67, 67, 0.69);" />
+                    <ui:VisualElement name="run" class="item" style="flex-direction: column-reverse;">
+                        <ui:VisualElement name="run_image" style="flex-grow: 0; height: 100%;" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="run" class="item" />
+                    <ui:VisualElement name="run2" class="item" />
                 </ui:VisualElement>
                 <ui:VisualElement name="useBar" style="flex-grow: 0; height: 10%; width: 40%; background-color: rgba(24, 24, 24, 0.6); flex-shrink: 0;" />
             </ui:VisualElement>

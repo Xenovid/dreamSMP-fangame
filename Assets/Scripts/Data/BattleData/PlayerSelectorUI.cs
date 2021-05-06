@@ -13,5 +13,6 @@ public enum battleSelectables{
     fight,
     skills,
     items,
+    special,
     run
 }

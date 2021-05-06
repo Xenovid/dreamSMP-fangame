@@ -147,19 +147,7 @@ public class BattleTriggerSystem : SystemBase
                             ecb.AddComponent(entity, new BeforeBattleData { previousLocation = translation.Value, colliderRef = GetComponent<PhysicsCollider>(entity).Value});
                             translation.Value = new Vector3(playerPositions[i].x, playerPositions[i].y, 0);
 
-                            CharacterInventoryData inventory = EntityManager.GetComponentObject<CharacterInventoryData>(entity);
-                            for (int j = 0; j < 5; j++)
-                            {
-                                tempstr = "item" + (j + 1).ToString();
-                                VisualElement currentItem = currentCharacter.Q<VisualElement>("item1");
-                                if (inventory.inventory[j].sprite != null)
-                                {
-
-                                    currentItem.style.backgroundImage = Background.FromSprite(inventory.inventory[j].sprite);
-                                }
-
-                            }
-                            EntityManager.AddComponentObject(entity, new PlayerSelectorUI { UI = currentCharacter, currentItem = 0, isSelected = false, isHovered = i == 0 });
+                            EntityManager.AddComponentObject(entity, new PlayerSelectorUI { UI = currentCharacter, currentSelection = battleSelectables.fight, isSelected = false, isHovered = i == 0 });
                             ecb.AddComponent<BattleData>(entity);
                             
                             addedIds.Add(characterStats.id);
@@ -220,6 +208,7 @@ public class BattleTriggerSystem : SystemBase
                 EntityManager.RemoveComponent<BattleTriggerData>(entityB);
                 EntityManager.RemoveComponent<PhysicsCollider>(entityB);
             }
+            /*
             else if (GetComponentDataFromEntity<PlayerTag>().HasComponent(entityB) && GetComponentDataFromEntity<BattleTriggerData>().HasComponent(entityA) && loopNumber < 0)
             {
                 InputGatheringSystem.currentInput = CurrentInput.ui;
@@ -328,7 +317,7 @@ public class BattleTriggerSystem : SystemBase
                             enemyloopNumber++;
                         }
                     }
-                    */
+                    /
                 }).Run();
                 //enemyBattleDatas.Dispose();
                 //players.Dispose();
@@ -337,7 +326,7 @@ public class BattleTriggerSystem : SystemBase
                 itemDesc.visible = true;
                 EntityManager.RemoveComponent<BattleTriggerData>(entityA);
                 EntityManager.RemoveComponent<PhysicsCollider>(entityA);
-            }
+            }*/
         }
         m_EndSimulationEcbSystem.AddJobHandleForProducer(this.Dependency);
     }

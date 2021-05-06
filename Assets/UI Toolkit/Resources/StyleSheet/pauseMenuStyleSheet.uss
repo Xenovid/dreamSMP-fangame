@@ -64,3 +64,42 @@
     -unity-font-definition: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7 SDF');
     color: rgb(0, 0, 0);
 }
+
+.quick_menu {
+    background-color: rgb(0, 0, 0);
+    position: absolute;
+}
+
+.quickmenu_button_unselected {
+    width: 60px;
+    height: 15px;
+    border-left-color: rgb(79, 79, 79);
+    border-right-color: rgb(79, 79, 79);
+    border-top-color: rgb(79, 79, 79);
+    border-bottom-color: rgb(79, 79, 79);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    background-color: rgb(48, 48, 48);
+    font-size: 9px;
+    -unity-font: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7');
+    -unity-text-align: upper-center;
+}
+
+.quickmenu_button_selected {
+    width: 60px;
+    height: 15px;
+    border-left-color: rgb(41, 41, 41);
+    border-right-color: rgb(41, 41, 41);
+    border-top-color: rgb(41, 41, 41);
+    border-bottom-color: rgb(41, 41, 41);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    background-color: rgb(106, 106, 106);
+    font-size: 9px;
+    -unity-font: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7');
+    -unity-text-align: upper-center;
+}

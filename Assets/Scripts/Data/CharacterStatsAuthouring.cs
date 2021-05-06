@@ -8,7 +8,6 @@ public class CharacterStatsAuthouring : MonoBehaviour{
     public float health;
     public float recoverTime;
     public int attackMultiplier;
-    public Weapon equipedWeapon; 
     public int id;
     public string characterName;
 }

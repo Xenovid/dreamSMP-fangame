@@ -144,51 +144,42 @@ public class BattleMenuSystem : SystemBase
                                     selectorUI.UI.RemoveFromClassList("selected");
                                     selectorUI.UI.AddToClassList("hovering");
                                 }
-                                switch(selectorUI.currentSelection){
-                                    case battleSelectables.fight:
-                                        if(input.goselected){
-                                            characterStat.
-                                        }
-                                    break;
-                                }
-                                else if(input.goselected){
-                                    //use item and start a delay
-                                    switch(currentItem.itemType){
-                                        case ItemType.sword:
-                                            if(currentItem.weapon.rechargeTime <= 0){
-                                                currentMenu = menuType.attackMenu;
-                                            }
-                                            break;
-                                    }
-                                }
-                                else if(input.moveright){
-                                    AudioManager.playSound("menuchange");
-                                    VisualElement currentItemUI = selectorUI.UI.Q("item" + (selectorUI.currentItem + 1).ToString());
-                                    currentItemUI.AddToClassList("item");
-                                    currentItemUI.RemoveFromClassList("item_selected");
-                                    // change item
-                                    selectorUI.currentItem++;
-                                    if(selectorUI.currentItem >= 5){
-                                        selectorUI.currentItem = 0;
-                                    }
-                                    VisualElement nextItemUI = selectorUI.UI.Q("item" + (selectorUI.currentItem + 1).ToString());
-                                    nextItemUI.RemoveFromClassList("item");
-                                    nextItemUI.AddToClassList("item_selected");
-                                }
-                                else if(input.moveleft){
-                                    AudioManager.playSound("menuchange");
-                                    VisualElement currentItemUI = selectorUI.UI.Q("item" + (selectorUI.currentItem + 1).ToString());
-                                    currentItemUI.AddToClassList("item");
-                                    currentItemUI.RemoveFromClassList("item_selected");
+                                if(input.goselected){
+                                    switch(selectorUI.currentSelection){
+                                        case battleSelectables.fight:
+                                            currentMenu = menuType.attackMenu;
+                                        break;
+                                        case battleSelectables.skills:
 
-                                    selectorUI.currentItem--;
-                                    if(selectorUI.currentItem < 0){
-                                        selectorUI.currentItem = 4;
+                                        break;
+                                        case battleSelectables.items:
+                                        break;
                                     }
-                                    VisualElement nextItemUI = selectorUI.UI.Q("item" + (selectorUI.currentItem + 1).ToString());
-                                    nextItemUI.AddToClassList("item_selected");
+                                }
+                                
+                                if(input.moveright && !(selectorUI.currentSelection == battleSelectables.run)){
+                                    Debug.Log(selectorUI.currentSelection.ToString());
+                                    AudioManager.playSound("menuchange");
+                                    VisualElement currentItemUI = selectorUI.UI.Q(selectorUI.currentSelection.ToString());
+                                    currentItemUI.AddToClassList("item");
+                                    currentItemUI.RemoveFromClassList("item_selected");
+                                    selectorUI.currentSelection++;
+
+                                    VisualElement nextItemUI = selectorUI.UI.Q((selectorUI.currentSelection).ToString());
                                     nextItemUI.RemoveFromClassList("item");
-                                    //change item
+                                    nextItemUI.AddToClassList("item_selected");
+                                    
+                                }
+                                else if(input.moveleft && !(selectorUI.currentSelection == battleSelectables.fight)){
+                                    AudioManager.playSound("menuchange");
+                                    VisualElement currentItemUI = selectorUI.UI.Q(selectorUI.currentSelection.ToString());
+                                    currentItemUI.AddToClassList("item");
+                                    currentItemUI.RemoveFromClassList("item_selected");
+                                    selectorUI.currentSelection--;
+
+                                    VisualElement nextItemUI = selectorUI.UI.Q((selectorUI.currentSelection).ToString());
+                                    nextItemUI.RemoveFromClassList("item");
+                                    nextItemUI.AddToClassList("item_selected");
                                 }
                             }
 
@@ -243,12 +234,12 @@ public class BattleMenuSystem : SystemBase
                                 AudioManager.playSound("swordswing");
                                 battleData.targetingId = EnemyIds[currentEnemySelected].id;
                                 battleData.selected = selectables.attack;
-                                battleData.damage = inventory.inventory[selectorUI.currentItem].weapon.power;
-                                battleData.useTime = inventory.inventory[selectorUI.currentItem].useTime;
-                                battleData.maxUseTime = inventory.inventory[selectorUI.currentItem].useTime;
+                                battleData.damage = inventory.equipedWeapon.power;
+                                battleData.useTime = inventory.equipedWeapon.useTime;
+                                battleData.maxUseTime = battleData.useTime;
 
 
-                                inventory.inventory[selectorUI.currentItem].weapon.rechargeTime = inventory.inventory[selectorUI.currentItem].weapon.attackTime;                               
+                                //inventory.inventory[selectorUI.currentItem].weapon.rechargeTime = inventory.inventory[selectorUI.currentItem].weapon.attackTime;                               
 
                                 currentMenu = menuType.battleMenu;
 
@@ -266,6 +257,8 @@ public class BattleMenuSystem : SystemBase
                             }
                             break;
                     }
+                    /*
+                    was used when weapons had their own recharge time
                     for(int i = 0; i <= 4; i++){
                             VisualElement currentItemUI = selectorUI.UI.Q("item" + (i + 1).ToString());
                             VisualElement itemFilter = currentItemUI.Q<VisualElement>("itemloader");
@@ -279,7 +272,7 @@ public class BattleMenuSystem : SystemBase
                                     itemFilter.style.height = 0f;
                                 }
                             }
-                    }
+                    }*/
                     
                 }
                 else{

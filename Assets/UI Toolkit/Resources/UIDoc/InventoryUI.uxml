@@ -10,27 +10,36 @@
             <ui:Button text="Settings&#10;" display-tooltip-when-elided="true" name="Settings" class="button_unselected" style="height: auto; width: 20%; flex-shrink: 1;" />
         </ui:VisualElement>
         <ui:VisualElement name="item_selection" style="position: absolute; top: 20%; width: 100%; height: 30%; flex-direction: row; visibility: hidden;">
-            <ui:VisualElement name="item_list" class="tab_unselected" style="width: 50%; border-right-color: rgb(0, 0, 0); border-right-width: 1px;">
-                <ui:Label text="Items" display-tooltip-when-elided="true" style="font-size: 20%; color: rgb(0, 0, 0);" />
-                <ui:Label text="item1" display-tooltip-when-elided="true" name="item1" class="item_unselected" />
-                <ui:Label text="item2" display-tooltip-when-elided="true" name="item2" class="item_unselected" />
-                <ui:Label text="item3" display-tooltip-when-elided="true" name="item3" class="item_unselected" />
-                <ui:Label text="item4" display-tooltip-when-elided="true" name="item4" class="item_unselected" />
-                <ui:Label text="item5" display-tooltip-when-elided="true" name="item5" class="item_unselected" />
-                <ui:Label text="item6" display-tooltip-when-elided="true" name="item6" class="item_unselected" />
+            <ui:VisualElement name="item_list" class="tab_unselected" style="width: 75%; border-right-color: rgb(0, 0, 0); border-right-width: 1px; flex-direction: row;">
+                <ui:VisualElement name="list1" style="width: 50%;">
+                    <ui:Label text="Items" display-tooltip-when-elided="true" style="font-size: 20%; color: rgb(0, 0, 0);" />
+                    <ui:Label text="Potion of Healing" display-tooltip-when-elided="true" name="item1" class="item_unselected" />
+                    <ui:Label text="None" display-tooltip-when-elided="true" name="item2" class="item_unselected" />
+                    <ui:Label text="None" display-tooltip-when-elided="true" name="item3" class="item_unselected" />
+                    <ui:Label text="None" display-tooltip-when-elided="true" name="item4" class="item_unselected" />
+                    <ui:Label text="None" display-tooltip-when-elided="true" name="item5" class="item_unselected" />
+                </ui:VisualElement>
+                <ui:VisualElement name="list2" style="width: 50%;">
+                    <ui:VisualElement style="height: 25px;" />
+                    <ui:Label text="None" display-tooltip-when-elided="true" name="item6" class="item_unselected" />
+                    <ui:Label text="None" display-tooltip-when-elided="true" name="item7" class="item_unselected" />
+                    <ui:Label text="None" display-tooltip-when-elided="true" name="item8" class="item_unselected" />
+                    <ui:Label text="None" display-tooltip-when-elided="true" name="item9" class="item_unselected" />
+                    <ui:Label text="None" display-tooltip-when-elided="true" name="item10" class="item_unselected" />
+                </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="item_desc" class="tab_unselected" style="width: 50%;">
-                <ui:Label text="Item name: put item description here" display-tooltip-when-elided="true" style="font-size: 10%; white-space: normal;" />
+            <ui:VisualElement name="item_desc_background" class="tab_unselected" style="width: 50%;">
+                <ui:Label text="None" display-tooltip-when-elided="true" name="item_desc" style="font-size: 10%; white-space: normal;" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="equipment_info" style="background-color: rgb(79, 79, 79); height: 30%; flex-direction: row; position: absolute; top: 20%; width: 100%; visibility: hidden;">
             <ui:VisualElement name="current_equipment" style="border-right-width: 2px; border-right-color: rgb(31, 31, 31); width: 50%;">
-                <ui:Label text="current equipment" display-tooltip-when-elided="true" />
-                <ui:Label text="Weapon: Orphan Obliterator" display-tooltip-when-elided="true" name="current_weapon" class="item_unselected" />
+                <ui:Label text="current equipment" display-tooltip-when-elided="true" style="-unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;);" />
+                <ui:Label text="Weapon:" display-tooltip-when-elided="true" name="current_weapon" class="item_unselected" />
                 <ui:Label text="Armor: " display-tooltip-when-elided="true" name="current_armor" class="item_unselected" />
-                <ui:Label text="Extra: Red Cape" display-tooltip-when-elided="true" name="current_charm" class="item_unselected" />
+                <ui:Label text="Extra:" display-tooltip-when-elided="true" name="current_charm" class="item_unselected" />
             </ui:VisualElement>
-            <ui:VisualElement name="other_equipment" style="flex-grow: 1; width: 50%; position: absolute; height: 100%;">
+            <ui:VisualElement name="other_equipment" style="flex-grow: 1; width: 50%; position: absolute; height: 100%; visibility: hidden;">
                 <ui:Label text="Label" display-tooltip-when-elided="true" name="item1" />
                 <ui:Label text="Label" display-tooltip-when-elided="true" name="item2" />
                 <ui:Label text="Label" display-tooltip-when-elided="true" name="item3" />
@@ -38,12 +47,12 @@
                 <ui:Label text="Label" display-tooltip-when-elided="true" name="item5" />
                 <ui:VisualElement name="weapon_desc" style="flex-grow: 1;" />
             </ui:VisualElement>
-            <ui:VisualElement name="equipment_desc" style="border-right-width: 2px; border-right-color: rgb(31, 31, 31); width: 50%;">
-                <ui:Label text="current equipment" display-tooltip-when-elided="true" name="equipment_text" />
+            <ui:VisualElement name="equipment_desc" style="width: 50%;">
+                <ui:Label text="&#10;" display-tooltip-when-elided="true" name="equipment_text" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="skill_selection" style="position: absolute; top: 20%; width: 100%; height: 30%; background-color: rgb(79, 79, 79); flex-direction: row; flex-grow: 1; visibility: hidden;">
-            <ui:VisualElement name="current_skills" class="tab_unselected" style="flex-grow: 1; border-right-width: 2px; border-right-color: rgb(7, 7, 7); width: 50%;">
+            <ui:VisualElement name="current_skills" class="tab_unselected" style="border-right-width: 2px; border-right-color: rgb(7, 7, 7); width: 50%; height: 100%;">
                 <ui:Label text="Equiped Skills" display-tooltip-when-elided="true" style="font-size: 20%;" />
                 <ui:Label text="None" display-tooltip-when-elided="true" name="skill1" class="item_selected" />
                 <ui:Label text="None" display-tooltip-when-elided="true" name="skill2" class="item_unselected" />
@@ -51,7 +60,7 @@
                 <ui:Label text="None" display-tooltip-when-elided="true" name="skill4" class="item_unselected" />
                 <ui:Label text="None" display-tooltip-when-elided="true" name="skill5" class="item_unselected" />
             </ui:VisualElement>
-            <ui:VisualElement name="all_skills" class="tab_unselected" style="flex-grow: 1; width: 50%;">
+            <ui:VisualElement name="all_skills" class="tab_unselected" style="flex-grow: 1; width: 50%; position: absolute; height: 100%; visibility: hidden;">
                 <ui:Label text="All Skills" display-tooltip-when-elided="true" style="font-size: 20%;" />
                 <ui:Label text="None" display-tooltip-when-elided="true" name="skill_1" class="item_unselected" />
                 <ui:Label text="None" display-tooltip-when-elided="true" name="skill_2" class="item_unselected" />
@@ -59,6 +68,9 @@
                 <ui:Label text="None" display-tooltip-when-elided="true" name="skill_4" class="item_unselected" />
                 <ui:Label text="None" display-tooltip-when-elided="true" name="skill_5" class="item_unselected" />
                 <ui:Label text="None" display-tooltip-when-elided="true" name="skill_6" class="item_unselected" />
+            </ui:VisualElement>
+            <ui:VisualElement name="skill_desc_holder" class="tab_unselected" style="flex-grow: 1; width: 50%; height: 100%;">
+                <ui:Label display-tooltip-when-elided="true" name="skill_desc" style="font-size: 20%;" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="character_selection" style="position: absolute; top: 50%; width: 100%; height: 50%;">
@@ -106,6 +118,10 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="equipment_quickmenu" class="quick_menu">
+            <ui:Label text="Switch" display-tooltip-when-elided="true" enable-rich-text="true" name="switch" class="quickmenu_button_selected" />
+            <ui:Label text="cancel" display-tooltip-when-elided="true" name="cancel" class="quickmenu_button_unselected" />
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:Instance template="SettingsUI" name="SettingsUI" style="position: absolute; width: 100%; height: 100%; visibility: hidden;" />
