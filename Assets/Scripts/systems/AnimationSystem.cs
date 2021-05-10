@@ -59,7 +59,7 @@ public class AnimationSystem : SystemBase
 
         Entities
         .WithoutBurst()
-        .ForEach((Animator animator, AnimationData animationData, in MovementData movement, in PlayerSelectorUI playerSelectorUI, in CharacterInventoryData inventory, in BattleData battleData) =>{
+        .ForEach((Animator animator, AnimationData animationData, in MovementData movement, in PlayerSelectorUI playerSelectorUI, in BattleData battleData) =>{
             /*
             if (animationData.hasTakenDamage){
                 if(animationData.takenDamageAnimationName != ""){

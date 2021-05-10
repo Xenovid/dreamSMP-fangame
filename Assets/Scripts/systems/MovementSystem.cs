@@ -13,8 +13,7 @@ public class MovementSystem : SystemBase
         OverworldInputData input = uiInputQuery.GetSingleton<OverworldInputData>();
 
         Entities
-            .ForEach(
-                (ref Rotation rot,ref MovementData move, ref PhysicsVelocity vel) =>
+            .ForEach((ref Rotation rot,ref MovementData move, ref PhysicsVelocity vel) =>
                 {
                     move.direction = new float3(input.moveHorizontal, input.moveVertical, 0);
                     if(Mathf.Abs(move.direction.x) > Mathf.Abs(move.direction.y))
@@ -46,8 +45,7 @@ public class MovementSystem : SystemBase
                     float3 sprintBoost = input.sprint ? dir * move.velocity * .9f : 0;
                     vel.Linear = dir * move.velocity + sprintBoost;
                     //pos.Value += dir * move.velocity * dT;
-                }
-            )
-            .Schedule();
+                }).Schedule();
+        
     }
 }

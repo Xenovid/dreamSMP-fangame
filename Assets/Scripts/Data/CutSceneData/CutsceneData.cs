@@ -1,13 +1,8 @@
 using Unity.Entities;
 using UnityEngine;
 
-public struct CutsceneData : IComponentData
+[GenerateAuthoringComponent]
+public class CutsceneData : IComponentData
 {
-    public bool isReadingDialogue;
-    
-    public int currentDialogue;
-    public int currentChar;
-
-    public float totalTime;
-    public float timeWaited;
+    public string cutsceneName;
 }

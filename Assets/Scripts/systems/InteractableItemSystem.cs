@@ -12,6 +12,7 @@ public class InteractableItemSystem : SystemBase
     CollisionWorld collisionWorld;
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
 
+    InkDisplaySystem inkDisplaySystem;
     protected override void OnCreate()
     {
         m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
@@ -19,6 +20,8 @@ public class InteractableItemSystem : SystemBase
         physicsWorld = World.GetExistingSystem<StepPhysicsWorld>();
         var physicsWorldSystem = World.GetExistingSystem<Unity.Physics.Systems.BuildPhysicsWorld>();
         collisionWorld = physicsWorldSystem.PhysicsWorld.CollisionWorld;
+
+        inkDisplaySystem = World.GetExistingSystem<InkDisplaySystem>();
     }
 
     protected override void OnUpdate()
@@ -62,7 +65,7 @@ public class InteractableItemSystem : SystemBase
                         if (changed)
                         {
                             Translation interactiveTranslation = GetComponent<Translation>(interactiveEntity);
-                            DynamicBuffer<Text> text = GetBuffer<Text>(interactiveEntity);
+                            CutsceneData text = EntityManager.GetComponentObject<CutsceneData>(interactiveEntity);
                             bool facingItemDirection = false;
                             switch (move.facing)
                             {
@@ -81,7 +84,8 @@ public class InteractableItemSystem : SystemBase
                             }
                             if (facingItemDirection)
                             {
-                                ecb.AddComponent<TextBoxData>(interactiveEntity);
+
+                                inkDisplaySystem.StartCutScene(text.cutsceneName);
 
                                 InputGatheringSystem.currentInput = CurrentInput.ui;
                             }

@@ -14,17 +14,22 @@ public class PauseMenuSystem : SystemBase
       private SceneSystem sceneSystem;
       
       private Entity pauseMenuSubScene;
-
       private bool isPaused;
 
       private int currentCharacter;
+      private int currentSwitchItem;
       private bool isSelected;
       private bool onCharacterSelect;
       private bool onQuickMenu;
       private QuickMenuSelectables currentQuickMenuSelection;
       private int currentItem;
-      private bool onRightTab;
+      private bool onItemSwitch;
       private Equipment selectedEquipment;
+
+      private bool canQuickSwitch;
+      private bool canQuickGive;
+      private bool canQuickDrop;
+      private bool canQuickUse;
 
       protected override void OnStartRunning()
       {
@@ -46,14 +51,17 @@ public class PauseMenuSystem : SystemBase
 
         DynamicBuffer<PlayerPartyData> playerParty = GetBuffer<PlayerPartyData>(GetSingletonEntity<PlayerTag>());
 
-        EntityQuery characterStatsQuery = GetEntityQuery(typeof(CharacterStats), typeof(CharacterInventoryData));
+        EntityQuery characterStatsQuery = GetEntityQuery(typeof(CharacterStats), typeof(PlayerTag));
         NativeArray<CharacterStats> characterStatsList = characterStatsQuery.ToComponentDataArray<CharacterStats>(Allocator.TempJob);
-        NativeArray<Entity> characterStatsEntities = characterStatsQuery.ToEntityArray(Allocator.Temp);
-        List<CharacterInventoryData> characterInventories = new List<CharacterInventoryData>();
-        foreach(Entity ent in characterStatsEntities){
-            characterInventories.Add(EntityManager.GetComponentObject<CharacterInventoryData>(ent));
-        }
-        characterStatsEntities.Dispose();
+        NativeArray<Entity> characterEntities = characterStatsQuery.ToEntityArray(Allocator.TempJob);
+
+
+        EntityQuery caravanQuery = GetEntityQuery(typeof(CaravanTag));
+        Entity caravan = caravanQuery.GetSingletonEntity();
+        DynamicBuffer<WeaponData> weaponInventory = GetBuffer<WeaponData>(caravan);
+        DynamicBuffer<ArmorData> armorInventory = GetBuffer<ArmorData>(caravan);
+        DynamicBuffer<CharmData> charmInventory = GetBuffer<CharmData>(caravan);
+        
 
             Entities
             .WithoutBurst()
@@ -129,6 +137,8 @@ public class PauseMenuSystem : SystemBase
                                     }
                                 break;
                                 case PauseMenuSelectables.Equip:
+                                    VisualElement otherEquipmentBase = equipmentInfo.Q<VisualElement>("other_equipment");
+                                    VisualElement currentEquipment= equipmentInfo.Q<VisualElement>("current_equipment");
                                     Label currentWeaponLabel = equipmentInfo.Q<Label>("current_weapon");
                                     Label currentArmorLabel = equipmentInfo.Q<Label>("current_armor");
                                     Label currentCharmLabel = equipmentInfo.Q<Label>("current_charm");
@@ -136,6 +146,7 @@ public class PauseMenuSystem : SystemBase
                                     VisualElement equipQuickMenu = root.Q<VisualElement>("equipment_quickmenu");
                                     Label quickSwitch = equipQuickMenu.Q<Label>("switch");
                                     Label quickCancel = equipQuickMenu.Q<Label>("cancel");
+
                                     if (isSelected)
                                     {
                                         if(onCharacterSelect){
@@ -161,6 +172,19 @@ public class PauseMenuSystem : SystemBase
                                                 }
                                             }
                                         }
+                                        else if(onItemSwitch){
+                                            if(uiInput.goback){
+                                                onItemSwitch = false;
+                                                currentEquipment.visible = true;
+                                                otherEquipmentBase.visible = false;
+                                            }
+                                            else if(uiInput.moveup){
+
+                                            }
+                                            else if(uiInput.movedown){
+
+                                            }
+                                        }
                                         else if(onQuickMenu){
                                             if(uiInput.goback){
                                                 UnSelectQuickMenuButton(quickCancel);
@@ -170,7 +194,18 @@ public class PauseMenuSystem : SystemBase
                                             }
                                             switch(currentQuickMenuSelection){
                                                     case QuickMenuSelectables.Switch:
-                                                        if(uiInput.goselected){
+                                                        if(weaponInventory.Length == 0){
+                                                            currentQuickMenuSelection = QuickMenuSelectables.Cancel;
+                                                            UnSelectQuickMenuButton(quickSwitch);
+                                                            SelectQuickMenuButton(quickCancel);
+                                                        }
+                                                        else if(uiInput.goselected){
+                                                            otherEquipmentBase.visible = true;
+                                                            currentEquipment.visible = false;
+                                                            UnSelectQuickMenuButton(quickSwitch);
+                                                            equipQuickMenu.visible = false;
+                                                            onQuickMenu = false;
+                                                            onItemSwitch = true;
                                                             //go into item selection
                                                         }
                                                         else if(uiInput.movedown){
@@ -201,7 +236,17 @@ public class PauseMenuSystem : SystemBase
                                                 SelectQuickMenuButton(quickSwitch);
                                                 equipQuickMenu.visible = true;
                                                 onQuickMenu = true;
-                                                
+                                                switch(selectedEquipment){
+                                                    case Equipment.Weapon:
+                                                        placeQuickMenu(currentWeaponLabel, equipQuickMenu);
+                                                    break;
+                                                    case Equipment.Armor:
+                                                        placeQuickMenu(currentArmorLabel, equipQuickMenu);
+                                                    break;
+                                                    case Equipment.Charm:
+                                                        placeQuickMenu(currentCharmLabel, equipQuickMenu);
+                                                    break;
+                                                }
                                             }
                                             else if (uiInput.goback)
                                             {
@@ -232,13 +277,13 @@ public class PauseMenuSystem : SystemBase
                                                         selectedEquipment = Equipment.Armor;
                                                         UnSelectItem(currentWeaponLabel);
                                                         SelectItem(currentArmorLabel);
-                                                        equipmentDesc.text = characterInventories[currentCharacter - 1].equipedArmor.description;
+                                                        equipmentDesc.text = characterStatsList[currentCharacter - 1].equipedArmor.description.ToString();
                                                     break;
                                                     case Equipment.Armor:
                                                         selectedEquipment = Equipment.Charm;
                                                         UnSelectItem(currentArmorLabel);
                                                         SelectItem(currentCharmLabel);
-                                                        equipmentDesc.text = characterInventories[currentCharacter - 1].equipedCharm.description;
+                                                        equipmentDesc.text = characterStatsList[currentCharacter - 1].equipedCharm.description.ToString();
                                                     break;
                                                     case Equipment.Charm:
                                                         //selectedEquipment = Equipment.Armor;
@@ -257,13 +302,13 @@ public class PauseMenuSystem : SystemBase
                                                         selectedEquipment = Equipment.Weapon;
                                                         UnSelectItem(currentArmorLabel);
                                                         SelectItem(currentWeaponLabel);
-                                                        equipmentDesc.text = characterInventories[currentCharacter - 1].equipedWeapon.description;
+                                                        equipmentDesc.text = characterStatsList[currentCharacter - 1].equipedWeapon.description.ToString();
                                                     break;
                                                     case Equipment.Charm:
                                                         selectedEquipment = Equipment.Armor;
                                                         UnSelectItem(currentCharmLabel);
                                                         SelectItem(currentArmorLabel);
-                                                        equipmentDesc.text = characterInventories[currentCharacter - 1].equipedArmor.description;
+                                                        equipmentDesc.text = characterStatsList[currentCharacter - 1].equipedArmor.description.ToString();
                                                     break;
                                                 }
                                             }
@@ -273,10 +318,10 @@ public class PauseMenuSystem : SystemBase
                                     {
                                         isSelected = true;
                                         if(playerParty.Length == 1){
-                                            currentWeaponLabel.text = "Weapon: " + characterInventories[currentCharacter - 1].equipedWeapon.name;
-                                            currentArmorLabel.text = "Armor: " + characterInventories[currentCharacter - 1].equipedArmor.name;
-                                            currentCharmLabel.text = "Charm: " + characterInventories[currentCharacter - 1].equipedCharm.name;
-                                            equipmentDesc.text = characterInventories[currentCharacter - 1].equipedWeapon.description;
+                                            currentWeaponLabel.text = "Weapon: " + characterStatsList[currentCharacter -1].equipedWeapon.name;
+                                            currentArmorLabel.text = "Armor: " + characterStatsList[currentCharacter -1].equipedArmor.name;
+                                            currentCharmLabel.text = "Charm: " + characterStatsList[currentCharacter -1].equipedCharm.name;
+                                            equipmentDesc.text = characterStatsList[currentCharacter - 1].equipedWeapon.description.ToString();
                                             onCharacterSelect = false;
                                             SelectInfoTab(equipmentInfo.Q<VisualElement>("current_equipment"));
                                             SelectItem(equipmentInfo.Q<Label>("current_weapon"));
@@ -304,6 +349,12 @@ public class PauseMenuSystem : SystemBase
                                 case PauseMenuSelectables.Items:
                                     VisualElement itemList = itemInfo.Q<VisualElement>("item_list");
                                     Label itemDesc = itemInfo.Q<Label>("item_desc");
+                                    VisualElement itemsQuickMenu = root.Q<VisualElement>("items_quickmenu");
+                                    Label quickUseItems = itemsQuickMenu.Q<Label>("use");
+                                    Label quickDropItems = itemsQuickMenu.Q<Label>("drop");
+                                    Label quickGiveItems = itemsQuickMenu.Q<Label>("give");
+                                    Label quickCancelItems = itemsQuickMenu.Q<Label>("cancel");
+
                                     if (isSelected)
                                     {
                                         if(onCharacterSelect){
@@ -313,12 +364,81 @@ public class PauseMenuSystem : SystemBase
                                                 itemInfo.visible = false;
                                             }
                                         }
+                                        else if(onQuickMenu){
+                                            if(uiInput.goback){
+                                                UnSelectQuickMenuButton(quickUseItems);
+                                                UnSelectQuickMenuButton(quickDropItems);
+                                                UnSelectQuickMenuButton(quickGiveItems);
+                                                UnSelectQuickMenuButton(quickCancelItems);
+                                                itemsQuickMenu.visible = false;
+                                                onQuickMenu = false;
+                                            }
+                                            switch(currentQuickMenuSelection){
+                                                    case QuickMenuSelectables.Use:
+                                                        if(uiInput.goselected){
+                                                            //go into item selection
+                                                        }
+                                                        else if(uiInput.movedown){
+                                                            currentQuickMenuSelection = QuickMenuSelectables.Drop;
+                                                            UnSelectQuickMenuButton(quickUseItems);
+                                                            SelectQuickMenuButton(quickDropItems);
+                                                        }
+                                                    break;
+                                                    case QuickMenuSelectables.Drop:
+                                                        if(uiInput.goselected){
+                                                            //go into item selection
+                                                        }
+                                                        else if(uiInput.moveup){
+                                                            currentQuickMenuSelection = QuickMenuSelectables.Use;
+                                                            SelectQuickMenuButton(quickUseItems);
+                                                            UnSelectQuickMenuButton(quickDropItems);
+                                                        }
+                                                        else if(uiInput.movedown){
+                                                            currentQuickMenuSelection = QuickMenuSelectables.Give;
+                                                            SelectQuickMenuButton(quickGiveItems);
+                                                            UnSelectQuickMenuButton(quickDropItems);
+                                                        }
+                                                    break;
+                                                    case QuickMenuSelectables.Give:
+                                                        if(uiInput.goselected){
+                                                            //go into item selection
+                                                        }
+                                                        else if(uiInput.moveup){
+                                                            currentQuickMenuSelection = QuickMenuSelectables.Drop;
+                                                            SelectQuickMenuButton(quickDropItems);
+                                                            UnSelectQuickMenuButton(quickGiveItems);
+                                                        }
+                                                        else if(uiInput.movedown){
+                                                            currentQuickMenuSelection = QuickMenuSelectables.Cancel;
+                                                            UnSelectQuickMenuButton(quickGiveItems);
+                                                            SelectQuickMenuButton(quickCancelItems);
+                                                        }
+                                                    break;
+                                                    case QuickMenuSelectables.Cancel:
+                                                        if(uiInput.goselected){
+                                                            UnSelectQuickMenuButton(quickCancelItems);
+                                                            itemsQuickMenu.visible = false;
+                                                            onQuickMenu = false;
+                                                        }
+                                                        else if(uiInput.moveup){
+                                                            currentQuickMenuSelection = QuickMenuSelectables.Give;
+                                                            UnSelectQuickMenuButton(quickCancelItems);
+                                                            SelectQuickMenuButton(quickGiveItems);
+                                                        }
+                                                    break;
+                                                }
+                                        }
                                         else{
-                                            
+                                            DynamicBuffer<ItemData> itemInventory = GetBuffer<ItemData>(characterEntities[currentCharacter -1]);
                                             if(uiInput.goselected){
-                                                //do stuff with items
+                                                currentQuickMenuSelection = QuickMenuSelectables.Use;
+                                                SelectQuickMenuButton(quickUseItems);
+                                                itemsQuickMenu.visible = true;
+                                                onQuickMenu = true;
+                                                placeQuickMenu(itemList.Q<Label>("item" + currentItem), itemsQuickMenu);
                                             }
                                             else if(uiInput.goback){
+                                                UnSelectItem(itemList.Q<Label>("item" + currentItem));
                                                 if(playerParty.Length == 1){
                                                     isSelected = false;
                                                     itemInfo.visible = false;
@@ -335,14 +455,19 @@ public class PauseMenuSystem : SystemBase
                                                     UnSelectItem(itemList.Q<Label>("item" + currentItem.ToString()));
                                                     currentItem++;
                                                     SelectItem(itemList.Q<Label>("item" + currentItem.ToString()));
-                                                    Debug.Log(currentCharacter);
-                                                    string itemDescriptionToShow = characterInventories[currentCharacter - 1].inventory[currentItem - 1].description;
-                                                    if(itemDescriptionToShow == ""){
+                                                    if(itemInventory.Length < currentItem){
                                                         itemDesc.text = "no description";
                                                     }
                                                     else{
-                                                        itemDesc.text = characterInventories[currentCharacter - 1].inventory[currentItem - 1].description;
+                                                        string itemDescriptionToShow = itemInventory[currentItem - 1].item.description.ToString();
+                                                        if(itemDescriptionToShow == ""){
+                                                            itemDesc.text = "no description";
+                                                        }
+                                                        else{
+                                                            itemDesc.text = itemInventory[currentItem - 1].item.description.ToString();
+                                                        }
                                                     }
+                                                    
                                                 }
                                             }
                                             else if(uiInput.moveup){
@@ -350,13 +475,19 @@ public class PauseMenuSystem : SystemBase
                                                     UnSelectItem(itemList.Q<Label>("item" + currentItem.ToString()));
                                                     currentItem--;
                                                     SelectItem(itemList.Q<Label>("item" + currentItem.ToString()));
-                                                    string itemDescriptionToShow = characterInventories[currentCharacter - 1].inventory[currentItem - 1].description;
-                                                    if(itemDescriptionToShow == ""){
+                                                    if(itemInventory.Length < currentItem){
                                                         itemDesc.text = "no description";
                                                     }
                                                     else{
-                                                        itemDesc.text = characterInventories[currentCharacter - 1].inventory[currentItem - 1].description;
+                                                        string itemDescriptionToShow = itemInventory[currentItem - 1].item.description.ToString();
+                                                        if(itemDescriptionToShow == ""){
+                                                            itemDesc.text = "no description";
+                                                        }
+                                                        else{
+                                                            itemDesc.text = itemDescriptionToShow;
+                                                        }
                                                     }
+                                                    
                                                 }
                                             }
                                             else if(uiInput.moveleft){
@@ -364,12 +495,17 @@ public class PauseMenuSystem : SystemBase
                                                     UnSelectItem(itemList.Q<Label>("item" + currentItem.ToString()));
                                                     currentItem-= 5;
                                                     SelectItem(itemList.Q<Label>("item" + currentItem.ToString()));
-                                                    string itemDescriptionToShow = characterInventories[currentCharacter - 1].inventory[currentItem - 1].description;
-                                                    if(itemDescriptionToShow == ""){
+                                                    if(itemInventory.Length < currentItem){
                                                         itemDesc.text = "no description";
                                                     }
                                                     else{
-                                                        itemDesc.text = characterInventories[currentCharacter - 1].inventory[currentItem - 1].description;
+                                                        string itemDescriptionToShow = itemInventory[currentItem - 1].item.description.ToString();
+                                                        if(itemDescriptionToShow == ""){
+                                                            itemDesc.text = "no description";
+                                                        }
+                                                        else{
+                                                            itemDesc.text = itemDescriptionToShow;
+                                                        }
                                                     }
                                                 }
                                             }
@@ -378,12 +514,17 @@ public class PauseMenuSystem : SystemBase
                                                     UnSelectItem(itemList.Q<Label>("item" + currentItem.ToString()));
                                                     currentItem+= 5;
                                                     SelectItem(itemList.Q<Label>("item" + currentItem.ToString()));
-                                                    string itemDescriptionToShow = characterInventories[currentCharacter - 1].inventory[currentItem - 1].description;
-                                                    if(itemDescriptionToShow == ""){
+                                                    if(itemInventory.Length < currentItem){
                                                         itemDesc.text = "no description";
                                                     }
                                                     else{
-                                                        itemDesc.text = characterInventories[currentCharacter - 1].inventory[currentItem - 1].description;
+                                                        string itemDescriptionToShow = itemInventory[currentItem - 1].item.description.ToString();
+                                                        if(itemDescriptionToShow == ""){
+                                                            itemDesc.text = "no description";
+                                                        }
+                                                        else{
+                                                            itemDesc.text = itemDescriptionToShow;
+                                                        }
                                                     }
                                                 }
                                             }
@@ -392,6 +533,7 @@ public class PauseMenuSystem : SystemBase
                                     }
                                     else if (uiInput.goselected)
                                     {
+                                        DynamicBuffer<ItemData> itemInventory = GetBuffer<ItemData>(characterEntities[currentCharacter - 1]);
                                         isSelected = true;
                                         if(playerParty.Length == 1){
                                             onCharacterSelect = false;
@@ -403,22 +545,22 @@ public class PauseMenuSystem : SystemBase
                                             onCharacterSelect = true;
                                         }
                                         int i = 0;
-                                        foreach(Item item in characterInventories[currentCharacter - 1].inventory){
-                                            
+                                        foreach(ItemData itemData in itemInventory){
+                                            Item item = itemData.item;
                                             if(item.name == ""){
                                                 itemList.Q<Label>("item" + (i + 1).ToString()).text = "None";
                                             }
                                             else{
-                                                itemList.Q<Label>("item" + (i + 1).ToString()).text = item.name;
+                                                itemList.Q<Label>("item" + (i + 1).ToString()).text = item.name.ConvertToString();
                                             }
                                             i++;
                                         }
-                                        string itemDescriptionToShow = characterInventories[currentCharacter - 1].inventory[currentItem - 1].description;
+                                        string itemDescriptionToShow = itemInventory[currentItem - 1].item.description.ToString();
                                         if(itemDescriptionToShow == ""){
                                             itemDesc.text = "no description";
                                         }
                                         else{
-                                            itemDesc.text = characterInventories[currentCharacter - 1].inventory[currentItem - 1].description;
+                                            itemDesc.text = itemDescriptionToShow;
                                         }
                                         SelectCharacter(root.Q<VisualElement>("character" + currentCharacter.ToString()));
                                         itemInfo.visible = true;
@@ -440,6 +582,10 @@ public class PauseMenuSystem : SystemBase
                                 case PauseMenuSelectables.Skills:
                                     VisualElement currentSkills = skillInfo.Q<VisualElement>("current_skills");
                                     Label skillDesc = skillInfo.Q<Label>("skill_desc");
+                                    VisualElement skillsQuickMenu = root.Q<VisualElement>("skills_quickmenu");
+                                    Label quickSwitchSkills = skillsQuickMenu.Q<Label>("switch");
+                                    Label quickCancelSkills = skillsQuickMenu.Q<Label>("cancel");
+
                                     if (isSelected)
                                     {
                                         if(onCharacterSelect){
@@ -449,11 +595,50 @@ public class PauseMenuSystem : SystemBase
                                                 skillInfo.visible = false;
                                             }
                                         }
+                                        else if(onQuickMenu){
+                                            if(uiInput.goback){
+                                                UnSelectQuickMenuButton(quickCancelSkills);
+                                                UnSelectQuickMenuButton(quickSwitchSkills);
+                                                skillsQuickMenu.visible = false;
+                                                onQuickMenu = false;
+                                            }
+                                            switch(currentQuickMenuSelection){
+                                                    case QuickMenuSelectables.Switch:
+                                                        if(uiInput.goselected){
+                                                            //go into item selection
+                                                        }
+                                                        else if(uiInput.movedown){
+                                                            currentQuickMenuSelection = QuickMenuSelectables.Cancel;
+                                                            UnSelectQuickMenuButton(quickSwitchSkills);
+                                                            SelectQuickMenuButton(quickCancelSkills);
+                                                        }
+                                                    break;
+                                                    case QuickMenuSelectables.Cancel:
+                                                        if(uiInput.goselected){
+                                                            UnSelectQuickMenuButton(quickCancelSkills);
+                                                            UnSelectQuickMenuButton(quickSwitchSkills);
+                                                            skillsQuickMenu.visible = false;
+                                                            onQuickMenu = false;
+                                                        }
+                                                        else if(uiInput.moveup){
+                                                            currentQuickMenuSelection = QuickMenuSelectables.Switch;
+                                                            UnSelectQuickMenuButton(quickCancelSkills);
+                                                            SelectQuickMenuButton(quickSwitchSkills);
+                                                        }
+                                                    break;
+                                                }
+                                        }
                                         else{
+                                             DynamicBuffer<SkillData> equipedSkills = GetBuffer<SkillData>(characterEntities[currentCharacter -1]);
                                             if(uiInput.goselected){
-                                                //do stuff with items
+                                                currentQuickMenuSelection = QuickMenuSelectables.Switch;
+                                                SelectQuickMenuButton(quickSwitchSkills);
+                                                skillsQuickMenu.visible = true;
+                                                onQuickMenu = true;
+                                                placeQuickMenu(currentSkills.Q<Label>("skill" + currentItem), skillsQuickMenu);
                                             }
                                             else if(uiInput.goback){
+                                                UnSelectItem(currentSkills.Q<Label>("skill" + currentItem));
                                                 if(playerParty.Length == 1){
                                                     
                                                     isSelected = false;
@@ -471,11 +656,17 @@ public class PauseMenuSystem : SystemBase
                                                     UnSelectItem(currentSkills.Q<Label>("skill" + currentItem.ToString()));
                                                     currentItem++;
                                                     SelectItem(currentSkills.Q<Label>("skill" + currentItem.ToString()));
-                                                    if(characterInventories[currentCharacter - 1].equipedSkills[0].description == ""){
+                                                    if(equipedSkills.Length < currentItem){
                                                         skillDesc.text = "No description";
                                                     }
                                                     else{
-                                                        skillDesc.text = characterInventories[currentCharacter - 1].equipedSkills[0].description;
+                                                        string descToDisplay = equipedSkills[currentItem - 1].skill.description.ToString();
+                                                        if(descToDisplay == ""){
+                                                            skillDesc.text = "No description";
+                                                        }
+                                                        else{
+                                                            skillDesc.text = descToDisplay;
+                                                        }
                                                     }
                                                 }
                                             }
@@ -484,11 +675,17 @@ public class PauseMenuSystem : SystemBase
                                                     UnSelectItem(currentSkills.Q<Label>("skill" + currentItem.ToString()));
                                                     currentItem--;
                                                     SelectItem(currentSkills.Q<Label>("skill" + currentItem.ToString()));
-                                                    if(characterInventories[currentCharacter - 1].equipedSkills[0].description == ""){
+                                                    if(equipedSkills.Length < currentItem){
                                                         skillDesc.text = "No description";
                                                     }
                                                     else{
-                                                        skillDesc.text = characterInventories[currentCharacter - 1].equipedSkills[0].description;
+                                                        string descToDisplay = equipedSkills[currentItem - 1].skill.description.ToString();
+                                                        if(descToDisplay == ""){
+                                                            skillDesc.text = "No description";
+                                                        }
+                                                        else{
+                                                            skillDesc.text = descToDisplay;
+                                                        }
                                                     }
                                                 }
                                             }
@@ -496,7 +693,7 @@ public class PauseMenuSystem : SystemBase
                                     }
                                     else if (uiInput.goselected)
                                     {
-                                        
+                                        DynamicBuffer<SkillData> equipedSkills = GetBuffer<SkillData>(characterEntities[currentCharacter - 1]);
                                         isSelected = true;
                                         if(playerParty.Length == 1){
                                             onCharacterSelect = false;
@@ -507,21 +704,24 @@ public class PauseMenuSystem : SystemBase
                                             onCharacterSelect = true;
                                         }
                                         int i = 1;
-                                        foreach(Skill skill in characterInventories[currentCharacter - 1].equipedSkills){
+                                        foreach(SkillData skillData in equipedSkills){
+                                            Skill skill = skillData.skill;
                                             if(skill.name == ""){
                                                 currentSkills.Q<Label>("skill" + i.ToString()).text = "None";
                                             }
                                             else{
-                                                currentSkills.Q<Label>("skill" + i.ToString()).text = skill.name;
+                                                currentSkills.Q<Label>("skill" + i.ToString()).text = skill.name.ToString();
                                             }
                                             i++;
                                         }
                                         isSelected = true;
-                                        if(characterInventories[currentCharacter - 1].equipedSkills[0].description == ""){
+
+                                        string descToDisplay = equipedSkills[0].skill.description.ToString();
+                                        if(descToDisplay == ""){
                                             skillDesc.text = "No description";
                                         }
                                         else{
-                                            skillDesc.text = characterInventories[currentCharacter - 1].equipedSkills[0].description;
+                                            skillDesc.text = descToDisplay;
                                         }
                                         SelectItem(currentSkills.Q<Label>("skill" + currentItem.ToString()));
                                         SelectCharacter(root.Q<VisualElement>("character" + currentCharacter.ToString()));
@@ -563,6 +763,7 @@ public class PauseMenuSystem : SystemBase
                   }
                   
             }).Run();
+        characterEntities.Dispose();
         characterStatsList.Dispose();
       }
     private void UnselectButton(Button button)
@@ -610,10 +811,13 @@ public class PauseMenuSystem : SystemBase
         button.AddToClassList("quickmenu_button_unselected");
     }
     private void placeQuickMenu(Label item, VisualElement quickMenu){
-        
+
+        Debug.Log(item.worldBound.y);
+        quickMenu.style.right = item.contentRect.width + item.worldBound.x;
+        quickMenu.style.top = item.worldBound.y;
     }
     private void SelectCharacter(UIInputData input, int length, VisualElement characterSelection){
-                if(input.moveright){
+            if(input.moveright){
                 if(!(currentCharacter == length)){
                     VisualElement oldCharacter = characterSelection.Q<VisualElement>("character" + currentCharacter.ToString());
                     currentCharacter++;
@@ -631,7 +835,6 @@ public class PauseMenuSystem : SystemBase
                     SelectCharacter(newCharacter);
                 }
             }
-        
     }
 
 }

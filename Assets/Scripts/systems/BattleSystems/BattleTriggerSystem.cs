@@ -5,15 +5,16 @@ using Unity.Collections;
 using UnityEngine.UIElements;
 using UnityEngine;
 using Unity.Transforms;
-using UnityEditor;
+using System;
 using System.Collections.Generic;
 
 public class BattleTriggerSystem : SystemBase
 {
-    public StepPhysicsWorld physicsWorld;
+    StepPhysicsWorld physicsWorld;
+    BattleSystem battleSystem;
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
-    public VisualElement battleUI;
-    public UIDocument UIDoc;
+    VisualElement battleUI;
+    UIDocument UIDoc;
 
     //private Entity lastAddedManager;
     
@@ -25,6 +26,8 @@ public class BattleTriggerSystem : SystemBase
         base.OnCreate();
         m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
         physicsWorld = World.GetExistingSystem<StepPhysicsWorld>();
+
+        battleSystem =  World.GetExistingSystem<BattleSystem>();
     }
 
       protected override void OnStartRunning()
@@ -39,7 +42,6 @@ public class BattleTriggerSystem : SystemBase
 
     protected override void OnUpdate()
     {
-        Debug.Log("battle menu running");
 
         Entities
         .WithoutBurst()
@@ -84,13 +86,12 @@ public class BattleTriggerSystem : SystemBase
             */
 
             //checks if the player hit an entity with battle data on it, and if so triggers a battle
-            if (GetComponentDataFromEntity<PlayerTag>().HasComponent(entityA) && GetComponentDataFromEntity<BattleTriggerData>().HasComponent(entityB) && loopNumber < 1)
+            if (GetComponentDataFromEntity<PlayerTag>().HasComponent(entityA) && GetComponentDataFromEntity<BattleTriggerData>().HasComponent(entityB))
             {
                 InputGatheringSystem.currentInput = CurrentInput.ui;
                 AudioManager.playSong("tempBattleMusic");
 
                 //adds the nessesary data for the player to be considered in the battle
-                EntityManager.AddComponent<BattleManagerTag>(entityB);
 
                 EntityManager.AddComponentObject(entityB, new BattleManagerData { hasPlayerWon = false });
                 EntityManager.CompleteAllJobs();
@@ -98,6 +99,7 @@ public class BattleTriggerSystem : SystemBase
                 List<int> addedIds = new List<int>();
                 DynamicBuffer<EnemyBattleData> tempEnemy = GetBuffer<EnemyBattleData>(entityB);
                 DynamicBuffer<PlayerPartyData> tempPlayers = GetBuffer<PlayerPartyData>(entityA);
+                battleSystem.StartBattle(tempEnemy.ToNativeArray(Allocator.Persistent);
 
                 List<PlayerPartyData> players = new List<PlayerPartyData>();
                 List<Vector3> playerPositions = new List<Vector3>();

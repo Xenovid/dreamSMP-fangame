@@ -1,13 +1,19 @@
 using Unity.Entities;
 using Unity.Collections;
 using UnityEngine;
+using System;
 
 public class BattleSystem : SystemBase
 {
+
       EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
+      public bool isInBattle;
+      public event EventHandler OnBattleEnd;
+      public event EventHandler OnBattleStart;
       protected override void OnCreate(){
             base.OnCreate();
             m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+            isInBattle = false;
       }
 
       protected override void OnUpdate()
@@ -29,8 +35,8 @@ public class BattleSystem : SystemBase
             //int playersDown = 0;
             int enemiesDown = 0;
 
-            if(battleManagers.Length > 0){
-                  //from each battle manager get the ids of all the enemies, makes it easier to know what team is what
+            if(isInBattle){
+                  //from the main enemy, get the rest of the enemies
                   DynamicBuffer<EnemyBattleData> enemyIds = GetBuffer<EnemyBattleData>(battleManagers[0]);
 
                   //checks the number of enemies down to check if the battle should be down
@@ -42,12 +48,7 @@ public class BattleSystem : SystemBase
                         }
                   }
                   if(enemyIds.Length == enemiesDown){
-                        Entities
-                        .WithoutBurst()
-                        .ForEach((Entity entity, BattleManagerData battleManager) => {
-                              battleManager.hasPlayerWon = true;
-                        }).Run();
-                        Debug.Log("all enemies down");
+                        OnBattleEnd?.Invoke(this, new OnBattleEndEventArgs{isPlayerVictor = true});
                   }
                   else{
                         Entities
@@ -91,4 +92,20 @@ public class BattleSystem : SystemBase
             battleManagers.Dispose();
             m_EndSimulationEcbSystem.AddJobHandleForProducer(this.Dependency);
       }
+
+      public void StartBattle(Entity[] players, Entity[] enemys){
+            //!change to record more data
+            if(!isInBattle){
+                  isInBattle = true;
+                  OnBattleStart?.Invoke(this, new OnBattleStartArgs{players = players, enemys = enemys});
+            }
+      }
+}
+
+public class OnBattleEndEventArgs : EventArgs{
+      public bool isPlayerVictor {get; set;}
+}
+public class OnBattleStartArgs : EventArgs{
+      public Entity[] players;
+      public Entity[] enemys;
 }

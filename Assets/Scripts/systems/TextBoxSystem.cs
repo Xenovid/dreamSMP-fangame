@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Ink.Runtime;
 using Unity.Entities;
 using UnityEngine.UIElements;
 
 public class TextBoxSystem : SystemBase
 {
+    /*
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
     private float charTime = .5f;
     Label textBoxText;
@@ -33,9 +34,9 @@ public class TextBoxSystem : SystemBase
         textBoxText = rootVisualElement.Q<Label>("TextBoxText");
         charaterImage = rootVisualElement.Q<VisualElement>("CharacterImage");
     }
-
+    */
     protected override void OnUpdate()
-    {
+    { /*
         EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
         UIInputData input = uiInputQuery.GetSingleton<UIInputData>();
 
@@ -98,6 +99,8 @@ public class TextBoxSystem : SystemBase
                     }
                 }
             }
-        }).Run();
+        }).Run();*/
     }
+
+    
 }

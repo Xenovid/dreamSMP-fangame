@@ -119,8 +119,18 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="equipment_quickmenu" class="quick_menu">
+        <ui:VisualElement name="equipment_quickmenu" class="quick_menu" style="visibility: hidden;">
             <ui:Label text="Switch" display-tooltip-when-elided="true" enable-rich-text="true" name="switch" class="quickmenu_button_selected" />
+            <ui:Label text="cancel" display-tooltip-when-elided="true" name="cancel" class="quickmenu_button_unselected" />
+        </ui:VisualElement>
+        <ui:VisualElement name="skills_quickmenu" class="quick_menu" style="visibility: hidden;">
+            <ui:Label text="Switch" display-tooltip-when-elided="true" enable-rich-text="true" name="switch" class="quickmenu_button_selected" />
+            <ui:Label text="cancel" display-tooltip-when-elided="true" name="cancel" class="quickmenu_button_unselected" />
+        </ui:VisualElement>
+        <ui:VisualElement name="items_quickmenu" class="quick_menu" style="visibility: hidden;">
+            <ui:Label text="use&#10;" display-tooltip-when-elided="true" enable-rich-text="true" name="use" class="quickmenu_button_selected" />
+            <ui:Label text="drop&#10;" display-tooltip-when-elided="true" name="drop" class="quickmenu_button_unselected" />
+            <ui:Label text="give&#10;" display-tooltip-when-elided="true" name="give" class="quickmenu_button_unselected" />
             <ui:Label text="cancel" display-tooltip-when-elided="true" name="cancel" class="quickmenu_button_unselected" />
         </ui:VisualElement>
     </ui:VisualElement>

@@ -10,6 +10,9 @@ public class CharacterStatsAuthouring : MonoBehaviour{
     public int attackMultiplier;
     public int id;
     public string characterName;
+    public Weapon equipedWeapon;
+    public Armor equipedArmor;
+    public Charm equipedCharm;
 }
 
 public struct CharacterStats : IComponentData
@@ -20,6 +23,9 @@ public struct CharacterStats : IComponentData
     public float recoverTime;
     public int attackMultiplier;
     public int id;
+    public Weapon equipedWeapon;
+    public Armor equipedArmor;
+    public Charm equipedCharm;
 }
 
 
@@ -37,8 +43,10 @@ public class CharacterStatsConversion : GameObjectConversionSystem
                 attackMultiplier = characterStat.attackMultiplier,
             //character.equipedWeapon = characterStats.equipedWeapon;
                 id = characterStat.id,
-                characterName = characterStat.characterName
-
+                characterName = characterStat.characterName,
+                equipedWeapon = characterStat.equipedWeapon,
+                equipedArmor = characterStat.equipedArmor,
+                equipedCharm = characterStat.equipedCharm
             });
         });
     }

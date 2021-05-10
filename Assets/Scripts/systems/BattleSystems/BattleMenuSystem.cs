@@ -78,19 +78,26 @@ public class BattleMenuSystem : SystemBase
             VisualElement itemDesc = rootVisualElement.Q<VisualElement>("Itemdesc");
             Label itemTextBox = rootVisualElement.Q<Label>("itemTextBox");
 
+            /*EntityQuery caravanQuery = GetEntityQuery(typeof(CaravanTag));
+            Entity caravan = caravanQuery.GetSingletonEntity();
+            DynamicBuffer<WeaponData> weaponInventory = GetBuffer<WeaponData>(caravan);
+            DynamicBuffer<ArmorData> armorInventory = GetBuffer<ArmorData>(caravan);
+            DynamicBuffer<CharmData> charmInventory = GetBuffer<CharmData>(caravan);
+            */
+
             VisualElement enemySelector = rootVisualElement.Q<VisualElement>("EnemySelector");
             Entities
             .WithoutBurst()
             .WithStructuralChanges()
-            .ForEach((CharacterInventoryData inventory, AnimationData animation, Animator animator, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStat, in Entity entity) =>{
+            .ForEach((DynamicBuffer<ItemData> itemInventory, AnimationData animation, Animator animator, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStats, in Entity entity) =>{
                 battleData.selected = selectables.none;
 
                 Label healthText = selectorUI.UI.Q<Label>("health_text");
                 VisualElement healthBarBase = selectorUI.UI.Q<VisualElement>("health_bar_base");
                 VisualElement healthBar = selectorUI.UI.Q<VisualElement>("health_bar");
 
-                healthBar.style.width = healthBarBase.contentRect.width * (characterStat.health / characterStat.maxHealth);
-                healthText.text = "HP: " + characterStat.health.ToString() + "/" + characterStat.maxHealth.ToString();
+                healthBar.style.width = healthBarBase.contentRect.width * (characterStats.health / characterStats.maxHealth);
+                healthText.text = "HP: " + characterStats.health.ToString() + "/" + characterStats.maxHealth.ToString();
 
                 if(!isBattling){
                     //To Do: should display victory screen
@@ -234,8 +241,8 @@ public class BattleMenuSystem : SystemBase
                                 AudioManager.playSound("swordswing");
                                 battleData.targetingId = EnemyIds[currentEnemySelected].id;
                                 battleData.selected = selectables.attack;
-                                battleData.damage = inventory.equipedWeapon.power;
-                                battleData.useTime = inventory.equipedWeapon.useTime;
+                                battleData.damage = characterStats.equipedWeapon.power;
+                                battleData.useTime = characterStats.equipedWeapon.useTime;
                                 battleData.maxUseTime = battleData.useTime;
 
 
