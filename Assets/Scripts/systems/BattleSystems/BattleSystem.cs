@@ -1,6 +1,7 @@
 using Unity.Entities;
 using Unity.Collections;
 using UnityEngine;
+using System.Collections.Generic;
 using System;
 
 public class BattleSystem : SystemBase
@@ -8,8 +9,10 @@ public class BattleSystem : SystemBase
 
       EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
       public bool isInBattle;
-      public event EventHandler OnBattleEnd;
+      public event BattleEndEventHandler OnBattleEnd;
       public event EventHandler OnBattleStart;
+      public List<Entity> playerEntities = new List<Entity>();
+      public List<Entity> enemyEntities = new List<Entity>();
       protected override void OnCreate(){
             base.OnCreate();
             m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
@@ -18,7 +21,6 @@ public class BattleSystem : SystemBase
 
       protected override void OnUpdate()
       {
-
             EntityManager.CompleteAllJobs();
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
 
@@ -37,18 +39,18 @@ public class BattleSystem : SystemBase
 
             if(isInBattle){
                   //from the main enemy, get the rest of the enemies
-                  DynamicBuffer<EnemyBattleData> enemyIds = GetBuffer<EnemyBattleData>(battleManagers[0]);
-
                   //checks the number of enemies down to check if the battle should be down
-                  foreach(CharacterStats character in characterStatsList){
-                        for(int i = 0; i < enemyIds.Length; i++){
-                              if(character.id == enemyIds[i].id && character.health <= 0){
-                                    enemiesDown++;
-                              }
+                  foreach (Entity entity in enemyEntities)
+                  {
+                        CharacterStats character = GetComponent<CharacterStats>(entity);
+                        if(character.health <= 0){
+                              enemiesDown++;
                         }
                   }
-                  if(enemyIds.Length == enemiesDown){
+                  if(enemyEntities.Count == enemiesDown){
                         OnBattleEnd?.Invoke(this, new OnBattleEndEventArgs{isPlayerVictor = true});
+                        playerEntities.Clear();
+                        enemyEntities.Clear();
                   }
                   else{
                         Entities
@@ -93,11 +95,49 @@ public class BattleSystem : SystemBase
             m_EndSimulationEcbSystem.AddJobHandleForProducer(this.Dependency);
       }
 
-      public void StartBattle(Entity[] players, Entity[] enemys){
-            //!change to record more data
+      public void StartBattle( Entity enemy){
+            var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
+            InputGatheringSystem.currentInput = CurrentInput.ui;
+            World.GetOrCreateSystem<BattleMenuSystem>().Enabled = true;
+            // adding the nessesary components for battle
             if(!isInBattle){
                   isInBattle = true;
-                  OnBattleStart?.Invoke(this, new OnBattleStartArgs{players = players, enemys = enemys});
+                  EntityQuery characterQuery = GetEntityQuery(typeof(CharacterStats));
+                  NativeArray<CharacterStats> characters = characterQuery.ToComponentDataArray<CharacterStats>(Allocator.TempJob);
+                  NativeArray<Entity> characterEntities = characterQuery.ToEntityArray(Allocator.TempJob);
+                  Entities
+                  .WithoutBurst()
+                  .WithStructuralChanges()
+                  .ForEach((DynamicBuffer<PlayerPartyData> players) =>
+                  {
+                        Debug.Log("added player");
+                        for(int i = 0; i < players.Length; i++){
+                        int j = 0;
+                              foreach(CharacterStats characterStats in characters){
+                                    if(players[i].playerId == characterStats.id){
+                                          playerEntities.Add(characterEntities[j]);
+                                          ecb.AddComponent<BattleData>(characterEntities[j]);
+                                    }
+                                    j++;
+                              }
+                        }
+                  }).Run();
+                  DynamicBuffer<EnemyBattleData> enemies = GetBuffer<EnemyBattleData>(enemy);
+                  for(int i = 0; i < enemies.Length; i++){
+                        int j = 0;
+                        Debug.Log("added enemy");
+                        foreach(CharacterStats characterStats in characters){
+                              if(enemies[i].id == characterStats.id){
+                                    enemyEntities.Add(characterEntities[j]);
+                                    ecb.AddComponent<BattleData>(characterEntities[j]);
+                              }
+                              j++;
+                        }
+                  }
+                  isInBattle = true;
+                  OnBattleStart?.Invoke(this, System.EventArgs.Empty);
+                  characters.Dispose();
+                  characterEntities.Dispose();
             }
       }
 }
@@ -105,7 +145,4 @@ public class BattleSystem : SystemBase
 public class OnBattleEndEventArgs : EventArgs{
       public bool isPlayerVictor {get; set;}
 }
-public class OnBattleStartArgs : EventArgs{
-      public Entity[] players;
-      public Entity[] enemys;
-}
+public delegate void BattleEndEventHandler(object sender, OnBattleEndEventArgs e);

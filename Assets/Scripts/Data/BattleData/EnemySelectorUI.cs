@@ -5,5 +5,4 @@ using UnityEngine;
 public class EnemySelectorUI : IComponentData
 {
     public VisualElement enemySelectorUI;
-    public int enemyId;
 }

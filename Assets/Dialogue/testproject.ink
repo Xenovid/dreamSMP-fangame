@@ -11,3 +11,7 @@ test
     = whitebox
         a single white box sits on the floor
         -> END
+
+== victory ==
+hello
+-> END

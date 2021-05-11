@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class EnemySelectorUISystem : SystemBase
 {
+    BattleSystem battleSystem;
+    protected override void OnStartRunning(){
+        battleSystem = World.GetOrCreateSystem<BattleSystem>();
+        battleSystem.OnBattleEnd += RemoveSelectorUI_OnBattleEnd;
+    }
     protected override void OnUpdate()
       {
             Entities
@@ -47,6 +52,16 @@ public class EnemySelectorUISystem : SystemBase
                     enemySelectorUI.enemySelectorUI.RemoveFromClassList("enemySelected");
                     enemySelectorUI.enemySelectorUI.RemoveFromClassList("enemyBase");
                 }
+            }).Run();
+      }
+      private void RemoveSelectorUI_OnBattleEnd(System.Object sender, System.EventArgs e){
+           Entities
+            .WithoutBurst()
+            .WithStructuralChanges()
+            .ForEach((Entity entity, EnemySelectorUI enemySelectorUI,ref EnemySelectorData enemySelectorData) => {
+                enemySelectorUI.enemySelectorUI.Remove(enemySelectorUI.enemySelectorUI);
+                EntityManager.RemoveComponent<EnemySelectorUI>(entity);
+                EntityManager.RemoveComponent<EnemySelectorData>(entity);
             }).Run();
       }
 

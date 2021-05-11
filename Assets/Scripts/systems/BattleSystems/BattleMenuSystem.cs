@@ -2,52 +2,51 @@ using Unity.Entities;
 using UnityEngine.UIElements;
 using UnityEngine;
 using Unity.Collections;
+using System;
 
 public class BattleMenuSystem : SystemBase
 {
-    public selectables currentSelection = selectables.attack;
-    public VisualElement battleUI;
+    selectables currentSelection = selectables.attack;
+    VisualElement battleUI;
+    VisualElement enemySelector;
     UIDocument UIDoc;
+
+    InkDisplaySystem inkDisplaySystem;
+    bool isPrintingVictoryData;
     public int test = 0;
 
     //private bool isBattleMenuOn = false;
     private menuType currentMenu;
     private int currentCharacterSelected;
     private int currentEnemySelected;
+    public BattleSystem battleSystem;
+    public MovementSystem movementSystem;
 
     public int playerNumber;
     public bool hasMoved;
+    VisualTreeAsset enemySelectionUITemplate;
 
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
 
     protected override void OnStartRunning(){
         currentMenu = menuType.battleMenu;
-        base.OnStartRunning();
 
         m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+        //getting the battle system then subscribing to the battle start event so it can activate the menu when the transition is done
+        battleSystem = World.GetOrCreateSystem<BattleSystem>();
+        battleSystem.OnBattleStart += WaitForTransition_OnBattleStart;
+        battleSystem.OnBattleEnd += StartVictoryData_OnBattleEnd;
 
-        EntityQuery playerGroup = GetEntityQuery(typeof(PlayerTag));
-        NativeArray<Entity> playerEntities = playerGroup.ToEntityArray(Allocator.Temp);
-        DynamicBuffer<PlayerPartyData> party = GetBuffer<PlayerPartyData>(playerEntities[0]);
+        movementSystem = World.GetExistingSystem<MovementSystem>();
+        movementSystem.OnTransitionEnd += EnableMenu_OnTransitionEnd;
 
-
-        playerNumber = party.Length;
+        enemySelectionUITemplate = Resources.Load<VisualTreeAsset>("EnemyDetails");
     }
 
     protected override void OnUpdate()
     {
-        EntityQuery UIDocumentGroup = GetEntityQuery(typeof(UIDocument));
-        UIDoc = UIDocumentGroup.ToComponentArray<UIDocument>()[0];
-        var rootVisualElement = UIDoc.rootVisualElement;
-        if(rootVisualElement == null){
-            Debug.Log("didn't find root visual element");
-        }
-        else{
             EntityManager.CompleteAllJobs();
             float deltaTime = Time.DeltaTime;
-
-            EntityQuery BattleManagerGroup = GetEntityQuery(typeof(BattleManagerTag));
-            NativeArray<Entity> battleManagers = BattleManagerGroup.ToEntityArray(Allocator.Temp);
 
             EntityQuery enemyUiSelectionGroup = GetEntityQuery(typeof(EnemySelectorUI), typeof(EnemySelectorData));
             NativeArray<Entity> enemyUiSelection = enemyUiSelectionGroup.ToEntityArray(Allocator.TempJob);
@@ -55,14 +54,6 @@ public class BattleMenuSystem : SystemBase
             DynamicBuffer<EnemyBattleData> EnemyIds = new DynamicBuffer<EnemyBattleData>();
 
             EntityQuery battleCharacters = GetEntityQuery(typeof(CharacterStats), typeof(BattleData));
-
-            bool isBattling = false;
-
-            foreach (Entity entity in battleManagers)
-            {
-                EnemyIds = GetBuffer<EnemyBattleData>(entity);
-                isBattling = true;
-            }
 
             EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
             UIInputData input = uiInputQuery.GetSingleton<UIInputData>();
@@ -72,20 +63,12 @@ public class BattleMenuSystem : SystemBase
             Color black = Color.black;
             Color grey = Color.grey;
 
-
-
-            battleUI = rootVisualElement.Q<VisualElement>("BattleUI");
-            VisualElement itemDesc = rootVisualElement.Q<VisualElement>("Itemdesc");
-            Label itemTextBox = rootVisualElement.Q<Label>("itemTextBox");
-
             /*EntityQuery caravanQuery = GetEntityQuery(typeof(CaravanTag));
             Entity caravan = caravanQuery.GetSingletonEntity();
             DynamicBuffer<WeaponData> weaponInventory = GetBuffer<WeaponData>(caravan);
             DynamicBuffer<ArmorData> armorInventory = GetBuffer<ArmorData>(caravan);
             DynamicBuffer<CharmData> charmInventory = GetBuffer<CharmData>(caravan);
             */
-
-            VisualElement enemySelector = rootVisualElement.Q<VisualElement>("EnemySelector");
             Entities
             .WithoutBurst()
             .WithStructuralChanges()
@@ -99,17 +82,12 @@ public class BattleMenuSystem : SystemBase
                 healthBar.style.width = healthBarBase.contentRect.width * (characterStats.health / characterStats.maxHealth);
                 healthText.text = "HP: " + characterStats.health.ToString() + "/" + characterStats.maxHealth.ToString();
 
-                if(!isBattling){
-                    //To Do: should display victory screen
-                }
-                else if(selectorUI.isSelectable){
+                if(selectorUI.isSelectable){
                     VisualElement useBar = selectorUI.UI.Q<VisualElement>("useBar");
                     useBar.style.width = 0;
-                    //isBattleMenuOn = true;
                     switch (currentMenu){
                         case menuType.battleMenu:
                             battleUI.visible = true;
-                            itemDesc.visible = true;
                             enemySelector.visible = false;
                             if(selectorUI.isHovered && currentCharacterSelected == entityInQueryIndex && !hasMoved){
                                 selectorUI.UI.AddToClassList("hovering");
@@ -193,7 +171,6 @@ public class BattleMenuSystem : SystemBase
                             break;
                         case menuType.attackMenu:
                             battleUI.visible = false;
-                            itemDesc.visible = false;
                             enemySelector.visible = true;
 
                             if(input.moveleft){
@@ -254,7 +231,6 @@ public class BattleMenuSystem : SystemBase
                                 selectorUI.isHovered = true;
 
                                 battleUI.visible = true;
-                                itemDesc.visible = true;
                                 enemySelector.visible = false;
 
                                 selectorUI.UI.RemoveFromClassList("selected");
@@ -304,10 +280,89 @@ public class BattleMenuSystem : SystemBase
                 }
             }).Run();
             enemyUiSelection.Dispose();
-        }
         
         m_EndSimulationEcbSystem.AddJobHandleForProducer(this.Dependency);
         hasMoved = false;
+    }
+    private void DisableMenu_OnBattleEnd(System.Object sender, System.EventArgs e){
+        battleUI.visible = false;
+        enemySelector.visible = false;
+    }
+    private void EnableMenu_OnTransitionEnd(System.Object sender, System.EventArgs e){
+        Debug.Log("menu's should be enabled");
+        EntityQuery UIDocumentGroup = GetEntityQuery(typeof(UIDocument), typeof(BattleUITag));
+        UIDoc = UIDocumentGroup.ToComponentArray<UIDocument>()[0];
+        VisualElement root = UIDoc.rootVisualElement;
+        battleUI = root.Q<VisualElement>("BattleUI");
+        enemySelector = root.Q<VisualElement>("EnemySelector");
+        battleUI.visible = true;
+
+        EntityQuery characterQuery = GetEntityQuery(typeof(CharacterStats));
+        NativeArray<CharacterStats> characters = characterQuery.ToComponentDataArray<CharacterStats>(Allocator.TempJob);
+        NativeArray<Entity> characterEntities = characterQuery.ToEntityArray(Allocator.TempJob);
+        // adding the selectorUI stuff to the players
+        int i = 0;
+        foreach(Entity entity in battleSystem.playerEntities){
+            string tempstr = "character" + (i + 1).ToString();
+            VisualElement currentCharacter = battleUI.Q<VisualElement>(tempstr);
+            EntityManager.AddComponentObject(entity, new PlayerSelectorUI { UI = currentCharacter, currentSelection = battleSelectables.fight, isSelected = false, isHovered = i == 0 });
+        }
+
+        foreach(Entity entity in battleSystem.enemyEntities){   
+            VisualElement newEnemySelectUI = enemySelectionUITemplate.CloneTree();
+            CharacterStats characterStats = GetComponent<CharacterStats>(entity);
+            EntityManager.AddComponentData(entity, new EnemySelectorData { enemyId = characterStats.id, isSelected = false });
+            EntityManager.AddComponentObject(entity, new EnemySelectorUI{ enemySelectorUI = newEnemySelectUI});
+        }
+    }
+    private void WaitForTransition_OnBattleStart(System.Object sender, System.EventArgs e){
+        playerNumber = battleSystem.playerEntities.Count;
+        Debug.Log("should now be subed");
+        movementSystem.OnTransitionEnd += EnableMenu_OnTransitionEnd;
+    }
+
+    private void FinishVictoryData_OnWritingFinished(object sender, System.EventArgs e){
+        inkDisplaySystem.OnWritingFinished -= FinishVictoryData_OnWritingFinished;
+        isPrintingVictoryData = false;
+        var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
+        // transition back once the writer is done
+        Entities
+        .WithoutBurst()
+        .WithStructuralChanges()
+        .ForEach((ref BeforeBattleData beforeBattleData, in Entity entity) =>
+        {
+            ecb.AddComponent(entity, new TransitionData{newPosition = beforeBattleData.previousLocation});
+            ecb.RemoveComponent<BeforeBattleData>(entity);
+        }).Run();
+    }
+    private void StartVictoryData_OnBattleEnd(object sender, OnBattleEndEventArgs e){
+        AudioManager.stopSong("tempBattleMusic");
+        if(e.isPlayerVictor){
+            var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
+
+            EntityQuery battleCharacterGroup = GetEntityQuery(ComponentType.ReadWrite<CharacterStats>(), ComponentType.ReadWrite<BattleData>());
+            NativeArray<Entity> battleCharacters = battleCharacterGroup.ToEntityArray(Allocator.TempJob);
+
+            EntityQuery beforeBattleGroup = GetEntityQuery(typeof(BeforeBattleData));
+            NativeArray<Entity> beforeBattleDatas = beforeBattleGroup.ToEntityArray(Allocator.TempJob);
+
+            // if the player wins, give them some awards and give them some kind 
+            // if the player loses, set them to their last respawn point
+
+            //if a character loses or wins, say the results
+            //since they aren't in a battle, remove the battle data
+            foreach (Entity entity in battleCharacters){
+                ecb.RemoveComponent<BattleData>(entity);
+            }
+
+            beforeBattleDatas.Dispose();
+            battleCharacters.Dispose();
+
+            isPrintingVictoryData = true;
+            inkDisplaySystem.DisplayVictoryData();
+            inkDisplaySystem.OnWritingFinished += FinishVictoryData_OnWritingFinished;
+        }
+        
     }
 }
 
