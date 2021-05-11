@@ -1,7 +1,8 @@
 using Unity.Entities;
 using UnityEngine;
 
-public class DamageData : IComponentData
+[GenerateAuthoringComponent]
+public struct DamageData : IBufferElementData
 {
     public float damage;
 }
