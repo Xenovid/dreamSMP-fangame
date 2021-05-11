@@ -26,13 +26,6 @@ public class CharmConversionSystem : GameObjectConversionSystem
             }
         });
     }
-
-    public static Charm CharmInfoToCharm(CharmInfo charmInfo){
-        return new Charm{
-            name = charmInfo.name,
-            description = charmInfo.description
-        };
-    }
 }
 
 [System.Serializable]

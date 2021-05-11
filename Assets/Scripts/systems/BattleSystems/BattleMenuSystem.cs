@@ -10,7 +10,6 @@ public class BattleMenuSystem : SystemBase
     VisualElement battleUI;
     VisualElement enemySelector;
     UIDocument UIDoc;
-    bool hasBattleStarted;
 
     InkDisplaySystem inkDisplaySystem;
     bool isPrintingVictoryData;
@@ -28,22 +27,20 @@ public class BattleMenuSystem : SystemBase
     VisualTreeAsset enemySelectionUITemplate;
 
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
-    protected override void OnCreate()
-    {
-        battleSystem = World.GetOrCreateSystem<BattleSystem>();
-        battleSystem.OnBattleStart += WaitForTransition_OnBattleStart;
-        battleSystem.OnBattleEnd += StartVictoryData_OnBattleEnd;
-
-        movementSystem = World.GetExistingSystem<MovementSystem>();
-        movementSystem.OnTransitionEnd += EnableMenu_OnTransitionEnd;
-        enemySelectionUITemplate = Resources.Load<VisualTreeAsset>("EnemyDetails");
-    }
 
     protected override void OnStartRunning(){
         currentMenu = menuType.battleMenu;
 
         m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
         //getting the battle system then subscribing to the battle start event so it can activate the menu when the transition is done
+        battleSystem = World.GetOrCreateSystem<BattleSystem>();
+        battleSystem.OnBattleStart += WaitForTransition_OnBattleStart;
+        battleSystem.OnBattleEnd += StartVictoryData_OnBattleEnd;
+
+        movementSystem = World.GetExistingSystem<MovementSystem>();
+        movementSystem.OnTransitionEnd += EnableMenu_OnTransitionEnd;
+
+        enemySelectionUITemplate = Resources.Load<VisualTreeAsset>("EnemyDetails");
     }
 
     protected override void OnUpdate()
@@ -54,8 +51,7 @@ public class BattleMenuSystem : SystemBase
             EntityQuery enemyUiSelectionGroup = GetEntityQuery(typeof(EnemySelectorUI), typeof(EnemySelectorData));
             NativeArray<Entity> enemyUiSelection = enemyUiSelectionGroup.ToEntityArray(Allocator.TempJob);
 
-
-            int enemyLength = battleSystem.enemyEntities.Count;
+            DynamicBuffer<EnemyBattleData> EnemyIds = new DynamicBuffer<EnemyBattleData>();
 
             EntityQuery battleCharacters = GetEntityQuery(typeof(CharacterStats), typeof(BattleData));
 
@@ -77,6 +73,7 @@ public class BattleMenuSystem : SystemBase
             .WithoutBurst()
             .WithStructuralChanges()
             .ForEach((DynamicBuffer<ItemData> itemInventory, AnimationData animation, Animator animator, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStats, in Entity entity) =>{
+                battleData.selected = selectables.none;
 
                 Label healthText = selectorUI.UI.Q<Label>("health_text");
                 VisualElement healthBarBase = selectorUI.UI.Q<VisualElement>("health_bar_base");
@@ -175,16 +172,53 @@ public class BattleMenuSystem : SystemBase
                         case menuType.attackMenu:
                             battleUI.visible = false;
                             enemySelector.visible = true;
-                            
+
+                            if(input.moveleft){
+                                AudioManager.playSound("menuchange");
+                                currentEnemySelected--;
+                            }
+                            else if(input.moveright){
+                                AudioManager.playSound("menuchange");
+                                currentEnemySelected++;
+                            }
+                            if(currentEnemySelected == EnemyIds.Length){
+                                currentEnemySelected = 0;
+                            }
+                            else if(currentEnemySelected < 0){
+                                currentEnemySelected = EnemyIds.Length - 1;
+                            }
+
+                            foreach(Entity ent in enemyUiSelection){
+                                    EnemySelectorData temp = GetComponent<EnemySelectorData>(ent);
+
+                                    if(temp.isDead && temp.enemyId == EnemyIds[currentEnemySelected].id){
+                                        currentEnemySelected++;
+                                        if(currentEnemySelected == EnemyIds.Length){
+                                            currentEnemySelected = 0;
+                                        }
+                                    }
+                                    else if(temp.enemyId == EnemyIds[currentEnemySelected].id){
+                                        temp.isSelected = true;
+                                        EntityManager.SetComponentData(ent, temp);
+                                    }
+                                    else{
+                                        temp.isSelected = false;
+                                        EntityManager.SetComponentData(ent, temp);
+                                    }
+
+                                    
+                            }
+
+                            if(input.goback){
+                                AudioManager.playSound("menuchange");
+                                currentMenu = menuType.battleMenu;
+                            }                           
                             if(input.goselected){
-                                DynamicBuffer<DamageData> enemyDamages = GetBuffer<DamageData>(battleSystem.enemyEntities[currentEnemySelected]);
                                 animator.Play(animation.basicSwordAnimationName);
                                 AudioManager.playSound("swordswing");
-                                
-                                //deal damage to the enemy
-                                enemyDamages.Add(new DamageData{damage = characterStats.equipedWeapon.power});
-
-                                // wait until you are recharged
+                                battleData.targetingId = EnemyIds[currentEnemySelected].id;
+                                battleData.selected = selectables.attack;
+                                battleData.damage = characterStats.equipedWeapon.power;
                                 battleData.useTime = characterStats.equipedWeapon.useTime;
                                 battleData.maxUseTime = battleData.useTime;
 
@@ -203,49 +237,25 @@ public class BattleMenuSystem : SystemBase
                                 selectorUI.UI.AddToClassList("hovering");
 
                                 selectorUI.isSelectable = false;
-                                currentEnemySelected = 0;
                             }
-                            else if(input.moveleft){
-                                AudioManager.playSound("menuchange");
-                                currentEnemySelected--;
-                            }
-                            else if(input.moveright){
-                                AudioManager.playSound("menuchange");
-                                currentEnemySelected++;
-                            }
-                            if(currentEnemySelected == enemyLength){
-                                currentEnemySelected = 0;
-                            }
-                            else if(currentEnemySelected < 0){
-                                currentEnemySelected = enemyLength - 1;
-                            }
-                            foreach(Entity ent in enemyUiSelection){
-                                    EnemySelectorData temp = GetComponent<EnemySelectorData>(ent);
-
-                                    if(temp.isDead && ent == battleSystem.enemyEntities[currentEnemySelected]){
-                                        currentEnemySelected++;
-                                        if(currentEnemySelected == enemyLength){
-                                            currentEnemySelected = 0;
-                                        }
-                                    }
-                                    else if(ent == battleSystem.enemyEntities[currentEnemySelected]){
-                                        temp.isSelected = true;
-                                        EntityManager.SetComponentData(ent, temp);
-                                    }
-                                    else{
-                                        temp.isSelected = false;
-                                        EntityManager.SetComponentData(ent, temp);
-                                    }
-
-                                    
-                            }
-
-                            if(input.goback){
-                                AudioManager.playSound("menuchange");
-                                currentMenu = menuType.battleMenu;
-                            }                           
                             break;
                     }
+                    /*
+                    was used when weapons had their own recharge time
+                    for(int i = 0; i <= 4; i++){
+                            VisualElement currentItemUI = selectorUI.UI.Q("item" + (i + 1).ToString());
+                            VisualElement itemFilter = currentItemUI.Q<VisualElement>("itemloader");
+                            Item tempItem = inventory.inventory[i];
+                            if(tempItem.itemType == ItemType.sword || tempItem.itemType == ItemType.axe || tempItem.itemType == ItemType.none){
+                                if(tempItem.weapon.rechargeTime > 0){
+                                    itemFilter.style.height =  currentItemUI.contentRect.height * ((tempItem.weapon.attackTime - tempItem.weapon.rechargeTime)/tempItem.weapon.attackTime);
+                                    inventory.inventory[i].weapon.rechargeTime = tempItem.weapon.rechargeTime - deltaTime;
+                                }
+                                else{
+                                    itemFilter.style.height = 0f;
+                                }
+                            }
+                    }*/
                     
                 }
                 else{
@@ -258,6 +268,7 @@ public class BattleMenuSystem : SystemBase
                     }
                     else
                     {
+                        animator.Play(animation.swordIdleAnimationName);
                         VisualElement useBar = selectorUI.UI.Q<VisualElement>("useBar");
 
                         
@@ -276,37 +287,37 @@ public class BattleMenuSystem : SystemBase
     private void DisableMenu_OnBattleEnd(System.Object sender, System.EventArgs e){
         battleUI.visible = false;
         enemySelector.visible = false;
-        hasBattleStarted = false;
     }
     private void EnableMenu_OnTransitionEnd(System.Object sender, System.EventArgs e){
-        if(!hasBattleStarted){
-            EntityQuery UIDocumentGroup = GetEntityQuery(typeof(UIDocument), typeof(BattleUITag));
-            UIDoc = UIDocumentGroup.ToComponentArray<UIDocument>()[0];
-            VisualElement root = UIDoc.rootVisualElement;
-            battleUI = root.Q<VisualElement>("BattleUI");
-            enemySelector = root.Q<VisualElement>("EnemySelector");
-            battleUI.visible = true;
-            // adding the selectorUI stuff to the players
-            int i = 0;
-            foreach(Entity entity in battleSystem.playerEntities){
-                string tempstr = "character" + (i + 1).ToString();
-                VisualElement currentCharacter = battleUI.Q<VisualElement>(tempstr);
-                EntityManager.AddComponentObject(entity, new PlayerSelectorUI { UI = currentCharacter, currentSelection = battleSelectables.fight, isSelected = false, isHovered = i == 0 });
-            }
+        Debug.Log("menu's should be enabled");
+        EntityQuery UIDocumentGroup = GetEntityQuery(typeof(UIDocument), typeof(BattleUITag));
+        UIDoc = UIDocumentGroup.ToComponentArray<UIDocument>()[0];
+        VisualElement root = UIDoc.rootVisualElement;
+        battleUI = root.Q<VisualElement>("BattleUI");
+        enemySelector = root.Q<VisualElement>("EnemySelector");
+        battleUI.visible = true;
 
-            foreach(Entity entity in battleSystem.enemyEntities){
-                VisualElement newEnemySelectUI = enemySelectionUITemplate.CloneTree();
-                enemySelector.Add(newEnemySelectUI);
-                CharacterStats characterStats = GetComponent<CharacterStats>(entity);
-                EntityManager.AddComponentData(entity, new EnemySelectorData { enemyId = characterStats.id, isSelected = false });
-                EntityManager.AddComponentObject(entity, new EnemySelectorUI{ enemySelectorUI = newEnemySelectUI});
-            }
-            movementSystem.OnTransitionEnd -= EnableMenu_OnTransitionEnd;
-            hasBattleStarted = true;
+        EntityQuery characterQuery = GetEntityQuery(typeof(CharacterStats));
+        NativeArray<CharacterStats> characters = characterQuery.ToComponentDataArray<CharacterStats>(Allocator.TempJob);
+        NativeArray<Entity> characterEntities = characterQuery.ToEntityArray(Allocator.TempJob);
+        // adding the selectorUI stuff to the players
+        int i = 0;
+        foreach(Entity entity in battleSystem.playerEntities){
+            string tempstr = "character" + (i + 1).ToString();
+            VisualElement currentCharacter = battleUI.Q<VisualElement>(tempstr);
+            EntityManager.AddComponentObject(entity, new PlayerSelectorUI { UI = currentCharacter, currentSelection = battleSelectables.fight, isSelected = false, isHovered = i == 0 });
+        }
+
+        foreach(Entity entity in battleSystem.enemyEntities){   
+            VisualElement newEnemySelectUI = enemySelectionUITemplate.CloneTree();
+            CharacterStats characterStats = GetComponent<CharacterStats>(entity);
+            EntityManager.AddComponentData(entity, new EnemySelectorData { enemyId = characterStats.id, isSelected = false });
+            EntityManager.AddComponentObject(entity, new EnemySelectorUI{ enemySelectorUI = newEnemySelectUI});
         }
     }
     private void WaitForTransition_OnBattleStart(System.Object sender, System.EventArgs e){
         playerNumber = battleSystem.playerEntities.Count;
+        Debug.Log("should now be subed");
         movementSystem.OnTransitionEnd += EnableMenu_OnTransitionEnd;
     }
 

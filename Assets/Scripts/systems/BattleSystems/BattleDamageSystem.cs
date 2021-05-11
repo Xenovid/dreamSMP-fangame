@@ -11,5 +11,16 @@ public class BattleDamageSystem : SystemBase
 
     protected override void OnUpdate()
     {
+        var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
+        Entities
+            .WithoutBurst()
+            .ForEach((Entity entity, int entityInQueryIndex, ref CharacterStats characterStats, in DamageData damage) =>
+            {
+                Debug.Log("dealing damage");
+                characterStats.health -= damage.damage;
+                //animationData.hasTakenDamage = true;
+                ecb.RemoveComponent<DamageData>(entity);
+            }).Run();
+    m_EndSimulationEcbSystem.AddJobHandleForProducer(this.Dependency);
     }
 }

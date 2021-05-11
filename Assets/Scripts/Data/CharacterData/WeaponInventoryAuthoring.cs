@@ -19,19 +19,15 @@ public class WeaponConversionSystem : GameObjectConversionSystem
             DstEntityManager.AddBuffer<WeaponData>(entity);
             DynamicBuffer<WeaponData> WeaponInventory = DstEntityManager.GetBuffer<WeaponData>(entity);
             foreach(WeaponInfo weaponInfo in weaponInventory.weaponInfos){
-                Weapon weapon = WeaponInfoToWeapon(weaponInfo);
+                Weapon weapon = new Weapon{
+                    power = weaponInfo.power,
+                    name = weaponInfo.name,
+                    description = weaponInfo.description,
+                    useTime = weaponInfo.useTime
+                };
                 WeaponInventory.Add(new WeaponData{weapon = weapon});
             }
         });
-    }
-
-    public static Weapon WeaponInfoToWeapon(WeaponInfo weaponInfo){
-        return new Weapon{
-            power = weaponInfo.power,
-            name = weaponInfo.name,
-            description = weaponInfo.description,
-            useTime = weaponInfo.useTime
-        };
     }
 }
 

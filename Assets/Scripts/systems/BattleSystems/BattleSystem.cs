@@ -13,12 +13,10 @@ public class BattleSystem : SystemBase
       public event EventHandler OnBattleStart;
       public List<Entity> playerEntities = new List<Entity>();
       public List<Entity> enemyEntities = new List<Entity>();
-      MovementSystem movementSystem;
       protected override void OnCreate(){
             base.OnCreate();
             m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
             isInBattle = false;
-            movementSystem = World.GetOrCreateSystem<MovementSystem>();
       }
 
       protected override void OnUpdate()
@@ -49,31 +47,43 @@ public class BattleSystem : SystemBase
                               enemiesDown++;
                         }
                   }
-                  // once all the enemies are down, the player has won
                   if(enemyEntities.Count == enemiesDown){
                         OnBattleEnd?.Invoke(this, new OnBattleEndEventArgs{isPlayerVictor = true});
                         playerEntities.Clear();
                         enemyEntities.Clear();
                   }
-                  // need to add detection for when the player loses
                   else{
                         Entities
                         .WithStructuralChanges()
                         .WithoutBurst()
-                        .ForEach((ref DynamicBuffer<DamageData> damages, ref BattleData battleData ,ref CharacterStats characterStats) => {
-                              for(int i = 0; i < damages.Length; i++){
-                                    Debug.Log("damage dealt");
-                                    characterStats.health -= damages[i].damage;
-                                    damages.RemoveAt(i);
-                                    i--;
-                              }
-                              if(characterStats.health <= 0 && !battleData.isDown)
-                              {
-                                    Debug.Log("should be down");   
-                                    //*** need to add down animation
-                                    //do others stuff for when a temporary enemy is down
-                                    battleData.isDown = true;
-                              }
+                        .ForEach((ref BattleData battleData ,ref CharacterStats characterStats) => {
+                              //-- need to add some kind of detection to tell if a team lost
+                              //switches based on what a character seletcted
+                              switch(battleData.selected){
+                                    //when the selectable is attacking, find enemy that is selected to be attacked and put data on it to take damage
+                                    case selectables.attack:
+                                          int i = 0;
+                                          //going through each possible character with battle data                
+                                          foreach(CharacterStats character in characterStatsList){
+                                                //if the the id of the character matches the target, deal damage to the character
+                                                if( character.id.Equals(battleData.targetingId)){
+                                                      EntityManager.AddComponentObject(characterEntities[i], new DamageData{damage = battleData.damage});
+                                                }
+                                                i++;
+                                          }
+                                          break;
+                                    //for when the selected action is items
+                                    case selectables.items:
+
+                                          break;
+                                    // for when the selected action is running
+                                    case selectables.run:
+
+                                          break;
+                                    // when nothing is selected
+                                    case selectables.none:
+                                          break;
+                        }
                         }).Run();
                   }
             }
@@ -84,66 +94,51 @@ public class BattleSystem : SystemBase
             battleManagers.Dispose();
             m_EndSimulationEcbSystem.AddJobHandleForProducer(this.Dependency);
       }
-      // goes through the party of the character and the enemies conneceted to the triggering enemy and adds battle data to all of them
-      // also adds them to the battlesystems player and enemy lists so that other systems know who is currently in a battle
-      // triggers an event to let other systems know that the battle is starting
+
       public void StartBattle( Entity enemy){
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
-            // start
             InputGatheringSystem.currentInput = CurrentInput.ui;
             World.GetOrCreateSystem<BattleMenuSystem>().Enabled = true;
             // adding the nessesary components for battle
             if(!isInBattle){
                   isInBattle = true;
-                  // 
                   EntityQuery characterQuery = GetEntityQuery(typeof(CharacterStats));
                   NativeArray<CharacterStats> characters = characterQuery.ToComponentDataArray<CharacterStats>(Allocator.TempJob);
                   NativeArray<Entity> characterEntities = characterQuery.ToEntityArray(Allocator.TempJob);
-                  // adding the battle data to the players
                   Entities
                   .WithoutBurst()
                   .WithStructuralChanges()
                   .ForEach((DynamicBuffer<PlayerPartyData> players) =>
                   {
+                        Debug.Log("added player");
                         for(int i = 0; i < players.Length; i++){
                         int j = 0;
                               foreach(CharacterStats characterStats in characters){
                                     if(players[i].playerId == characterStats.id){
                                           playerEntities.Add(characterEntities[j]);
+                                          ecb.AddComponent<BattleData>(characterEntities[j]);
                                     }
                                     j++;
                               }
                         }
                   }).Run();
-                  // adding battle data to the enemies
                   DynamicBuffer<EnemyBattleData> enemies = GetBuffer<EnemyBattleData>(enemy);
                   for(int i = 0; i < enemies.Length; i++){
                         int j = 0;
+                        Debug.Log("added enemy");
                         foreach(CharacterStats characterStats in characters){
                               if(enemies[i].id == characterStats.id){
                                     enemyEntities.Add(characterEntities[j]);
+                                    ecb.AddComponent<BattleData>(characterEntities[j]);
                               }
                               j++;
                         }
                   }
                   isInBattle = true;
-                  // trigger event, should be connected to battle menu and movement 
                   OnBattleStart?.Invoke(this, System.EventArgs.Empty);
-                  // wait until the trasition ends to add battle data to everyone in the battle
-                  movementSystem.OnTransitionEnd += AddBattleData_OnTransitionEnd;
                   characters.Dispose();
                   characterEntities.Dispose();
             }
-      }
-      public void AddBattleData_OnTransitionEnd(System.Object sender, System.EventArgs e){
-            var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
-            foreach(Entity entity in playerEntities){
-                  ecb.AddComponent<BattleData>(entity);
-            }
-            foreach(Entity entity in enemyEntities){
-                  ecb.AddComponent<BattleData>(entity);
-            }
-            movementSystem.OnTransitionEnd -= AddBattleData_OnTransitionEnd;
       }
 }
 

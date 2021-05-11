@@ -28,14 +28,6 @@ public class ArmorConversionSystem : GameObjectConversionSystem
             }
         });
     }
-    
-    public static Armor ArmorInfoToArmor(ArmorInfo armorInfo){
-        return new Armor{
-            defense = armorInfo.defense,
-            name = armorInfo.name,
-            description = armorInfo.description,
-        };
-    }
 }
 [System.Serializable]
 public struct ArmorInfo{
