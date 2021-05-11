@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class EnemyBattleAISystem : SystemBase
 {
+    bool hasBattleStarted;
+    BattleSystem battleSystem;
+    protected override void OnCreate()
+    {
+        battleSystem = World.GetOrCreateSystem<BattleSystem>();
+    }
     protected override void OnUpdate()
     {
         float deltaTime = Time.DeltaTime;
@@ -27,17 +33,15 @@ public class EnemyBattleAISystem : SystemBase
             //ai 3, use a machine learning algorithm
 
             float randomValue = Random.value;
-            int Target = Random.Range(1, numPlayer);
-            Debug.Log(battleData.isDown);
+            int Target = Random.Range(0, numPlayer - 1);
             if (battleData.useTime <= 0 && !battleData.isDown)
             {
                 foreach (RandomAttack attack in randomAIData.attacks)
                 {
                     if (attack.chance >= randomValue)
                     {
-                        battleData.selected = selectables.attack;
-                        battleData.targetingId = playerPartyData[Target - 1].playerId;
-                        battleData.damage = attack.damage;
+                        DynamicBuffer<DamageData> playerDamages = GetBuffer<DamageData>(battleSystem.playerEntities[Target]);
+                        playerDamages.Add(new DamageData{damage = 1});
 
                         animator.Play(attack.attackAnimation);
 
@@ -53,7 +57,6 @@ public class EnemyBattleAISystem : SystemBase
             }
             else
             {
-                battleData.selected = selectables.none;
                 battleData.useTime -= deltaTime * Random.value;
             }
         }).Run();

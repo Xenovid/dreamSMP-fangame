@@ -10,9 +10,9 @@ public class CharacterStatsAuthouring : MonoBehaviour{
     public int attackMultiplier;
     public int id;
     public string characterName;
-    public Weapon equipedWeapon;
-    public Armor equipedArmor;
-    public Charm equipedCharm;
+    public WeaponInfo equipedWeapon;
+    public ArmorInfo equipedArmor;
+    public CharmInfo equipedCharm;
 }
 
 public struct CharacterStats : IComponentData
@@ -44,9 +44,9 @@ public class CharacterStatsConversion : GameObjectConversionSystem
             //character.equipedWeapon = characterStats.equipedWeapon;
                 id = characterStat.id,
                 characterName = characterStat.characterName,
-                equipedWeapon = characterStat.equipedWeapon,
-                equipedArmor = characterStat.equipedArmor,
-                equipedCharm = characterStat.equipedCharm
+                equipedWeapon =  WeaponConversionSystem.WeaponInfoToWeapon(characterStat.equipedWeapon),
+                equipedArmor = ArmorConversionSystem.ArmorInfoToArmor(characterStat.equipedArmor),
+                equipedCharm = CharmConversionSystem.CharmInfoToCharm(characterStat.equipedCharm)
             });
         });
     }

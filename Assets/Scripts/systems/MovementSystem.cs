@@ -101,6 +101,5 @@ public class MovementSystem : SystemBase
             ecb.AddComponent(entity, new TransitionData{newPosition = new Vector3(tempPos.x,tempPos.y,0)});
             i++;
         }
-        Debug.Log(OnTransitionEnd == null);
     }
 }
