@@ -1,0 +1,45 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="width: 100%; height: 100%; justify-content: flex-end;">
+        <ui:VisualElement name="BattleUI" picking-mode="Ignore" style="position: relative; width: auto; height: 15.5%; top: auto; visibility: visible; -unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); -unity-text-align: middle-center; align-items: stretch; justify-content: flex-start; flex-grow: 0; flex-shrink: 0; flex-basis: auto; flex-direction: row; left: auto; bottom: auto; font-size: 40%; display: flex;">
+            <ui:VisualElement name="character1" class="hovering" style="flex-grow: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); width: 33.3%;">
+                <ui:VisualElement name="characterDetails" style="height: 40%; flex-direction: row; justify-content: flex-start; align-items: stretch;">
+                    <ui:VisualElement name="character_image" style="background-image: url(&apos;/Assets/Art/Icons/technoface.png&apos;); width: 10%; height: 100%; flex-grow: 0; margin-left: 0.5%; margin-right: 0.5%; margin-top: 0.5%; margin-bottom: 0.5%;" />
+                    <ui:Label text="Technoblade" display-tooltip-when-elided="true" name="character_name" style="font-size: 9px;" />
+                    <ui:VisualElement name="character_health" style="flex-grow: 1;">
+                        <ui:Label text="HP: 50/100" display-tooltip-when-elided="true" name="health_text" style="font-size: 6px;" />
+                        <ui:VisualElement name="health_bar_base" style="flex-grow: 1; background-color: rgb(245, 66, 72); margin-left: 1%; margin-right: 2%; margin-top: 1%; margin-bottom: 1%;">
+                            <ui:VisualElement name="health_bar" style="flex-grow: 1; background-color: rgb(62, 209, 68); width: 50%;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="Itembar" class="itembar" style="flex-grow: 1; flex-direction: row;">
+                    <ui:VisualElement name="fight" class="item_selected" style="flex-direction: column-reverse; height: auto; max-height: 100%;">
+                        <ui:VisualElement name="attack_image" style="flex-grow: 0; height: 100%; background-image: url(&apos;/Assets/Art/basicsword.png#basicsword&apos;);" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="skills" class="item" style="flex-direction: column-reverse;">
+                        <ui:VisualElement name="skills_image" style="flex-grow: 0; height: 100%;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="items" class="item" style="flex-direction: column-reverse;">
+                        <ui:VisualElement name="itemloader" style="flex-grow: 0; height: 100%;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="special" class="item" style="flex-direction: column-reverse;">
+                        <ui:VisualElement name="special_image" style="flex-grow: 0; height: 100%;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="run" class="item" style="flex-direction: column-reverse;">
+                        <ui:VisualElement name="run_image" style="flex-grow: 0; height: 100%;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="run2" class="item" />
+                </ui:VisualElement>
+                <ui:VisualElement name="useBar" style="flex-grow: 0; height: 10%; width: 40%; background-color: rgba(24, 24, 24, 0.6); flex-shrink: 0;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Itemdesc" style="flex-grow: 0; height: 20%; background-color: rgba(106, 106, 106, 0.34); visibility: hidden;">
+            <ui:Label text="Test text" display-tooltip-when-elided="true" name="itemTextBox" style="-unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); font-size: 20px; color: rgb(14, 14, 14);" />
+        </ui:VisualElement>
+        <ui:VisualElement name="EnemySelector" style="justify-content: center; top: auto; height: 20%; visibility: hidden; align-items: center; flex-direction: row; display: flex; position: absolute; width: 100%; bottom: 0;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="VictoryScreen" style="width: 100%; height: 100%; background-color: rgba(200, 153, 33, 0.58); justify-content: space-between; position: absolute; top: 0; left: 0; visibility: hidden; display: flex;">
+        <ui:Label text="Victory" display-tooltip-when-elided="true" name="title" style="-unity-font: resource(&apos;Fonts &amp; Materials/elf-boy-classic-font/Elfboyclassic-PKZgZ&apos;); font-size: 60px; -unity-text-align: upper-center;" />
+        <ui:Label text="press z to continue&#10;" display-tooltip-when-elided="true" style="-unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); -unity-text-align: lower-center; justify-content: flex-start; align-items: center; font-size: 50px; background-color: rgba(200, 183, 82, 0.65);" />
+    </ui:VisualElement>
+</ui:UXML>

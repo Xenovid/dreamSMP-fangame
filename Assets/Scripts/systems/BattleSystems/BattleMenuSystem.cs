@@ -21,7 +21,7 @@ public class BattleMenuSystem : SystemBase
     private int currentCharacterSelected;
     private int currentEnemySelected;
     public BattleSystem battleSystem;
-    public MovementSystem movementSystem;
+    public TransitionSystem transitionSystem;
 
     public int playerNumber;
     public bool hasMoved;
@@ -33,10 +33,12 @@ public class BattleMenuSystem : SystemBase
         battleSystem = World.GetOrCreateSystem<BattleSystem>();
         battleSystem.OnBattleStart += WaitForTransition_OnBattleStart;
         battleSystem.OnBattleEnd += StartVictoryData_OnBattleEnd;
+        battleSystem.OnBattleEnd += DisableMenu_OnBattleEnd;
 
-        movementSystem = World.GetExistingSystem<MovementSystem>();
-        movementSystem.OnTransitionEnd += EnableMenu_OnTransitionEnd;
-        enemySelectionUITemplate = Resources.Load<VisualTreeAsset>("EnemyDetails");
+        transitionSystem = World.GetExistingSystem<TransitionSystem>();
+        enemySelectionUITemplate = Resources.Load<VisualTreeAsset>("UIDocuments/EnemyDetails");
+
+        inkDisplaySystem = World.GetOrCreateSystem<InkDisplaySystem>();
     }
 
     protected override void OnStartRunning(){
@@ -273,13 +275,20 @@ public class BattleMenuSystem : SystemBase
         m_EndSimulationEcbSystem.AddJobHandleForProducer(this.Dependency);
         hasMoved = false;
     }
+    private void ResumeGameWorld_OnTransitionEnd(System.Object sender, System.EventArgs e){
+        InputGatheringSystem.currentInput = CurrentInput.overworld;
+        transitionSystem.OnTransitionEnd -= ResumeGameWorld_OnTransitionEnd;
+    }
     private void DisableMenu_OnBattleEnd(System.Object sender, System.EventArgs e){
         battleUI.visible = false;
         enemySelector.visible = false;
         hasBattleStarted = false;
+
+        transitionSystem.OnTransitionEnd += ResumeGameWorld_OnTransitionEnd;
     }
     private void EnableMenu_OnTransitionEnd(System.Object sender, System.EventArgs e){
         if(!hasBattleStarted){
+            Debug.Log("enabled menu");
             EntityQuery UIDocumentGroup = GetEntityQuery(typeof(UIDocument), typeof(BattleUITag));
             UIDoc = UIDocumentGroup.ToComponentArray<UIDocument>()[0];
             VisualElement root = UIDoc.rootVisualElement;
@@ -301,13 +310,13 @@ public class BattleMenuSystem : SystemBase
                 EntityManager.AddComponentData(entity, new EnemySelectorData { enemyId = characterStats.id, isSelected = false });
                 EntityManager.AddComponentObject(entity, new EnemySelectorUI{ enemySelectorUI = newEnemySelectUI});
             }
-            movementSystem.OnTransitionEnd -= EnableMenu_OnTransitionEnd;
+            transitionSystem.OnTransitionEnd -= EnableMenu_OnTransitionEnd;
             hasBattleStarted = true;
         }
     }
     private void WaitForTransition_OnBattleStart(System.Object sender, System.EventArgs e){
         playerNumber = battleSystem.playerEntities.Count;
-        movementSystem.OnTransitionEnd += EnableMenu_OnTransitionEnd;
+        transitionSystem.OnTransitionEnd += EnableMenu_OnTransitionEnd;
     }
 
     private void FinishVictoryData_OnWritingFinished(object sender, System.EventArgs e){

@@ -1,6 +1,6 @@
 using Unity.Entities;
 using Unity.Collections;
-using UnityEngine;
+using Unity.Transforms;
 using System.Collections.Generic;
 using System;
 
@@ -13,12 +13,12 @@ public class BattleSystem : SystemBase
       public event EventHandler OnBattleStart;
       public List<Entity> playerEntities = new List<Entity>();
       public List<Entity> enemyEntities = new List<Entity>();
-      MovementSystem movementSystem;
+      TransitionSystem transitionSystem;
       protected override void OnCreate(){
             base.OnCreate();
             m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
             isInBattle = false;
-            movementSystem = World.GetOrCreateSystem<MovementSystem>();
+            transitionSystem = World.GetOrCreateSystem<TransitionSystem>();
       }
 
       protected override void OnUpdate()
@@ -51,9 +51,7 @@ public class BattleSystem : SystemBase
                   }
                   // once all the enemies are down, the player has won
                   if(enemyEntities.Count == enemiesDown){
-                        OnBattleEnd?.Invoke(this, new OnBattleEndEventArgs{isPlayerVictor = true});
-                        playerEntities.Clear();
-                        enemyEntities.Clear();
+                        EndBattle();
                   }
                   // need to add detection for when the player loses
                   else{
@@ -62,14 +60,12 @@ public class BattleSystem : SystemBase
                         .WithoutBurst()
                         .ForEach((ref DynamicBuffer<DamageData> damages, ref BattleData battleData ,ref CharacterStats characterStats) => {
                               for(int i = 0; i < damages.Length; i++){
-                                    Debug.Log("damage dealt");
                                     characterStats.health -= damages[i].damage;
                                     damages.RemoveAt(i);
                                     i--;
                               }
                               if(characterStats.health <= 0 && !battleData.isDown)
-                              {
-                                    Debug.Log("should be down");   
+                              { 
                                     //*** need to add down animation
                                     //do others stuff for when a temporary enemy is down
                                     battleData.isDown = true;
@@ -89,11 +85,15 @@ public class BattleSystem : SystemBase
       // triggers an event to let other systems know that the battle is starting
       public void StartBattle( Entity enemy){
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
+            
             // start
             InputGatheringSystem.currentInput = CurrentInput.ui;
             World.GetOrCreateSystem<BattleMenuSystem>().Enabled = true;
             // adding the nessesary components for battle
             if(!isInBattle){
+                  // making sure no one is regestered to fight already
+                  playerEntities.Clear();
+                  enemyEntities.Clear();
                   isInBattle = true;
                   // 
                   EntityQuery characterQuery = GetEntityQuery(typeof(CharacterStats));
@@ -110,6 +110,9 @@ public class BattleSystem : SystemBase
                               foreach(CharacterStats characterStats in characters){
                                     if(players[i].playerId == characterStats.id){
                                           playerEntities.Add(characterEntities[j]);
+                                          Translation translation = GetComponent<Translation>(characterEntities[j]);
+                                          // so that it can be moved back after battle
+                                          ecb.AddComponent(characterEntities[j], new BeforeBattleData{previousLocation = translation.Value});
                                     }
                                     j++;
                               }
@@ -122,6 +125,9 @@ public class BattleSystem : SystemBase
                         foreach(CharacterStats characterStats in characters){
                               if(enemies[i].id == characterStats.id){
                                     enemyEntities.Add(characterEntities[j]);
+                                    Translation translation = GetComponent<Translation>(characterEntities[j]);
+                                    // so that it can be moved back after battle
+                                    ecb.AddComponent(characterEntities[j], new BeforeBattleData{previousLocation = translation.Value});
                               }
                               j++;
                         }
@@ -130,10 +136,14 @@ public class BattleSystem : SystemBase
                   // trigger event, should be connected to battle menu and movement 
                   OnBattleStart?.Invoke(this, System.EventArgs.Empty);
                   // wait until the trasition ends to add battle data to everyone in the battle
-                  movementSystem.OnTransitionEnd += AddBattleData_OnTransitionEnd;
+                  transitionSystem.OnTransitionEnd += AddBattleData_OnTransitionEnd;
                   characters.Dispose();
                   characterEntities.Dispose();
             }
+      }
+      public void EndBattle(){
+            isInBattle = false;
+            OnBattleEnd?.Invoke(this, new OnBattleEndEventArgs{isPlayerVictor = true});
       }
       public void AddBattleData_OnTransitionEnd(System.Object sender, System.EventArgs e){
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
@@ -143,7 +153,7 @@ public class BattleSystem : SystemBase
             foreach(Entity entity in enemyEntities){
                   ecb.AddComponent<BattleData>(entity);
             }
-            movementSystem.OnTransitionEnd -= AddBattleData_OnTransitionEnd;
+            transitionSystem.OnTransitionEnd -= AddBattleData_OnTransitionEnd;
       }
 }
 
