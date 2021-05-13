@@ -124,4 +124,5 @@ public class InkDisplaySystem : SystemBase
                 inkManager.inkStory.ChoosePathString(startPoint);
             }).Run();
     }
+
 }
