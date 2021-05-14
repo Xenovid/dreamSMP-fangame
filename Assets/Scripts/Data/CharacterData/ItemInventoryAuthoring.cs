@@ -22,7 +22,8 @@ public class ItemConversionSystem : GameObjectConversionSystem
                     itemType = itemInfo.itemType,
                     name = itemInfo.name,
                     description = itemInfo.description,
-                    useTime = itemInfo.useTime
+                    useTime = itemInfo.useTime,
+                    strength = itemInfo.strength
                 };
                 ItemInventory.Add(new ItemData{item = item});
             }
@@ -40,6 +41,7 @@ public enum ItemType{
 public struct ItemInfo{
     public ItemType itemType;
     public string name;
+    public int strength;
     public string description;
     public float useTime;
 }
@@ -49,4 +51,5 @@ public struct Item{
     public FixedString32 name;
     public FixedString128 description;
     public float useTime;
+    public int strength;
 }

@@ -10,12 +10,14 @@ public class BattleMenuSystem : SystemBase
     VisualElement battleUI;
     VisualElement enemySelector;
     VisualElement skillSelector;
+    VisualElement itemSelector;
     UIDocument UIDoc;
     bool hasBattleStarted;
 
     InkDisplaySystem inkDisplaySystem;
     bool isPrintingVictoryData;
     public int currentSkill;
+    public int currentItem;
 
     //private bool isBattleMenuOn = false;
     private menuType currentMenu;
@@ -24,6 +26,7 @@ public class BattleMenuSystem : SystemBase
     public BattleSystem battleSystem;
     public TransitionSystem transitionSystem;
     private bool isInEnemySelection;
+    private bool isInPlayerSelection;
 
     public int playerNumber;
     public bool hasMoved;
@@ -71,18 +74,12 @@ public class BattleMenuSystem : SystemBase
             Color black = Color.black;
             Color grey = Color.grey;
 
-            /*EntityQuery caravanQuery = GetEntityQuery(typeof(CaravanTag));
-            Entity caravan = caravanQuery.GetSingletonEntity();
-            DynamicBuffer<WeaponData> weaponInventory = GetBuffer<WeaponData>(caravan);
-            DynamicBuffer<ArmorData> armorInventory = GetBuffer<ArmorData>(caravan);
-            DynamicBuffer<CharmData> charmInventory = GetBuffer<CharmData>(caravan);
-            */
             Entities
             .WithoutBurst()
             .WithStructuralChanges()
             .ForEach((DynamicBuffer<ItemData> itemInventory, AnimationData animation, Animator animator, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStats, in Entity entity) =>{
                 DynamicBuffer<EquipedSkillData> equipedSkills = GetBuffer<EquipedSkillData>(entity);
-                
+
                 Label healthText = selectorUI.UI.Q<Label>("health_text");
                 VisualElement healthBarBase = selectorUI.UI.Q<VisualElement>("health_bar_base");
                 VisualElement healthBar = selectorUI.UI.Q<VisualElement>("health_bar");
@@ -91,7 +88,7 @@ public class BattleMenuSystem : SystemBase
                 healthText.text = "HP: " + characterStats.health.ToString() + "/" + characterStats.maxHealth.ToString();
 
                 if(selectorUI.isSelectable){
-                    VisualElement useBar = selectorUI.UI.Q<VisualElement>("useBar");
+                    VisualElement useBar = selectorUI.UI.Q<VisualElement>("use_bar");
                     useBar.style.width = 0;
                     switch (currentMenu){
                         case menuType.battleMenu:
@@ -156,6 +153,14 @@ public class BattleMenuSystem : SystemBase
                                             }
                                         break;
                                         case battleSelectables.items:
+                                            battleUI .visible = false;
+                                            itemSelector.visible = true;
+                                            currentMenu = menuType.itemsMenu;
+                                            currentItem = 1;
+                                            SelectItem(itemSelector.Q<Label>("item1"));
+                                            for(int i = 0; i < itemInventory.Length; i++){
+                                                itemSelector.Q<Label>("item" + (i + 1).ToString()).text = itemInventory[i].item.name.ToString();
+                                            }
                                         break;
                                     }
                                 }
@@ -163,26 +168,22 @@ public class BattleMenuSystem : SystemBase
                                 if(input.moveright && !(selectorUI.currentSelection == battleSelectables.run)){
                                     Debug.Log(selectorUI.currentSelection.ToString());
                                     AudioManager.playSound("menuchange");
-                                    VisualElement currentItemUI = selectorUI.UI.Q(selectorUI.currentSelection.ToString());
-                                    currentItemUI.AddToClassList("item");
-                                    currentItemUI.RemoveFromClassList("item_selected");
+                                    VisualElement currentChoiceUI = selectorUI.UI.Q(selectorUI.currentSelection.ToString());
+                                    UnSelectMenuChoice(currentChoiceUI);
                                     selectorUI.currentSelection++;
 
-                                    VisualElement nextItemUI = selectorUI.UI.Q((selectorUI.currentSelection).ToString());
-                                    nextItemUI.RemoveFromClassList("item");
-                                    nextItemUI.AddToClassList("item_selected");
+                                    VisualElement nextChoiceUI = selectorUI.UI.Q((selectorUI.currentSelection).ToString());
+                                    SelectMenuChoice(nextChoiceUI);
                                     
                                 }
                                 else if(input.moveleft && !(selectorUI.currentSelection == battleSelectables.fight)){
                                     AudioManager.playSound("menuchange");
-                                    VisualElement currentItemUI = selectorUI.UI.Q(selectorUI.currentSelection.ToString());
-                                    currentItemUI.AddToClassList("item");
-                                    currentItemUI.RemoveFromClassList("item_selected");
+                                    VisualElement currentChoiceUI = selectorUI.UI.Q(selectorUI.currentSelection.ToString());
+                                    UnSelectMenuChoice(currentChoiceUI);
                                     selectorUI.currentSelection--;
 
-                                    VisualElement nextItemUI = selectorUI.UI.Q((selectorUI.currentSelection).ToString());
-                                    nextItemUI.RemoveFromClassList("item");
-                                    nextItemUI.AddToClassList("item_selected");
+                                    VisualElement nextChoiceUI = selectorUI.UI.Q((selectorUI.currentSelection).ToString());
+                                    SelectMenuChoice(nextChoiceUI);
                                 }
                             }
 
@@ -281,6 +282,11 @@ public class BattleMenuSystem : SystemBase
                                     currentEnemySelected = 0;
                                     break;
                                 }
+                                else if(input.goback){
+                                    isInEnemySelection = false;
+                                    skillSelector.visible = true;
+                                    enemySelector.visible = false;
+                                }
                                 else if(input.moveleft && currentEnemySelected > 0){
                                     AudioManager.playSound("menuchange");
                                     UnSelectEnemy(enemyUiSelection[currentEnemySelected]);
@@ -307,6 +313,8 @@ public class BattleMenuSystem : SystemBase
                                 }   
                                 else if(input.goback){
                                     currentMenu = menuType.battleMenu;
+                                    skillSelector.visible = false;
+                                    battleUI.visible = true;
                                 }
                                 else if(input.moveup){
                                     if(currentSkill > 1){
@@ -324,20 +332,71 @@ public class BattleMenuSystem : SystemBase
                                 }
                             }
                         break;
+                        case menuType.itemsMenu:
+                            if(isInEnemySelection){
+
+                            }
+                            else if(isInPlayerSelection){
+
+                            }
+                            else{
+                                if(input.goselected){
+                                    Item item = itemInventory[currentItem - 1].item;
+                                    switch(item.itemType){
+                                        case ItemType.healing:
+                                            isInPlayerSelection = true;
+                                        break;
+                                    }
+                                }
+                                else if(input.goback){
+                                    currentMenu = menuType.battleMenu;
+                                    itemSelector.visible = false;
+                                    battleUI.visible = true;
+                                }
+                                else if(input.movedown){
+                                    if(currentItem < 10){
+                                        UnSelectItem(itemSelector.Q<Label>("item" + currentItem.ToString()));
+                                        currentItem++;
+                                        SelectItem(itemSelector.Q<Label>("item" + currentItem.ToString()));
+                                    }
+                                }
+                                else if(input.moveup){
+                                    if(currentItem > 1){
+                                        UnSelectItem(itemSelector.Q<Label>("item" + currentItem.ToString()));
+                                        currentItem--;
+                                        SelectItem(itemSelector.Q<Label>("item" + currentItem.ToString()));
+                                    }
+                                }
+                                else if(input.moveleft){
+                                    if(currentItem > 5){
+                                        UnSelectItem(itemSelector.Q<Label>("item" + currentItem.ToString()));
+                                        currentItem-= 5;
+                                        SelectItem(itemSelector.Q<Label>("item" + currentItem.ToString()));
+                                    }
+                                }
+                                else if(input.moveright){
+                                    if(currentItem < 6){
+                                        UnSelectItem(itemSelector.Q<Label>("item" + currentItem.ToString()));
+                                        currentItem+= 5;
+                                        SelectItem(itemSelector.Q<Label>("item" + currentItem.ToString()));
+                                    }
+                                }
+                            }
+                        break;
                     }
                     
                 }
                 else{
                     if(battleData.useTime > 0)
                     {
-                        VisualElement useBar = selectorUI.UI.Q<VisualElement>("useBar");
+                        VisualElement useBar = selectorUI.UI.Q<VisualElement>("use_bar");
 
                         useBar.style.width = selectorUI.UI.contentRect.width * ((battleData.maxUseTime - battleData.useTime) / battleData.maxUseTime);
                         battleData.useTime -= deltaTime;
                     }
                     else
                     {
-                        VisualElement useBar = selectorUI.UI.Q<VisualElement>("useBar");
+                        VisualElement useBar = selectorUI.UI.Q<VisualElement>("use_bar");
 
                         
                   
@@ -351,6 +410,22 @@ public class BattleMenuSystem : SystemBase
         
         m_EndSimulationEcbSystem.AddJobHandleForProducer(this.Dependency);
         hasMoved = false;
+    }
+    private void SelectMenuChoice(VisualElement choice){
+        choice.RemoveFromClassList("choice_unselected");
+        choice.AddToClassList("choice_selected");
+    }
+    private void UnSelectMenuChoice(VisualElement choice){
+        choice.RemoveFromClassList("choice_selected");
+        choice.AddToClassList("choice_unselected");
+    }
+    private void SelectItem(Label item){
+        item.RemoveFromClassList("skill_unselected");
+        item.AddToClassList("skill_selected");
+    }
+    private void UnSelectItem(Label item){
+        item.RemoveFromClassList("skill_selected");
+        item.AddToClassList("skill_unselected");
     }
     private void SelectEnemy(Entity entity){
         EnemySelectorData temp = GetComponent<EnemySelectorData>(entity);
@@ -382,6 +457,7 @@ public class BattleMenuSystem : SystemBase
             battleUI = root.Q<VisualElement>("BattleUI");
             enemySelector = root.Q<VisualElement>("EnemySelector");
             skillSelector = root.Q<VisualElement>("skill_selector");
+            itemSelector = root.Q<VisualElement>("item_selector");
             battleUI.visible = true;
             // adding the selectorUI stuff to the players
             int i = 0;
