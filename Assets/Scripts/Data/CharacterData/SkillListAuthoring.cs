@@ -28,7 +28,8 @@ public class SkillConversionSystem : GameObjectConversionSystem
                     name = skillInfo.name,
                     description = skillInfo.description,
                     damageBoost = skillInfo.damageBoost,
-                    cost = skillInfo.cost
+                    cost = skillInfo.cost,
+                    useTime = skillInfo.useTime
                 };
                 skills.Add(new SkillData{skill = skill});
             }
@@ -37,7 +38,8 @@ public class SkillConversionSystem : GameObjectConversionSystem
                     name = skillInfo.name,
                     description = skillInfo.description,
                     damageBoost = skillInfo.damageBoost,
-                    cost = skillInfo.cost
+                    cost = skillInfo.cost,
+                    useTime = skillInfo.useTime
                 };
                 equipedSkills.Add(new EquipedSkillData{skill = skill});
             }
@@ -51,6 +53,7 @@ public struct SkillInfo{
     public string description;
     public int damageBoost;
     public int cost;
+    public float useTime;
 }
 
 [System.Serializable]
@@ -59,4 +62,5 @@ public struct Skill{
     public FixedString128 description;
     public int damageBoost;
     public int cost;
+    public float useTime;
 }

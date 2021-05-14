@@ -35,5 +35,13 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="EnemySelector" style="justify-content: center; top: auto; height: 20%; visibility: hidden; align-items: center; flex-direction: row; display: flex; position: absolute; width: 100%; bottom: 0;" />
+        <ui:VisualElement name="skill_selector" style="position: absolute; width: 100%; height: 30%; bottom: 0; background-color: rgba(75, 75, 75, 0.54); visibility: hidden;">
+            <ui:Label text="Skills" display-tooltip-when-elided="true" />
+            <ui:Label text="None" display-tooltip-when-elided="true" name="skill1" class="skill_selected" />
+            <ui:Label text="None" display-tooltip-when-elided="true" name="skill2" class="skill_unselected" />
+            <ui:Label text="None" display-tooltip-when-elided="true" name="skill3" class="skill_unselected" />
+            <ui:Label text="None&#10;" display-tooltip-when-elided="true" name="skill4" class="skill_unselected" />
+            <ui:Label text="None" display-tooltip-when-elided="true" name="skill5" class="skill_unselected" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

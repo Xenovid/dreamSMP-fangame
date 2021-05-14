@@ -42,3 +42,15 @@
     border-top-width: 1px;
     border-bottom-width: 1px;
 }
+
+.skills_techno {
+}
+
+.skill_unselected {
+    -unity-font: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7');
+}
+
+.skill_selected {
+    -unity-font: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7');
+    -unity-font-style: bold;
+}
