@@ -8,6 +8,9 @@ public class CharacterStatsAuthouring : MonoBehaviour{
     public float health;
     public float recoverTime;
     public int attackMultiplier;
+    public int resources;
+    public int maxResources;
+    public ResourceType resourceType;
     public int id;
     public string characterName;
     public WeaponInfo equipedWeapon;
@@ -26,6 +29,9 @@ public struct CharacterStats : IComponentData
     public Weapon equipedWeapon;
     public Armor equipedArmor;
     public Charm equipedCharm;
+    public int resources;
+    public ResourceType resourceType;
+    public int maxResources;
 }
 
 
@@ -46,10 +52,17 @@ public class CharacterStatsConversion : GameObjectConversionSystem
                 characterName = characterStat.characterName,
                 equipedWeapon =  WeaponConversionSystem.WeaponInfoToWeapon(characterStat.equipedWeapon),
                 equipedArmor = ArmorConversionSystem.ArmorInfoToArmor(characterStat.equipedArmor),
-                equipedCharm = CharmConversionSystem.CharmInfoToCharm(characterStat.equipedCharm)
+                equipedCharm = CharmConversionSystem.CharmInfoToCharm(characterStat.equipedCharm),
+                resources = characterStat.resources,
+                resourceType = characterStat.resourceType,
+                maxResources = characterStat.maxResources
             });
         });
     }
 }
 
+public enum ResourceType{
+    blood,
+    mana
+}
 

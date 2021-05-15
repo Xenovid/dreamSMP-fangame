@@ -397,6 +397,7 @@ GameObject:
   - component: {fileID: 108625178797338086}
   - component: {fileID: 108625178797338091}
   - component: {fileID: 108625178797338009}
+  - component: {fileID: 3048491766725577472}
   m_Layer: 0
   m_Name: Technoblade
   m_TagString: Untagged
@@ -807,6 +808,7 @@ MonoBehaviour:
     description: a skill
     damageBoost: 0
     cost: 0
+    useTime: 0
   equipedSkills: []
 --- !u!114 &108625178797338091
 MonoBehaviour:
@@ -823,10 +825,12 @@ MonoBehaviour:
   itemInfos:
   - itemType: 0
     name: 
+    strength: 0
     description: 
     useTime: 0
   - itemType: 0
     name: 
+    strength: 0
     description: 
     useTime: 0
 --- !u!114 &108625178797338009
@@ -842,6 +846,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Values: []
+--- !u!114 &3048491766725577472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108625178797338088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91bd06430635a8d41943ffdfd5e829a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Values: 
 --- !u!1 &108625179341178501
 GameObject:
   m_ObjectHideFlags: 0

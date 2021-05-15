@@ -58,10 +58,19 @@ public class BattleSystem : SystemBase
                         Entities
                         .WithStructuralChanges()
                         .WithoutBurst()
-                        .ForEach((ref DynamicBuffer<DamageData> damages, ref BattleData battleData ,ref CharacterStats characterStats) => {
+                        .ForEach((Entity entity, ref DynamicBuffer<DamageData> damages, ref BattleData battleData,ref CharacterStats characterStats) => {
+                              DynamicBuffer<HealingData> healings = GetBuffer<HealingData>(entity);
                               for(int i = 0; i < damages.Length; i++){
                                     characterStats.health -= damages[i].damage;
                                     damages.RemoveAt(i);
+                                    i--;
+                              }
+                              for(int i = 0; i < healings.Length; i++){
+                                    characterStats.health += healings[i].healing;
+                                    if(characterStats.health > characterStats.maxHealth){
+                                          characterStats.health = characterStats.maxHealth;
+                                    }
+                                    healings.RemoveAt(i);
                                     i--;
                               }
                               if(characterStats.health <= 0 && !battleData.isDown)
@@ -120,6 +129,7 @@ public class BattleSystem : SystemBase
                   }).Run();
                   // adding battle data to the enemies
                   DynamicBuffer<EnemyBattleData> enemies = GetBuffer<EnemyBattleData>(enemy);
+                  //always adds the enemies by how they are list in the enemybattledata
                   for(int i = 0; i < enemies.Length; i++){
                         int j = 0;
                         foreach(CharacterStats characterStats in characters){

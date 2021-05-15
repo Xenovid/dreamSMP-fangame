@@ -136,7 +136,9 @@ public class PauseMenuSystem : SystemBase
                                         currentSelection = PauseMenuSelectables.Equip;
                                     }
                                 break;
+                                //for when the pause menu is on the equipment menu, can switch equipment
                                 case PauseMenuSelectables.Equip:
+                                    // all the needed labels in the ui for equipment
                                     VisualElement otherEquipmentBase = equipmentInfo.Q<VisualElement>("other_equipment");
                                     VisualElement currentEquipment= equipmentInfo.Q<VisualElement>("current_equipment");
                                     Label currentWeaponLabel = equipmentInfo.Q<Label>("current_weapon");
@@ -146,9 +148,10 @@ public class PauseMenuSystem : SystemBase
                                     VisualElement equipQuickMenu = root.Q<VisualElement>("equipment_quickmenu");
                                     Label quickSwitch = equipQuickMenu.Q<Label>("switch");
                                     Label quickCancel = equipQuickMenu.Q<Label>("cancel");
-
+                                    //for when you are in the actuall equipment menu
                                     if (isSelected)
                                     {
+                                        // only used when there is more than one character
                                         if(onCharacterSelect){
                                             if(uiInput.goselected){
                                                 onCharacterSelect = false;
@@ -172,6 +175,7 @@ public class PauseMenuSystem : SystemBase
                                                 }
                                             }
                                         }
+                                        //choose a new piece of equipment to use
                                         else if(onItemSwitch){
                                             if(uiInput.goback){
                                                 onItemSwitch = false;
@@ -253,6 +257,7 @@ public class PauseMenuSystem : SystemBase
                                                 if(playerParty.Length == 1){
                                                     isSelected = false;
                                                     equipmentInfo.visible = false;
+                                                    currentEquipment.visible = false;
                                                     UnselectCharacter(root.Q<VisualElement>("character1"));
                                                 }
                                                 else{
@@ -314,6 +319,7 @@ public class PauseMenuSystem : SystemBase
                                             }
                                         }
                                     }
+                                    // go into the menu
                                     else if (uiInput.goselected)
                                     {
                                         isSelected = true;
@@ -333,6 +339,7 @@ public class PauseMenuSystem : SystemBase
                                         SelectCharacter(root.Q<VisualElement>("character" + currentCharacter.ToString()));
                                         equipmentInfo.visible = true;
                                     }
+                                    // move to the other menus
                                     else if (uiInput.moveleft)
                                     {
                                         UnselectButton(equipButton);
