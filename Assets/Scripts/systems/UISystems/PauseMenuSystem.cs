@@ -148,7 +148,7 @@ public class PauseMenuSystem : SystemBase
                                     VisualElement equipQuickMenu = root.Q<VisualElement>("equipment_quickmenu");
                                     Label quickSwitch = equipQuickMenu.Q<Label>("switch");
                                     Label quickCancel = equipQuickMenu.Q<Label>("cancel");
-                                    //for when you are in the actuall equipment menu
+                                    //for when you are in the actual equipment menu
                                     if (isSelected)
                                     {
                                         // only used when there is more than one character
@@ -177,18 +177,150 @@ public class PauseMenuSystem : SystemBase
                                         }
                                         //choose a new piece of equipment to use
                                         else if(onItemSwitch){
-                                            if(uiInput.goback){
+                                            // switch the item
+                                            if(uiInput.goselected){
+                                                // must do switch, since if the inventory is empty, it will break
+                                                switch(selectedEquipment){
+                                                    case Equipment.Weapon:
+                                                        //makes sure that the inventory isn't empty
+                                                        if(!(weaponInventory.Length == 0)){
+                                                            CharacterStats characterStats = GetComponent<CharacterStats>(characterEntities[currentCharacter-1]);
+                                                            WeaponData unEquipedWeapon = new WeaponData{weapon = characterStatsList[currentCharacter - 1].equipedWeapon};
+                                                            characterStats.equipedWeapon = weaponInventory[currentSwitchItem].weapon;
+                                                            // move the unequiped item to the weaponinventory
+                                                            weaponInventory.RemoveAt(currentSwitchItem);
+                                                            weaponInventory.Insert(0, unEquipedWeapon);
+                                                            
+                                                            EntityManager.SetComponentData(characterEntities[currentCharacter-1], characterStats);
+                                                            // may need to set the data of the characterStats
+                                                            // update equipment info
+                                                            equipmentDesc.text = characterStats.equipedWeapon.description.ToString();
+                                                            equipmentInfo.Q<Label>("current_weapon").text = "Weapon: " + characterStats.equipedWeapon.name.ToString();
+                                                        }
+                                                    break;
+                                                    case Equipment.Armor:
+                                                        //makes sure that the inventory isn't empty
+                                                        if(!(armorInventory.Length == 0)){
+                                                            CharacterStats characterStats = GetComponent<CharacterStats>(characterEntities[currentCharacter-1]);
+                                                            ArmorData unEquipedArmor = new ArmorData{armor = characterStatsList[currentCharacter - 1].equipedArmor};
+                                                            characterStats.equipedArmor = armorInventory[currentSwitchItem].armor;
+                                                            // move the unequiped item to the inventory
+                                                            armorInventory.RemoveAt(currentSwitchItem);
+                                                            armorInventory.Insert(0, unEquipedArmor);
+                                                            
+                                                            EntityManager.SetComponentData(characterEntities[currentCharacter-1], characterStats);
+                                                            // may need to set the data of the characterStats
+                                                            // update equipment info
+                                                            equipmentDesc.text = characterStats.equipedArmor.description.ToString();
+                                                            equipmentInfo.Q<Label>("current_armor").text = "Armor: " + characterStats.equipedArmor.name.ToString();
+                                                        }
+                                                    break;
+                                                    case Equipment.Charm:
+                                                        //makes sure that the inventory isn't empty
+                                                        if(!(charmInventory.Length == 0)){
+                                                            CharacterStats characterStats = GetComponent<CharacterStats>(characterEntities[currentCharacter-1]);
+                                                            CharmData unEquipedCharm = new CharmData{charm = characterStatsList[currentCharacter - 1].equipedCharm};
+                                                            characterStats.equipedCharm = charmInventory[currentSwitchItem].charm;
+                                                            // move the unequiped item to the inventory
+                                                            charmInventory.RemoveAt(currentSwitchItem);
+                                                            charmInventory.Insert(0, unEquipedCharm);
+                                                            
+                                                            EntityManager.SetComponentData(characterEntities[currentCharacter-1], characterStats);
+                                                            // may need to set the data of the characterStats
+                                                            // update equipment info
+                                                            equipmentDesc.text = characterStats.equipedCharm.description.ToString();
+                                                            equipmentInfo.Q<Label>("current_charm").text = "Charm: " + characterStats.equipedCharm.name.ToString();
+                                                        }
+                                                    break;
+                                                }
+                                                // do the equivalent of goback
                                                 onItemSwitch = false;
                                                 currentEquipment.visible = true;
                                                 otherEquipmentBase.visible = false;
+                                                UnSelectItem(otherEquipmentBase.Q<Label>("equip" + (currentSwitchItem + 1).ToString()));
                                             }
-                                            else if(uiInput.moveup){
+                                            else if(uiInput.goback){
+                                                onItemSwitch = false;
+                                                currentEquipment.visible = true;
+                                                otherEquipmentBase.visible = false;
+                                                UnSelectItem(otherEquipmentBase.Q<Label>("equip" + (currentSwitchItem + 1).ToString()));
+                                            }
+                                            else if(uiInput.moveup && currentSwitchItem > 0){
+                                                // need to update the shown equipment when greater than 5
+                                                if(currentSwitchItem > 5){
+
+                                                }
+                                                else{
+                                                    UnSelectItem(otherEquipmentBase.Q<Label>("equip" + (currentSwitchItem + 1).ToString()));
+                                                    currentSwitchItem--;
+                                                    SelectItem(otherEquipmentBase.Q<Label>("equip" + (currentSwitchItem + 1).ToString()));
+                                                    // updating the equipment information based on what is currently selected
+                                                    switch(selectedEquipment){
+                                                        case Equipment.Weapon:
+                                                            equipmentDesc.text = weaponInventory[currentSwitchItem].weapon.description.ToString();
+                                                        break;
+                                                        case Equipment.Armor:
+                                                            equipmentDesc.text = armorInventory[currentSwitchItem].armor.description.ToString();
+                                                        break;
+                                                        case Equipment.Charm:
+                                                            equipmentDesc.text = charmInventory[currentSwitchItem].charm.description.ToString();
+                                                        break;
+                                                    }
+                                                }
 
                                             }
                                             else if(uiInput.movedown){
-
+                                                switch(selectedEquipment){
+                                                    case Equipment.Weapon:
+                                                        // need to make sure that when moving it doesn't go beyond the number of available items
+                                                        if(currentSwitchItem < weaponInventory.Length - 1){
+                                                            // move the items down when moving down when greater than or equal to 5
+                                                            if(currentSwitchItem >= 5){
+                                                                
+                                                            }
+                                                            else{
+                                                                UnSelectItem(otherEquipmentBase.Q<Label>("equip" + (currentSwitchItem + 1).ToString()));
+                                                                currentSwitchItem++;
+                                                                SelectItem(otherEquipmentBase.Q<Label>("equip" + (currentSwitchItem + 1).ToString()));
+                                                                //updating the equipment description
+                                                                equipmentDesc.text = weaponInventory[currentSwitchItem].weapon.description.ToString();
+                                                            }
+                                                        }
+                                                    break;
+                                                    case Equipment.Armor:
+                                                        if(currentSwitchItem < armorInventory.Length - 1){
+                                                            // move the items down when moving down when greater than or equal to 5
+                                                            if(currentSwitchItem >= 5){
+                                                                
+                                                            }
+                                                            else{
+                                                                UnSelectItem(otherEquipmentBase.Q<Label>("equip" + (currentSwitchItem + 1).ToString()));
+                                                                currentSwitchItem++;
+                                                                SelectItem(otherEquipmentBase.Q<Label>("equip" + (currentSwitchItem + 1).ToString()));
+                                                                //updating the equipment description
+                                                                equipmentDesc.text = armorInventory[currentSwitchItem].armor.description.ToString();
+                                                            }
+                                                        }
+                                                    break;
+                                                    case Equipment.Charm:
+                                                        if(currentSwitchItem < charmInventory.Length - 1){
+                                                            // move the items down when moving down when greater than or equal to 5
+                                                            if(currentSwitchItem >= 5){
+                                                                
+                                                            }
+                                                            else{
+                                                                UnSelectItem(otherEquipmentBase.Q<Label>("equip" + (currentSwitchItem + 1).ToString()));
+                                                                currentSwitchItem++;
+                                                                SelectItem(otherEquipmentBase.Q<Label>("equip" + (currentSwitchItem + 1).ToString()));
+                                                                //updating the equipment description
+                                                                equipmentDesc.text = charmInventory[currentSwitchItem].charm.description.ToString();
+                                                            }
+                                                        }
+                                                    break;
+                                                }
                                             }
                                         }
+                                        // gives you the option to switch a piece of equipment or cancel
                                         else if(onQuickMenu){
                                             if(uiInput.goback){
                                                 UnSelectQuickMenuButton(quickCancel);
@@ -198,19 +330,67 @@ public class PauseMenuSystem : SystemBase
                                             }
                                             switch(currentQuickMenuSelection){
                                                     case QuickMenuSelectables.Switch:
-                                                        if(weaponInventory.Length == 0){
-                                                            currentQuickMenuSelection = QuickMenuSelectables.Cancel;
-                                                            UnSelectQuickMenuButton(quickSwitch);
-                                                            SelectQuickMenuButton(quickCancel);
-                                                        }
-                                                        else if(uiInput.goselected){
+                                                        // opens up the needed menus and sets the values nessasary to switch items
+                                                        if(uiInput.goselected){
+                                                            // makes the new equipment visable and the current equipment invisable
                                                             otherEquipmentBase.visible = true;
                                                             currentEquipment.visible = false;
+                                                            // reseting the switch item
+                                                            currentSwitchItem = 0;
                                                             UnSelectQuickMenuButton(quickSwitch);
                                                             equipQuickMenu.visible = false;
+                                                            //moving the state machine
                                                             onQuickMenu = false;
                                                             onItemSwitch = true;
-                                                            //go into item selection
+                                                            // show all available equipment switching what to display depending on what is selected
+                                                            switch(selectedEquipment){
+                                                                case Equipment.Weapon:
+                                                                    for(int i = 0; i < 5; i++){
+                                                                        if(i < weaponInventory.Length){
+                                                                            Weapon weapon = weaponInventory[i].weapon;
+                                                                            if(i == 0){
+                                                                                equipmentDesc.text = weapon.description.ToString();
+                                                                                SelectItem(otherEquipmentBase.Q<Label>("equip" + (i + 1)));
+                                                                            }
+                                                                            otherEquipmentBase.Q<Label>("equip" + (i + 1).ToString()).text = weapon.name.ToString();
+                                                                        }
+                                                                        else{
+                                                                            otherEquipmentBase.Q<Label>("equip" + (i + 1).ToString()).text = "None";
+                                                                        }
+                                                                    }
+                                                                break;
+                                                                case Equipment.Armor:  
+                                                                    for(int i = 0; i < 5; i++){
+                                                                        if(i < armorInventory.Length){
+                                                                            Armor armor = armorInventory[i].armor;
+                                                                            if(i == 0){
+                                                                                equipmentDesc.text = armor.description.ToString();
+                                                                                SelectItem(otherEquipmentBase.Q<Label>("equip" + (i + 1)));
+                                                                            }
+                                                                            otherEquipmentBase.Q<Label>("equip" + (i + 1).ToString()).text = armor.name.ToString();
+                                                                        }
+                                                                        else{
+                                                                            otherEquipmentBase.Q<Label>("equip" + (i + 1).ToString()).text = "None";
+                                                                        }
+                                                                    }
+                                                                break;
+                                                                case Equipment.Charm:
+                                                                    for(int i = 0; i < 5; i++){
+                                                                        if(i < charmInventory.Length){
+                                                                            Charm charm = charmInventory[i].charm;
+                                                                            if(i == 0){
+                                                                                equipmentDesc.text = charm.description.ToString();
+                                                                                SelectItem(otherEquipmentBase.Q<Label>("equip" + (i + 1)));
+                                                                            }
+                                                                            otherEquipmentBase.Q<Label>("equip" + (i + 1).ToString()).text = charm.name.ToString();
+                                                                        }
+                                                                        else{
+                                                                            otherEquipmentBase.Q<Label>("equip" + (i + 1).ToString()).text = "None";
+                                                                        }
+                                                                    }
+                                                                break;
+                                                            }
+                                                            
                                                         }
                                                         else if(uiInput.movedown){
                                                             currentQuickMenuSelection = QuickMenuSelectables.Cancel;
@@ -324,10 +504,7 @@ public class PauseMenuSystem : SystemBase
                                     {
                                         isSelected = true;
                                         if(playerParty.Length == 1){
-                                            currentWeaponLabel.text = "Weapon: " + characterStatsList[currentCharacter -1].equipedWeapon.name;
-                                            currentArmorLabel.text = "Armor: " + characterStatsList[currentCharacter -1].equipedArmor.name;
-                                            currentCharmLabel.text = "Charm: " + characterStatsList[currentCharacter -1].equipedCharm.name;
-                                            equipmentDesc.text = characterStatsList[currentCharacter - 1].equipedWeapon.description.ToString();
+                                            
                                             onCharacterSelect = false;
                                             SelectInfoTab(equipmentInfo.Q<VisualElement>("current_equipment"));
                                             SelectItem(equipmentInfo.Q<Label>("current_weapon"));
@@ -336,6 +513,11 @@ public class PauseMenuSystem : SystemBase
                                         else{
                                             onCharacterSelect = true;
                                         }
+                                        currentWeaponLabel.text = "Weapon: " + characterStatsList[currentCharacter -1].equipedWeapon.name;
+                                        currentArmorLabel.text = "Armor: " + characterStatsList[currentCharacter -1].equipedArmor.name;
+                                        currentCharmLabel.text = "Charm: " + characterStatsList[currentCharacter -1].equipedCharm.name;
+                                        currentEquipment.visible = true;
+                                        equipmentDesc.text = characterStatsList[currentCharacter - 1].equipedWeapon.description.ToString();
                                         SelectCharacter(root.Q<VisualElement>("character" + currentCharacter.ToString()));
                                         equipmentInfo.visible = true;
                                     }

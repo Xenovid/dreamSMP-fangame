@@ -78,8 +78,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1408592303
+  m_SortingLayer: 2
   m_SortingOrder: 2
   m_Sprite: {fileID: -5782521184205631276, guid: 4189cf20b6be1179a80cd39461f57209, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -121,6 +121,9 @@ MonoBehaviour:
   health: 11
   recoverTime: 0
   attackMultiplier: 0
+  resources: 0
+  maxResources: 0
+  resourceType: 0
   id: 0
   characterName: Zombie
   equipedWeapon:

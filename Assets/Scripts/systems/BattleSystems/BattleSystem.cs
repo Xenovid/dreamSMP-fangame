@@ -138,6 +138,9 @@ public class BattleSystem : SystemBase
                                     Translation translation = GetComponent<Translation>(characterEntities[j]);
                                     // so that it can be moved back after battle
                                     ecb.AddComponent(characterEntities[j], new BeforeBattleData{previousLocation = translation.Value});
+                                    if(HasComponent<BattleTriggerData>(characterEntities[j])){
+                                          ecb.RemoveComponent<BattleTriggerData>(characterEntities[j]);
+                                    }
                               }
                               j++;
                         }

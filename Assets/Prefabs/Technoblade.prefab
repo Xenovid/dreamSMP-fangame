@@ -651,6 +651,9 @@ MonoBehaviour:
   health: 100
   recoverTime: 0
   attackMultiplier: 0
+  resources: 0
+  maxResources: 0
+  resourceType: 0
   id: 1
   characterName: 
   equipedWeapon:
@@ -777,8 +780,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1408592303
+  m_SortingLayer: 2
   m_SortingOrder: 4
   m_Sprite: {fileID: 5589925251858200589, guid: 0dda0325e174a4e4baeb9d8cc711b599, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

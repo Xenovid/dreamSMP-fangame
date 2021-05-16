@@ -219,6 +219,8 @@ MonoBehaviour:
   charmInfos:
   - name: charm1
     description: a charm
+  - name: charm2
+    description: a second charm
 --- !u!114 &623176114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,6 +237,9 @@ MonoBehaviour:
   - name: Leather
     defense: 5
     description: just some smuck leather armor
+  - name: iron
+    defense: 5
+    description: just some smuck iron armor
 --- !u!114 &623176115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,6 +256,10 @@ MonoBehaviour:
   - power: 9
     name: ToothPick
     description: The best way to remove teeth
+    useTime: 1
+  - power: 8
+    name: ToothPick2
+    description: not the best way to remove teeth
     useTime: 1
 --- !u!4 &623176116
 Transform:
@@ -315,7 +324,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 00000000ffd12050af69f553
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -1021,6 +1030,9 @@ MonoBehaviour:
   health: 0
   recoverTime: 0
   attackMultiplier: 0
+  resources: 0
+  maxResources: 0
+  resourceType: 0
   id: 10
   characterName: 
   equipedWeapon:
@@ -1647,9 +1659,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedArmor.name
+      value: Techno Armor
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedCharm.name
+      value: Golden Crown
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedWeapon.name
+      value: Orphan Obliterator
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedArmor.description
+      value: Techno's Armor
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedCharm.description
+      value: a golden crown blessed by the blood god
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedWeapon.description
+      value: Obliterates Orphans
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skillInfos.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: equipedSkills.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skillInfos.Array.data[1].name
+      value: test skill
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: equipedSkills.Array.data[0].name
@@ -1658,6 +1702,10 @@ PrefabInstance:
     - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: equipedSkills.Array.data[0].useTime
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skillInfos.Array.data[1].description
+      value: a skill
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: equipedSkills.Array.data[0].damageBoost
@@ -1669,11 +1717,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338087, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.565
+      value: 6.48
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338087, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.89
+      value: -3.96
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338087, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: m_LocalPosition.z

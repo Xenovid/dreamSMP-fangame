@@ -25,15 +25,15 @@
                         <ui:VisualElement name="attack_image" style="flex-grow: 0; height: 100%; background-image: url(&apos;/Assets/Art/Icons/basicsword.png#basicsword&apos;);" />
                     </ui:VisualElement>
                     <ui:VisualElement name="skills" class="choice_unselected" style="flex-direction: column-reverse;">
-                        <ui:VisualElement name="skills_image" style="flex-grow: 0; height: 100%;" />
+                        <ui:VisualElement name="skills_image" style="flex-grow: 0; height: 100%; background-image: url(&apos;/Assets/Art/Icons/BloodIcon.png&apos;);" />
                     </ui:VisualElement>
                     <ui:VisualElement name="items" class="item choice_unselected" style="flex-direction: column-reverse;">
-                        <ui:VisualElement name="itemloader" style="flex-grow: 0; height: 100%;" />
+                        <ui:VisualElement name="itemloader" style="flex-grow: 0; height: 100%; background-image: url(&apos;/Assets/Art/Icons/itemIcon.png&apos;);" />
                     </ui:VisualElement>
                     <ui:VisualElement name="special" class="item choice_unselected" style="flex-direction: column-reverse;">
                         <ui:VisualElement name="special_image" style="flex-grow: 0; height: 100%;" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="run" class="item choice_unselected" style="flex-direction: column-reverse;">
+                    <ui:VisualElement name="run" class="item choice_unselected" style="flex-direction: column-reverse; background-image: url(&apos;/Assets/Art/Icons/runIcon.png&apos;);">
                         <ui:VisualElement name="run_image" style="flex-grow: 0; height: 100%;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
