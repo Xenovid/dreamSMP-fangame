@@ -48,8 +48,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -114,7 +114,7 @@ TextureImporter:
         width: 44
         height: 36
       alignment: 9
-      pivot: {x: 0.36, y: 0.18}
+      pivot: {x: 0.4, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -135,7 +135,7 @@ TextureImporter:
         width: 44
         height: 36
       alignment: 9
-      pivot: {x: 0.36, y: 0.18}
+      pivot: {x: 0.4, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -156,7 +156,7 @@ TextureImporter:
         width: 44
         height: 36
       alignment: 9
-      pivot: {x: 0.36, y: 0.18}
+      pivot: {x: 0.4, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -177,7 +177,7 @@ TextureImporter:
         width: 44
         height: 36
       alignment: 9
-      pivot: {x: 0.36, y: 0.18}
+      pivot: {x: 0.43289012, y: 0.114845976}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -198,7 +198,7 @@ TextureImporter:
         width: 44
         height: 36
       alignment: 9
-      pivot: {x: 0.36, y: 0.18}
+      pivot: {x: 0.42413676, y: 0.11841223}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

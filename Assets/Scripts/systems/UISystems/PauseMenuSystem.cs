@@ -12,8 +12,8 @@ public class PauseMenuSystem : SystemBase
 {
       private PauseMenuSelectables currentSelection;
       private SceneSystem sceneSystem;
+      private SettingsMenuSystem settingsMenuSystem;
       
-      private Entity pauseMenuSubScene;
       private bool isPaused;
 
       private int currentCharacter;
@@ -35,6 +35,8 @@ public class PauseMenuSystem : SystemBase
       {
             base.OnStartRunning();
             sceneSystem = World.GetOrCreateSystem<SceneSystem>();
+            settingsMenuSystem = World.GetOrCreateSystem<SettingsMenuSystem>();
+            settingsMenuSystem.OnTitleReturn += DisableMenu_OnTitleReturn;
             currentCharacter = 1;
             currentItem = 1;
 
@@ -43,37 +45,40 @@ public class PauseMenuSystem : SystemBase
 
       protected override void OnUpdate()
       {
-        EntityQuery overworldInputQuery = GetEntityQuery(typeof(OverworldInputData));
-        OverworldInputData overworldInput = overworldInputQuery.GetSingleton<OverworldInputData>();
-
-        EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
-        UIInputData uiInput = uiInputQuery.GetSingleton<UIInputData>();
-
-        DynamicBuffer<PlayerPartyData> playerParty = GetBuffer<PlayerPartyData>(GetSingletonEntity<PlayerTag>());
-
-        EntityQuery characterStatsQuery = GetEntityQuery(typeof(CharacterStats), typeof(PlayerTag));
-        NativeArray<CharacterStats> characterStatsList = characterStatsQuery.ToComponentDataArray<CharacterStats>(Allocator.TempJob);
-        NativeArray<Entity> characterEntities = characterStatsQuery.ToEntityArray(Allocator.TempJob);
-
-
-        EntityQuery caravanQuery = GetEntityQuery(typeof(CaravanTag));
-        Entity caravan = caravanQuery.GetSingletonEntity();
-        DynamicBuffer<WeaponData> weaponInventory = GetBuffer<WeaponData>(caravan);
-        DynamicBuffer<ArmorData> armorInventory = GetBuffer<ArmorData>(caravan);
-        DynamicBuffer<CharmData> charmInventory = GetBuffer<CharmData>(caravan);
+        
         
 
             Entities
             .WithoutBurst()
             .WithStructuralChanges()
             .ForEach((in UIDocument UIDoc,in PauseMenuTag pausMenuTag) =>{
-                  VisualElement root = UIDoc.rootVisualElement;
+                VisualElement root = UIDoc.rootVisualElement;
+                EntityQuery overworldInputQuery = GetEntityQuery(typeof(OverworldInputData));
+                OverworldInputData overworldInput = overworldInputQuery.GetSingleton<OverworldInputData>();
+
+                EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
+                UIInputData uiInput = uiInputQuery.GetSingleton<UIInputData>();
+
+                DynamicBuffer<PlayerPartyData> playerParty = GetBuffer<PlayerPartyData>(GetSingletonEntity<PlayerTag>());
+
+                EntityQuery characterStatsQuery = GetEntityQuery(typeof(CharacterStats), typeof(PlayerTag));
+                NativeArray<CharacterStats> characterStatsList = characterStatsQuery.ToComponentDataArray<CharacterStats>(Allocator.TempJob);
+                NativeArray<Entity> characterEntities = characterStatsQuery.ToEntityArray(Allocator.TempJob);
+
+
+                EntityQuery caravanQuery = GetEntityQuery(typeof(CaravanTag));
+                Entity caravan = caravanQuery.GetSingletonEntity();
+                DynamicBuffer<WeaponData> weaponInventory = GetBuffer<WeaponData>(caravan);
+                DynamicBuffer<ArmorData> armorInventory = GetBuffer<ArmorData>(caravan);
+                DynamicBuffer<CharmData> charmInventory = GetBuffer<CharmData>(caravan);
+                  
+                  
+                  
                   if(root == null){
 
                   }
                   else{
                     VisualElement pauseBackground = root.Q<VisualElement>("pause_background");
-                    TemplateContainer settingsUI = root.Q<TemplateContainer>("SettingsUI");
 
                     if(!isPaused && overworldInput.escape){
                         
@@ -938,6 +943,12 @@ public class PauseMenuSystem : SystemBase
                                     {
                                         //select the ui
                                         //isSelected = true
+                                        // temporarly goes to the title screen
+                                        isSelected = true;
+                                        settingsMenuSystem.OnSettingsExit += EnableMenu_OnSettingsExit;
+                                        settingsMenuSystem.ActivateMenu();
+                                        isPaused = false;
+                                        pauseBackground.visible = false;
                                     }
                                     else if (uiInput.moveleft)
                                     {
@@ -950,10 +961,30 @@ public class PauseMenuSystem : SystemBase
                             
                     }
                   }
-                  
+                characterEntities.Dispose();
+                characterStatsList.Dispose();
             }).Run();
-        characterEntities.Dispose();
-        characterStatsList.Dispose();
+        
+      }
+    private void DisableMenu_OnTitleReturn(System.Object sender, System.EventArgs e){
+        isPaused = false;
+        currentCharacter = 1;
+        currentItem = 1;
+        isSelected = false;
+        onCharacterSelect = false;
+
+        currentSelection = PauseMenuSelectables.Party;
+    }
+      private void EnableMenu_OnSettingsExit(System.Object sender, System.EventArgs e){
+        Entities
+        .WithoutBurst()
+        .WithStructuralChanges()
+        .ForEach((in UIDocument UIDoc,in PauseMenuTag pausMenuTag) =>{
+            VisualElement root = UIDoc.rootVisualElement;
+            VisualElement pauseBackground = root.Q<VisualElement>("pause_background");
+            pauseBackground.visible = true;
+        }).Run();
+        isSelected = false;
       }
     private void UnselectButton(Button button)
     {

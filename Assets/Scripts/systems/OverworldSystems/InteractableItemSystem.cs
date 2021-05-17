@@ -32,69 +32,34 @@ public class InteractableItemSystem : SystemBase
         OverworldInputData input = uiInputQuery.GetSingleton<OverworldInputData>();
 
         var triggerEvents = ((Simulation)physicsWorld.Simulation).TriggerEvents;
+        if(input.select){
+            EntityQuery playerQuery = GetEntityQuery(typeof(PlayerTag), typeof(MovementData));
+            MovementData playerMovment = playerQuery.GetSingleton<MovementData>();
 
-        if (input.select)
-        {
-            Entities
-            .WithoutBurst()
-            .WithAll<PlayerTag>()
-            .ForEach((in Entity ent, in Translation playerTranslation,in MovementData move) =>
-            {   
-                foreach(TriggerEvent triggerEvent in triggerEvents)
-                   {
-                        
-                    Entity entityA = triggerEvent.EntityA;
-                    Entity entityB = triggerEvent.EntityB;
-                        
+            foreach(TriggerEvent triggerEvent in triggerEvents)
+            {
+                
+                Entity entityA = triggerEvent.EntityA;
+                Entity entityB = triggerEvent.EntityB;
 
-                    if(entityA == ent || entityB == ent)
-                    {
-                        Entity interactiveEntity = new Entity();
-                        bool changed = false;
-
-                        if (HasComponent<InteractiveItemData>(entityA))
-                        {
-                            interactiveEntity = entityA;
-                            changed = true;
-                        }
-                        else if (HasComponent<InteractiveItemData>(entityB))
-                        {
-                            interactiveEntity = entityB;
-                            changed = true;
-                        }
-                        if (changed)
-                        {
-                            Translation interactiveTranslation = GetComponent<Translation>(interactiveEntity);
-                            CutsceneData text = EntityManager.GetComponentObject<CutsceneData>(interactiveEntity);
-                            bool facingItemDirection = false;
-                            switch (move.facing)
-                            {
-                                case Direction.up:
-                                    facingItemDirection = playerTranslation.Value.y < interactiveTranslation.Value.y;
-                                    break;
-                                case Direction.down:
-                                    facingItemDirection = playerTranslation.Value.y > interactiveTranslation.Value.y;
-                                    break;
-                                case Direction.left:
-                                    facingItemDirection = playerTranslation.Value.x > interactiveTranslation.Value.x;
-                                    break;
-                                case Direction.right:
-                                    facingItemDirection = playerTranslation.Value.x < interactiveTranslation.Value.x;
-                                    break;
-                            }
-                            if (facingItemDirection)
-                            {
-
-                                inkDisplaySystem.StartCutScene(text.cutsceneName);
-
-                                InputGatheringSystem.currentInput = CurrentInput.ui;
-                            }
-
-                        }
+                if (HasComponent<InteractiveItemData>(entityA) && HasComponent<InteractiveBoxCheckerData>(entityB))
+                {
+                    if(GetComponent<InteractiveBoxCheckerData>(entityB).direction == playerMovment.facing){
+                        CutsceneData text = EntityManager.GetComponentObject<CutsceneData>(entityA);
+                        inkDisplaySystem.StartCutScene(text.cutsceneName);
+                        InputGatheringSystem.currentInput = CurrentInput.ui;
+                    }  
+                }
+                else if (HasComponent<InteractiveItemData>(entityB) && HasComponent<InteractiveBoxCheckerData>(entityA))
+                {
+                    if(GetComponent<InteractiveBoxCheckerData>(entityA).direction == playerMovment.facing){
+                        CutsceneData text = EntityManager.GetComponentObject<CutsceneData>(entityB);
+                        inkDisplaySystem.StartCutScene(text.cutsceneName);
+                        InputGatheringSystem.currentInput = CurrentInput.ui;
                     }
                 }
-            }).Run();
+            }
         }
-    }
-
+        
+                }
 }

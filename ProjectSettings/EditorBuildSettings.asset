@@ -23,9 +23,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/testScene/testSceneSubscene.unity
     guid: bd5411a717ac0df80bba2a9b7ae75cad
-  - enabled: 1
-    path: Assets/Scenes/testScene/PauseMenu.unity
-    guid: 849bf149cbc645af083d3af9562d1005
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/testScene/TitleSceenSubScene.unity
     guid: cca4bbc87c59149b6820fd8a1076318a

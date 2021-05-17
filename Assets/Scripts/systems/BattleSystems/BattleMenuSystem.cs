@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 public class BattleMenuSystem : SystemBase
 {
-    selectables currentSelection = selectables.attack;
     VisualElement battleUI;
     VisualElement enemySelector;
     VisualElement skillSelector;
@@ -21,7 +20,6 @@ public class BattleMenuSystem : SystemBase
     public int currentItem;
     private int currentPlayer;
 
-    //private bool isBattleMenuOn = false;
     private menuType currentMenu;
     private int currentCharacterSelected;
     private int currentEnemySelected;

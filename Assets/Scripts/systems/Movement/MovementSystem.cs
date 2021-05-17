@@ -51,7 +51,7 @@ public class MovementSystem : SystemBase
             vel.Angular = 0;
             rot.Value = quaternion.EulerZXY(new float3(0,0,0));
             float3 sprintBoost = input.sprint ? dir * move.velocity * .9f : 0;
-            vel.Linear = dir * move.velocity + sprintBoost;
+            vel.Linear = new float3((dir * move.velocity + sprintBoost).x,(dir * move.velocity + sprintBoost).y, 0);
         }).Schedule();
     }
     

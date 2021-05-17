@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="/Assets/UI Toolkit/Resources/StyleSheet/settingsStlyeSheet.uss" />
-    <ui:VisualElement name="settings_background" style="flex-shrink: 0; flex-grow: 1; background-color: rgba(101, 101, 101, 255);">
+    <ui:VisualElement name="settings_background" style="flex-shrink: 0; flex-grow: 1; background-color: rgb(101, 101, 101); visibility: hidden;">
         <ui:VisualElement style="height: 20%; flex-direction: row;">
             <ui:VisualElement name="volume_button" class="option_selected" style="flex-grow: 1; align-items: center; justify-content: center;">
                 <ui:Label text="volume" display-tooltip-when-elided="true" />
@@ -10,7 +10,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="volume_controls" style="flex-grow: 0; top: 20%; position: absolute; width: 100%; height: 80%;">
-            <ui:Slider picking-mode="Ignore" label="Volume" value="100" high-value="1" direction="Horizontal" inverted="false" name="volume_slider" style="font-size: 30px; -unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;);" />
+            <ui:Slider picking-mode="Ignore" label="Volume" value="100" high-value="1" direction="Horizontal" inverted="false" name="volume_slider" focusable="true" style="font-size: 30px; -unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;);" />
         </ui:VisualElement>
         <ui:VisualElement name="other_controls" style="position: absolute; top: 20%; width: 100%; height: 80%; visibility: hidden;">
             <ui:VisualElement name="title_selectable" style="align-items: center; justify-content: center;">

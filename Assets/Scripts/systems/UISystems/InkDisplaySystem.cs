@@ -32,6 +32,11 @@ public class InkDisplaySystem : SystemBase
 
     protected override void OnUpdate()
     {
+        EntityQuery UIGroup = GetEntityQuery(typeof(UIDocument), typeof(OverworldUITag));
+        UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
+        // need to check if it is null
+        if(!UIGroup.IsEmpty){
+        UIDoc = UIDocs[0];
         EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
         UIInputData input = uiInputQuery.GetSingleton<UIInputData>();
 
@@ -105,6 +110,7 @@ public class InkDisplaySystem : SystemBase
             }
         }).Run();
         }
+        }
     }
     public void DisplayVictoryData(){
         willSwitchInput= false;
@@ -121,6 +127,9 @@ public class InkDisplaySystem : SystemBase
             .WithoutBurst()
             .ForEach((InkManagerData inkManager) => {
                 inkManager.iswritingDialogue = true;
+                if(inkManager.inkStory == null){
+                    inkManager.inkStory = new Story(inkManager.inkAssest.text);
+                }
                 inkManager.inkStory.ChoosePathString(startPoint);
             }).Run();
     }
