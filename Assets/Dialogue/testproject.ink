@@ -13,5 +13,5 @@ test
         -> END
 
 == victory ==
-hello
+You Won
 -> END
