@@ -1,18 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
+using Unity.Entities;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
-public class DirectorConversion : MonoBehaviour
+public class DirectorConversion : GameObjectConversionSystem
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void OnUpdate()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Entities.ForEach((PlayableDirector director) =>
+        {
+            Debug.Log("added director");
+            AddHybridComponent(director);
+        });
     }
 }

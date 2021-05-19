@@ -8,6 +8,7 @@ public class TileMapConversion : GameObjectConversionSystem
     {
         Entities.ForEach((Tilemap tileMap, TilemapRenderer renderer) =>
         {
+            AddHybridComponent(tileMap.layoutGrid);
             AddHybridComponent(tileMap);
             AddHybridComponent(renderer);
         });
