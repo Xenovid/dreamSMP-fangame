@@ -13,6 +13,7 @@ public class PauseMenuSystem : SystemBase
       private PauseMenuSelectables currentSelection;
       private SceneSystem sceneSystem;
       private SettingsMenuSystem settingsMenuSystem;
+      private OverWorldHealingSystem healingSystem;
       
       private bool isPaused;
 
@@ -24,6 +25,7 @@ public class PauseMenuSystem : SystemBase
       private QuickMenuSelectables currentQuickMenuSelection;
       private int currentItem;
       private bool onItemSwitch;
+      private List<QuickMenuSelectables> useableQuickSelectables = new List<QuickMenuSelectables>();
       private Equipment selectedEquipment;
 
       private bool canQuickSwitch;
@@ -36,6 +38,7 @@ public class PauseMenuSystem : SystemBase
             base.OnStartRunning();
             sceneSystem = World.GetOrCreateSystem<SceneSystem>();
             settingsMenuSystem = World.GetOrCreateSystem<SettingsMenuSystem>();
+            healingSystem = World.GetOrCreateSystem<OverWorldHealingSystem>();
             settingsMenuSystem.OnTitleReturn += DisableMenu_OnTitleReturn;
             currentCharacter = 1;
             currentItem = 1;
@@ -82,7 +85,7 @@ public class PauseMenuSystem : SystemBase
 
                     if(!isPaused && overworldInput.escape){
                         
-
+                        healingSystem.OnHealthChange += UpdateCharacterInfo_OnStatsUpdate;
                         isPaused = true;
                         InputGatheringSystem.currentInput = CurrentInput.ui;
                         pauseBackground.visible = true;
@@ -112,6 +115,7 @@ public class PauseMenuSystem : SystemBase
                             isPaused = false;
                             pauseBackground.visible = false;
                             InputGatheringSystem.currentInput = CurrentInput.overworld;
+                            healingSystem.OnHealthChange -= UpdateCharacterInfo_OnStatsUpdate;
                         }
                     else if(isPaused){
                             Button partyButton = root.Q<Button>("Party");
@@ -567,69 +571,89 @@ public class PauseMenuSystem : SystemBase
                                                 itemsQuickMenu.visible = false;
                                                 onQuickMenu = false;
                                             }
-                                            switch(currentQuickMenuSelection){
+                                            if(uiInput.goselected){
+                                                DynamicBuffer<ItemData> itemInventory = GetBuffer<ItemData>(characterEntities[currentCharacter -1]);
+                                                switch(currentQuickMenuSelection){
                                                     case QuickMenuSelectables.Use:
-                                                        if(uiInput.goselected){
-                                                            //go into item selection
-                                                        }
-                                                        else if(uiInput.movedown){
-                                                            currentQuickMenuSelection = QuickMenuSelectables.Drop;
-                                                            UnSelectQuickMenuButton(quickUseItems);
-                                                            SelectQuickMenuButton(quickDropItems);
-                                                        }
+                                                        {DynamicBuffer<HealingData> healings = GetBuffer<HealingData>(characterEntities[currentCharacter -1]);
+                                                        HealingData healing = new HealingData{healing = itemInventory[currentItem - 1].item.strength};
+                                                        healings.Add(healing);
+                                                        itemInventory.RemoveAt(currentItem - 1);
+                                                        UnSelectQuickMenuButton(quickUseItems);
+                                                        //exit items menu
+                                                        itemsQuickMenu.visible = false;
+                                                        onQuickMenu = false;
+                                                        isSelected = false;
+                                                        itemInfo.visible = false;
+                                                        UnselectCharacter(root.Q<VisualElement>("character" + currentCharacter));
+                                                        currentItem = 1;
+                                                        // updating the character health
+                                                        VisualElement currentCharacterUI = pauseBackground.Q<VisualElement>("character" + (currentCharacter).ToString());
+                                                        Label healthBarText = currentCharacterUI.Q<Label>("health_text");
+                                                        VisualElement healthBarBase = currentCharacterUI.Q<VisualElement>("health_bar_base");
+                                                        VisualElement healthBar = currentCharacterUI.Q<VisualElement>("health_bar");
+                                                        VisualElement bloodBar = currentCharacterUI.Q<VisualElement>("blood");
+                                                        CharacterStats characterStats = characterStatsList[currentCharacter - 1];
+                                                        healthBar.style.width = healthBarBase.contentRect.width * (characterStats.health / characterStats.maxHealth);
+                                                        healthBarText.text = "HP: " + characterStats.health.ToString() + "/" + characterStats.maxHealth.ToString();}
                                                     break;
                                                     case QuickMenuSelectables.Drop:
-                                                        if(uiInput.goselected){
-                                                            //go into item selection
-                                                        }
-                                                        else if(uiInput.moveup){
-                                                            currentQuickMenuSelection = QuickMenuSelectables.Use;
-                                                            SelectQuickMenuButton(quickUseItems);
-                                                            UnSelectQuickMenuButton(quickDropItems);
-                                                        }
-                                                        else if(uiInput.movedown){
-                                                            currentQuickMenuSelection = QuickMenuSelectables.Give;
-                                                            SelectQuickMenuButton(quickGiveItems);
-                                                            UnSelectQuickMenuButton(quickDropItems);
-                                                        }
-                                                    break;
-                                                    case QuickMenuSelectables.Give:
-                                                        if(uiInput.goselected){
-                                                            //go into item selection
-                                                        }
-                                                        else if(uiInput.moveup){
-                                                            currentQuickMenuSelection = QuickMenuSelectables.Drop;
-                                                            SelectQuickMenuButton(quickDropItems);
-                                                            UnSelectQuickMenuButton(quickGiveItems);
-                                                        }
-                                                        else if(uiInput.movedown){
-                                                            currentQuickMenuSelection = QuickMenuSelectables.Cancel;
-                                                            UnSelectQuickMenuButton(quickGiveItems);
-                                                            SelectQuickMenuButton(quickCancelItems);
-                                                        }
+                                                        itemInventory.RemoveAt(currentItem - 1);
+                                                        UnSelectQuickMenuButton(quickDropItems);
+                                                        //exit items menu
+                                                        itemsQuickMenu.visible = false;
+                                                        onQuickMenu = false;
+                                                        isSelected = false;
+                                                        itemInfo.visible = false;
+                                                        UnselectCharacter(root.Q<VisualElement>("character" + currentCharacter));
+                                                        currentItem = 1;
                                                     break;
                                                     case QuickMenuSelectables.Cancel:
-                                                        if(uiInput.goselected){
-                                                            UnSelectQuickMenuButton(quickCancelItems);
-                                                            itemsQuickMenu.visible = false;
-                                                            onQuickMenu = false;
-                                                        }
-                                                        else if(uiInput.moveup){
-                                                            currentQuickMenuSelection = QuickMenuSelectables.Give;
-                                                            UnSelectQuickMenuButton(quickCancelItems);
-                                                            SelectQuickMenuButton(quickGiveItems);
-                                                        }
+                                                        UnSelectQuickMenuButton(quickCancelItems);
+                                                        itemsQuickMenu.visible = false;
+                                                        onQuickMenu = false;
+                                                        
                                                     break;
                                                 }
+                                            }
+                                            if(uiInput.moveup){
+                                                QuickMenuUp(itemsQuickMenu);
+                                            }
+                                            else if(uiInput.movedown){
+                                                QuickMenuDown(itemsQuickMenu);
+                                            }
                                         }
                                         else{
                                             DynamicBuffer<ItemData> itemInventory = GetBuffer<ItemData>(characterEntities[currentCharacter -1]);
-                                            if(uiInput.goselected){
-                                                currentQuickMenuSelection = QuickMenuSelectables.Use;
-                                                SelectQuickMenuButton(quickUseItems);
+                                            if(uiInput.goselected && !(currentItem > itemInventory.Length )){
                                                 itemsQuickMenu.visible = true;
                                                 onQuickMenu = true;
                                                 placeQuickMenu(itemList.Q<Label>("item" + currentItem), itemsQuickMenu);
+                                                //ensures that it is reset
+                                                useableQuickSelectables.Clear();
+                                                //all items will have these features
+                                                useableQuickSelectables.Add(QuickMenuSelectables.Cancel);
+                                                if(playerParty.Length != 1){
+                                                    useableQuickSelectables.Add(QuickMenuSelectables.Give);
+                                                    SelectableQuickMenuButton(quickGiveItems);
+                                                }
+                                                else{
+                                                    UnSelectableQuickMenuButton(quickGiveItems);
+                                                }
+                                                useableQuickSelectables.Add(QuickMenuSelectables.Drop);
+                                                //add the useable selectables based on the item type
+                                                switch(itemInventory[currentItem - 1].item.itemType){
+                                                    case ItemType.healing:
+                                                        useableQuickSelectables.Add(QuickMenuSelectables.Use);
+                                                        currentQuickMenuSelection = QuickMenuSelectables.Use;
+                                                        SelectQuickMenuButton(quickUseItems);
+                                                    break;
+                                                    case ItemType.none:
+                                                        currentQuickMenuSelection = QuickMenuSelectables.Cancel;
+                                                        SelectQuickMenuButton(quickCancelItems);
+                                                    break;
+                                                }
+                                                
                                             }
                                             else if(uiInput.goback){
                                                 UnSelectItem(itemList.Q<Label>("item" + currentItem));
@@ -749,6 +773,10 @@ public class PauseMenuSystem : SystemBase
                                             }
                                             i++;
                                         }
+                                        while(i < 10){
+                                            itemList.Q<Label>("item" + (i + 1).ToString()).text = "None";
+                                            i++;
+                                        }
                                         string itemDescriptionToShow = itemInventory[currentItem - 1].item.description.ToString();
                                         if(itemDescriptionToShow == ""){
                                             itemDesc.text = "no description";
@@ -775,10 +803,13 @@ public class PauseMenuSystem : SystemBase
                                 break;
                                 case PauseMenuSelectables.Skills:
                                     VisualElement currentSkills = skillInfo.Q<VisualElement>("current_skills");
+                                    VisualElement otherSkills = skillInfo.Q<VisualElement>("other_skills");
                                     Label skillDesc = skillInfo.Q<Label>("skill_desc");
                                     VisualElement skillsQuickMenu = root.Q<VisualElement>("skills_quickmenu");
                                     Label quickSwitchSkills = skillsQuickMenu.Q<Label>("switch");
                                     Label quickCancelSkills = skillsQuickMenu.Q<Label>("cancel");
+                                    DynamicBuffer<SkillData> skills = GetBuffer<SkillData>(characterEntities[currentCharacter - 1]);
+                                    DynamicBuffer<EquipedSkillData> equipedSkills = GetBuffer<EquipedSkillData>(characterEntities[currentCharacter -1]);
 
                                     if (isSelected)
                                     {
@@ -789,6 +820,62 @@ public class PauseMenuSystem : SystemBase
                                                 skillInfo.visible = false;
                                             }
                                         }
+                                        else if(onItemSwitch){
+                                            if(uiInput.goselected){
+                                                //switchskill
+                                                EquipedSkillData newSkill = new EquipedSkillData{skill = skills[currentSwitchItem - 1].skill};
+                                                if(currentItem >= equipedSkills.Length){
+                                                    // nothing equiped, so nothing to add to the unequiped skills
+                                                    skills.RemoveAt(currentSwitchItem - 1);
+
+                                                }
+                                                else{
+                                                    SkillData currentSkill = new SkillData{skill = equipedSkills[currentItem - 1].skill};
+
+                                                    equipedSkills.RemoveAt(currentItem - 1);
+                                                    skills.RemoveAt(currentSwitchItem - 1);
+                                                    skills.Add(currentSkill);
+                                                }
+                                                equipedSkills.Insert(currentItem -1, newSkill);
+
+                                                currentSkills.Q<Label>("skill" + currentItem.ToString()).text = newSkill.skill.name.ToString();
+
+                                                onItemSwitch = false;
+                                                currentSkills.visible = true;
+                                                otherSkills.visible = false;
+                                                UnSelectItem(otherSkills.Q<Label>("skill"+ currentSwitchItem.ToString()));
+                                            }
+                                            else if(uiInput.goback){
+                                                onItemSwitch = false;
+                                                currentSkills.visible = true;
+                                                otherSkills.visible = false;
+                                                UnSelectItem(otherSkills.Q<Label>("skill"+ currentSwitchItem.ToString()));
+                                            }
+                                            else if(uiInput.moveup && currentSwitchItem > 1){
+                                                if(currentSwitchItem > 5){
+
+                                                }
+                                                else{
+                                                    UnSelectItem(otherSkills.Q<Label>("skill" + (currentSwitchItem).ToString()));
+                                                    currentSwitchItem--;
+                                                    SelectItem(otherSkills.Q<Label>("skill" + (currentSwitchItem).ToString()));
+                                                    // updating the equipment information based on what is currently selected
+                                                    skillDesc.text = skills[currentSwitchItem - 1].skill.description.ToString();
+                                                }
+                                            }
+                                            else if(uiInput.movedown && currentSwitchItem < skills.Length){
+                                                if(currentSwitchItem > 5){
+
+                                                }
+                                                else{
+                                                    UnSelectItem(otherSkills.Q<Label>("skill" + (currentSwitchItem).ToString()));
+                                                    currentSwitchItem++;
+                                                    SelectItem(otherSkills.Q<Label>("skill" + (currentSwitchItem).ToString()));
+                                                    // updating the equipment information based on what is currently selected
+                                                    skillDesc.text = skills[currentSwitchItem - 1].skill.description.ToString();
+                                                }
+                                            }
+                                        }
                                         else if(onQuickMenu){
                                             if(uiInput.goback){
                                                 UnSelectQuickMenuButton(quickCancelSkills);
@@ -796,40 +883,72 @@ public class PauseMenuSystem : SystemBase
                                                 skillsQuickMenu.visible = false;
                                                 onQuickMenu = false;
                                             }
-                                            switch(currentQuickMenuSelection){
+                                            else if(uiInput.goselected){
+                                                switch(currentQuickMenuSelection){
                                                     case QuickMenuSelectables.Switch:
-                                                        if(uiInput.goselected){
-                                                            //go into item selection
+                                                        //go into skill selection
+                                                        onItemSwitch = true;
+                                                        onQuickMenu = false;
+                                                        // make sure all ui have the right visability
+                                                        skillsQuickMenu.visible = false;
+                                                        UnSelectQuickMenuButton(quickSwitchSkills);
+                                                        currentSkills.visible = false;
+                                                        otherSkills.visible = true;
+                                                        // can't switch unless there is at least one skill, who's description should be displayed
+                                                        skillDesc.text = skills[0].skill.description.ToString();
+                                                        SelectItem(otherSkills.Q<Label>("skill1"));
+                                                        currentSwitchItem = 1;
+
+                                                        // set up all of the other skills
+                                                        for(int i = 1 ; i <= 6; i++){
+                                                            if(i <= skills.Length){
+                                                                otherSkills.Q<Label>("skill" + i.ToString()).text = skills[i - 1].skill.name.ToString();
+                                                            }
+                                                            else{
+                                                                otherSkills.Q<Label>("skill" + i.ToString()).text = "None";
+                                                            }
                                                         }
-                                                        else if(uiInput.movedown){
-                                                            currentQuickMenuSelection = QuickMenuSelectables.Cancel;
-                                                            UnSelectQuickMenuButton(quickSwitchSkills);
-                                                            SelectQuickMenuButton(quickCancelSkills);
-                                                        }
+                                                        Debug.Log("is updating the other skills");
                                                     break;
                                                     case QuickMenuSelectables.Cancel:
-                                                        if(uiInput.goselected){
-                                                            UnSelectQuickMenuButton(quickCancelSkills);
-                                                            UnSelectQuickMenuButton(quickSwitchSkills);
-                                                            skillsQuickMenu.visible = false;
-                                                            onQuickMenu = false;
-                                                        }
-                                                        else if(uiInput.moveup){
-                                                            currentQuickMenuSelection = QuickMenuSelectables.Switch;
-                                                            UnSelectQuickMenuButton(quickCancelSkills);
-                                                            SelectQuickMenuButton(quickSwitchSkills);
-                                                        }
+                                                        UnSelectQuickMenuButton(quickCancelSkills);
+                                                        UnSelectQuickMenuButton(quickSwitchSkills);
+                                                        skillsQuickMenu.visible = false;
+                                                        onQuickMenu = false;
                                                     break;
                                                 }
+                                            }
+                                            else if(uiInput.movedown){
+                                                QuickMenuDown(skillsQuickMenu);
+                                            }
+                                            else if(uiInput.moveup){
+                                                QuickMenuUp(skillsQuickMenu);
+                                            }
                                         }
                                         else{
-                                             DynamicBuffer<SkillData> equipedSkills = GetBuffer<SkillData>(characterEntities[currentCharacter -1]);
+                                            
                                             if(uiInput.goselected){
-                                                currentQuickMenuSelection = QuickMenuSelectables.Switch;
-                                                SelectQuickMenuButton(quickSwitchSkills);
+                                                
+                                                
                                                 skillsQuickMenu.visible = true;
                                                 onQuickMenu = true;
                                                 placeQuickMenu(currentSkills.Q<Label>("skill" + currentItem), skillsQuickMenu);
+
+                                                useableQuickSelectables.Add(QuickMenuSelectables.Cancel);
+                                                if(skills.Length == 0){
+                                                    // if there is no skills available, you shouldn't be able to switch
+                                                    SelectQuickMenuButton(quickCancelSkills);
+                                                    UnSelectableQuickMenuButton(quickSwitchSkills);
+                                                    currentQuickMenuSelection = QuickMenuSelectables.Cancel;
+                                                }
+                                                else{
+                                                    SelectableQuickMenuButton(quickSwitchSkills);
+                                                    SelectQuickMenuButton(quickSwitchSkills);
+                                                    useableQuickSelectables.Add(QuickMenuSelectables.Switch);
+                                                    currentQuickMenuSelection = QuickMenuSelectables.Switch;
+                                                }
+                                                
+                                                
                                             }
                                             else if(uiInput.goback){
                                                 UnSelectItem(currentSkills.Q<Label>("skill" + currentItem));
@@ -837,6 +956,7 @@ public class PauseMenuSystem : SystemBase
                                                     
                                                     isSelected = false;
                                                     skillInfo.visible = false;
+                                                    currentSkills.visible = false;
                                                     UnselectCharacter(root.Q<VisualElement>("character1"));
                                                     currentItem = 1;
                                                 }
@@ -887,10 +1007,10 @@ public class PauseMenuSystem : SystemBase
                                     }
                                     else if (uiInput.goselected)
                                     {
-                                        DynamicBuffer<SkillData> equipedSkills = GetBuffer<SkillData>(characterEntities[currentCharacter - 1]);
                                         isSelected = true;
                                         if(playerParty.Length == 1){
                                             onCharacterSelect = false;
+                                            currentSkills.visible = true;
                                             SelectInfoTab(currentSkills);
                                             SelectItem(currentSkills.Q<Label>("skill1"));
                                         }
@@ -898,7 +1018,7 @@ public class PauseMenuSystem : SystemBase
                                             onCharacterSelect = true;
                                         }
                                         int i = 1;
-                                        foreach(SkillData skillData in equipedSkills){
+                                        foreach(EquipedSkillData skillData in equipedSkills){
                                             Skill skill = skillData.skill;
                                             if(skill.name == ""){
                                                 currentSkills.Q<Label>("skill" + i.ToString()).text = "None";
@@ -974,8 +1094,9 @@ public class PauseMenuSystem : SystemBase
         onCharacterSelect = false;
 
         currentSelection = PauseMenuSelectables.Party;
+        healingSystem.OnHealthChange -= UpdateCharacterInfo_OnStatsUpdate;
     }
-      private void EnableMenu_OnSettingsExit(System.Object sender, System.EventArgs e){
+    private void EnableMenu_OnSettingsExit(System.Object sender, System.EventArgs e){
         Entities
         .WithoutBurst()
         .WithStructuralChanges()
@@ -1030,9 +1151,15 @@ public class PauseMenuSystem : SystemBase
         button.RemoveFromClassList("quickmenu_button_selected");
         button.AddToClassList("quickmenu_button_unselected");
     }
+    private void SelectableQuickMenuButton(Label button){
+        button.RemoveFromClassList("quickmenu_button_unselectable");
+        button.AddToClassList("quickmenu_button_unselected");
+    }
+    private void UnSelectableQuickMenuButton(Label button){
+        button.RemoveFromClassList("quickmenu_button_unselected");
+        button.AddToClassList("quickmenu_button_unselectable");
+    }
     private void placeQuickMenu(Label item, VisualElement quickMenu){
-
-        Debug.Log(item.worldBound.y);
         quickMenu.style.right = item.contentRect.width + item.worldBound.x;
         quickMenu.style.top = item.worldBound.y;
     }
@@ -1057,6 +1184,58 @@ public class PauseMenuSystem : SystemBase
             }
     }
 
+    private void QuickMenuUp(VisualElement QuickMenu){
+        Label currentQuickButton = QuickMenu.Q<Label>(currentQuickMenuSelection.ToString().ToLower());
+        UnSelectQuickMenuButton(currentQuickButton);
+        QuickMenuSelectables temp = currentQuickMenuSelection;
+        // won't set current selection to a new value unless it is useable
+        while(temp > 0){
+            temp--;
+            if(useableQuickSelectables.Contains(temp)){
+                // found matching object, select it
+                currentQuickMenuSelection = temp;
+                break;
+            }
+        }
+        Label newQuickMenuButton = QuickMenu.Q<Label>(currentQuickMenuSelection.ToString().ToLower());
+        SelectQuickMenuButton(newQuickMenuButton);  
+    }
+    private void QuickMenuDown(VisualElement QuickMenu){
+        Label currentQuickButton = QuickMenu.Q<Label>(currentQuickMenuSelection.ToString().ToLower());
+        UnSelectQuickMenuButton(currentQuickButton);
+        QuickMenuSelectables temp = currentQuickMenuSelection;
+        // won't set current selection to a new value unless it is useable
+        while(temp < QuickMenuSelectables.Cancel){
+            temp++;
+            if(useableQuickSelectables.Contains(temp)){
+                // found matching object, select it
+                currentQuickMenuSelection = temp;
+                break;
+            }
+        }
+        Label newQuickMenuButton = QuickMenu.Q<Label>(currentQuickMenuSelection.ToString().ToLower());
+        SelectQuickMenuButton(newQuickMenuButton);  
+    }
+    private void UpdateCharacterInfo_OnStatsUpdate(System.Object sender, System.EventArgs e){
+        EntityQuery characterStatsQuery = GetEntityQuery(typeof(CharacterStats), typeof(PlayerTag));
+        NativeArray<CharacterStats> characterStatsList = characterStatsQuery.ToComponentDataArray<CharacterStats>(Allocator.TempJob);
+        Entities
+        .WithoutBurst()
+        .WithStructuralChanges()
+        .ForEach((in UIDocument UIDoc,in PauseMenuTag pausMenuTag) =>{
+            VisualElement root = UIDoc.rootVisualElement;
+            VisualElement pauseBackground = root.Q<VisualElement>("pause_background");
+            VisualElement currentCharacterUI = pauseBackground.Q<VisualElement>("character" + (currentCharacter).ToString());
+            Label healthBarText = currentCharacterUI.Q<Label>("health_text");
+            VisualElement healthBarBase = currentCharacterUI.Q<VisualElement>("health_bar_base");
+            VisualElement healthBar = currentCharacterUI.Q<VisualElement>("health_bar");
+            //VisualElement bloodBar = currentCharacterUI.Q<VisualElement>("blood");
+            CharacterStats characterStats = characterStatsList[currentCharacter - 1];
+            healthBar.style.width = healthBarBase.contentRect.width * (characterStats.health / characterStats.maxHealth);
+            healthBarText.text = "HP: " + characterStats.health.ToString() + "/" + characterStats.maxHealth.ToString();
+        }).Run();
+        characterStatsList.Dispose();
+    }
 }
 public enum Equipment{
     Weapon,
@@ -1066,8 +1245,8 @@ public enum Equipment{
 public enum QuickMenuSelectables{
     Switch,
     Use,
-    Give,
     Drop,
+    Give,
     Cancel
 }
 public enum PauseMenuSelectables{

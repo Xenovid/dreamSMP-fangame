@@ -49,7 +49,6 @@ public class TransitionSystem : SystemBase
 
     private void MoveToBattlePositions_OnBattleStart(System.Object sender, System.EventArgs e){
         var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
-        Debug.Log("hello");
 
         // needed so the battlers are on the right location on screen
         EntityQuery cameraQuery = GetEntityQuery(typeof(Camera));

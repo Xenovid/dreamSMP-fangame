@@ -103,3 +103,20 @@
     -unity-font: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7');
     -unity-text-align: upper-center;
 }
+
+.quickmenu_button_unselectable {
+    width: 60px;
+    height: 15px;
+    border-left-color: rgb(26, 26, 26);
+    border-right-color: rgb(26, 26, 26);
+    border-top-color: rgb(26, 26, 26);
+    border-bottom-color: rgb(26, 26, 26);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    background-color: rgb(5, 5, 5);
+    font-size: 9px;
+    -unity-font: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7');
+    -unity-text-align: upper-center;
+}

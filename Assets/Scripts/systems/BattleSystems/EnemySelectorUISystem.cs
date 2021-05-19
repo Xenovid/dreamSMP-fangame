@@ -31,7 +31,6 @@ public class EnemySelectorUISystem : SystemBase
                 //Debug.Log("enemy health is currently" + enemyHealthBar.style.width);
 
                 if (enemySelectorData.isSelected){
-                    Debug.Log("hello");
                     //make the enemy outline glow
                     float factor = Mathf.Pow(2, 6);
                     MaterialPropertyBlock myMatBlock = new MaterialPropertyBlock();

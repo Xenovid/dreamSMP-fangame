@@ -15,7 +15,6 @@ public class BattleMenuSystem : SystemBase
     bool hasBattleStarted;
 
     InkDisplaySystem inkDisplaySystem;
-    bool isPrintingVictoryData;
     public int currentSkill;
     public int currentItem;
     private int currentPlayer;
@@ -171,6 +170,7 @@ public class BattleMenuSystem : SystemBase
                                             currentMenu = menuType.itemsMenu;
                                             currentItem = 1;
                                             SelectItem(itemSelector.Q<Label>("item1"));
+                                            // changing the names of the items
                                             while(i < itemInventory.Length){
                                                 itemSelector.Q<Label>("item" + (i + 1).ToString()).text = itemInventory[i].item.name.ToString();
                                                 i++;
@@ -334,7 +334,6 @@ public class BattleMenuSystem : SystemBase
                             }
                             else{
                                 if(input.goselected && currentSkill - 1< equipedSkills.Length){
-                                    Debug.Log("hello you should go to enemy selection");
                                     isInEnemySelection = true;
                                     skillSelector.visible = false;
                                     enemySelector.visible = true;
@@ -551,7 +550,6 @@ public class BattleMenuSystem : SystemBase
 
     private void FinishVictoryData_OnWritingFinished(object sender, System.EventArgs e){
         inkDisplaySystem.OnWritingFinished -= FinishVictoryData_OnWritingFinished;
-        isPrintingVictoryData = false;
         var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
         // transition back once the writer is done
         Entities
@@ -586,7 +584,6 @@ public class BattleMenuSystem : SystemBase
             beforeBattleDatas.Dispose();
             battleCharacters.Dispose();
 
-            isPrintingVictoryData = true;
             inkDisplaySystem.DisplayVictoryData();
             inkDisplaySystem.OnWritingFinished += FinishVictoryData_OnWritingFinished;
         }
