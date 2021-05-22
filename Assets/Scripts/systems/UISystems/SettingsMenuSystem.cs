@@ -1,6 +1,8 @@
 using Unity.Entities;
 using UnityEngine.UIElements;
 using Unity.Scenes;
+//using Unity.Entities.Serialization;
+using Unity.Serialization;
 using System;
 using UnityEngine;
 
@@ -23,7 +25,6 @@ public class SettingsMenuSystem : SystemBase
     {
         EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
         UIInputData input = uiInputQuery.GetSingleton<UIInputData>();
-
 
         Entities
         .WithStructuralChanges()

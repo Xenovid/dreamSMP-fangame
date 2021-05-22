@@ -1,6 +1,6 @@
 using Unity.Entities;
-
-public class ChestWeaponData : IComponentData
+[GenerateAuthoringComponent]
+public struct ChestWeaponData : IComponentData
 {
        public Weapon weapon;
 }

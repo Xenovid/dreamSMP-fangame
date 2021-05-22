@@ -1,15 +1,17 @@
 using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
-
+/*
 public class TextAuthoring : MonoBehaviour{
         public string[] text;
-}
+}*/
+[GenerateAuthoringComponent]
 public struct Text : IBufferElementData
 {
         public FixedString512 text;
 }
 
+/*
 class TextConversion : GameObjectConversionSystem
 {
     protected override void OnUpdate()
@@ -24,5 +26,5 @@ class TextConversion : GameObjectConversionSystem
                 }
         });
     }
-}
+}*/
 

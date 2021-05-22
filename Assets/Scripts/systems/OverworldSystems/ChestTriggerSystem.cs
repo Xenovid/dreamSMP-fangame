@@ -27,67 +27,85 @@ public class ChestTriggerSystem : SystemBase
 
         var triggerEvents = ((Simulation)physicsWorld.Simulation).TriggerEvents;
 
-        if (input.select)
-        {
-            Entities
-            .WithoutBurst()
-            .WithAll<PlayerTag>()
-            .ForEach((in Entity ent, in Translation playerTranslation,in MovementData move) =>
-            {   
-                foreach(TriggerEvent triggerEvent in triggerEvents)
-                   {
-                        
-                    Entity entityA = triggerEvent.EntityA;
-                    Entity entityB = triggerEvent.EntityB;
-                        
+        if(input.select){
+            EntityQuery playerQuery = GetEntityQuery(typeof(PlayerTag), typeof(MovementData));
+            MovementData playerMovment = playerQuery.GetSingleton<MovementData>();
 
-                    if(entityA == ent || entityB == ent)
-                    {
-                        Entity interactiveEntity = new Entity();
-                        bool changed = false;
+            Entity caravan = GetSingletonEntity<CaravanTag>();
+            DynamicBuffer<WeaponData> weaponInventory = GetBuffer<WeaponData>(caravan);
+            DynamicBuffer<ArmorData> armorInventory = GetBuffer<ArmorData>(caravan);
+            DynamicBuffer<CharmData> charmInventory = GetBuffer<CharmData>(caravan);
 
-                        if (HasComponent<ChestTag>(entityA))
-                        {
-                            interactiveEntity = entityA;
-                            changed = true;
+            Entity messageBoard = GetSingletonEntity<OverworldUITag>();
+            DynamicBuffer<Text> texts = GetBuffer<Text>(messageBoard);
+
+            foreach(TriggerEvent triggerEvent in triggerEvents)
+            {
+                
+                Entity entityA = triggerEvent.EntityA;
+                Entity entityB = triggerEvent.EntityB;
+
+                if (HasComponent<ChestTag>(entityA) && HasComponent<InteractiveBoxCheckerData>(entityB))
+                {
+                    if(GetComponent<InteractiveBoxCheckerData>(entityB).direction == playerMovment.facing){
+                        //InputGatheringSystem.currentInput = CurrentInput.ui;
+                        if(HasComponent<ChestWeaponData>(entityA)){
+                            ChestWeaponData weaponData = GetComponent<ChestWeaponData>(entityA);
+                            weaponInventory.Insert(0, new WeaponData{weapon = weaponData.weapon});
+                            texts.Add(new Text{text = "you obtained a" + weaponData.weapon.name});
+                            ecb.RemoveComponent<ChestTag>(entityA);
+                            ecb.RemoveComponent<ChestWeaponData>(entityA);
                         }
-                        else if (HasComponent<ChestTag>(entityB))
-                        {
-                            interactiveEntity = entityB;
-                            changed = true;
+                        else if(HasComponent<ChestArmorData>(entityA)){
+                            ChestArmorData armorData = GetComponent<ChestArmorData>(entityA);
+                            armorInventory.Insert(0, new ArmorData{armor = armorData.armor});
+                            texts.Add(new Text{text = "you obtained a" + armorData.armor.name});
+                            ecb.RemoveComponent<ChestArmorData>(entityA);
+                            ecb.RemoveComponent<ChestTag>(entityA);
                         }
-                        if (changed)
-                        {
-                            Translation interactiveTranslation = GetComponent<Translation>(interactiveEntity);
-                            Weapon weapon = EntityManager.GetComponentObject<ChestWeaponData>(interactiveEntity).weapon;
-
-                            bool facingItemDirection = false;
-                            switch (move.facing)
-                            {
-                                case Direction.up:
-                                    facingItemDirection = playerTranslation.Value.y < interactiveTranslation.Value.y;
-                                    break;
-                                case Direction.down:
-                                    facingItemDirection = playerTranslation.Value.y > interactiveTranslation.Value.y;
-                                    break;
-                                case Direction.left:
-                                    facingItemDirection = playerTranslation.Value.x > interactiveTranslation.Value.x;
-                                    break;
-                                case Direction.right:
-                                    facingItemDirection = playerTranslation.Value.x < interactiveTranslation.Value.x;
-                                    break;
-                            }
-                            if (facingItemDirection)
-                            {
-                                ecb.AddComponent<TextBoxData>(interactiveEntity);
-                                //GlobalInventoryData globalInventory = GetSingleton<GlobalInventoryData>();
-                                InputGatheringSystem.currentInput = CurrentInput.ui;
-                            }
+                        else if(HasComponent<ChestCharmData>(entityA)){
+                            ChestCharmData charmData = GetComponent<ChestCharmData>(entityA);
+                            charmInventory.Insert(0, new CharmData{charm = charmData.charm});
+                            texts.Add(new Text{text = "you obtained a" + charmData.charm.name});
+                            ecb.RemoveComponent<ChestTag>(entityA);
+                            ecb.RemoveComponent<ChestCharmData>(entityA);
+                        }
+                        else if(HasComponent<ChestItemData>(entityA)){
 
                         }
-                    }
+                    }  
                 }
-            }).Run();
+                else if (HasComponent<ChestTag>(entityB) && HasComponent<InteractiveBoxCheckerData>(entityA))
+                {
+                    //InputGatheringSystem.currentInput = CurrentInput.ui;
+                        if(HasComponent<ChestWeaponData>(entityB)){
+                            ChestWeaponData weaponData = GetComponent<ChestWeaponData>(entityB);
+                            weaponInventory.Insert(0, new WeaponData{weapon = weaponData.weapon});
+                            texts.Add(new Text{text = "you obtained a" + weaponData.weapon.name});
+                            ecb.RemoveComponent<ChestWeaponData>(entityB);
+                            ecb.RemoveComponent<ChestTag>(entityB);
+                        }
+                        else if(HasComponent<ChestArmorData>(entityB)){
+                            ChestArmorData armorData = GetComponent<ChestArmorData>(entityB);
+                            armorInventory.Insert(0, new ArmorData{armor = armorData.armor});
+                            texts.Add(new Text{text = "you obtained a" + armorData.armor.name});
+                            ecb.RemoveComponent<ChestArmorData>(entityB);
+                            ecb.RemoveComponent<ChestTag>(entityB);
+                        }
+                        else if(HasComponent<ChestCharmData>(entityB)){
+                            ChestCharmData charmData = GetComponent<ChestCharmData>(entityB);
+                            charmInventory.Insert(0, new CharmData{charm = charmData.charm});
+                            texts.Add(new Text{text = "you obtained a" + charmData.charm.name});
+                            ecb.RemoveComponent<ChestCharmData>(entityB);
+                            ecb.RemoveComponent<ChestTag>(entityB);
+                        }
+                        else if(HasComponent<ChestItemData>(entityB)){
+
+                        }
+                }
+                m_EndSimulationEcbSystem.AddJobHandleForProducer(this.Dependency);
+            }
         }
+
     }
 }

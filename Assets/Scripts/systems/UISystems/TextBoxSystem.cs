@@ -1,13 +1,65 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Ink.Runtime;
+using System;
 using Unity.Entities;
 using UnityEngine.UIElements;
 
 public class TextBoxSystem : SystemBase
 {
+    public event EventHandler OnDisplayFinished;
+    bool isDisplaying;
+    protected override void OnStartRunning()
+    {
+        
+    }
+    protected override void OnUpdate()
+    {
+        UIInputData input = GetSingleton<UIInputData>();
+        Entities
+        .WithoutBurst()
+        .WithAll<OverworldUITag>()
+        .ForEach((UIDocument UIDoc, DynamicBuffer<Text> texts) =>{
+                if(!texts.IsEmpty && !isDisplaying){
+                    InputGatheringSystem.currentInput = CurrentInput.ui;
+                    VisualElement root = UIDoc.rootVisualElement;
+                    VisualElement characterText = root.Q<VisualElement>("TextBoxUI");
+                    Label textBoxText = root.Q<Label>("TextBoxText");
+                    VisualElement charaterImage = root.Q<VisualElement>("CharacterImage");
+
+                    characterText.visible = true;
+                    textBoxText.text = texts[0].text.ToString();
+                    isDisplaying = true;
+                }
+                if(isDisplaying){
+                    VisualElement root = UIDoc.rootVisualElement;
+                    VisualElement characterText = root.Q<VisualElement>("TextBoxUI");
+                    Label textBoxText = root.Q<Label>("TextBoxText");
+                    VisualElement charaterImage = root.Q<VisualElement>("CharacterImage");
+                    if(input.goselected){
+                        if(texts.Length == 1){
+                            texts.RemoveAt(0);
+                            isDisplaying = false;
+                            characterText.visible = false;
+                            textBoxText.text = "";
+                            InputGatheringSystem.currentInput = CurrentInput.overworld;
+                            OnDisplayFinished?.Invoke(this, EventArgs.Empty);
+                        }
+                        else{
+                            texts.RemoveAt(0);
+                            textBoxText.text = texts[0].text.ToString();
+                        }
+                    }
+
+                }
+        }).Run();
+    }
+}
+
+
+
     /*
+    old text box system
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
     private float charTime = .5f;
     Label textBoxText;
@@ -34,7 +86,7 @@ public class TextBoxSystem : SystemBase
         textBoxText = rootVisualElement.Q<Label>("TextBoxText");
         charaterImage = rootVisualElement.Q<VisualElement>("CharacterImage");
     }
-    */
+    
     protected override void OnUpdate()
     { /*
         EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
@@ -99,8 +151,8 @@ public class TextBoxSystem : SystemBase
                     }
                 }
             }
-        }).Run();*/
+        }).Run();
     }
 
     
-}
+}*/

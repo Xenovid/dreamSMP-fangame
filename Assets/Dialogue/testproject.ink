@@ -5,7 +5,11 @@ test
     
     They lived happily ever after.
     -> END
-
+=== testarea ===
+    = wakeup
+        
+#stop       
+-> END
 
 == unimportant ==
     = whitebox

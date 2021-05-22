@@ -10,7 +10,7 @@ public class DirectorConversion : GameObjectConversionSystem
         Entities.ForEach((PlayableDirector director) =>
         {
             Debug.Log("added director");
-            AddHybridComponent(director);
+            //AddHybridComponent(director);
         });
     }
 }
