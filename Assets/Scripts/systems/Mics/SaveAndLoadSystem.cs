@@ -15,15 +15,17 @@ public class SaveAndLoadSystem : SystemBase
     protected override void OnUpdate()
     {
         if(Input.GetKeyDown(KeyCode.A)){
+            EntityManager.CompleteAllJobs();
             Save();
         }
     }
     public void Save(){
         /*
+
+        testWorld.EntityManager.MoveEntitiesFrom(World.DefaultGameObjectInjectionWorld.EntityManager);
         using( var writer = new StreamBinaryWriter(Application.dataPath + "/save")){
             Debug.Log("saving");
-            EntityManager.be
-            SerializeUtility.SerializeWorld(tes.World.EntityManager, writer);
+            SerializeUtility.SerializeWorld(testWorld.EntityManager, writer);
         }*/
 
     }

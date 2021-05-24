@@ -2,6 +2,7 @@ using Unity.Entities;
 using Unity.Transforms;
 using Unity.Physics;
 using Unity.Physics.Systems;
+using UnityEngine;
 
 public class ChestTriggerSystem : SystemBase
 {
@@ -52,23 +53,23 @@ public class ChestTriggerSystem : SystemBase
                         if(HasComponent<ChestWeaponData>(entityA)){
                             ChestWeaponData weaponData = GetComponent<ChestWeaponData>(entityA);
                             weaponInventory.Insert(0, new WeaponData{weapon = weaponData.weapon});
-                            texts.Add(new Text{text = "you obtained a" + weaponData.weapon.name});
-                            ecb.RemoveComponent<ChestTag>(entityA);
-                            ecb.RemoveComponent<ChestWeaponData>(entityA);
+                            texts.Add(new Text{text = "you obtained a " + weaponData.weapon.name});
+                            EntityManager.RemoveComponent<ChestTag>(entityA);
+                            EntityManager.RemoveComponent<ChestWeaponData>(entityA);
                         }
                         else if(HasComponent<ChestArmorData>(entityA)){
                             ChestArmorData armorData = GetComponent<ChestArmorData>(entityA);
                             armorInventory.Insert(0, new ArmorData{armor = armorData.armor});
-                            texts.Add(new Text{text = "you obtained a" + armorData.armor.name});
-                            ecb.RemoveComponent<ChestArmorData>(entityA);
-                            ecb.RemoveComponent<ChestTag>(entityA);
+                            texts.Add(new Text{text = "you obtained a " + armorData.armor.name});
+                            EntityManager.RemoveComponent<ChestArmorData>(entityA);
+                            EntityManager.RemoveComponent<ChestTag>(entityA);
                         }
                         else if(HasComponent<ChestCharmData>(entityA)){
                             ChestCharmData charmData = GetComponent<ChestCharmData>(entityA);
                             charmInventory.Insert(0, new CharmData{charm = charmData.charm});
-                            texts.Add(new Text{text = "you obtained a" + charmData.charm.name});
-                            ecb.RemoveComponent<ChestTag>(entityA);
-                            ecb.RemoveComponent<ChestCharmData>(entityA);
+                            texts.Add(new Text{text = "you obtained a " + charmData.charm.name});
+                            EntityManager.RemoveComponent<ChestTag>(entityA);
+                            EntityManager.RemoveComponent<ChestCharmData>(entityA);
                         }
                         else if(HasComponent<ChestItemData>(entityA)){
 
@@ -78,26 +79,31 @@ public class ChestTriggerSystem : SystemBase
                 else if (HasComponent<ChestTag>(entityB) && HasComponent<InteractiveBoxCheckerData>(entityA))
                 {
                     //InputGatheringSystem.currentInput = CurrentInput.ui;
+                    Animator animator = EntityManager.GetComponentObject<Animator>(entityB);
+                    ChestAnimationData animationData = EntityManager.GetComponentObject<ChestAnimationData>(entityB);
                         if(HasComponent<ChestWeaponData>(entityB)){
+                            animator.Play(animationData.openAnimationName);
                             ChestWeaponData weaponData = GetComponent<ChestWeaponData>(entityB);
                             weaponInventory.Insert(0, new WeaponData{weapon = weaponData.weapon});
-                            texts.Add(new Text{text = "you obtained a" + weaponData.weapon.name});
-                            ecb.RemoveComponent<ChestWeaponData>(entityB);
-                            ecb.RemoveComponent<ChestTag>(entityB);
+                            texts.Add(new Text{text = "you obtained a " + weaponData.weapon.name});
+                            EntityManager.RemoveComponent<ChestWeaponData>(entityB);
+                            EntityManager.RemoveComponent<ChestTag>(entityB);
                         }
                         else if(HasComponent<ChestArmorData>(entityB)){
+                            animator.Play(animationData.openAnimationName);
                             ChestArmorData armorData = GetComponent<ChestArmorData>(entityB);
                             armorInventory.Insert(0, new ArmorData{armor = armorData.armor});
-                            texts.Add(new Text{text = "you obtained a" + armorData.armor.name});
-                            ecb.RemoveComponent<ChestArmorData>(entityB);
-                            ecb.RemoveComponent<ChestTag>(entityB);
+                            texts.Add(new Text{text = "you obtained a " + armorData.armor.name});
+                            EntityManager.RemoveComponent<ChestArmorData>(entityB);
+                            EntityManager.RemoveComponent<ChestTag>(entityB);
                         }
                         else if(HasComponent<ChestCharmData>(entityB)){
+                            animator.Play(animationData.openAnimationName);
                             ChestCharmData charmData = GetComponent<ChestCharmData>(entityB);
                             charmInventory.Insert(0, new CharmData{charm = charmData.charm});
-                            texts.Add(new Text{text = "you obtained a" + charmData.charm.name});
-                            ecb.RemoveComponent<ChestCharmData>(entityB);
-                            ecb.RemoveComponent<ChestTag>(entityB);
+                            texts.Add(new Text{text = "you obtained a " + charmData.charm.name});
+                            EntityManager.RemoveComponent<ChestCharmData>(entityB);
+                            EntityManager.RemoveComponent<ChestTag>(entityB);
                         }
                         else if(HasComponent<ChestItemData>(entityB)){
 
