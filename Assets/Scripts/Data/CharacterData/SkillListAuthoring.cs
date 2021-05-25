@@ -17,7 +17,8 @@ public class SkillConversionSystem : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
-        Entities.ForEach((Entity entity,SkillListAuthoring skillList) =>{
+        Entities.ForEach((SkillListAuthoring skillList) =>{
+            Entity entity = GetPrimaryEntity(skillList);
             DstEntityManager.AddBuffer<SkillData>(entity);
             DstEntityManager.AddBuffer<EquipedSkillData>(entity);
             DynamicBuffer<SkillData> skills = DstEntityManager.GetBuffer<SkillData>(entity);

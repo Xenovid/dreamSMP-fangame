@@ -14,7 +14,8 @@ public class CharmConversionSystem : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
-        Entities.ForEach((Entity entity ,CharmInventoryAuthoring charmInventory) =>{
+        Entities.ForEach((CharmInventoryAuthoring charmInventory) =>{
+            Entity entity = GetPrimaryEntity(charmInventory);
             DstEntityManager.AddBuffer<CharmData>(entity);
             DynamicBuffer<CharmData> CharmInventory = DstEntityManager.GetBuffer<CharmData>(entity);
             foreach(CharmInfo charmInfo in charmInventory.charmInfos){

@@ -13,7 +13,8 @@ public class ItemConversionSystem : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
-        Entities.ForEach((Entity entity, ItemInventoryAuthoring itemInventory) => {
+        Entities.ForEach(( ItemInventoryAuthoring itemInventory) => {
+            Entity entity = GetPrimaryEntity(itemInventory);
             DstEntityManager.AddBuffer<ItemData>(entity);
             DynamicBuffer<ItemData> ItemInventory = DstEntityManager.GetBuffer<ItemData>(entity);
 

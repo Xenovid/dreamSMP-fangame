@@ -9,15 +9,21 @@ public class SaveAndLoadSystem : SystemBase
     SceneSystem tes;
     protected override void OnStartRunning()
     {
+        /*
         tes = World.GetOrCreateSystem<SceneSystem>();
-        test = ScriptableObject.CreateInstance<ReferencedUnityObjects>();
+        test = ScriptableObject.CreateInstance<ReferencedUnityObjects>();*/
     }
     protected override void OnUpdate()
     {
-        if(Input.GetKeyDown(KeyCode.A)){
+        Entities
+        .WithoutBurst()
+        .ForEach((Entity ent, DynamicBuffer<WeaponData> weapons) => {
+            Debug.Log(ent);
+        }).Run();
+        /*if(Input.GetKeyDown(KeyCode.A)){
             EntityManager.CompleteAllJobs();
             Save();
-        }
+        }*/
     }
     public void Save(){
         /*

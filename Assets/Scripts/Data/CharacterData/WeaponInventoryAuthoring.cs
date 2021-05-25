@@ -15,7 +15,9 @@ public class WeaponConversionSystem : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
-        Entities.ForEach((Entity entity, WeaponInventoryAuthoring weaponInventory) => {
+        Entities
+        .ForEach(( WeaponInventoryAuthoring weaponInventory) => {
+            Entity entity = GetPrimaryEntity(weaponInventory);
             DstEntityManager.AddBuffer<WeaponData>(entity);
             DynamicBuffer<WeaponData> WeaponInventory = DstEntityManager.GetBuffer<WeaponData>(entity);
             foreach(WeaponInfo weaponInfo in weaponInventory.weaponInfos){
