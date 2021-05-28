@@ -1,6 +1,9 @@
 using Unity.Entities;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.Events;
+using System;
+using System.Reflection;
 
 public class SkillListAuthoring : MonoBehaviour
 {
@@ -17,34 +20,37 @@ public class SkillConversionSystem : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
-        Entities.ForEach((SkillListAuthoring skillList) =>{
+        Entities.ForEach(( SkillListAuthoring skillList) =>{
             Entity entity = GetPrimaryEntity(skillList);
+            Debug.Log(entity);
             DstEntityManager.AddBuffer<SkillData>(entity);
             DstEntityManager.AddBuffer<EquipedSkillData>(entity);
             DynamicBuffer<SkillData> skills = DstEntityManager.GetBuffer<SkillData>(entity);
             DynamicBuffer<EquipedSkillData> equipedSkills = DstEntityManager.GetBuffer<EquipedSkillData>(entity);
 
             foreach(SkillInfo skillInfo in skillList.skillInfos){
-                Skill skill = new Skill{
-                    name = skillInfo.name,
-                    description = skillInfo.description,
-                    damageBoost = skillInfo.damageBoost,
-                    cost = skillInfo.cost,
-                    useTime = skillInfo.useTime
-                };
-                skills.Add(new SkillData{skill = skill});
+                skills.Add(new SkillData{skill = SkillInfoToSkill(skillInfo)});
             }
             foreach(SkillInfo skillInfo in skillList.equipedSkills){
-                Skill skill = new Skill{
-                    name = skillInfo.name,
-                    description = skillInfo.description,
-                    damageBoost = skillInfo.damageBoost,
-                    cost = skillInfo.cost,
-                    useTime = skillInfo.useTime
-                };
-                equipedSkills.Add(new EquipedSkillData{skill = skill});
+                equipedSkills.Add(new EquipedSkillData{skill = SkillInfoToSkill(skillInfo)});
             }
         });
+    }
+    public Skill SkillInfoToSkill(SkillInfo skillInfo){
+        NativeList<int> temp = new NativeList<int>(Allocator.Persistent);
+        foreach(int i in skillInfo.damageTimes){
+            temp.Add(i);
+        }
+        return new Skill{
+            name = skillInfo.name,
+            description = skillInfo.description,
+            functionName = skillInfo.functionName,
+            damageIncrease = skillInfo.damageIncrease,
+            animationName = skillInfo.animationName,
+            cost = skillInfo.cost,
+            waitTime = skillInfo.waitTime
+            //damageTime = temp
+        };
     }
 }
 
@@ -52,16 +58,25 @@ public class SkillConversionSystem : GameObjectConversionSystem
 public struct SkillInfo{
     public string name;
     public string description;
-    public int damageBoost;
+    public string functionName;
+    public string animationName;
+    public int damageIncrease;
     public int cost;
-    public float useTime;
+    public float waitTime;
+    // the point in the animation where you deal damage
+    [Range(0, 1)]
+    public float[] damageTimes;
 }
 
 [System.Serializable]
 public struct Skill{
     public FixedString32 name;
+    public FixedString32 functionName;
     public FixedString128 description;
-    public int damageBoost;
+    public FixedString64 animationName;
+    public int damageIncrease;
     public int cost;
-    public float useTime;
+    public float waitTime; 
+    // the point in the animation where you deal damage
+    //public NativeList<int> damageTime;
 }

@@ -15,11 +15,6 @@ public class SaveAndLoadSystem : SystemBase
     }
     protected override void OnUpdate()
     {
-        Entities
-        .WithoutBurst()
-        .ForEach((Entity ent, DynamicBuffer<WeaponData> weapons) => {
-            Debug.Log(ent);
-        }).Run();
         /*if(Input.GetKeyDown(KeyCode.A)){
             EntityManager.CompleteAllJobs();
             Save();

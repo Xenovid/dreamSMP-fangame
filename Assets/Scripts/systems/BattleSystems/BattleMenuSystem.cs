@@ -4,6 +4,8 @@ using UnityEngine.UIElements.Experimental;
 using UnityEngine;
 using Unity.Collections;
 using System.Collections.Generic;
+using System;
+using System.Reflection;
 
 public class BattleMenuSystem : SystemBase
 {
@@ -54,6 +56,7 @@ public class BattleMenuSystem : SystemBase
 
     protected override void OnUpdate()
     {
+        PlayerSkillFunctions playerSkillFunctions = new PlayerSkillFunctions();
             EntityManager.CompleteAllJobs();
             float deltaTime = Time.DeltaTime;
 
@@ -96,6 +99,7 @@ public class BattleMenuSystem : SystemBase
                 healthText.text = "HP: " + characterStats.health.ToString() + "/" + characterStats.maxHealth.ToString();
 
                 if(selectorUI.isSelectable){
+                    battleData.DamageTaken = 0;
                     VisualElement useBar = selectorUI.UI.Q<VisualElement>("use_bar");
                     useBar.style.width = 0;
                     switch (currentMenu){
@@ -272,26 +276,25 @@ public class BattleMenuSystem : SystemBase
                             if(isInEnemySelection){
                                 if(input.goselected){
                                     selectorUI.UI.experimental.animation.Position(new Vector3(0,0,0), 0);
-                                    switch(characterStats.resourceType){
-                                        case ResourceType.blood:
                                             Skill skill = equipedSkills[currentSkill - 1].skill;
-                                            if(characterStats.resources - skill.cost >= 0){
-                                                characterStats.resources -= skill.cost;
+                                            if(characterStats.points - skill.cost >= 0){
+                                                characterStats.points -= skill.cost;
                                             }
                                             else{
-                                                characterStats.resources = 0;
-                                                int cost = skill.cost - characterStats.resources;
-                                                Debug.Log("should take:" + cost);
+                                                characterStats.points = 0;
+                                                int cost = skill.cost - characterStats.points;
                                             }
                                             DynamicBuffer<DamageData> enemyDamages = GetBuffer<DamageData>(enemyUiSelection[currentEnemySelected]);
                                             animator.Play(animation.basicSwordAnimationName);
                                             AudioManager.playSound("swordswing");
                                             UnSelectEnemy(enemyUiSelection[currentEnemySelected]);
                                             //deal damage to the enemy
-                                            enemyDamages.Add(new DamageData{damage = skill.damageBoost * characterStats.equipedWeapon.power});
-
+                                            enemyDamages.Add(new DamageData{damage = skill.damageIncrease + characterStats.equipedWeapon.power});
+                                            Type type = typeof(PlayerSkillFunctions);
+                                            MethodInfo method = type.GetMethod("testskill");
+                                            method.Invoke(playerSkillFunctions, null);
                                             // wait until you are recharged
-                                            battleData.useTime = skill.useTime;
+                                            battleData.useTime = skill.waitTime;
                                             battleData.maxUseTime = battleData.useTime;                            
 
                                             currentMenu = menuType.battleMenu;
@@ -308,7 +311,6 @@ public class BattleMenuSystem : SystemBase
 
                                             selectorUI.isSelectable = false;
                                             currentEnemySelected = 0;
-                                        break;
                                     }
                                     break;
                                 }
@@ -331,7 +333,6 @@ public class BattleMenuSystem : SystemBase
                                     currentEnemySelected++;
                                     SelectEnemy(enemyUiSelection[currentEnemySelected]);
                                 }
-                            }
                             else{
                                 if(input.goselected && currentSkill - 1< equipedSkills.Length){
                                     isInEnemySelection = true;
@@ -451,19 +452,17 @@ public class BattleMenuSystem : SystemBase
                     } 
                 }
                 else{
-                    if(battleData.useTime > 0)
+                    if(battleData.useTime < battleData.maxUseTime)
                     {
                         VisualElement useBar = selectorUI.UI.Q<VisualElement>("use_bar");
 
                         useBar.style.width = selectorUI.UI.contentRect.width * ((battleData.maxUseTime - battleData.useTime) / battleData.maxUseTime);
-                        battleData.useTime -= deltaTime;
+                        battleData.useTime += deltaTime;
                     }
                     else
                     {
                         VisualElement useBar = selectorUI.UI.Q<VisualElement>("use_bar");
-
-                        
-                  
+                    
                         selectorUI.isSelectable = true;
                         selectorUI.isHovered = true;
                         AudioManager.playSound("menuavailable");

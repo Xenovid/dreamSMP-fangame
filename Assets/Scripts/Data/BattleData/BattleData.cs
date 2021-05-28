@@ -7,4 +7,8 @@ public struct BattleData : IComponentData
     [HideInInspector]
     public float maxUseTime;
     public float useTime;
+    [HideInInspector]
+    public bool isUsingSkill;
+    [HideInInspector]
+    public int DamageTaken;
 }

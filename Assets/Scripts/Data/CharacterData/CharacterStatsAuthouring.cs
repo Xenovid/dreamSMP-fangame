@@ -4,13 +4,9 @@ using UnityEngine;
 
 
 public class CharacterStatsAuthouring : MonoBehaviour{
-    public float maxHealth;
-    public float health;
-    public float recoverTime;
-    public int attackMultiplier;
-    public int resources;
-    public int maxResources;
-    public ResourceType resourceType;
+    public Stats baseStats;
+    [HideInInspector]
+    public Stats battleStats;
     public int id;
     public string characterName;
     public WeaponInfo equipedWeapon;
@@ -20,21 +16,25 @@ public class CharacterStatsAuthouring : MonoBehaviour{
 
 public struct CharacterStats : IComponentData
 {
-    public FixedString64 characterName;
     public float maxHealth;
+    public int maxPoints;
     public float health;
-    public float recoverTime;
-    public int attackMultiplier;
+    public int points;
+    public Stats baseStats;
+    public Stats battleStats;
+    public FixedString64 characterName;
     public int id;
     public Weapon equipedWeapon;
     public Armor equipedArmor;
     public Charm equipedCharm;
-    public int resources;
-    public ResourceType resourceType;
-    public int maxResources;
 }
-
-
+[System.Serializable]
+public struct Stats{
+    
+    public int attack;
+    public int defense;
+    public int superArmor;
+}
 public class CharacterStatsConversion : GameObjectConversionSystem
 {
     protected override void OnUpdate()
@@ -43,26 +43,15 @@ public class CharacterStatsConversion : GameObjectConversionSystem
             var entity = GetPrimaryEntity(characterStat);
             DstEntityManager.AddComponentData(entity, new CharacterStats
             {
-                health = characterStat.health,
-                maxHealth = characterStat.maxHealth,
-                recoverTime = characterStat.recoverTime,
-                attackMultiplier = characterStat.attackMultiplier,
+                baseStats = characterStat.baseStats,
             //character.equipedWeapon = characterStats.equipedWeapon;
                 id = characterStat.id,
                 characterName = characterStat.characterName,
                 equipedWeapon =  WeaponConversionSystem.WeaponInfoToWeapon(characterStat.equipedWeapon),
                 equipedArmor = ArmorConversionSystem.ArmorInfoToArmor(characterStat.equipedArmor),
-                equipedCharm = CharmConversionSystem.CharmInfoToCharm(characterStat.equipedCharm),
-                resources = characterStat.resources,
-                resourceType = characterStat.resourceType,
-                maxResources = characterStat.maxResources
+                equipedCharm = CharmConversionSystem.CharmInfoToCharm(characterStat.equipedCharm)
             });
         });
     }
-}
-
-public enum ResourceType{
-    blood,
-    mana
 }
 
