@@ -8,6 +8,9 @@ public class PlayerSkillFunctions
     // all skills, returns how long they have to wait
     //skills for technoblade
     public void basicSkill(Entity selectedPlayer,Entity selectedEnemy){
-         
+        EntityManager entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+        entityManager.AddComponentData(selectedPlayer, new UsingSkillData{
+            target = selectedEnemy
+        });
     }
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 
 public class CharacterStatsAuthouring : MonoBehaviour{
+    public float maxHealth;
+    public float health;
     public Stats baseStats;
     [HideInInspector]
     public Stats battleStats;
@@ -43,8 +45,11 @@ public class CharacterStatsConversion : GameObjectConversionSystem
             var entity = GetPrimaryEntity(characterStat);
             DstEntityManager.AddComponentData(entity, new CharacterStats
             {
+                maxHealth = characterStat.maxHealth,
+                health = characterStat.health,
                 baseStats = characterStat.baseStats,
-            //character.equipedWeapon = characterStats.equipedWeapon;
+                battleStats = characterStat.baseStats,
+                //character.equipedWeapon = characterStats.equipedWeapon;
                 id = characterStat.id,
                 characterName = characterStat.characterName,
                 equipedWeapon =  WeaponConversionSystem.WeaponInfoToWeapon(characterStat.equipedWeapon),

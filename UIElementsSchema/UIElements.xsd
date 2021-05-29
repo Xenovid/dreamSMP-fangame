@@ -4,7 +4,9 @@
   <xs:import schemaLocation="UnityEditor.UIElements.xsd" namespace="UnityEditor.UIElements" />
   <xs:import schemaLocation="UnityEditor.UIElements.Debugger.xsd" namespace="UnityEditor.UIElements.Debugger" />
   <xs:import schemaLocation="UnityEditor.Rendering.LookDev.xsd" namespace="UnityEditor.Rendering.LookDev" />
+  <xs:import schemaLocation="UnityEditor.VisualScripting.Editor.xsd" namespace="UnityEditor.VisualScripting.Editor" />
   <xs:import schemaLocation="Unity.Editor.Bridge.xsd" namespace="Unity.Editor.Bridge" />
+  <xs:import schemaLocation="UnityEditor.GraphToolsFoundation.Overdrive.xsd" namespace="UnityEditor.GraphToolsFoundation.Overdrive" />
   <xs:import schemaLocation="Unity.Entities.Editor.xsd" namespace="Unity.Entities.Editor" />
   <xs:import schemaLocation="UnityEditor.U2D.Layout.xsd" namespace="UnityEditor.U2D.Layout" />
   <xs:import schemaLocation="UnityEditor.U2D.Animation.xsd" namespace="UnityEditor.U2D.Animation" />

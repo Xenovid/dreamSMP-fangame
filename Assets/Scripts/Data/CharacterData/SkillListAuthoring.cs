@@ -2,7 +2,7 @@ using Unity.Entities;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 public class SkillListAuthoring : MonoBehaviour
@@ -20,9 +20,9 @@ public class SkillConversionSystem : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
+        
         Entities.ForEach(( SkillListAuthoring skillList) =>{
             Entity entity = GetPrimaryEntity(skillList);
-            Debug.Log(entity);
             DstEntityManager.AddBuffer<SkillData>(entity);
             DstEntityManager.AddBuffer<EquipedSkillData>(entity);
             DynamicBuffer<SkillData> skills = DstEntityManager.GetBuffer<SkillData>(entity);
@@ -37,9 +37,9 @@ public class SkillConversionSystem : GameObjectConversionSystem
         });
     }
     public Skill SkillInfoToSkill(SkillInfo skillInfo){
-        NativeList<int> temp = new NativeList<int>(Allocator.Persistent);
-        foreach(int i in skillInfo.damageTimes){
-            temp.Add(i);
+        FixedList64<float> keyTimes = new FixedList64<float>();
+        foreach(float number in skillInfo.keyTimes){
+            keyTimes.Add(number);
         }
         return new Skill{
             name = skillInfo.name,
@@ -48,8 +48,8 @@ public class SkillConversionSystem : GameObjectConversionSystem
             damageIncrease = skillInfo.damageIncrease,
             animationName = skillInfo.animationName,
             cost = skillInfo.cost,
-            waitTime = skillInfo.waitTime
-            //damageTime = temp
+            waitTime = skillInfo.waitTime,
+            keyTimes = keyTimes
         };
     }
 }
@@ -63,9 +63,9 @@ public struct SkillInfo{
     public int damageIncrease;
     public int cost;
     public float waitTime;
-    // the point in the animation where you deal damage
-    [Range(0, 1)]
-    public float[] damageTimes;
+    // the key points in animation
+    [SerializeField]
+    public List<float> keyTimes;
 }
 
 [System.Serializable]
@@ -78,5 +78,6 @@ public struct Skill{
     public int cost;
     public float waitTime; 
     // the point in the animation where you deal damage
-    //public NativeList<int> damageTime;
+    //public NativeArray<int> damageTime;
+    public FixedList64<float> keyTimes;
 }
