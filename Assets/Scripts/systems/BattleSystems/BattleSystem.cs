@@ -29,7 +29,7 @@ public class BattleSystem : SystemBase
             EntityQuery BattleManagerGroup = GetEntityQuery(ComponentType.ReadWrite<BattleManagerTag>());
             EntityQuery characterStatsGroup = GetEntityQuery(ComponentType.ReadWrite<CharacterStats>(), ComponentType.ReadWrite<BattleData>());
             EntityQuery PlayerParty = GetEntityQuery(ComponentType.ReadWrite<PlayerPartyData>());
-
+            
 
             NativeArray<Entity> battleManagers = BattleManagerGroup.ToEntityArray(Allocator.Temp);
             
@@ -92,7 +92,7 @@ public class BattleSystem : SystemBase
       // goes through the party of the character and the enemies conneceted to the triggering enemy and adds battle data to all of them
       // also adds them to the battlesystems player and enemy lists so that other systems know who is currently in a battle
       // triggers an event to let other systems know that the battle is starting
-      public void StartBattle( Entity enemy){
+      public void StartBattle(Entity enemy){
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
             
             // start
@@ -110,6 +110,12 @@ public class BattleSystem : SystemBase
                   NativeArray<Entity> characterEntities = characterQuery.ToEntityArray(Allocator.TempJob);
                   // adding the battle data to the players
                   Entities
+                  .WithAll<PlayerPartyTag>()
+                  .ForEach((Entity entity, ref CharacterStats characterStats, in Translation translation) => {
+                        // so that it can be moved back after battle
+                        ecb.AddComponent(entity , new BeforeBattleData{previousLocation = translation.Value});
+                  }).Schedule();
+                  Entities
                   .WithoutBurst()
                   .WithStructuralChanges()
                   .ForEach((DynamicBuffer<PlayerPartyData> players) =>
@@ -119,9 +125,6 @@ public class BattleSystem : SystemBase
                               foreach(CharacterStats characterStats in characters){
                                     if(players[i].playerId == characterStats.id){
                                           playerEntities.Add(characterEntities[j]);
-                                          Translation translation = GetComponent<Translation>(characterEntities[j]);
-                                          // so that it can be moved back after battle
-                                          ecb.AddComponent(characterEntities[j], new BeforeBattleData{previousLocation = translation.Value});
                                     }
                                     j++;
                               }

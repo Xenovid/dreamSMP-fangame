@@ -1,5 +1,7 @@
 using Unity.Entities;
 [GenerateAuthoringComponent]
-public struct PlayerPartyTag : IComponentData
+
+public struct RandomTag : IComponentData
 {
+    
 }

@@ -61,6 +61,7 @@ public class EnemySelectorUISystem : SystemBase
                     //enemySelectorUI.enemySelectorUI.AddToClassList("enemyDown");
                     //enemySelectorUI.enemySelectorUI.RemoveFromClassList("enemySelected");
                     //enemySelectorUI.enemySelectorUI.RemoveFromClassList("enemyBase");
+                    sprite.enabled = false;
                     enemySelectorUI.enemySelectorUI.parent.Remove(enemySelectorUI.enemySelectorUI);
                     ecb.RemoveComponent<EnemySelectorUI>(entity);
                 }

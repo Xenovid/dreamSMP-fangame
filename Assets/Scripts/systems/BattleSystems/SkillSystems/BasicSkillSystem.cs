@@ -16,7 +16,6 @@ public class BasicSkillSystem : SystemBase
         .ForEach((Entity entity, ref UsingSkillData skillData, ref BattleData battleData, in CharacterStats characterStats) =>{
             // when the animation is done
             if(skillData.skill.keyTimes.IsEmpty){
-                Debug.Log("skill done");
                 ecb.RemoveComponent<BasicSkillTag>(entity);
                 ecb.RemoveComponent<UsingSkillData>(entity);
             }
@@ -30,7 +29,6 @@ public class BasicSkillSystem : SystemBase
             }
             else{
                 if(battleData.useTime > skillData.skill.keyTimes[0]){
-                    Debug.Log(skillData.skill.damageIncrease + characterStats.baseStats.attack);
                     // deal damage to opponent
                     DynamicBuffer<DamageData> enemyDamages = GetBuffer<DamageData>(skillData.target);
                     enemyDamages.Add(new DamageData{damage = skillData.skill.damageIncrease + characterStats.baseStats.attack});

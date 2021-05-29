@@ -41,7 +41,13 @@ public class CharacterStatsConversion : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
+        
         Entities.ForEach((CharacterStatsAuthouring characterStat) => {
+            Stats stats = new Stats{
+                attack = characterStat.baseStats.attack + characterStat.equipedWeapon.power,
+                defense = characterStat.baseStats.defense + characterStat.equipedArmor.defense,
+                superArmor = characterStat.baseStats.superArmor
+            };
             var entity = GetPrimaryEntity(characterStat);
             DstEntityManager.AddComponentData(entity, new CharacterStats
             {

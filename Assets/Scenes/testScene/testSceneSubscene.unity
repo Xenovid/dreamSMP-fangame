@@ -24455,7 +24455,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: baseStats.attack
-      value: 2
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: baseStats.defense

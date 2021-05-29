@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 6581668474788148502}
   - component: {fileID: 6581668474788148503}
   - component: {fileID: 8041297513315535549}
+  - component: {fileID: 5828142680971138788}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Untagged
@@ -119,11 +120,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 11
   health: 11
-  recoverTime: 0
-  attackMultiplier: 0
-  resources: 0
-  maxResources: 0
-  resourceType: 0
+  baseStats:
+    attack: 0
+    defense: 0
+    superArmor: 0
+  battleStats:
+    attack: 0
+    defense: 0
+    superArmor: 0
   id: 0
   characterName: Zombie
   equipedWeapon:
@@ -385,3 +389,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Values: 
+--- !u!114 &5828142680971138788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6581668474788148515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1d8502a4e8c0e046b5d1a1d4430c1f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
