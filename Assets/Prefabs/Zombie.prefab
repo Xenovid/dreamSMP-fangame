@@ -17,7 +17,6 @@ GameObject:
   - component: {fileID: 6581668474788148507}
   - component: {fileID: 6581668474788148501}
   - component: {fileID: 6581668474788148502}
-  - component: {fileID: 6581668474788148503}
   - component: {fileID: 8041297513315535549}
   - component: {fileID: 5828142680971138788}
   m_Layer: 0
@@ -120,6 +119,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 11
   health: 11
+  maxPoints: 0
+  points: 0
   baseStats:
     attack: 0
     defense: 0
@@ -363,19 +364,6 @@ MonoBehaviour:
   swordIdleAnimationName: 
   takenDamageAnimationName: 
   basicSwordAnimationName: 
---- !u!114 &6581668474788148503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6581668474788148515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a133a4990fd1f33248d26987063dc2ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Values: []
 --- !u!114 &8041297513315535549
 MonoBehaviour:
   m_ObjectHideFlags: 0

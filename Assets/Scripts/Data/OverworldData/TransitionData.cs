@@ -5,5 +5,7 @@ using UnityEngine;
 public struct TransitionData : IComponentData
 {
     public BlobAssetReference<Unity.Physics.Collider> colliderRef;
+    public float3 oldPosition;
     public float3 newPosition;
+    public float timePassed;
 }

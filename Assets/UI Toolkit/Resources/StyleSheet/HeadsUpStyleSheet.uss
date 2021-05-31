@@ -1,0 +1,9 @@
+.message_black {
+    -unity-font: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7');
+    -unity-font-definition: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7 SDF');
+    position: absolute;
+    color: rgba(255, 255, 255, 255);
+    -unity-text-outline-color: rgba(0, 0, 0, 255);
+    -unity-text-outline-width: 1px;
+    font-size: 25px;
+}

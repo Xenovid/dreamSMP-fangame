@@ -1,5 +1,6 @@
 using Unity.Entities;
 using UnityEngine;
+using Unity.Mathematics;
 using Unity.Transforms;
 using Unity.Physics;
 using System;
@@ -30,11 +31,14 @@ public class TransitionSystem : SystemBase
         .WithStructuralChanges()
         .ForEach((Entity entity, ref Translation translation, ref TransitionData transitionData, ref PhysicsCollider collider) =>
         {
+            transitionData.timePassed += 2* dT;
             // making it so that the collision wont hit anything while moving to the location
             collider.Value.Value.Filter = CollisionFilter.Zero;
-            translation.Value = Vector3.MoveTowards(translation.Value, transitionData.newPosition, 10 * dT);
-            if(translation.Value.x == transitionData.newPosition.x && translation.Value.y == transitionData.newPosition.y)
+            translation.Value = math.lerp(transitionData.oldPosition, transitionData.newPosition, transitionData.timePassed);
+            //translation.Value = Vector3.MoveTowards(translation.Value, transitionData.newPosition, 10 * dT);
+            if(transitionData.timePassed >= 1)
             {
+                translation.Value = transitionData.newPosition;
                 translationDone = true;
                 collider.Value.Value.Filter = CollisionFilter.Default;
                 // now in the location, stop translating
@@ -57,16 +61,18 @@ public class TransitionSystem : SystemBase
         int i = 0;
         int playerLength = battleSystem.playerEntities.Count;
         foreach(Entity entity in battleSystem.playerEntities){
+            Translation translation = GetComponent<Translation>(entity);
             Vector3 tempPos = camera.ScreenToWorldPoint(new Vector3(camera.pixelWidth * .1f, ((i + 1) * (camera.pixelHeight / playerLength)) - camera.pixelHeight / (playerLength * 2), 0));
-            ecb.AddComponent(entity, new TransitionData{newPosition = new Vector3(tempPos.x,tempPos.y,0)});
+            ecb.AddComponent(entity, new TransitionData{newPosition = new Vector3(tempPos.x,tempPos.y,0), oldPosition = translation.Value});
             i++;
         }
         i = 0;
         int enemyLength = battleSystem.enemyEntities.Count;
         //finds all the enemies and moves them to battle positions
         foreach(Entity entity in battleSystem.enemyEntities){
+            Translation translation = GetComponent<Translation>(entity);
             Vector3 tempPos = camera.ScreenToWorldPoint(new Vector3(camera.pixelWidth * .9f, ((i + 1) * (camera.pixelHeight / enemyLength)) - camera.pixelHeight / (enemyLength * 2), 0));
-            ecb.AddComponent(entity, new TransitionData{newPosition = new Vector3(tempPos.x,tempPos.y,0)});
+            ecb.AddComponent(entity, new TransitionData{newPosition = new Vector3(tempPos.x,tempPos.y,0), oldPosition = translation.Value});
             i++;
         }
     }

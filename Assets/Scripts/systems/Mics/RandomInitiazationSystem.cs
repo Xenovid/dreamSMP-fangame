@@ -15,13 +15,13 @@ public class RandomInitiazationSystem : SystemBase
         .WithAll<RandomTag>()
         .WithNone<RandomData>()
         .ForEach((Entity entity, int entityInQueryIndex) => {
-            ecb.AddComponent(entityInQueryIndex, entity, typeof(RandomData));
+            ecb.AddComponent(entityInQueryIndex, entity, new RandomData{});
         }).ScheduleParallel();
         Entities
         .WithAll<RandomTag>()
         .ForEach((Entity entity, int entityInQueryIndex, ref RandomData randomData) => {
             randomData.Value = Random.CreateFromIndex((uint) entityInQueryIndex);
-            ecb.RemoveComponent(entityInQueryIndex, entity, typeof(RandomTag));
+            ecb.RemoveComponent<RandomTag>(entityInQueryIndex, entity);
         }).ScheduleParallel();
         m_EndSimulationEcbSystem.AddJobHandleForProducer(this.Dependency);
     }

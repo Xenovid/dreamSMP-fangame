@@ -1067,7 +1067,7 @@ public class PauseMenuSystem : SystemBase
                                         isSelected = true;
                                         settingsMenuSystem.OnSettingsExit += EnableMenu_OnSettingsExit;
                                         settingsMenuSystem.ActivateMenu();
-                                        isPaused = false;
+                                        //isPaused = false;
                                         pauseBackground.visible = false;
                                     }
                                     else if (uiInput.moveleft)
@@ -1097,6 +1097,7 @@ public class PauseMenuSystem : SystemBase
         healingSystem.OnHealthChange -= UpdateCharacterInfo_OnStatsUpdate;
     }
     private void EnableMenu_OnSettingsExit(System.Object sender, System.EventArgs e){
+        Debug.Log("enabling menu");
         Entities
         .WithoutBurst()
         .WithStructuralChanges()

@@ -1,8 +1,12 @@
 using Unity.Entities;
 using UnityEngine;
 
-[GenerateAuthoringComponent]
 public struct DamageData : IBufferElementData
 {
+    public damageColor color;
     public float damage;
+}
+public enum damageColor{
+    red,
+    black
 }

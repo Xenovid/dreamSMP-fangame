@@ -1,11 +1,10 @@
 using Unity.Entities;
 using UnityEngine.UIElements;
-using UnityEngine.UIElements.Experimental;
+using UnityEngine.Rendering.Universal;
 using UnityEngine;
 using Unity.Collections;
 using System.Collections.Generic;
-using System;
-using System.Reflection;
+using Unity.Transforms;
 
 public class BattleMenuSystem : SystemBase
 {
@@ -32,6 +31,7 @@ public class BattleMenuSystem : SystemBase
     public int playerNumber;
     public bool hasMoved;
     VisualTreeAsset enemySelectionUITemplate;
+    VisualTreeAsset overHeadUITemplate;
 
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
     protected override void OnCreate()
@@ -43,6 +43,7 @@ public class BattleMenuSystem : SystemBase
 
         transitionSystem = World.GetExistingSystem<TransitionSystem>();
         enemySelectionUITemplate = Resources.Load<VisualTreeAsset>("UIDocuments/EnemyDetails");
+        overHeadUITemplate = Resources.Load<VisualTreeAsset>("UIDocuments/OverHeadBattleStats");
 
         inkDisplaySystem = World.GetOrCreateSystem<InkDisplaySystem>();
     }
@@ -95,8 +96,15 @@ public class BattleMenuSystem : SystemBase
                 VisualElement healthBarBase = selectorUI.UI.Q<VisualElement>("health_bar_base");
                 VisualElement healthBar = selectorUI.UI.Q<VisualElement>("health_bar");
 
+                Label bloodText = selectorUI.UI.Q<Label>("blood_text");
+                VisualElement bloodBarBase = selectorUI.UI.Q<VisualElement>("blood_bar_base");
+                VisualElement bloodBar = selectorUI.UI.Q<VisualElement>("blood_bar");
+
                 healthBar.style.width = healthBarBase.contentRect.width * (characterStats.health / characterStats.maxHealth);
                 healthText.text = "HP: " + characterStats.health.ToString() + "/" + characterStats.maxHealth.ToString();
+
+                bloodBar.style.width = bloodBarBase.contentRect.width * (characterStats.points/ characterStats.maxPoints);
+                bloodText.text = "Blood: " + characterStats.points.ToString() + "/" + characterStats.maxPoints.ToString();
 
                 if(selectorUI.isSelectable){
                     battleData.DamageTaken = 0;
@@ -116,7 +124,7 @@ public class BattleMenuSystem : SystemBase
 
                                     selectorUI.UI.RemoveFromClassList("hovering");
                                     selectorUI.UI.AddToClassList("selected");
-                                    selectorUI.UI.experimental.animation.Position(new Vector3(0,-38,0), 50);
+                                    selectorUI.UI.experimental.animation.Position(new Vector3(0,-76,0), 100);
                                 }
                                 else if(input.moveleft){
                                     hasMoved = true;
@@ -521,6 +529,8 @@ public class BattleMenuSystem : SystemBase
     private void EnableMenu_OnTransitionEnd(System.Object sender, System.EventArgs e){
         if(!hasBattleStarted){
             // enables all the features of the menu
+            Camera cam = GetEntityQuery(typeof(Camera)).ToComponentArray<Camera>()[0];
+            float positionRatio = 1280.0f / cam.pixelWidth;
             EntityQuery UIDocumentGroup = GetEntityQuery(typeof(UIDocument), typeof(BattleUITag));
             UIDoc = UIDocumentGroup.ToComponentArray<UIDocument>()[0];
             VisualElement root = UIDoc.rootVisualElement;
@@ -532,17 +542,33 @@ public class BattleMenuSystem : SystemBase
             // adding the selectorUI stuff to the players
             int i = 0;
             foreach(Entity entity in battleSystem.playerEntities){
+                Translation translation = GetComponent<Translation>(entity);
                 string tempstr = "character" + (i + 1).ToString();
                 VisualElement currentCharacter = battleUI.Q<VisualElement>(tempstr);
                 EntityManager.AddComponentObject(entity, new PlayerSelectorUI { UI = currentCharacter, currentSelection = battleSelectables.fight, isSelected = false, isHovered = i == 0 });
-            }
+            } 
 
             foreach(Entity entity in battleSystem.enemyEntities){
+                Translation translation = GetComponent<Translation>(entity);
+
                 VisualElement newEnemySelectUI = enemySelectionUITemplate.CloneTree();
+                VisualElement newHeadsUpDisplay = overHeadUITemplate.CloneTree();
+                root.Add(newHeadsUpDisplay);
+                Vector3 camPo =  cam.WorldToScreenPoint(translation.Value);
+                Vector2 uiPosition =  new Vector2(camPo.x * positionRatio, camPo.y * positionRatio);//root.WorldToLocal(new Vector2(translation.Value.x, translation.Value.y));
+                //uiPosition = new Vector2(uiPosition.x )
+                Debug.Log(uiPosition);
+                newHeadsUpDisplay.Q<VisualElement>("base").style.bottom = uiPosition.y;
+                newHeadsUpDisplay.Q<VisualElement>("base").style.left = uiPosition.x;
+                //newHeadsUpDisplay.transform.position = translation.Value;
+                //newHeadsUpDisplay.contentRect.position.Set(-10, 0);//uiPosition.x, uiPosition.y);
+                //newHeadsUpDisplay.experimental.animation.Position(new Vector3(0, -100, 0), 100);
+                
                 enemySelector.Add(newEnemySelectUI);
                 CharacterStats characterStats = GetComponent<CharacterStats>(entity);
                 EntityManager.AddComponentData(entity, new EnemySelectorData { enemyId = characterStats.id, isSelected = false });
                 EntityManager.AddComponentObject(entity, new EnemySelectorUI{ enemySelectorUI = newEnemySelectUI});
+                EntityManager.AddComponentObject(entity, new HeadsUpUIData{UI = newHeadsUpDisplay, messages = new List<Message>()});
             }
             transitionSystem.OnTransitionEnd -= EnableMenu_OnTransitionEnd;
             hasBattleStarted = true;
@@ -560,9 +586,9 @@ public class BattleMenuSystem : SystemBase
         Entities
         .WithoutBurst()
         .WithStructuralChanges()
-        .ForEach((ref BeforeBattleData beforeBattleData, in Entity entity) =>
+        .ForEach((ref BeforeBattleData beforeBattleData,in Translation translation, in Entity entity) =>
         {
-            ecb.AddComponent(entity, new TransitionData{newPosition = beforeBattleData.previousLocation});
+            ecb.AddComponent(entity, new TransitionData{newPosition = beforeBattleData.previousLocation, oldPosition = translation.Value});
             ecb.RemoveComponent<BeforeBattleData>(entity);
         }).Run();
     }

@@ -1,7 +1,9 @@
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Collections;
 using Unity.Transforms;
 using System.Collections.Generic;
+using UnityEngine.UIElements;
 using System;
 
 public class BattleSystem : SystemBase
@@ -61,6 +63,18 @@ public class BattleSystem : SystemBase
                         .ForEach((Entity entity, ref DynamicBuffer<DamageData> damages, ref BattleData battleData,ref CharacterStats characterStats) => {
                               DynamicBuffer<HealingData> healings = GetBuffer<HealingData>(entity);
                               for(int i = 0; i < damages.Length; i++){
+                                    if(EntityManager.HasComponent<HeadsUpUIData>(entity)){
+                                          HeadsUpUIData headsUpUI = EntityManager.GetComponentObject<HeadsUpUIData>(entity);
+                                          RandomData random = EntityManager.GetComponentData<RandomData>(entity);
+                                          
+                                          Label label = new Label();
+                                          label.text = damages[i].damage.ToString();
+                                          label.AddToClassList("message_black");
+                                          headsUpUI.UI.Q<VisualElement>("messages").Add(label);
+                                          
+                                          Message message = new Message{timePassed = 0, label = label, direction = random.Value.NextFloat2Direction()};
+                                          headsUpUI.messages.Add(message);
+                                    }
                                     characterStats.health -= damages[i].damage;
                                     damages.RemoveAt(i);
                                     i--;
