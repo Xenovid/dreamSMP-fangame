@@ -553,6 +553,7 @@ public class BattleMenuSystem : SystemBase
 
                 VisualElement newEnemySelectUI = enemySelectionUITemplate.CloneTree();
                 VisualElement newHeadsUpDisplay = overHeadUITemplate.CloneTree();
+                Debug.Log(root);
                 root.Add(newHeadsUpDisplay);
                 Vector3 camPo =  cam.WorldToScreenPoint(translation.Value);
                 Vector2 uiPosition =  new Vector2(camPo.x * positionRatio, camPo.y * positionRatio);//root.WorldToLocal(new Vector2(translation.Value.x, translation.Value.y));

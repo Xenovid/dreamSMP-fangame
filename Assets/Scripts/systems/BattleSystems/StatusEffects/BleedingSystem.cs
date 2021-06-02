@@ -1,7 +1,15 @@
 using Unity.Entities;
-
+using System;
 public class BleedingSystem : SystemBase
 {
+    EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
+    BattleSystem battleSystem;
+    protected override void OnCreate()
+    {
+        battleSystem = World.GetOrCreateSystem<BattleSystem>();
+        battleSystem.OnBattleEnd += RemoveBleedingOnBattleEnd;
+        m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+    }
     protected override void OnUpdate()
     {
         float dt = Time.DeltaTime;
@@ -11,6 +19,14 @@ public class BleedingSystem : SystemBase
             if(bleedingData.timeFromLastDamageTick >= 2){
                 damages.Add(new DamageData{damage = bleedingData.level, color = damageColor.red});
             }
+        }).Schedule();
+    }
+    private void RemoveBleedingOnBattleEnd( Object sender, EventArgs e){
+        var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
+        Entities
+        .WithAll<BleedingData>()
+        .ForEach((Entity entity) =>{
+            ecb.RemoveComponent<BleedingData>(entity);
         }).Schedule();
     }
 }

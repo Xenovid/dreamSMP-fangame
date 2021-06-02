@@ -2,19 +2,19 @@
     <Style src="/Assets/UI Toolkit/Resources/StyleSheet/battleDetails.uss" />
     <ui:VisualElement style="width: 100%; height: 100%; justify-content: flex-end;">
         <ui:VisualElement name="BattleUI" picking-mode="Ignore" style="position: relative; width: auto; visibility: hidden; -unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); -unity-text-align: middle-center; align-items: stretch; justify-content: flex-start; flex-grow: 0; flex-shrink: 0; flex-basis: auto; flex-direction: row; left: auto; font-size: 40%; display: flex;">
-            <ui:VisualElement name="character1" class="hovering" style="flex-grow: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); width: 33.3%; background-color: rgba(58, 58, 58, 0.39); top: 76px;">
+            <ui:VisualElement name="character1" class="hovering" style="flex-grow: 0; width: 33.3%; top: 76px;">
                 <ui:VisualElement name="character_details" style="height: 50px; flex-direction: row; justify-content: flex-start; align-items: stretch; width: 100%;">
-                    <ui:VisualElement name="character_image" style="background-image: url(&apos;/Assets/Art/Icons/technoface.png#technoface&apos;); width: 40px; height: 40px; flex-grow: 0; margin-left: 0.5%; margin-right: 0.5%; margin-top: 0.5%; margin-bottom: 0.5%;" />
-                    <ui:Label text="Technoblade" display-tooltip-when-elided="true" name="character_name" style="font-size: 18px;" />
+                    <ui:VisualElement name="character_image" style="background-image: url(&apos;/Assets/Art/Icons/technoface.png#technoface&apos;); width: 40px; height: 36px; flex-grow: 0; margin-left: 0.5%; margin-right: 0.5%; margin-top: 0.5%; margin-bottom: 0.5%;" />
+                    <ui:Label text="Technoblade" display-tooltip-when-elided="true" name="character_name" class="text" style="font-size: 18px;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="character_health" style="flex-grow: 1; height: 30px; width: 100%;">
-                    <ui:Label text="HP: 50/100" display-tooltip-when-elided="true" name="health_text" style="font-size: 12px;" />
+                    <ui:Label text="HP: 50/100" display-tooltip-when-elided="true" name="health_text" class="text" style="font-size: 12px;" />
                     <ui:VisualElement name="health_bar_base" style="flex-grow: 1; background-color: rgb(245, 66, 72); margin-left: 1%; margin-right: 2%; margin-top: 1%; margin-bottom: 1%;">
                         <ui:VisualElement name="health_bar" style="flex-grow: 1; background-color: rgb(62, 209, 68); width: 50%;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="blood" style="flex-grow: 1; height: 30px; width: 100%;">
-                    <ui:Label text="Blood: 50/100" display-tooltip-when-elided="true" name="blood_text" style="font-size: 12px;" />
+                    <ui:Label text="Blood: 50/100" display-tooltip-when-elided="true" name="blood_text" class="text" style="font-size: 12px;" />
                     <ui:VisualElement name="blood_bar_base" style="flex-grow: 1; background-color: rgb(115, 115, 115); margin-left: 1%; margin-right: 2%; margin-top: 1%; margin-bottom: 1%;">
                         <ui:VisualElement name="blood_bar" style="flex-grow: 1; background-color: rgb(221, 13, 0); width: 50%;" />
                     </ui:VisualElement>
@@ -37,30 +37,30 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="EnemySelector" style="justify-content: center; top: auto; height: 30%; visibility: hidden; align-items: center; flex-direction: row; display: flex; position: absolute; width: 100%; bottom: 0;" />
-        <ui:VisualElement name="skill_selector" style="position: absolute; width: 100%; height: 30%; bottom: 0; background-color: rgba(75, 75, 75, 0.54); visibility: hidden;">
-            <ui:Label text="Skills" display-tooltip-when-elided="true" />
-            <ui:Label text="None" display-tooltip-when-elided="true" name="skill1" class="skill_selected" />
-            <ui:Label text="None" display-tooltip-when-elided="true" name="skill2" class="skill_unselected" />
-            <ui:Label text="None" display-tooltip-when-elided="true" name="skill3" class="skill_unselected" />
-            <ui:Label text="None&#10;" display-tooltip-when-elided="true" name="skill4" class="skill_unselected" />
-            <ui:Label text="None" display-tooltip-when-elided="true" name="skill5" class="skill_unselected" />
+        <ui:VisualElement name="skill_selector" class="selector" style="position: absolute; width: 100%; height: 30%; bottom: 0; background-color: rgb(75, 75, 75); visibility: hidden; border-left-color: rgba(41, 41, 41, 255); border-right-color: rgba(41, 41, 41, 255); border-top-color: rgba(41, 41, 41, 255); border-bottom-color: rgba(41, 41, 41, 255); border-left-width: 5px; border-right-width: 5px; border-top-width: 5px; border-bottom-width: 0;">
+            <ui:Label text="Skills" display-tooltip-when-elided="true" class="text title_background" style="font-size: 35px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); border-bottom-color: rgba(41, 41, 41, 255); border-bottom-width: 5px;" />
+            <ui:Label text="None" display-tooltip-when-elided="true" name="skill1" class="skill_selected" style="-unity-font-style: bold; font-size: 25px; margin-left: 5px; margin-top: 5px;" />
+            <ui:Label text="None" display-tooltip-when-elided="true" name="skill2" class="skill_unselected" style="font-size: 25px; margin-left: 5px; margin-top: 5px;" />
+            <ui:Label text="None" display-tooltip-when-elided="true" name="skill3" class="skill_unselected" style="font-size: 25px; margin-left: 5px; margin-top: 5px;" />
+            <ui:Label text="None&#10;" display-tooltip-when-elided="true" name="skill4" class="skill_unselected" style="font-size: 25px; margin-left: 5px; margin-top: 5px;" />
+            <ui:Label text="None" display-tooltip-when-elided="true" name="skill5" class="skill_unselected" style="font-size: 25px; margin-left: 5px; margin-top: 5px;" />
         </ui:VisualElement>
-        <ui:VisualElement name="item_selector" style="position: absolute; width: 100%; height: 30%; bottom: 0; background-color: rgba(75, 75, 75, 0.54); visibility: hidden; flex-direction: row;">
+        <ui:VisualElement name="item_selector" class="selector" style="position: absolute; width: 100%; height: 30%; bottom: 0; background-color: rgb(75, 75, 75); visibility: hidden; flex-direction: row;">
             <ui:VisualElement name="list1" style="width: 50%;">
-                <ui:Label text="Items&#10;" display-tooltip-when-elided="true" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="item1" class="skill_selected" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="item2" class="skill_unselected" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="item3" class="skill_unselected" />
-                <ui:Label text="None&#10;" display-tooltip-when-elided="true" name="item4" class="skill_unselected" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="item5" class="skill_unselected" />
+                <ui:Label text="Items&#10;" display-tooltip-when-elided="true" class="text title_background" style="font-size: 35px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); border-bottom-color: rgba(41, 41, 41, 255); border-bottom-width: 5px;" />
+                <ui:Label text="None" display-tooltip-when-elided="true" name="item1" class="skill_selected" style="font-size: 25px; margin-left: 5px; margin-top: 5px;" />
+                <ui:Label text="None" display-tooltip-when-elided="true" name="item2" class="skill_unselected" style="font-size: 25px; margin-left: 5px; margin-top: 5px;" />
+                <ui:Label text="None" display-tooltip-when-elided="true" name="item3" class="skill_unselected" style="font-size: 25px; margin-left: 5px; margin-top: 5px;" />
+                <ui:Label text="None&#10;" display-tooltip-when-elided="true" name="item4" class="skill_unselected" style="font-size: 25px; margin-left: 5px; margin-top: 5px;" />
+                <ui:Label text="None" display-tooltip-when-elided="true" name="item5" class="skill_unselected" style="font-size: 25px; margin-left: 5px; margin-top: 5px;" />
             </ui:VisualElement>
             <ui:VisualElement name="list2" style="width: 50%;">
-                <ui:Label text="&#10;" display-tooltip-when-elided="true" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="item6" class="skill_selected" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="item7" class="skill_unselected" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="item8" class="skill_unselected" />
-                <ui:Label text="None&#10;" display-tooltip-when-elided="true" name="item9" class="skill_unselected" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="item10" class="skill_unselected" />
+                <ui:Label text="&#10;" display-tooltip-when-elided="true" class="text title_background" style="font-size: 35px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); border-bottom-color: rgb(41, 41, 41); border-bottom-width: 5px;" />
+                <ui:Label text="None" display-tooltip-when-elided="true" name="item6" class="skill_selected" style="font-size: 25px; border-top-width: 5px; border-left-width: 5px;" />
+                <ui:Label text="None" display-tooltip-when-elided="true" name="item7" class="skill_unselected" style="border-left-width: 5px; border-top-width: 5px; font-size: 25px;" />
+                <ui:Label text="None" display-tooltip-when-elided="true" name="item8" class="skill_unselected" style="font-size: 25px; margin-left: 5px; margin-top: 5px;" />
+                <ui:Label text="None&#10;" display-tooltip-when-elided="true" name="item9" class="skill_unselected" style="margin-left: 5px; margin-top: 5px; font-size: 25px;" />
+                <ui:Label text="None" display-tooltip-when-elided="true" name="item10" class="skill_unselected" style="font-size: 25px; margin-left: 5px; margin-top: 5px;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

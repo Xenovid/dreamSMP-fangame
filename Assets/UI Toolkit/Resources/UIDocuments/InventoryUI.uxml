@@ -2,16 +2,16 @@
     <Style src="/Assets/UI Toolkit/Resources/StyleSheet/pauseMenuStyleSheet.uss" />
     <ui:VisualElement name="pause_background" style="flex-grow: 1; flex-shrink: 0; background-color: rgba(103, 103, 103, 0.72); visibility: hidden;">
         <ui:VisualElement name="UISelection" style="height: 20%; flex-direction: row;">
-            <ui:Button text="Party&#10;" display-tooltip-when-elided="true" name="Party" class="button_selected" style="width: 20%; flex-shrink: 1;" />
-            <ui:Button text="Equip" display-tooltip-when-elided="true" name="Equipment" class="button_unselected" style="width: 20%; flex-shrink: 1;" />
-            <ui:Button text="Items" display-tooltip-when-elided="true" name="Item" class="button_unselected" style="width: 20%; flex-shrink: 1;" />
-            <ui:Button text="Skills&#10;" display-tooltip-when-elided="true" name="Skills" class="button_unselected" style="width: 20%; flex-shrink: 1;" />
-            <ui:Button text="Settings&#10;" display-tooltip-when-elided="true" name="Settings" class="button_unselected" style="height: auto; width: 20%; flex-shrink: 1;" />
+            <ui:Button text="Party&#10;" display-tooltip-when-elided="true" name="Party" class="button_selected" style="width: 20%; flex-shrink: 1; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
+            <ui:Button text="Equip" display-tooltip-when-elided="true" name="Equipment" class="button_unselected" style="width: 20%; flex-shrink: 1; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
+            <ui:Button text="Items" display-tooltip-when-elided="true" name="Item" class="button_unselected" style="width: 20%; flex-shrink: 1; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
+            <ui:Button text="Skills&#10;" display-tooltip-when-elided="true" name="Skills" class="button_unselected" style="width: 20%; flex-shrink: 1; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
+            <ui:Button text="Options" display-tooltip-when-elided="true" name="Settings" class="button_unselected" style="height: auto; width: 20%; flex-shrink: 1; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
         </ui:VisualElement>
         <ui:VisualElement name="item_selection" style="position: absolute; top: 20%; width: 100%; height: 30%; flex-direction: row; visibility: hidden;">
-            <ui:VisualElement name="item_list" class="tab_unselected" style="width: 75%; border-right-color: rgb(0, 0, 0); border-right-width: 1px; flex-direction: row;">
+            <ui:VisualElement name="item_list" class="tab_unselected" style="width: 75%; border-right-color: rgb(31, 31, 31); border-right-width: 5px; flex-direction: row; border-bottom-color: rgb(31, 31, 31); border-bottom-width: 5px;">
                 <ui:VisualElement name="list1" style="width: 50%;">
-                    <ui:Label text="Items" display-tooltip-when-elided="true" style="font-size: 20%; color: rgb(0, 0, 0);" />
+                    <ui:Label text="Items" display-tooltip-when-elided="true" class="text" style="font-size: 20px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
                     <ui:Label text="Potion of Healing" display-tooltip-when-elided="true" name="item1" class="item_unselected" />
                     <ui:Label text="None" display-tooltip-when-elided="true" name="item2" class="item_unselected" />
                     <ui:Label text="None" display-tooltip-when-elided="true" name="item3" class="item_unselected" />
@@ -27,18 +27,18 @@
                     <ui:Label text="None" display-tooltip-when-elided="true" name="item10" class="item_unselected" />
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="item_desc_background" class="tab_unselected" style="width: 50%;">
-                <ui:Label text="None" display-tooltip-when-elided="true" name="item_desc" style="font-size: 10%; white-space: normal;" />
+            <ui:VisualElement name="item_desc_background" class="tab_unselected" style="width: 50%; border-bottom-color: rgb(31, 31, 31); border-bottom-width: 5px;">
+                <ui:Label text="None" display-tooltip-when-elided="true" name="item_desc" class="text" style="font-size: 18px; white-space: normal; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="equipment_info" style="background-color: rgb(79, 79, 79); height: 30%; flex-direction: row; position: absolute; top: 20%; width: 100%; visibility: hidden;">
-            <ui:VisualElement name="current_equipment" style="border-right-width: 2px; border-right-color: rgb(31, 31, 31); width: 50%;">
-                <ui:Label text="current equipment" display-tooltip-when-elided="true" style="-unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;);" />
-                <ui:Label text="Weapon:" display-tooltip-when-elided="true" name="current_weapon" class="item_unselected" />
-                <ui:Label text="Armor: " display-tooltip-when-elided="true" name="current_armor" class="item_unselected" />
-                <ui:Label text="Extra:" display-tooltip-when-elided="true" name="current_charm" class="item_unselected" />
+            <ui:VisualElement name="current_equipment" style="border-right-width: 5px; border-right-color: rgb(31, 31, 31); width: 50%; border-bottom-width: 5px; border-bottom-color: rgb(31, 31, 31);">
+                <ui:Label text="current equipment" display-tooltip-when-elided="true" class="text" style="-unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); font-size: 20px;" />
+                <ui:Label text="Weapon:" display-tooltip-when-elided="true" name="current_weapon" class="item_unselected" style="font-size: 18px; border-left-width: 5px; border-top-width: 10px;" />
+                <ui:Label text="Armor: " display-tooltip-when-elided="true" name="current_armor" class="item_unselected" style="font-size: 18px; border-left-width: 5px; border-top-width: 10px;" />
+                <ui:Label text="Extra:" display-tooltip-when-elided="true" name="current_charm" class="item_unselected" style="font-size: 18px; border-top-width: 10px; border-left-width: 5px;" />
             </ui:VisualElement>
-            <ui:VisualElement name="other_equipment" class="tab_selected" style="flex-grow: 1; width: 50%; position: absolute; height: 100%; visibility: hidden;">
+            <ui:VisualElement name="other_equipment" class="tab_selected" style="flex-grow: 1; width: 50%; position: absolute; height: 100%; visibility: hidden; top: 0; left: 0; border-bottom-color: rgb(31, 31, 31); border-right-color: rgb(31, 31, 31); border-right-width: 5px; border-bottom-width: 5px;">
                 <ui:Label text="Label" display-tooltip-when-elided="true" name="equip1" class="item_unselected" />
                 <ui:Label text="Label" display-tooltip-when-elided="true" name="equip2" class="item_unselected" />
                 <ui:Label text="Label" display-tooltip-when-elided="true" name="equip3" class="item_unselected" />
@@ -46,21 +46,21 @@
                 <ui:Label text="Label" display-tooltip-when-elided="true" name="equip5" class="item_unselected" />
                 <ui:VisualElement name="weapon_desc" style="flex-grow: 1;" />
             </ui:VisualElement>
-            <ui:VisualElement name="equipment_desc" style="width: 50%;">
-                <ui:Label text="&#10;" display-tooltip-when-elided="true" name="equipment_text" />
+            <ui:VisualElement name="equipment_desc" style="width: 50%; border-bottom-color: rgb(31, 31, 31); border-bottom-width: 5px;">
+                <ui:Label text="&#10;" display-tooltip-when-elided="true" name="equipment_text" class="text" style="font-size: 18px;" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="skill_selection" style="position: absolute; top: 20%; width: 100%; height: 30%; background-color: rgb(79, 79, 79); flex-direction: row; flex-grow: 1; visibility: hidden;">
-            <ui:VisualElement name="current_skills" class="tab_unselected" style="border-right-width: 2px; border-right-color: rgb(7, 7, 7); width: 50%; height: 100%;">
-                <ui:Label text="Equiped Skills" display-tooltip-when-elided="true" style="font-size: 20%;" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="skill1" class="item_selected" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="skill2" class="item_unselected" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="skill3" class="item_unselected" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="skill4" class="item_unselected" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="skill5" class="item_unselected" />
+            <ui:VisualElement name="current_skills" class="tab_unselected" style="border-right-width: 5px; border-right-color: rgba(19, 19, 19, 255); width: 50%; height: 100%; border-bottom-width: 5px; border-bottom-color: rgba(19, 19, 19, 255);">
+                <ui:Label text="Equiped Skills" display-tooltip-when-elided="true" class="text" style="font-size: 20px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
+                <ui:Label text="None" display-tooltip-when-elided="true" name="skill1" class="item_selected" style="font-size: 18px; margin-left: 5px; margin-top: 5px;" />
+                <ui:Label text="None" display-tooltip-when-elided="true" name="skill2" class="item_unselected" style="font-size: 18px; margin-left: 5px; margin-top: 5px;" />
+                <ui:Label text="None" display-tooltip-when-elided="true" name="skill3" class="item_unselected" style="font-size: 18px; margin-left: 5px; margin-top: 5px;" />
+                <ui:Label text="None" display-tooltip-when-elided="true" name="skill4" class="item_unselected" style="font-size: 18px; margin-left: 5px; margin-top: 5px;" />
+                <ui:Label text="None" display-tooltip-when-elided="true" name="skill5" class="item_unselected" style="font-size: 18px; margin-left: 5px; margin-top: 5px;" />
             </ui:VisualElement>
             <ui:VisualElement name="other_skills" class="tab_selected" style="flex-grow: 1; width: 50%; position: absolute; height: 100%; visibility: hidden;">
-                <ui:Label text="All Skills" display-tooltip-when-elided="true" style="font-size: 20%;" />
+                <ui:Label text="All Skills" display-tooltip-when-elided="true" class="text" style="font-size: 20px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
                 <ui:Label text="None" display-tooltip-when-elided="true" name="skill1" class="item_unselected" />
                 <ui:Label text="None" display-tooltip-when-elided="true" name="skill2" class="item_unselected" />
                 <ui:Label text="None" display-tooltip-when-elided="true" name="skill3" class="item_unselected" />
@@ -68,15 +68,15 @@
                 <ui:Label text="None" display-tooltip-when-elided="true" name="skill5" class="item_unselected" />
                 <ui:Label text="None" display-tooltip-when-elided="true" name="skill6" class="item_unselected" />
             </ui:VisualElement>
-            <ui:VisualElement name="skill_desc_holder" class="tab_unselected" style="flex-grow: 1; width: 50%; height: 100%;">
-                <ui:Label display-tooltip-when-elided="true" name="skill_desc" style="font-size: 20%;" />
+            <ui:VisualElement name="skill_desc_holder" class="tab_unselected" style="flex-grow: 1; width: 50%; height: 100%; border-bottom-color: rgba(19, 19, 19, 255); border-bottom-width: 5px;">
+                <ui:Label display-tooltip-when-elided="true" name="skill_desc" class="text" style="font-size: 18px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="character_selection" style="position: absolute; top: 50%; width: 100%; height: 50%;">
-            <ui:VisualElement name="character1" class="character_unselected" style="width: 20%; height: 100%; flex-grow: 0; flex-shrink: 1; border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; bottom: 0; position: absolute;">
-                <ui:Label text="Technoblade" display-tooltip-when-elided="true" name="character_name" style="-unity-text-align: upper-center; font-size: 15px;" />
-                <ui:VisualElement name="character_portrait" style="height: auto; border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; align-items: center;">
-                    <ui:VisualElement name="character_image" style="flex-grow: 1; background-image: url(&apos;/Assets/Art/Icons/technoface.png#technoface&apos;); margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; width: 100px; height: 100px;" />
+            <ui:VisualElement name="character1" class="character_unselected" style="width: 20%; height: 100%; flex-grow: 0; flex-shrink: 1; bottom: 0; position: absolute; border-top-width: 5px; border-right-width: 5px;">
+                <ui:Label text="Technoblade" display-tooltip-when-elided="true" name="character_name" class="text" style="-unity-text-align: upper-center; font-size: 22px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); margin-top: 5px;" />
+                <ui:VisualElement name="character_portrait" style="height: auto; align-items: center; border-bottom-color: rgba(34, 34, 34, 255); border-bottom-width: 5px;">
+                    <ui:VisualElement name="character_image" style="flex-grow: 1; background-image: url(&apos;/Assets/Art/Icons/technoface.png#technoface&apos;); margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; width: 100px; height: 90px;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="character_info" style="flex-grow: 1; flex-direction: row; display: none;">
                     <ui:VisualElement name="character_stats" style="flex-grow: 1; width: 50%;">
@@ -93,13 +93,13 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="character_health" style="height: 15%;">
-                    <ui:Label text="HP: 100/100" display-tooltip-when-elided="true" name="health_text" style="font-size: 8px; color: rgb(0, 0, 0);" />
+                    <ui:Label text="HP: 100/100" display-tooltip-when-elided="true" name="health_text" class="text" style="font-size: 18px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); -unity-text-align: upper-center; margin-top: 5px;" />
                     <ui:VisualElement name="health_bar_base" style="flex-grow: 1; background-color: rgb(245, 66, 72); margin-left: 1%; margin-right: 2%; margin-top: 1%; margin-bottom: 1%;">
                         <ui:VisualElement name="health_bar" style="flex-grow: 1; background-color: rgb(62, 209, 68); width: 100%;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="blood" style="height: 15%;">
-                    <ui:Label text="Blood: 10/100" display-tooltip-when-elided="true" name="blood_text" style="font-size: 8px;" />
+                    <ui:Label text="Blood: 10/100" display-tooltip-when-elided="true" name="blood_text" class="text" style="font-size: 18px; -unity-text-align: upper-center; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); margin-top: 5px;" />
                     <ui:VisualElement name="health_bar_base" style="flex-grow: 1; background-color: rgb(173, 173, 173); margin-left: 1%; margin-right: 2%; margin-top: 1%; margin-bottom: 1%;">
                         <ui:VisualElement name="health_bar" style="flex-grow: 1; background-color: rgb(188, 9, 0); width: 10%;" />
                     </ui:VisualElement>

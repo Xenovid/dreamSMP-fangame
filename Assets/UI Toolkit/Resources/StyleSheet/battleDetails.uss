@@ -1,35 +1,44 @@
 .choice_selected {
-    border-left-width: 3px;
-    border-right-width: 3px;
-    border-top-width: 3px;
-    border-bottom-width: 3px;
-    border-left-color: rgb(22, 22, 22);
-    border-right-color: rgb(22, 22, 22);
-    border-top-color: rgb(22, 22, 22);
-    border-bottom-color: rgb(22, 22, 22);
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
     flex-grow: 1;
     margin-right: 3px;
     margin-left: 3px;
+    border-left-color: rgb(113, 113, 113);
+    border-right-color: rgb(113, 113, 113);
+    border-top-color: rgb(113, 113, 113);
+    border-bottom-color: rgb(113, 113, 113);
+    background-color: rgb(67, 67, 67);
 }
 
 .choice_unselected {
     flex-grow: 1;
-    border-left-color: rgb(26, 26, 26);
-    border-right-color: rgb(26, 26, 26);
-    border-top-color: rgb(26, 26, 26);
-    border-bottom-color: rgb(26, 26, 26);
-    border-left-width: 1px;
-    border-right-width: 1px;
-    border-top-width: 1px;
-    border-bottom-width: 1px;
+    border-left-color: rgb(48, 48, 48);
+    border-right-color: rgb(48, 48, 48);
+    border-top-color: rgb(48, 48, 48);
+    border-bottom-color: rgb(48, 48, 48);
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
     margin-left: 2px;
     margin-right: 2px;
+    background-color: rgb(22, 22, 22);
 }
 
 .selected {
-    border-left-width: 1px;
-    border-right-width: 1px;
-    border-top-width: 1px;
+    border-left-color: rgb(24, 24, 24);
+    border-right-color: rgb(24, 24, 24);
+    border-top-color: rgb(24, 24, 24);
+    border-bottom-color: rgb(24, 24, 24);
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    background-color: rgb(46, 46, 46);
+    color: rgb(255, 255, 255);
 }
 
 .hovering {
@@ -37,10 +46,12 @@
     border-right-color: rgb(24, 24, 24);
     border-top-color: rgb(24, 24, 24);
     border-bottom-color: rgb(24, 24, 24);
-    border-left-width: 1px;
-    border-right-width: 1px;
-    border-top-width: 1px;
-    border-bottom-width: 1px;
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    background-color: rgb(46, 46, 46);
+    color: rgb(255, 255, 255);
 }
 
 .skills_techno {
@@ -48,9 +59,30 @@
 
 .skill_unselected {
     -unity-font: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7');
+    color: rgba(142, 142, 142, 255);
 }
 
 .skill_selected {
     -unity-font: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7');
     -unity-font-style: bold;
+    color: rgba(255, 255, 255, 255);
+}
+
+.text {
+    color: rgb(229, 229, 229);
+}
+
+.selector {
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-left-color: rgba(41, 41, 41, 255);
+    border-right-color: rgba(41, 41, 41, 255);
+    border-top-color: rgba(41, 41, 41, 255);
+    border-bottom-color: rgba(41, 41, 41, 255);
+    border-top-width: 5px;
+}
+
+.title_background {
+    background-color: rgba(111, 111, 111, 255);
+    padding-top: 5px;
 }
