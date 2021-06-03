@@ -16,7 +16,7 @@
                 <ui:VisualElement name="blood" style="flex-grow: 1; height: 30px; width: 100%;">
                     <ui:Label text="Blood: 50/100" display-tooltip-when-elided="true" name="blood_text" class="text" style="font-size: 12px;" />
                     <ui:VisualElement name="blood_bar_base" style="flex-grow: 1; background-color: rgb(115, 115, 115); margin-left: 1%; margin-right: 2%; margin-top: 1%; margin-bottom: 1%;">
-                        <ui:VisualElement name="blood_bar" style="flex-grow: 1; background-color: rgb(221, 13, 0); width: 50%;" />
+                        <ui:VisualElement name="blood_bar" style="flex-grow: 1; background-color: rgb(221, 13, 0); width: 84px;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="use_bar" style="flex-grow: 0; background-color: rgba(24, 24, 24, 0.6); flex-shrink: 0; height: 8px;" />

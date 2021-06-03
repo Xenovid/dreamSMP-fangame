@@ -30,7 +30,7 @@ public class RegularAttack : SystemBase
             else{
                 if(battleData.useTime > skillData.skill.keyTimes[0]){
                     DynamicBuffer<DamageData> enemyDamages = GetBuffer<DamageData>(skillData.target);
-                    enemyDamages.Add(new DamageData{damage = skillData.skill.damageIncrease + characterStats.baseStats.attack, color = damageColor.white});
+                    enemyDamages.Add(new DamageData{damage = skillData.skill.damageIncrease + characterStats.baseStats.attack, type = damageType.physical});
                     skillData.skill.keyTimes.RemoveAt(0);
                     // add bleeding to opponent if it doesn't have it already
                     foreach(StatusEffects effect in skillData.skill.effects){

@@ -103,7 +103,7 @@ public class BattleMenuSystem : SystemBase
                 healthBar.style.width = healthBarBase.contentRect.width * (characterStats.health / characterStats.maxHealth);
                 healthText.text = "HP: " + characterStats.health.ToString() + "/" + characterStats.maxHealth.ToString();
 
-                bloodBar.style.width = bloodBarBase.contentRect.width * (characterStats.points/ characterStats.maxPoints);
+                bloodBar.style.width = bloodBarBase.contentRect.width * ((float)characterStats.points/ characterStats.maxPoints);
                 bloodText.text = "Blood: " + characterStats.points.ToString() + "/" + characterStats.maxPoints.ToString();
 
                 if(selectorUI.isSelectable){

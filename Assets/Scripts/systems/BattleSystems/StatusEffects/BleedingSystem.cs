@@ -12,13 +12,27 @@ public class BleedingSystem : SystemBase
     }
     protected override void OnUpdate()
     {
+        var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
+        EntityQuery technoQuery = GetEntityQuery(typeof(TechnoTag), typeof(CharacterStats));
+        CharacterStats technoStats = technoQuery.GetSingleton<CharacterStats>();
+        Entity technoEntity = technoQuery.GetSingletonEntity();
+
         float dt = Time.DeltaTime;
-        Entities.ForEach((ref DynamicBuffer<DamageData> damages, ref BleedingData bleedingData) =>{
+        Entities
+        .WithNone<DownTag>()
+        .ForEach((ref DynamicBuffer<DamageData> damages, ref BleedingData bleedingData) =>{
             bleedingData.timeFromLastDamageTick += dt;
             //deal damage every other second
             if(bleedingData.timeFromLastDamageTick >= 2){
-                damages.Add(new DamageData{damage = bleedingData.level, color = damageColor.red});
+                damages.Add(new DamageData{damage = bleedingData.level, type = damageType.bleeding});
                 bleedingData.timeFromLastDamageTick = 0;
+                if(technoStats.maxPoints <= technoStats.points + bleedingData.level){
+                    technoStats.points = technoStats.maxPoints;
+                }
+                else{
+                    technoStats.points += bleedingData.level;
+                }
+                ecb.SetComponent(technoEntity, technoStats);
             }
         }).Schedule();
     }

@@ -10,8 +10,14 @@ public class HeadsUpUISystem : SystemBase
         float dt = Time.DeltaTime;
         Entities
         .WithoutBurst()
-        .ForEach((HeadsUpUIData headsUpUI) => {
+        .ForEach((HeadsUpUIData headsUpUI, Entity entity) => {
             //go through each message and move its message
+            if(HasComponent<BleedingData>(entity)){
+                headsUpUI.UI.Q<VisualElement>("bleeding_icon").visible = true;
+            }
+            else{
+                headsUpUI.UI.Q<VisualElement>("bleeding_icon").visible = false;
+            }
             for(int i = 0; i < headsUpUI.messages.Count; i++){
                 Message message = headsUpUI.messages[i];
                 message.timePassed += dt;

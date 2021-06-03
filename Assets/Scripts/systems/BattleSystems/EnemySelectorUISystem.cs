@@ -54,16 +54,14 @@ public class EnemySelectorUISystem : SystemBase
                      enemySelectorUI.enemySelectorUI.AddToClassList("enemyBase");
                 }
                 if(characterStats.health <= 0){
-                    //enemyPicture.AddToClassList("enemyDown");
                     enemySelectorData.isDead = true;
                     MaterialPropertyBlock myMatBlock = new MaterialPropertyBlock();
                     myMatBlock.SetInt("IsSelected", 0);
-                    //enemySelectorUI.enemySelectorUI.AddToClassList("enemyDown");
-                    //enemySelectorUI.enemySelectorUI.RemoveFromClassList("enemySelected");
-                    //enemySelectorUI.enemySelectorUI.RemoveFromClassList("enemyBase");
                     sprite.enabled = false;
                     enemySelectorUI.enemySelectorUI.parent.Remove(enemySelectorUI.enemySelectorUI);
                     ecb.RemoveComponent<EnemySelectorUI>(entity);
+
+
                 }
             }).Run();
       }

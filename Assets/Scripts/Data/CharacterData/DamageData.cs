@@ -3,10 +3,10 @@ using UnityEngine;
 
 public struct DamageData : IBufferElementData
 {
-    public damageColor color;
+    public damageType type;
     public float damage;
 }
-public enum damageColor{
-    red,
-    white
+public enum damageType{
+    bleeding,
+    physical
 }

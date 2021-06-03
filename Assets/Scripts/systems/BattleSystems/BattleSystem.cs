@@ -60,9 +60,9 @@ public class BattleSystem : SystemBase
                         Entities
                         .WithStructuralChanges()
                         .WithoutBurst()
+                        .WithNone<DownTag>()
                         .ForEach((Entity entity, ref DynamicBuffer<DamageData> damages, ref BattleData battleData,ref CharacterStats characterStats) => {
                               DynamicBuffer<HealingData> healings = GetBuffer<HealingData>(entity);
-                              if(!battleData.isDown){
                               for(int i = 0; i < damages.Length; i++){
                                     if(EntityManager.HasComponent<HeadsUpUIData>(entity)){
                                           HeadsUpUIData headsUpUI = EntityManager.GetComponentObject<HeadsUpUIData>(entity);
@@ -70,11 +70,11 @@ public class BattleSystem : SystemBase
                                           
                                           Label label = new Label();
                                           label.text = damages[i].damage.ToString();
-                                          switch( damages[i].color){
-                                                case damageColor.red:
+                                          switch( damages[i].type){
+                                                case damageType.bleeding:
                                                       label.AddToClassList("message_red");
                                                 break;
-                                                case damageColor.white:
+                                                case damageType.physical:
                                                       label.AddToClassList("message_white");
                                                 break;
                                           }
@@ -99,8 +99,7 @@ public class BattleSystem : SystemBase
                               { 
                                     //*** need to add down animation
                                     //do others stuff for when a temporary enemy is down
-                                    battleData.isDown = true;
-                              }
+                                    ecb.AddComponent<DownTag>(entity);
                               }
                         }).Run();
                   }
