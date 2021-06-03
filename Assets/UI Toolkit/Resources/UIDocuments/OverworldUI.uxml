@@ -1,6 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="TextBoxUI" style="top: 80%; flex-direction: row; height: 20%; background-color: rgb(132, 132, 132); visibility: hidden;">
+    <Style src="/Assets/UI Toolkit/Resources/StyleSheet/OverworldStlyeSheet.uss" />
+    <ui:VisualElement name="TextBoxUI" class="base" style="top: 80%; flex-direction: row; height: 20%; background-color: rgb(89, 89, 89); visibility: hidden; border-top-color: rgba(29, 29, 29, 255); border-top-width: 5px;">
         <ui:VisualElement name="CharacterImage" style="width: 11%;" />
-        <ui:Label display-tooltip-when-elided="true" name="TextBoxText" style="flex-grow: 1; font-size: 10px;" />
+        <ui:Label display-tooltip-when-elided="true" name="TextBoxText" class="text" style="flex-grow: 1; font-size: 20px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
     </ui:VisualElement>
 </ui:UXML>

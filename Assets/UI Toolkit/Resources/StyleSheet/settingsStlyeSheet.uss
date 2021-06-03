@@ -1,13 +1,15 @@
 .option_unselected {
     background-color: rgb(72, 72, 72);
-    border-left-color: rgb(41, 41, 41);
-    border-right-color: rgb(41, 41, 41);
-    border-top-color: rgb(41, 41, 41);
-    border-bottom-color: rgb(41, 41, 41);
-    border-left-width: 1px;
-    border-right-width: 1px;
-    border-top-width: 1px;
-    border-bottom-width: 1px;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    font-size: 40px;
+    width: 50%;
 }
 
 .option_selected {
@@ -16,8 +18,19 @@
     border-right-color: rgb(41, 41, 41);
     border-top-color: rgb(41, 41, 41);
     border-bottom-color: rgb(41, 41, 41);
-    border-left-width: 1px;
-    border-right-width: 1px;
-    border-top-width: 1px;
-    border-bottom-width: 1px;
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    font-size: 40px;
+    width: 50%;
+    color: rgba(255, 255, 255, 255);
+}
+
+.volume_slider {
+}
+
+.unity-label {
+    -unity-font-definition: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7 SDF');
+    color: rgba(255, 255, 255, 255);
 }

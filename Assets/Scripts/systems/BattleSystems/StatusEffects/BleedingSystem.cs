@@ -18,15 +18,17 @@ public class BleedingSystem : SystemBase
             //deal damage every other second
             if(bleedingData.timeFromLastDamageTick >= 2){
                 damages.Add(new DamageData{damage = bleedingData.level, color = damageColor.red});
+                bleedingData.timeFromLastDamageTick = 0;
             }
         }).Schedule();
     }
     private void RemoveBleedingOnBattleEnd( Object sender, EventArgs e){
+        EntityManager.CompleteAllJobs();
         var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
         Entities
         .WithAll<BleedingData>()
         .ForEach((Entity entity) =>{
             ecb.RemoveComponent<BleedingData>(entity);
-        }).Schedule();
+        }).Run();
     }
 }

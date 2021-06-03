@@ -1,4 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="/Assets/UI Toolkit/Resources/StyleSheet/HeadsUpStyleSheet.uss" />
     <ui:VisualElement name="base" style="width: 106px; height: 88px; position: absolute; left: 0; bottom: 0;">
         <ui:VisualElement name="status_icons" style="flex-grow: 1; flex-direction: row; align-items: center;">
             <ui:VisualElement style="width: 30px; height: 30px; background-image: url(&apos;/Assets/Art/Icons/BleedingIcon.png#BleedingIcon&apos;); visibility: hidden;" />

@@ -8,5 +8,5 @@ public struct DamageData : IBufferElementData
 }
 public enum damageColor{
     red,
-    black
+    white
 }

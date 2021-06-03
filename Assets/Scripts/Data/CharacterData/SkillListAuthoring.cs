@@ -36,10 +36,14 @@ public class SkillConversionSystem : GameObjectConversionSystem
             }
         });
     }
-    public Skill SkillInfoToSkill(SkillInfo skillInfo){
+    public static Skill SkillInfoToSkill(SkillInfo skillInfo){
         FixedList64<float> keyTimes = new FixedList64<float>();
+        FixedList32<StatusEffects> effects = new FixedList32<StatusEffects>();
         foreach(float number in skillInfo.keyTimes){
             keyTimes.Add(number);
+        }
+        foreach(StatusEffects effect in skillInfo.effects){
+            effects.Add(effect);
         }
         return new Skill{
             name = skillInfo.name,
@@ -49,7 +53,9 @@ public class SkillConversionSystem : GameObjectConversionSystem
             animationName = skillInfo.animationName,
             cost = skillInfo.cost,
             waitTime = skillInfo.waitTime,
-            keyTimes = keyTimes
+            keyTimes = keyTimes,
+            skillType = skillInfo.skillType,
+            effects = effects
         };
     }
 }
@@ -66,6 +72,8 @@ public struct SkillInfo{
     // the key points in animation
     [SerializeField]
     public List<float> keyTimes;
+    public SkillType skillType;
+    public List<StatusEffects> effects;
 }
 
 [System.Serializable]
@@ -80,4 +88,14 @@ public struct Skill{
     // the point in the animation where you deal damage
     //public NativeArray<int> damageTime;
     public FixedList64<float> keyTimes;
+
+    public SkillType skillType;
+    public FixedList32<StatusEffects> effects;
+}
+
+public enum SkillType{
+    Regular
+}
+public enum StatusEffects{
+    Bleed
 }

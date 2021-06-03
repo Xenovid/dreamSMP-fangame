@@ -112,9 +112,9 @@ public class BattleMenuSystem : SystemBase
                     useBar.style.width = 0;
                     switch (currentMenu){
                         case menuType.battleMenu:
-                            battleUI.visible = true;
+                            /*battleUI.visible = true;
                             enemySelector.visible = false;
-                            skillSelector.visible = false;
+                            skillSelector.visible = false;*/
                             if(selectorUI.isHovered && currentCharacterSelected == entityInQueryIndex && !hasMoved){
                                 selectorUI.UI.AddToClassList("hovering");
                                 if(input.goselected){
@@ -222,7 +222,6 @@ public class BattleMenuSystem : SystemBase
                             enemySelector.visible = true;
                             if(input.goselected){
                                 selectorUI.UI.experimental.animation.Position(new Vector3(0,0,0), 0);
-                                DynamicBuffer<DamageData> enemyDamages = GetBuffer<DamageData>(enemyUiSelection[currentEnemySelected]);
                                 animator.Play(animation.basicSwordAnimationName);
                                 AudioManager.playSound("swordswing");
                                 //makes sure that nothing is selected
@@ -231,12 +230,21 @@ public class BattleMenuSystem : SystemBase
                                     temp.isSelected = false;
                                     EntityManager.SetComponentData(ent, temp);
                                 }
+                                switch(characterStats.equipedWeapon.weaponSkill.skillType){
+                                    case SkillType.Regular:
+                                        ecb.AddComponent(entity, new UsingSkillData{
+                                            target = enemyUiSelection[currentEnemySelected],
+                                            skill = characterStats.equipedWeapon.weaponSkill
+                                        });
+                                        ecb.AddComponent<RegularAttackData>(entity);
+                                    break;
+                                }
                                 //deal damage to the enemy
-                                enemyDamages.Add(new DamageData{damage = characterStats.equipedWeapon.power});
+                                
 
                                 // wait until you are recharged
-                                battleData.useTime = characterStats.equipedWeapon.useTime;
-                                battleData.maxUseTime = battleData.useTime;
+                                battleData.useTime = 0;
+                                battleData.maxUseTime = characterStats.equipedWeapon.useTime;
 
 
                                 //inventory.inventory[selectorUI.currentItem].weapon.rechargeTime = inventory.inventory[selectorUI.currentItem].weapon.attackTime;                               
@@ -553,7 +561,6 @@ public class BattleMenuSystem : SystemBase
 
                 VisualElement newEnemySelectUI = enemySelectionUITemplate.CloneTree();
                 VisualElement newHeadsUpDisplay = overHeadUITemplate.CloneTree();
-                Debug.Log(root);
                 root.Add(newHeadsUpDisplay);
                 Vector3 camPo =  cam.WorldToScreenPoint(translation.Value);
                 Vector2 uiPosition =  new Vector2(camPo.x * positionRatio, camPo.y * positionRatio);//root.WorldToLocal(new Vector2(translation.Value.x, translation.Value.y));

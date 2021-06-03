@@ -31,7 +31,7 @@ public class BasicSkillSystem : SystemBase
                 if(battleData.useTime > skillData.skill.keyTimes[0]){
                     // deal damage to opponent
                     DynamicBuffer<DamageData> enemyDamages = GetBuffer<DamageData>(skillData.target);
-                    enemyDamages.Add(new DamageData{damage = skillData.skill.damageIncrease + characterStats.baseStats.attack});
+                    enemyDamages.Add(new DamageData{damage = skillData.skill.damageIncrease + characterStats.baseStats.attack, color = damageColor.white});
                     skillData.skill.keyTimes.RemoveAt(0);
                 }
             }   

@@ -59,13 +59,13 @@
 
 .skill_unselected {
     -unity-font: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7');
-    color: rgba(142, 142, 142, 255);
+    color: rgb(142, 142, 142);
 }
 
 .skill_selected {
     -unity-font: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7');
     -unity-font-style: bold;
-    color: rgba(255, 255, 255, 255);
+    color: rgb(255, 255, 255);
 }
 
 .text {
@@ -75,14 +75,14 @@
 .selector {
     border-left-width: 5px;
     border-right-width: 5px;
-    border-left-color: rgba(41, 41, 41, 255);
-    border-right-color: rgba(41, 41, 41, 255);
-    border-top-color: rgba(41, 41, 41, 255);
-    border-bottom-color: rgba(41, 41, 41, 255);
+    border-left-color: rgb(41, 41, 41);
+    border-right-color: rgb(41, 41, 41);
+    border-top-color: rgb(41, 41, 41);
+    border-bottom-color: rgb(41, 41, 41);
     border-top-width: 5px;
 }
 
 .title_background {
-    background-color: rgba(111, 111, 111, 255);
+    background-color: rgb(111, 111, 111);
     padding-top: 5px;
 }

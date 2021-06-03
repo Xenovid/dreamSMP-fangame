@@ -53,7 +53,7 @@ public class EnemySelectorUISystem : SystemBase
                     enemySelectorUI.enemySelectorUI.RemoveFromClassList("enemySelected");
                      enemySelectorUI.enemySelectorUI.AddToClassList("enemyBase");
                 }
-                if(characterStats.health < 0){
+                if(characterStats.health <= 0){
                     //enemyPicture.AddToClassList("enemyDown");
                     enemySelectorData.isDead = true;
                     MaterialPropertyBlock myMatBlock = new MaterialPropertyBlock();

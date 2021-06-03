@@ -62,6 +62,7 @@ public class BattleSystem : SystemBase
                         .WithoutBurst()
                         .ForEach((Entity entity, ref DynamicBuffer<DamageData> damages, ref BattleData battleData,ref CharacterStats characterStats) => {
                               DynamicBuffer<HealingData> healings = GetBuffer<HealingData>(entity);
+                              if(!battleData.isDown){
                               for(int i = 0; i < damages.Length; i++){
                                     if(EntityManager.HasComponent<HeadsUpUIData>(entity)){
                                           HeadsUpUIData headsUpUI = EntityManager.GetComponentObject<HeadsUpUIData>(entity);
@@ -69,7 +70,14 @@ public class BattleSystem : SystemBase
                                           
                                           Label label = new Label();
                                           label.text = damages[i].damage.ToString();
-                                          label.AddToClassList("message_black");
+                                          switch( damages[i].color){
+                                                case damageColor.red:
+                                                      label.AddToClassList("message_red");
+                                                break;
+                                                case damageColor.white:
+                                                      label.AddToClassList("message_white");
+                                                break;
+                                          }
                                           headsUpUI.UI.Q<VisualElement>("messages").Add(label);
                                           
                                           Message message = new Message{timePassed = 0, label = label, direction = random.Value.NextFloat2Direction()};
@@ -93,11 +101,12 @@ public class BattleSystem : SystemBase
                                     //do others stuff for when a temporary enemy is down
                                     battleData.isDown = true;
                               }
+                              }
                         }).Run();
                   }
             }
 
-            EntityManager.CompleteAllJobs();
+            //EntityManager.CompleteAllJobs();
             characterEntities.Dispose();
             characterStatsList.Dispose();
             battleManagers.Dispose();

@@ -22748,10 +22748,32 @@ MonoBehaviour:
     name: ToothPick
     description: The best way to remove teeth
     useTime: 1
+    weaponSkill:
+      name: 
+      description: 
+      functionName: 
+      animationName: 
+      damageIncrease: 0
+      cost: 0
+      waitTime: 0
+      keyTimes: []
+      skillType: 0
+      effects: 
   - power: 8
     name: ToothPick2
     description: not the best way to remove teeth
     useTime: 1
+    weaponSkill:
+      name: 
+      description: 
+      functionName: 
+      animationName: 
+      damageIncrease: 0
+      cost: 0
+      waitTime: 0
+      keyTimes: []
+      skillType: 0
+      effects: 
 --- !u!4 &623176116
 Transform:
   m_ObjectHideFlags: 0
@@ -23965,6 +23987,17 @@ MonoBehaviour:
     name: theskywalkerblade
     description: the sky walker blade
     useTime: 3
+    weaponSkill:
+      name: 
+      description: 
+      functionName: 
+      animationName: 
+      damageIncrease: 0
+      cost: 0
+      waitTime: 0
+      keyTimes: []
+      skillType: 0
+      effects: 
 --- !u!114 &1622546716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24458,6 +24491,10 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: characterName
+      value: Techno
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: baseStats.attack
       value: 8
       objectReference: {fileID: 0}
@@ -24492,6 +24529,26 @@ PrefabInstance:
     - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: equipedWeapon.description
       value: Obliterates Orphans
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedWeapon.weaponSkill.waitTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedWeapon.weaponSkill.damageIncrease
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedWeapon.weaponSkill.effects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedWeapon.weaponSkill.keyTimes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedWeapon.weaponSkill.keyTimes.Array.data[0]
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338082, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: m_Mass
