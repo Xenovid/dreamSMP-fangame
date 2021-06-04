@@ -101,7 +101,14 @@ public class PauseMenuSystem : SystemBase
                                     Label healthBarText = currentCharacter.Q<Label>("health_text");
                                     VisualElement healthBarBase = currentCharacter.Q<VisualElement>("health_bar_base");
                                     VisualElement healthBar = currentCharacter.Q<VisualElement>("health_bar");
-                                    VisualElement bloodBar = currentCharacter.Q<VisualElement>("blood");
+
+                                    VisualElement bloodBarBase = currentCharacter.Q<VisualElement>("blood");
+                                    Label bloodBarText = bloodBarBase.Q<Label>("blood_text");
+                                    VisualElement bloodBar = bloodBarBase.Q<VisualElement>("blood_bar");
+
+                                    bloodBar.style.width = bloodBarBase.contentRect.width * ((float)characterStats.points/ characterStats.maxPoints);
+                                    bloodBarText.text = "Blood: " + characterStats.points.ToString() + "/" + characterStats.maxPoints.ToString();
+
                                     healthBar.style.width = healthBarBase.contentRect.width * (characterStats.health / characterStats.maxHealth);
                                     healthBarText.text = "HP: " + characterStats.health.ToString() + "/" + characterStats.maxHealth.ToString();
                                 }

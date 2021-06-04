@@ -6,8 +6,8 @@ using UnityEngine;
 public class CharacterStatsAuthouring : MonoBehaviour{
     public float maxHealth;
     public float health;
-    public int maxPoints;
-    public int points;
+    public float maxPoints;
+    public float points;
 
     public Stats baseStats;
     [HideInInspector]
@@ -22,9 +22,9 @@ public class CharacterStatsAuthouring : MonoBehaviour{
 public struct CharacterStats : IComponentData
 {
     public float maxHealth;
-    public int maxPoints;
+    public float maxPoints;
     public float health;
-    public int points;
+    public float points;
     public Stats baseStats;
     public Stats battleStats;
     public FixedString64 characterName;

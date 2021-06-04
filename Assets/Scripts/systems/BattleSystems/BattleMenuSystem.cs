@@ -174,6 +174,13 @@ public class BattleMenuSystem : SystemBase
                                             while(i < equipedSkills.Length){
                                                 skillSelector.Q<Label>("skill" + (i + 1).ToString()).text = equipedSkills[i].skill.name.ToString();
                                                 i++;
+                                                if(!equipedSkills.IsEmpty){
+                                                    Skill skill = equipedSkills[currentSkill - 1].skill;
+                                                    skillSelector.Q<Label>("skill_desc").text = skill.description.ToString();
+                                                }
+                                                else{
+                                                    skillSelector.Q<Label>("skill_desc").text = "";
+                                                }
                                             }
                                         break;
                                         case battleSelectables.items:
@@ -293,12 +300,11 @@ public class BattleMenuSystem : SystemBase
                                 if(input.goselected){
                                     selectorUI.UI.experimental.animation.Position(new Vector3(0,0,0), 0);
                                             Skill skill = equipedSkills[currentSkill - 1].skill;
-                                            if(characterStats.points - skill.cost >= 0){
+                                            if(characterStats.points >= skill.cost){
                                                 characterStats.points -= skill.cost;
                                             }
                                             else{
                                                 characterStats.points = 0;
-                                                int cost = skill.cost - characterStats.points;
                                             }
                                             
                                             animator.Play(animation.basicSwordAnimationName);
@@ -356,7 +362,7 @@ public class BattleMenuSystem : SystemBase
                                 }
                             }
                             else{
-                                if(input.goselected && currentSkill - 1< equipedSkills.Length){
+                                if(input.goselected && currentSkill - 1< equipedSkills.Length && equipedSkills[currentSkill - 1].skill.cost <= characterStats.points){
                                     isInEnemySelection = true;
                                     skillSelector.visible = false;
                                     enemySelector.visible = true;
@@ -371,16 +377,33 @@ public class BattleMenuSystem : SystemBase
                                 }
                                 else if(input.moveup){
                                     if(currentSkill > 1){
+                                        
                                         UnSelectSkill(skillSelector.Q<Label>("skill" + currentSkill.ToString()));
                                         currentSkill--;
                                         SelectSkill(skillSelector.Q<Label>("skill" + currentSkill.ToString()));
+                                        if(currentSkill <= equipedSkills.Length){
+                                            Skill skill = equipedSkills[currentSkill - 1].skill;
+                                            skillSelector.Q<Label>("skill_desc").text = skill.description.ToString();
+                                        }
+                                        else{
+                                            skillSelector.Q<Label>("skill_desc").text = "";
+                                        }
+                                        
                                     }
                                 }
                                 else if(input.movedown){
                                     if(currentSkill < 5){
+                                        
                                         UnSelectSkill(skillSelector.Q<Label>("skill" + currentSkill.ToString()));
                                         currentSkill++;
                                         SelectSkill(skillSelector.Q<Label>("skill" + currentSkill.ToString()));
+                                        if(currentSkill < equipedSkills.Length){
+                                            Skill skill = equipedSkills[currentSkill - 1].skill;
+                                            skillSelector.Q<Label>("skill_desc").text = skill.description.ToString();
+                                        }
+                                        else{
+                                            skillSelector.Q<Label>("skill_desc").text = "";
+                                        }
                                     }
                                 }
                             }
@@ -554,6 +577,14 @@ public class BattleMenuSystem : SystemBase
                 string tempstr = "character" + (i + 1).ToString();
                 VisualElement currentCharacter = battleUI.Q<VisualElement>(tempstr);
                 EntityManager.AddComponentObject(entity, new PlayerSelectorUI { UI = currentCharacter, currentSelection = battleSelectables.fight, isSelected = false, isHovered = i == 0 });
+            
+                VisualElement newHeadsUpDisplay = overHeadUITemplate.CloneTree();
+                root.Add(newHeadsUpDisplay);
+                Vector3 camPo =  cam.WorldToScreenPoint(translation.Value);
+                Vector2 uiPosition =  new Vector2(camPo.x * positionRatio, camPo.y * positionRatio);
+                newHeadsUpDisplay.Q<VisualElement>("base").style.bottom = uiPosition.y;
+                newHeadsUpDisplay.Q<VisualElement>("base").style.left = uiPosition.x;
+                EntityManager.AddComponentObject(entity, new HeadsUpUIData{UI = newHeadsUpDisplay, messages = new List<Message>()});
             } 
 
             foreach(Entity entity in battleSystem.enemyEntities){

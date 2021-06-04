@@ -86,3 +86,9 @@
     background-color: rgb(111, 111, 111);
     padding-top: 5px;
 }
+
+.skill_desc {
+    font-size: 25px;
+    -unity-font-definition: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7 SDF');
+    color: rgba(255, 255, 255, 255);
+}

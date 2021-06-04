@@ -13,7 +13,7 @@ public class BleedingSystem : SystemBase
     protected override void OnUpdate()
     {
         var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
-        EntityQuery technoQuery = GetEntityQuery(typeof(TechnoTag), typeof(CharacterStats));
+        EntityQuery technoQuery = GetEntityQuery(typeof(TechnoData), typeof(CharacterStats));
         CharacterStats technoStats = technoQuery.GetSingleton<CharacterStats>();
         Entity technoEntity = technoQuery.GetSingletonEntity();
 
@@ -34,6 +34,11 @@ public class BleedingSystem : SystemBase
                 }
                 ecb.SetComponent(technoEntity, technoStats);
             }
+        }).Schedule();
+        Entities
+        .WithAll<DownTag>()
+        .ForEach((Entity entity, ref BleedingData bleedingData) =>{
+            ecb.RemoveComponent<BleedingData>(entity);
         }).Schedule();
     }
     private void RemoveBleedingOnBattleEnd( Object sender, EventArgs e){

@@ -100,8 +100,8 @@
                 </ui:VisualElement>
                 <ui:VisualElement name="blood" style="height: 15%;">
                     <ui:Label text="Blood: 10/100" display-tooltip-when-elided="true" name="blood_text" class="text" style="font-size: 18px; -unity-text-align: upper-center; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); margin-top: 5px;" />
-                    <ui:VisualElement name="health_bar_base" style="flex-grow: 1; background-color: rgb(173, 173, 173); margin-left: 1%; margin-right: 2%; margin-top: 1%; margin-bottom: 1%;">
-                        <ui:VisualElement name="health_bar" style="flex-grow: 1; background-color: rgb(188, 9, 0); width: 10%;" />
+                    <ui:VisualElement name="blood_bar_base" style="flex-grow: 1; background-color: rgb(173, 173, 173); margin-left: 1%; margin-right: 2%; margin-top: 1%; margin-bottom: 1%;">
+                        <ui:VisualElement name="blood_bar" style="flex-grow: 1; background-color: rgb(188, 9, 0); width: 10%;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="current_skills" style="flex-direction: row; display: none;">

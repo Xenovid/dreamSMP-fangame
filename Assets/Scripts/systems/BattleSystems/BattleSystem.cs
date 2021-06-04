@@ -42,6 +42,7 @@ public class BattleSystem : SystemBase
             int enemiesDown = 0;
 
             if(isInBattle){
+                  float dt = Time.DeltaTime;
                   //from the main enemy, get the rest of the enemies
                   //checks the number of enemies down to check if the battle should be down
                   foreach (Entity entity in enemyEntities)
@@ -60,7 +61,7 @@ public class BattleSystem : SystemBase
                         Entities
                         .WithStructuralChanges()
                         .WithoutBurst()
-                        .WithNone<DownTag>()
+                        .WithNone<DownTag, TechnoData>()
                         .ForEach((Entity entity, ref DynamicBuffer<DamageData> damages, ref BattleData battleData,ref CharacterStats characterStats) => {
                               DynamicBuffer<HealingData> healings = GetBuffer<HealingData>(entity);
                               for(int i = 0; i < damages.Length; i++){
@@ -99,6 +100,62 @@ public class BattleSystem : SystemBase
                               { 
                                     //*** need to add down animation
                                     //do others stuff for when a temporary enemy is down
+                                    ecb.AddComponent<DownTag>(entity);
+                              }
+                        }).Run();
+                        Entities
+                        .WithStructuralChanges()
+                        .WithoutBurst()
+                        .WithNone<DownTag>()
+                        .ForEach((HeadsUpUIData headsUpUI, Entity entity,ref TechnoData techno, ref RandomData random, ref DynamicBuffer<DamageData> damages, ref BattleData battleData,ref CharacterStats characterStats) => {
+                              DynamicBuffer<HealingData> healings = GetBuffer<HealingData>(entity);
+                              for(int i = 0; i < damages.Length; i++){
+                                    
+                                    Label label = new Label();
+                                    label.text = damages[i].damage.ToString();
+                                    switch( damages[i].type){
+                                          case damageType.bleeding:
+                                                label.AddToClassList("message_red");
+                                          break;
+                                          case damageType.physical:
+                                                label.AddToClassList("message_white");
+                                          break;
+                                    }
+                                    headsUpUI.UI.Q<VisualElement>("messages").Add(label);
+                                    
+                                    Message message = new Message{timePassed = 0, label = label, direction = random.Value.NextFloat2Direction()};
+                                    headsUpUI.messages.Add(message);
+                                    if(characterStats.health <= 0){
+                                          techno.timeFromLastDamageTick += dt;
+                                          if(techno.timeFromLastDamageTick > 2){
+                                                Label bloodDrain = new Label();
+                                                bloodDrain.AddToClassList("message_red");
+                                                techno.timeFromLastDamageTick = 0;
+                                                headsUpUI.messages.Add(new Message{timePassed = 0, label = bloodDrain});
+                                          }
+                                          characterStats.points -=  damages[i].damage;
+                                    }
+                                    else{
+                                          characterStats.health -= damages[i].damage;
+                                          if(characterStats.health < 0){
+                                                characterStats.health = 0;
+                                          }
+                                    }
+                                    
+                                    damages.RemoveAt(i);
+                                    i--;
+                              }
+                              for(int i = 0; i < healings.Length; i++){
+                                    characterStats.health += healings[i].healing;
+                                    if(characterStats.health > characterStats.maxHealth){
+                                          characterStats.health = characterStats.maxHealth;
+                                    }
+                                    healings.RemoveAt(i);
+                                    i--;
+                              }
+                              if(characterStats.health <= 0 && characterStats.points <= 0)
+                              { 
+                                    characterStats.points = 0;
                                     ecb.AddComponent<DownTag>(entity);
                               }
                         }).Run();
@@ -181,6 +238,11 @@ public class BattleSystem : SystemBase
       }
       public void EndBattle(){
             isInBattle = false;
+            Entities.ForEach((ref CharacterStats characterstats) =>{
+                  if(characterstats.health <= 0){
+                        characterstats.health = 1;
+                  }
+            }).ScheduleParallel();
             OnBattleEnd?.Invoke(this, new OnBattleEndEventArgs{isPlayerVictor = true});
       }
       public void AddBattleData_OnTransitionEnd(System.Object sender, System.EventArgs e){
