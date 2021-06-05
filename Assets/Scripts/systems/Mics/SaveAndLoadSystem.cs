@@ -25,18 +25,17 @@ public class SaveAndLoadSystem : SystemBase
         
     }
     public void Save(){
-        /*
+        /*tes.GetSceneEntity(SubSceneReferences.Instance.WorldSubScene.SceneGUID);
+        
         World testWorld = new World("hi");
         NativeArray<Entity> ent =  World.DefaultGameObjectInjectionWorld.EntityManager.CreateEntityQuery( typeof(CaravanTag), typeof(SceneTag)).ToEntityArray(Unity.Collections.Allocator.Persistent);
-        Entity
-        testWorld.EntityManager.Entity
         testWorld.EntityManager.CopyEntitiesFrom(World.DefaultGameObjectInjectionWorld.EntityManager, ent);; 
          
         //testWorld.EntityManager.MoveEntitiesFrom(World.DefaultGameObjectInjectionWorld.EntityManager);
 
         using( var writer = new StreamBinaryWriter(Application.dataPath + "/save")){
-            
-            SerializeUtilityHybrid.Serialize(testWorld.EntityManager, writer,out test);
+            SerializeUtility.SerializeWorld(testWorld.EntityManager,writer);
+            //SerializeUtilityHybrid.Serialize(testWorld.EntityManager, writer,out test);
             Debug.Log("saving");
         }
         ent.Dispose();
