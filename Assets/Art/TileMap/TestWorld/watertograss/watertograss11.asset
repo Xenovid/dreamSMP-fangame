@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: watertograss11
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: -8113269522229450557, guid: 43ff47b08ffb2304da3ad801c1c8dc54, type: 3}
+  - {fileID: 4032894372991856452, guid: 43ff47b08ffb2304da3ad801c1c8dc54, type: 3}
+  - {fileID: 3180872515993615063, guid: 43ff47b08ffb2304da3ad801c1c8dc54, type: 3}
+  - {fileID: 5603805822857609183, guid: 43ff47b08ffb2304da3ad801c1c8dc54, type: 3}
+  - {fileID: 6610932771476668514, guid: 43ff47b08ffb2304da3ad801c1c8dc54, type: 3}
+  - {fileID: 535000774241140917, guid: 43ff47b08ffb2304da3ad801c1c8dc54, type: 3}
+  - {fileID: 1074991969011322127, guid: 43ff47b08ffb2304da3ad801c1c8dc54, type: 3}
+  - {fileID: 5176255692344008504, guid: 43ff47b08ffb2304da3ad801c1c8dc54, type: 3}
+  m_MinSpeed: 4
+  m_MaxSpeed: 4
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 1

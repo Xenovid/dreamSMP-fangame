@@ -1,45 +1,87 @@
+using UnityEngine;
 using Unity.Entities;
 using Unity.Entities.Serialization;
-using Unity.Collections;
 using Unity.Scenes;
-using UnityEngine;
+using Unity.Collections;
 
-public class SaveAndLoadSystem : SystemBase
+public class SaveAndLoadSystem : MonoBehaviour
 {
-    ReferencedUnityObjects test;
-    SceneSystem tes;
-    protected override void OnStartRunning()
+    ReferencedUnityObjects g;
+    //Data dataHold;
+    string json;
+    int i = 0;
+ 
+    void Start()
     {
-        
-        tes = World.GetOrCreateSystem<SceneSystem>();
-        test = ScriptableObject.CreateInstance<ReferencedUnityObjects>();
+        //dataHold = new Data();
+        g = ScriptableObject.CreateInstance<ReferencedUnityObjects>();
     }
-    protected override void OnUpdate()
+ 
+    void Update()
     {
-        
-        
-        if(Input.GetKeyDown(KeyCode.A)){
-            EntityManager.CompleteAllJobs();
-            Save();
-        }
-        
+        if (Input.GetKeyDown(KeyCode.F1))
+            save();
+        if (Input.GetKeyDown(KeyCode.F2))
+            load();
     }
-    public void Save(){
-        /*tes.GetSceneEntity(SubSceneReferences.Instance.WorldSubScene.SceneGUID);
-        
-        World testWorld = new World("hi");
-        NativeArray<Entity> ent =  World.DefaultGameObjectInjectionWorld.EntityManager.CreateEntityQuery( typeof(CaravanTag), typeof(SceneTag)).ToEntityArray(Unity.Collections.Allocator.Persistent);
-        testWorld.EntityManager.CopyEntitiesFrom(World.DefaultGameObjectInjectionWorld.EntityManager, ent);; 
-         
-        //testWorld.EntityManager.MoveEntitiesFrom(World.DefaultGameObjectInjectionWorld.EntityManager);
-
-        using( var writer = new StreamBinaryWriter(Application.dataPath + "/save")){
-            SerializeUtility.SerializeWorld(testWorld.EntityManager,writer);
-            //SerializeUtilityHybrid.Serialize(testWorld.EntityManager, writer,out test);
-            Debug.Log("saving");
+ 
+    public void save()
+    {
+        print("save");
+        var seriWorld = new World("Serialization");
+        EntityManager entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+        seriWorld.EntityManager.CopyEntitiesFrom(entityManager, entityManager.GetAllEntities());
+ 
+        EntityQueryDesc queryDesc = new EntityQueryDesc{
+            None = new ComponentType[] {typeof(EntityFollowEntityData), typeof(Camera)},
+            All = new ComponentType[] {typeof(SceneTag)}
+         };
+        var query = seriWorld.EntityManager.CreateEntityQuery(queryDesc);
+        NativeArray<Entity> sceneEntities = query.ToEntityArray(Allocator.Temp);
+        Debug.Log(sceneEntities.Length);
+        foreach(Entity ent in sceneEntities){
+            entityManager.RemoveComponent<SceneTag>(ent);
+            entityManager.RemoveComponent<SceneSection>(ent);
+            entityManager.RemoveComponent<EditorRenderData>(ent);
         }
-        ent.Dispose();
-        testWorld.Dispose();*/
-
+        //seriWorld.EntityManager.DestroyEntity(query)
+        var Tempworld = new World("temp");
+        Tempworld.EntityManager.CopyEntitiesFrom(seriWorld.EntityManager, sceneEntities);
+        sceneEntities.Dispose();
+        unsafe{
+        using (var writer = new StreamBinaryWriter(Application.persistentDataPath + "/save"))
+            SerializeUtilityHybrid.Serialize(Tempworld.EntityManager, writer, out g);
+        }
+        if (g != null)
+        {
+            //dataHold.Array = g.Array;
+            //json = JsonUtility.ToJson(dataHold);
+            //PlayerPrefs.SetString("Data", json);
+        }
+ 
+        seriWorld.Dispose();
+    }
+ 
+    public void load()
+    {
+        print("load");
+        if (g != null)
+        {
+            //var data = PlayerPrefs.GetString("Data");
+            //dataHold = JsonUtility.FromJson<Data>(data);
+            //g.Array = dataHold.Array;
+        }
+ 
+        var oldWorld = World.DefaultGameObjectInjectionWorld;
+        var newWorld = DefaultWorldInitialization.Initialize("NewWorld " + (i++));
+        var newManager = newWorld.EntityManager;
+        /*using (var reader = new MyStreamBinaryReader(Application.persistentDataPath + "/save"))
+            SerializeUtilityHybrid.Deserialize(newManager, reader, g);
+ 
+        BlockLibrary.Instance.MovePrefabWorld(newWorld);*/
+ 
+ 
+        oldWorld.Dispose();
     }
 }
+
