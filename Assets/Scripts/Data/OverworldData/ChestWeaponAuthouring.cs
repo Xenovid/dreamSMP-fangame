@@ -11,7 +11,8 @@ public class ChestWeaponConversionSystem : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
-       Entities.ForEach((Entity entity, ChestWeaponAuthouring chestWeapon) =>{
+       Entities.ForEach(( ChestWeaponAuthouring chestWeapon) =>{
+              Entity entity = GetPrimaryEntity(chestWeapon);
               Weapon newWeapon = WeaponConversionSystem.WeaponInfoToWeapon(chestWeapon.weaponInfo);
               DstEntityManager.AddComponentData(entity, new ChestWeaponData{weapon = newWeapon});
        });

@@ -12,7 +12,8 @@ public class ChestCharmConversionSystem : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
-        Entities.ForEach((Entity entity, ChestCharmAuthouring chestCharm) =>{
+        Entities.ForEach((ChestCharmAuthouring chestCharm) =>{
+            Entity entity = GetPrimaryEntity(chestCharm);
             Charm newCharm = new Charm{
                 name = chestCharm.charmInfo.name,
                 description = chestCharm.charmInfo.description

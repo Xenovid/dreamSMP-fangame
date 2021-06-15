@@ -6,7 +6,9 @@ public class TileMapConversion : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
-        Entities.ForEach((Tilemap tileMap, TilemapRenderer renderer) =>
+        Entities
+        .WithNone<TilemapCollider2D>()
+        .ForEach((Tilemap tileMap, TilemapRenderer renderer) =>
         {
             AddHybridComponent(tileMap.layoutGrid);
             AddHybridComponent(tileMap);

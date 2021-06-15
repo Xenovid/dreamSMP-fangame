@@ -11,7 +11,8 @@ public class ChestArmorConversion : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
-        Entities.ForEach((Entity entity, ChestArmorAuthouring chestArmor) =>{
+        Entities.ForEach(( ChestArmorAuthouring chestArmor) =>{
+            Entity entity = GetPrimaryEntity(chestArmor);
             Armor newArmor = new Armor{
                 defense = chestArmor.armorInfo.defense,
                 name = chestArmor.armorInfo.name,

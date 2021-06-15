@@ -21,7 +21,7 @@ public class MovementSystem : SystemBase
         OverworldInputData input = uiInputQuery.GetSingleton<OverworldInputData>();
 
         Entities
-        .ForEach((ref Rotation rot,ref MovementData move, ref PhysicsVelocity vel) =>
+        .ForEach((ref Rotation rot,ref MovementData move, ref PhysicsVelocity vel, ref Translation translation) =>
         {
             move.direction = new float3(input.moveHorizontal, input.moveVertical, 0);
             if(Mathf.Abs(move.direction.x) > Mathf.Abs(move.direction.y))
@@ -47,7 +47,7 @@ public class MovementSystem : SystemBase
                 }
             }
             float3 dir = math.normalizesafe(move.direction);
-                    
+            translation.Value.z = 0;
             vel.Angular = 0;
             rot.Value = quaternion.EulerZXY(new float3(0,0,0));
             float3 sprintBoost = input.sprint ? dir * move.velocity * .9f : 0;

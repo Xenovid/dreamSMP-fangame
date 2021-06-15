@@ -48,10 +48,11 @@ public class ChestTriggerSystem : SystemBase
 
                 if (HasComponent<ChestTag>(entityA) && HasComponent<InteractiveBoxCheckerData>(entityB))
                 {
-                    Debug.Log("hello");
+                    
                     if(GetComponent<InteractiveBoxCheckerData>(entityB).direction == playerMovment.facing){
                         //InputGatheringSystem.currentInput = CurrentInput.ui;
                         if(HasComponent<ChestWeaponData>(entityA)){
+                            Debug.Log("hello");
                             ChestWeaponData weaponData = GetComponent<ChestWeaponData>(entityA);
                             weaponInventory.Insert(0, new WeaponData{weapon = weaponData.weapon});
                             texts.Add(new Text{text = "you obtained a " + weaponData.weapon.name});
@@ -79,11 +80,12 @@ public class ChestTriggerSystem : SystemBase
                 }
                 else if (HasComponent<ChestTag>(entityB) && HasComponent<InteractiveBoxCheckerData>(entityA))
                 {
-                    Debug.Log("hello");
+                   
                     //InputGatheringSystem.currentInput = CurrentInput.ui;
                     Animator animator = EntityManager.GetComponentObject<Animator>(entityB);
                     ChestAnimationData animationData = EntityManager.GetComponentObject<ChestAnimationData>(entityB);
                         if(HasComponent<ChestWeaponData>(entityB)){
+                            Debug.Log("hello");
                             animator.Play(animationData.openAnimationName);
                             ChestWeaponData weaponData = GetComponent<ChestWeaponData>(entityB);
                             weaponInventory.Insert(0, new WeaponData{weapon = weaponData.weapon});

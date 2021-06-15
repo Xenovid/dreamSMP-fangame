@@ -16,8 +16,9 @@ public class InkManagerConversionSystem : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
-        Entities.ForEach((Entity entity, InkManagerDataAuthoring inkManager) => {
+        Entities.ForEach(( InkManagerDataAuthoring inkManager) => {
             //Story temp = new Story(inkManager.inkAsset.text);
+            Entity entity = GetPrimaryEntity(inkManager);
             DstEntityManager.AddComponentData(entity,new InkManagerData{inkStory = new Story(inkManager.inkAsset.text), inkAssest = inkManager.inkAsset});
             InkManagerData inkData = DstEntityManager.GetComponentData<InkManagerData>(entity);
         });

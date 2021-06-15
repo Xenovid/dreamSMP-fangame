@@ -12,7 +12,8 @@ public class ChestItemConversionSystem : GameObjectConversionSystem
     protected override void OnUpdate()
     {
         
-        Entities.ForEach((Entity entity, ChestItemAuthouring chestItem) => {
+        Entities.ForEach((ChestItemAuthouring chestItem) => {
+            Entity entity = GetPrimaryEntity(chestItem);
             Item newItem = new Item{
                 itemType = chestItem.item.itemType,
                 name = chestItem.item.name,

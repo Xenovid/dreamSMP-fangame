@@ -596,7 +596,6 @@ public class BattleMenuSystem : SystemBase
                 Vector3 camPo =  cam.WorldToScreenPoint(translation.Value);
                 Vector2 uiPosition =  new Vector2(camPo.x * positionRatio, camPo.y * positionRatio);//root.WorldToLocal(new Vector2(translation.Value.x, translation.Value.y));
                 //uiPosition = new Vector2(uiPosition.x )
-                Debug.Log(uiPosition);
                 newHeadsUpDisplay.Q<VisualElement>("base").style.bottom = uiPosition.y;
                 newHeadsUpDisplay.Q<VisualElement>("base").style.left = uiPosition.x;
                 //newHeadsUpDisplay.transform.position = translation.Value;
