@@ -1,8 +1,8 @@
 using Unity.Mathematics;
 using Unity.Entities;
-
+[System.Serializable]
 [GenerateAuthoringComponent]
-struct MovementData : IComponentData
+public struct MovementData : IComponentData
 {
     public MovementMode movementMode;
     public float3 direction;

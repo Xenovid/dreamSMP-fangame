@@ -3,10 +3,12 @@ using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using Unity.Scenes;
+using System;
 using System.Collections;
 
 public class TitleScreenSystem : SystemBase
 {
+    public event StartGameEventHandler StartGame;
     private titleMenuSelectables currentSelection;
     private SceneSystem sceneSystem;
     private SceneSectionData test;
@@ -57,6 +59,7 @@ public class TitleScreenSystem : SystemBase
                 switch(currentSelection){
                     case(titleMenuSelectables.Start):
                         if(input.goselected){
+                                    StartGame?.Invoke(this, new StartGameEventArgs{saveFileNumber = 0});
                                     AudioManager.playSound("menuchange");
                                     InputGatheringSystem.currentInput = CurrentInput.overworld;
                                     sceneSystem.UnloadScene(SubSceneReferences.Instance.TitleSubScene.SceneGUID);
@@ -239,6 +242,11 @@ public enum titleMenuSelectables{
     Credits,
     Exit
 }
+public class StartGameEventArgs : EventArgs{
+    public int saveFileNumber;
+}
+public delegate void StartGameEventHandler(object sender, StartGameEventArgs e);
+
 public class temp : MonoBehaviour{
     public static void quitGame(){
         Application.Quit(0);

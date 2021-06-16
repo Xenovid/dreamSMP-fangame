@@ -6,7 +6,7 @@ public class WeaponInventoryAuthoring : MonoBehaviour
 {
     public WeaponInfo[] weaponInfos;
 }
-
+[System.Serializable]
 public struct WeaponData : IBufferElementData{
     public Weapon weapon;
 }
@@ -48,7 +48,8 @@ public struct WeaponInfo{
     public SkillInfo weaponSkill;
 }
 [System.Serializable]
-public struct Weapon{
+public struct Weapon {
+    public FixedString32 nome {get; set;}
     public int power;
     public FixedString32 name;
     public FixedString128 description;

@@ -6,7 +6,7 @@ public class ArmorInventoryAuthoring : MonoBehaviour
 {
     public ArmorInfo[] armorInfos;
 }
-
+[System.Serializable]
 public struct ArmorData : IBufferElementData{
     public Armor armor;
 }

@@ -267,7 +267,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!60 &541231328
 PolygonCollider2D:
@@ -71045,6 +71045,7 @@ GameObject:
   - component: {fileID: 623176113}
   - component: {fileID: 623176117}
   - component: {fileID: 623176118}
+  - component: {fileID: 623176119}
   m_Layer: 0
   m_Name: Caravan
   m_TagString: Untagged
@@ -71170,6 +71171,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ConversionMode: 0
+--- !u!114 &623176119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623176112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24d61cd351d60ed4aa050086b4660117, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveID: 2
 --- !u!1 &800008014 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6967261542168547288, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
@@ -71846,7 +71860,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1091308893
 MonoBehaviour:
@@ -72154,7 +72168,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1575903879
 GameObject:
@@ -72203,7 +72217,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1575903882
 MonoBehaviour:
@@ -72317,7 +72331,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1622546713
 Animator:
@@ -72521,6 +72535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad6c5e9862b0b6c49a55ab7af18b8219, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOpen: 0
 --- !u!114 &1622546717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72585,7 +72600,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2041744333
 MonoBehaviour:
@@ -73001,7 +73016,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &108625178374415961
 PrefabInstance:

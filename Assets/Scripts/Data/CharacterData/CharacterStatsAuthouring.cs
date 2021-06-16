@@ -18,7 +18,7 @@ public class CharacterStatsAuthouring : MonoBehaviour{
     public ArmorInfo equipedArmor;
     public CharmInfo equipedCharm;
 }
-
+[System.Serializable]
 public struct CharacterStats : IComponentData
 {
     public float maxHealth;

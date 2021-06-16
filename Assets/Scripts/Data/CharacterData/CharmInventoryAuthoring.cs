@@ -6,7 +6,7 @@ public class CharmInventoryAuthoring : MonoBehaviour
 {
     public CharmInfo[] charmInfos;
 }
-
+[System.Serializable]
 public struct CharmData : IBufferElementData{
     public Charm charm;
 }

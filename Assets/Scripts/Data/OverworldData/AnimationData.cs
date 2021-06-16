@@ -29,5 +29,6 @@ public class AnimationData : IComponentData
 }
 [System.Serializable]
 public struct AnimationSaveData{
-    public AnimatorStateInfo animatorState;
+    public int shortNameHash;
+    public float normilizedtime;
 }

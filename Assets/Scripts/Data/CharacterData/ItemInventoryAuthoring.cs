@@ -6,6 +6,7 @@ public class ItemInventoryAuthoring : MonoBehaviour
 {
     public ItemInfo[] itemInfos;
 }
+[System.Serializable]
 public struct ItemData : IBufferElementData{
     public Item item;
 }
