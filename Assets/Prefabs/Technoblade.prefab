@@ -23,7 +23,8 @@ GameObject:
   - component: {fileID: 3048491766725577472}
   - component: {fileID: 3421703950802469044}
   - component: {fileID: 824294691773278683}
-  - component: {fileID: 5196163436042901569}
+  - component: {fileID: 7013334921349821737}
+  - component: {fileID: 2793789030013601656}
   m_Layer: 0
   m_Name: Technoblade
   m_TagString: Untagged
@@ -525,7 +526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeFromLastDamageTick: 0
---- !u!114 &5196163436042901569
+--- !u!114 &7013334921349821737
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -534,7 +535,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 108625178797338088}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24d61cd351d60ed4aa050086b4660117, type: 3}
+  m_Script: {fileID: 11500000, guid: f1d8502a4e8c0e046b5d1a1d4430c1f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2793789030013601656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108625178797338088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 077b282e43b69114e81ec0b47c833caf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   saveID: 1

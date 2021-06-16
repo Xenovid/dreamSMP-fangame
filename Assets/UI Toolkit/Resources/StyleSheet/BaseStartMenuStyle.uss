@@ -21,3 +21,23 @@
 .not_selected {
     background-color: rgb(60, 99, 66);
 }
+
+.title_button {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.file_selected {
+    background-color: rgba(96, 96, 96, 255);
+}
+
+.file_not_selected {
+    background-color: rgba(31, 31, 31, 255);
+}
+
+.unity-text-element {
+    color: rgba(255, 255, 255, 255);
+    -unity-font-definition: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7 SDF');
+}

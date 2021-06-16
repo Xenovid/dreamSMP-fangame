@@ -4,11 +4,14 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using Unity.Scenes;
 using System;
+using System.IO;
 using System.Collections;
 
 public class TitleScreenSystem : SystemBase
 {
+    int currentSaveFile;
     public event StartGameEventHandler StartGame;
+    public event EventHandler StartNewGame;
     private titleMenuSelectables currentSelection;
     private SceneSystem sceneSystem;
     private SceneSectionData test;
@@ -20,6 +23,7 @@ public class TitleScreenSystem : SystemBase
 
     protected override void OnStartRunning()
     {
+        
         sceneSystem = World.GetOrCreateSystem<SceneSystem>();
         base.OnStartRunning();
 
@@ -51,45 +55,121 @@ public class TitleScreenSystem : SystemBase
             else{
                 //references to the ui
                 VisualElement startButton = root.Q<VisualElement>("Start");
+                VisualElement continueButton = root.Q<VisualElement>("Continue");
                 VisualElement optionsButton = root.Q<VisualElement>("Options");
                 VisualElement creditsButton = root.Q<VisualElement>("Credits");
                 VisualElement exitButton = root.Q<VisualElement>("exit");
                 VisualElement titleBackground =root.Q<VisualElement>("title_background");
                 VisualElement creditsBackground = root.Q<VisualElement>("credits_background");
+                VisualElement fileSelectBackground = root.Q<VisualElement>("file_select");
                 switch(currentSelection){
                     case(titleMenuSelectables.Start):
                         if(input.goselected){
-                                    StartGame?.Invoke(this, new StartGameEventArgs{saveFileNumber = 0});
+                                    StartNewGame?.Invoke(this, EventArgs.Empty);
                                     AudioManager.playSound("menuchange");
                                     InputGatheringSystem.currentInput = CurrentInput.overworld;
                                     sceneSystem.UnloadScene(SubSceneReferences.Instance.TitleSubScene.SceneGUID);
-                                    sceneSystem.LoadSceneAsync(SubSceneReferences.Instance.WorldSubScene.SceneGUID);
                                     AudioManager.stopSong("menuMusic");
                                     isLinked = false;
                                     //Enabled = false;
                                 }
                         else if(input.moveup){
-                                    AudioManager.playSound("menuchange");
-                                    currentSelection = titleMenuSelectables.Exit;
+                            AudioManager.playSound("menuchange");
+                            currentSelection = titleMenuSelectables.Exit;
 
-                                    exitButton.RemoveFromClassList("not_selected");
-                                    exitButton.AddToClassList("selected");
+                            exitButton.RemoveFromClassList("not_selected");
+                            exitButton.AddToClassList("selected");
 
-                                    startButton.RemoveFromClassList("selected");
-                                    startButton.AddToClassList("not_selected");
+                            startButton.RemoveFromClassList("selected");
+                            startButton.AddToClassList("not_selected");
 
-                                }
+                        }
                         else if(input.movedown){
-                                    AudioManager.playSound("menuchange");
-                                    currentSelection = titleMenuSelectables.Options;
+                            // only allows to select the continue button if there is a save
+                            if(Directory.Exists(Application.persistentDataPath + "/save1") || Directory.Exists(Application.persistentDataPath + "/save2")){
+                                AudioManager.playSound("menuchange");
+                                currentSelection = titleMenuSelectables.Continue;
 
-                                    optionsButton.RemoveFromClassList("not_selected");
-                                    optionsButton.AddToClassList("selected");
+                                continueButton.RemoveFromClassList("not_selected");
+                                continueButton.AddToClassList("selected");
 
-                                    startButton.RemoveFromClassList("selected");
-                                    startButton.AddToClassList("not_selected");
-                                }
+                                startButton.RemoveFromClassList("selected");
+                                startButton.AddToClassList("not_selected");
+                            }
+                            else{
+                                AudioManager.playSound("menuchange");
+                                currentSelection = titleMenuSelectables.Options;
+
+                                optionsButton.RemoveFromClassList("not_selected");
+                                optionsButton.AddToClassList("selected");
+
+                                startButton.RemoveFromClassList("selected");
+                                startButton.AddToClassList("not_selected");
+                            }
+                        }
                         break;
+                    case(titleMenuSelectables.Continue):
+                        if(isSelected){
+                            if(input.goback){
+                                UnSelectFile(fileSelectBackground.Q<VisualElement>("file" + currentSaveFile.ToString()));
+                                isSelected = false;
+                            }
+                            else if(input.goselected){
+                                StartGame?.Invoke(this, new StartGameEventArgs{saveFileNumber = currentSaveFile});
+                                AudioManager.playSound("menuchange");
+                                InputGatheringSystem.currentInput = CurrentInput.overworld;
+                                sceneSystem.UnloadScene(SubSceneReferences.Instance.TitleSubScene.SceneGUID);
+                                AudioManager.stopSong("menuMusic");
+                                isLinked = false;
+                            }
+                            else if((input.moveup && Directory.Exists(Application.persistentDataPath + "/save" + (currentSaveFile - 1).ToString())) && currentSaveFile > 1){
+                                AudioManager.playSound("menuchange");
+                                UnSelectFile(fileSelectBackground.Q<VisualElement>("file" + currentSaveFile.ToString()));
+                                currentSaveFile--;
+                                SelectFile(fileSelectBackground.Q<VisualElement>("file" + currentSaveFile.ToString()));
+                            }
+                            else if((input.movedown && Directory.Exists(Application.persistentDataPath + "/save" + (currentSaveFile + 1).ToString())) && currentSaveFile < 2){
+                                AudioManager.playSound("menuchange");
+                                UnSelectFile(fileSelectBackground.Q<VisualElement>("file" + currentSaveFile.ToString()));
+                                currentSaveFile++;
+                                SelectFile(fileSelectBackground.Q<VisualElement>("file" + currentSaveFile.ToString()));
+                            }
+                        }
+                        else if(input.goselected){
+                            AudioManager.playSound("menuchange");
+
+                            for(int i = 1; i <= 2; i++){
+                                if(Directory.Exists(Application.persistentDataPath + "/save" + i.ToString())){
+                                    currentSaveFile = i;
+                                    SelectFile(fileSelectBackground.Q<VisualElement>("file" + i.ToString()));
+                                    break;
+                                }
+                            }
+                            fileSelectBackground.visible = true;
+                            titleBackground.visible = false;
+                            isSelected = true;
+                        }
+                        else if(input.moveup){
+                            AudioManager.playSound("menuchange");
+                            currentSelection = titleMenuSelectables.Start;
+
+                            startButton.RemoveFromClassList("not_selected");
+                            startButton.AddToClassList("selected");
+
+                            continueButton.RemoveFromClassList("selected");
+                            continueButton.AddToClassList("not_selected");
+                        }
+                        else if(input.movedown){
+                            AudioManager.playSound("menuchange");
+                            currentSelection = titleMenuSelectables.Options;
+
+                            optionsButton.RemoveFromClassList("not_selected");
+                            optionsButton.AddToClassList("selected");
+
+                            continueButton.RemoveFromClassList("selected");
+                            continueButton.AddToClassList("not_selected");
+                        }
+                    break;
                             case(titleMenuSelectables.Options):
                                 if(isSelected){
                                     //do nothing, waiting for player to exit the settings
@@ -110,14 +190,26 @@ public class TitleScreenSystem : SystemBase
                                     settingsMenuSystem.ActivateMenu();
                                 }
                                 else if(input.moveup){
-                                    AudioManager.playSound("menuchange");
-                                    currentSelection = titleMenuSelectables.Start;
+                                    if(Directory.Exists(Application.persistentDataPath + "/save1") || Directory.Exists(Application.persistentDataPath + "/save2")){
+                                        AudioManager.playSound("menuchange");
+                                        currentSelection = titleMenuSelectables.Continue;
 
-                                    startButton.RemoveFromClassList("not_selected");
-                                    startButton.AddToClassList("selected");
+                                        continueButton.RemoveFromClassList("not_selected");
+                                        continueButton.AddToClassList("selected");
 
-                                    optionsButton.RemoveFromClassList("selected");
-                                    optionsButton.AddToClassList("not_selected");
+                                        optionsButton.RemoveFromClassList("selected");
+                                        optionsButton.AddToClassList("not_selected");
+                                    }
+                                    else{
+                                        AudioManager.playSound("menuchange");
+                                        currentSelection = titleMenuSelectables.Start;
+
+                                        startButton.RemoveFromClassList("not_selected");
+                                        startButton.AddToClassList("selected");
+
+                                        optionsButton.RemoveFromClassList("selected");
+                                        optionsButton.AddToClassList("not_selected");
+                                    }
                                 }
                                 else if(input.movedown){
                                     AudioManager.playSound("menuchange");
@@ -229,6 +321,15 @@ public class TitleScreenSystem : SystemBase
     private void ReactivateTitle_OnSettingsExit(System.Object sender, System.EventArgs e){
         isInSettings = false;
     }
+    public void SelectFile(VisualElement file){
+        file.RemoveFromClassList("file_not_selected");
+        file.AddToClassList("file_selected");
+    }
+    public void UnSelectFile(VisualElement file){
+        file.RemoveFromClassList("file_selected");
+        file.AddToClassList("file_not_selected");
+    }
+
 }
 
 public enum currentTitleMenu{
@@ -237,11 +338,13 @@ public enum currentTitleMenu{
     Credits
 }
 public enum titleMenuSelectables{
-    Start, 
+    Start,
+    Continue, 
     Options,
     Credits,
     Exit
 }
+
 public class StartGameEventArgs : EventArgs{
     public int saveFileNumber;
 }

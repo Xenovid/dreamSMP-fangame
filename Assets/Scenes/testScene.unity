@@ -186,6 +186,7 @@ MonoBehaviour:
   pauseMenuSubScene: {fileID: 0}
   WorldSubScene: {fileID: 857372186}
   TitleSubScene: {fileID: 1870350553}
+  PlayerSubScene: {fileID: 0}
 --- !u!4 &40501610
 Transform:
   m_ObjectHideFlags: 0
@@ -231,7 +232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _SceneAsset: {fileID: 102900000, guid: bd5411a717ac0df80bba2a9b7ae75cad, type: 3}
   _HierarchyColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  AutoLoadScene: 1
+  AutoLoadScene: 0
   _SceneGUID:
     Value:
       x: 2047952347
@@ -456,7 +457,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _SceneAsset: {fileID: 102900000, guid: cca4bbc87c59149b6820fd8a1076318a, type: 3}
   _HierarchyColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  AutoLoadScene: 0
+  AutoLoadScene: 1
   _SceneGUID:
     Value:
       x: 2361084620
