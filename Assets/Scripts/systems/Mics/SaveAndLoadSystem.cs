@@ -262,7 +262,7 @@ public class SaveAndLoadSystem : SystemBase
         }
         LoadCurrentSubscenes(e.saveFileNumber);
         // loads the players
-        //sceneSystem.LoadSceneAsync(SubSceneReferences.Instance.PlayerSubScene.SceneGUID);
+        sceneSystem.LoadSceneAsync(SubSceneReferences.Instance.EssentialsSubScene.SceneGUID);
         
     }
     public void CreateSaveFiles(){
@@ -304,6 +304,7 @@ public class SaveAndLoadSystem : SystemBase
             File.Delete(file);
         }
         sceneSystem.LoadSceneAsync(SubSceneReferences.Instance.WorldSubScene.SceneGUID);
+        sceneSystem.LoadSceneAsync(SubSceneReferences.Instance.EssentialsSubScene.SceneGUID);
     }
 
     public void LoadSaveUI(System.Object sender, SavePointEventArg e){

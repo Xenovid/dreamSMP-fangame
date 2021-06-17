@@ -11,7 +11,7 @@ public class SubSceneReferences : MonoBehaviour
     public SubScene pauseMenuSubScene;
     public SubScene WorldSubScene;
     public SubScene TitleSubScene;
-    public SubScene PlayerSubScene;
+    public SubScene EssentialsSubScene;
 
     private void Awake() {
         Instance = this;

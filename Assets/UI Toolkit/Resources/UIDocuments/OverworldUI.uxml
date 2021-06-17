@@ -5,7 +5,7 @@
         <ui:VisualElement name="CharacterImage" style="width: 11%;" />
         <ui:Label display-tooltip-when-elided="true" name="TextBoxText" class="text" style="flex-grow: 1; font-size: 20px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
     </ui:VisualElement>
-    <ui:VisualElement name="file_select" style="position: absolute; width: 100%; height: 100%; visibility: hidden; background-color: rgb(60, 60, 60); align-items: stretch;">
+    <ui:VisualElement name="file_select" style="position: absolute; width: 100%; height: 100%; visibility: hidden; background-color: rgba(60, 60, 60, 0.11); align-items: stretch;">
         <ui:Instance template="SaveFile" name="save_file1" style="align-items: center; justify-content: space-between; flex-grow: 1;" />
         <ui:Instance template="SaveFile" name="save_file2" style="position: relative; flex-grow: 1; align-items: center;" />
     </ui:VisualElement>

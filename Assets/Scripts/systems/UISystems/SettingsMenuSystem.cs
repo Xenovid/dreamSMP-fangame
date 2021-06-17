@@ -118,6 +118,7 @@ public class SettingsMenuSystem : SystemBase
                                     OnTitleReturn?.Invoke(this, EventArgs.Empty);
                                     sceneSystem.LoadSceneAsync(SubSceneReferences.Instance.TitleSubScene.SceneGUID);
                                     sceneSystem.UnloadScene(SubSceneReferences.Instance.WorldSubScene.SceneGUID);
+                                    sceneSystem.UnloadScene(SubSceneReferences.Instance.EssentialsSubScene.SceneGUID);
                                     AudioManager.playSong("menuMusic");
                                 }
                             break;
