@@ -30,14 +30,19 @@
 }
 
 .file_selected {
-    background-color: rgba(96, 96, 96, 255);
+    background-color: rgb(96, 96, 96);
 }
 
 .file_not_selected {
-    background-color: rgba(31, 31, 31, 255);
+    background-color: rgb(31, 31, 31);
 }
 
 .unity-text-element {
-    color: rgba(255, 255, 255, 255);
+    color: rgb(255, 255, 255);
     -unity-font-definition: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7 SDF');
+}
+
+.unselectable {
+    background-color: rgb(46, 46, 46);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
 }

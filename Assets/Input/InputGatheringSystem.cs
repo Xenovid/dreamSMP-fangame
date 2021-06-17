@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [AlwaysUpdateSystem]
+[UpdateBefore(typeof(SaveTriggerSystem))]
+[UpdateBefore(typeof(SaveAndLoadSystem))]
 [UpdateBefore(typeof(MovementSystem))]
 [UpdateBefore(typeof(CreditsMenuSystem))]
 [UpdateBefore(typeof(OptionMenuSystem))]

@@ -1,19 +1,19 @@
 using Unity.Entities;
-
+[AlwaysUpdateSystem]
 public class TrackTimeSystem : SystemBase
 {
     EntityQuery timeQuery;
     protected override void OnCreate()
     {
-        timeQuery = GetEntityQuery(typeof(TimePassedData));
+        timeQuery = GetEntityQuery(typeof(SavePointData));
     }
     protected override void OnUpdate()
     {
         if(timeQuery.CalculateEntityCount() == 0){
-            EntityManager.CreateEntity(typeof(TimePassedData));
+            EntityManager.CreateEntity(typeof(SavePointData));
         }
-        TimePassedData time = timeQuery.GetSingleton<TimePassedData>();
+        SavePointData time = timeQuery.GetSingleton<SavePointData>();
         time.timePassed += Time.DeltaTime;
-        timeQuery.SetSingleton<TimePassedData>(time);
+        timeQuery.SetSingleton<SavePointData>(time);
     }
 }

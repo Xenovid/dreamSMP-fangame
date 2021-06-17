@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="/Assets/UI Toolkit/Resources/StyleSheet/SaveFileStlyeSheet.uss" />
+    <ui:VisualElement name="background" class="file_not_selected" style="width: 90%; height: 90%; margin-top: 20px;">
+        <ui:Label text="SaveArea&#10;" display-tooltip-when-elided="true" name="location" style="font-size: 20px; -unity-text-align: upper-center;" />
+        <ui:Label text="Time: 00 : 00 : 00" display-tooltip-when-elided="true" name="time" style="font-size: 15px;" />
+    </ui:VisualElement>
+</ui:UXML>

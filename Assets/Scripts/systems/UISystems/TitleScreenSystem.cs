@@ -55,6 +55,7 @@ public class TitleScreenSystem : SystemBase
                 Debug.Log("root wasn't found");
             }
             else{
+                
                 //references to the ui
                 VisualElement startButton = root.Q<VisualElement>("Start");
                 VisualElement continueButton = root.Q<VisualElement>("Continue");
@@ -64,6 +65,11 @@ public class TitleScreenSystem : SystemBase
                 VisualElement titleBackground =root.Q<VisualElement>("title_background");
                 VisualElement creditsBackground = root.Q<VisualElement>("credits_background");
                 VisualElement fileSelectBackground = root.Q<VisualElement>("file_select");
+
+                if(! (File.Exists(Application.persistentDataPath + "/save1" + "/SavePointData") || File.Exists(Application.persistentDataPath + "/save2" + "/SavePointData"))){
+                    continueButton.RemoveFromClassList("not_selected");
+                    continueButton.AddToClassList("unselectable");
+                }
                 switch(currentSelection){
                     case(titleMenuSelectables.Start):
                         if(input.goselected){
@@ -75,7 +81,7 @@ public class TitleScreenSystem : SystemBase
                                     isLinked = false;
                                     //Enabled = false;
                                 }
-                        else if(input.moveup){
+                        /*else if(input.moveup){
                             AudioManager.playSound("menuchange");
                             currentSelection = titleMenuSelectables.Exit;
 
@@ -85,10 +91,10 @@ public class TitleScreenSystem : SystemBase
                             startButton.RemoveFromClassList("selected");
                             startButton.AddToClassList("not_selected");
 
-                        }
+                        }*/
                         else if(input.movedown){
                             // only allows to select the continue button if there is a save
-                            if(Directory.Exists(Application.persistentDataPath + "/save1") || Directory.Exists(Application.persistentDataPath + "/save2")){
+                            if(File.Exists(Application.persistentDataPath + "/save1" + "/SavePointData") || File.Exists(Application.persistentDataPath + "/save2" + "/SavePointData")){
                                 AudioManager.playSound("menuchange");
                                 currentSelection = titleMenuSelectables.Continue;
 
@@ -113,8 +119,10 @@ public class TitleScreenSystem : SystemBase
                     case(titleMenuSelectables.Continue):
                         if(isSelected){
                             if(input.goback){
-                                UnSelectFile(fileSelectBackground.Q<VisualElement>("file" + currentSaveFile.ToString()));
+                                UnSelectFile(fileSelectBackground.Q<VisualElement>("save_file" + currentSaveFile.ToString()));
                                 isSelected = false;
+                                fileSelectBackground.visible = false;
+                                titleBackground.visible =true;
                             }
                             else if(input.goselected){
                                 StartGame?.Invoke(this, new StartGameEventArgs{saveFileNumber = currentSaveFile});
@@ -123,46 +131,27 @@ public class TitleScreenSystem : SystemBase
                                 sceneSystem.UnloadScene(SubSceneReferences.Instance.TitleSubScene.SceneGUID);
                                 AudioManager.stopSong("menuMusic");
                                 isLinked = false;
+                                isSelected = false;
+                                currentSelection = titleMenuSelectables.Start;
                             }
-                            else if((input.moveup && Directory.Exists(Application.persistentDataPath + "/save" + (currentSaveFile - 1).ToString())) && currentSaveFile > 1){
+                            else if((input.moveup && File.Exists(Application.persistentDataPath + "/save" + (currentSaveFile - 1).ToString() + "/SavePointData")) && currentSaveFile > 1){
                                 AudioManager.playSound("menuchange");
-                                UnSelectFile(fileSelectBackground.Q<VisualElement>("file" + currentSaveFile.ToString()));
+                                UnSelectFile(fileSelectBackground.Q<VisualElement>("save_file" + currentSaveFile.ToString()));
                                 currentSaveFile--;
-                                SelectFile(fileSelectBackground.Q<VisualElement>("file" + currentSaveFile.ToString()));
+                                SelectFile(fileSelectBackground.Q<VisualElement>("save_file" + currentSaveFile.ToString()));
                             }
-                            else if((input.movedown && Directory.Exists(Application.persistentDataPath + "/save" + (currentSaveFile + 1).ToString())) && currentSaveFile < 2){
+                            else if((input.movedown && File.Exists(Application.persistentDataPath + "/save" + (currentSaveFile + 1).ToString() + "/SavePointData")) && currentSaveFile < 2){
                                 AudioManager.playSound("menuchange");
-                                UnSelectFile(fileSelectBackground.Q<VisualElement>("file" + currentSaveFile.ToString()));
+                                UnSelectFile(fileSelectBackground.Q<VisualElement>("save_file" + currentSaveFile.ToString()));
                                 currentSaveFile++;
-                                SelectFile(fileSelectBackground.Q<VisualElement>("file" + currentSaveFile.ToString()));
+                                SelectFile(fileSelectBackground.Q<VisualElement>("save_file" + currentSaveFile.ToString()));
                             }
                         }
                         else if(input.goselected){
                             AudioManager.playSound("menuchange");
-                            bool selectedFile = false;
-                            for(int i = 1; i <= 2; i++){
-                                if(Directory.Exists(Application.persistentDataPath + "/save" + i.ToString())){
-                                    currentSaveFile = i;
-
-                                    string savePath = Application.persistentDataPath + "/save" + i.ToString() + "/time";
-                                    string jsonString = File.ReadAllText(savePath);
-                                    TimePassedData timePassedData = JsonUtility.FromJson<TimePassedData>(jsonString);
-
-                                    int hours = (int) timePassedData.timePassed / 3600;
-                                    float remander = timePassedData.timePassed - (hours * 3600);
-                                    int minutes = (int) remander / 60;
-                                    remander -= minutes * 60;
-                                    int seconds = (int) remander;
-
-                                    
-
-                                    if(!selectedFile){
-                                        SelectFile(fileSelectBackground.Q<VisualElement>("file" + i.ToString()));
-                                        selectedFile = true;
-                                    }
-                                    break;
-                                }
-                            }
+                            UpdateSaveFileUI(fileSelectBackground);
+                                
+                            
                             fileSelectBackground.visible = true;
                             titleBackground.visible = false;
                             isSelected = true;
@@ -208,7 +197,7 @@ public class TitleScreenSystem : SystemBase
                                     settingsMenuSystem.ActivateMenu();
                                 }
                                 else if(input.moveup){
-                                    if(Directory.Exists(Application.persistentDataPath + "/save1") || Directory.Exists(Application.persistentDataPath + "/save2")){
+                                    if(File.Exists(Application.persistentDataPath + "/save1" + "/SavePointData") || File.Exists(Application.persistentDataPath + "/save1" + "/SavePointData")){
                                         AudioManager.playSound("menuchange");
                                         currentSelection = titleMenuSelectables.Continue;
 
@@ -340,12 +329,49 @@ public class TitleScreenSystem : SystemBase
         isInSettings = false;
     }
     public void SelectFile(VisualElement file){
-        file.RemoveFromClassList("file_not_selected");
-        file.AddToClassList("file_selected");
+        VisualElement background = file.Q<VisualElement>("background");
+        background.RemoveFromClassList("file_not_selected");
+        background.AddToClassList("file_selected");
     }
     public void UnSelectFile(VisualElement file){
-        file.RemoveFromClassList("file_selected");
-        file.AddToClassList("file_not_selected");
+        VisualElement background = file.Q<VisualElement>("background");
+        background.RemoveFromClassList("file_selected");
+        background.AddToClassList("file_not_selected");
+    }
+    public void UpdateSaveFileUI(VisualElement saveFileUI){
+        bool selectedFile = false;
+        for(int i = 1; i <= 2; i++){
+            if(File.Exists(Application.persistentDataPath + "/save" + i.ToString() + "/SavePointData")){
+                
+                TemplateContainer fileContainer = saveFileUI.Q<TemplateContainer>("save_file" + i.ToString());
+                VisualElement currentFile = fileContainer.Q<VisualElement>("background");
+
+                Label currentTime = currentFile.Q<Label>("time");
+                
+
+                string savePath = Application.persistentDataPath + "/save" + i.ToString() + "/SavePointData";
+                string jsonString = File.ReadAllText(savePath);
+                SavePointData savePointData = JsonUtility.FromJson<SavePointData>(jsonString);
+
+                float remainder = savePointData.timePassed;
+                int hours = (int) remainder / 3600;
+                remainder -= (hours * 3600);
+                int minutes = (int) remainder / 60;
+                remainder -= minutes * 60;
+                int seconds = (int) remainder;
+                                    
+                currentTime.text = "Time: " + hours.ToString() + " : " + minutes.ToString() + " : " + seconds.ToString();
+
+                Label location = currentFile.Q<Label>("location");
+                location.text = savePointData.savePointName.ToString();
+
+                if(!selectedFile){
+                    currentSaveFile = i;
+                    SelectFile(currentFile);
+                    selectedFile = true;
+                }
+            }
+        }
     }
 
 }

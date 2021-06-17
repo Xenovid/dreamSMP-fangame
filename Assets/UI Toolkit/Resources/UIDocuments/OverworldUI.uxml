@@ -1,15 +1,12 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="SaveFile" src="SaveFile.uxml" />
     <Style src="/Assets/UI Toolkit/Resources/StyleSheet/OverworldStlyeSheet.uss" />
     <ui:VisualElement name="TextBoxUI" class="base" style="top: 80%; flex-direction: row; height: 20%; background-color: rgb(89, 89, 89); visibility: hidden; border-top-color: rgb(29, 29, 29); border-top-width: 5px;">
         <ui:VisualElement name="CharacterImage" style="width: 11%;" />
         <ui:Label display-tooltip-when-elided="true" name="TextBoxText" class="text" style="flex-grow: 1; font-size: 20px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
     </ui:VisualElement>
-    <ui:VisualElement name="file_select" style="position: absolute; width: 100%; height: 100%; visibility: hidden; background-color: rgb(60, 60, 60); align-items: center;">
-        <ui:VisualElement name="file1" class="file_selected" style="width: 90%; height: 30%; margin-top: 20px;">
-            <ui:Label text="Save 1&#10;" display-tooltip-when-elided="true" style="font-size: 20px; -unity-text-align: upper-center;" />
-        </ui:VisualElement>
-        <ui:VisualElement name="file2" class="file_not_selected" style="width: 90%; height: 30%; margin-top: 20px;">
-            <ui:Label text="Save 2&#10;" display-tooltip-when-elided="true" style="font-size: 20px; -unity-text-align: upper-center;" />
-        </ui:VisualElement>
+    <ui:VisualElement name="file_select" style="position: absolute; width: 100%; height: 100%; visibility: hidden; background-color: rgb(60, 60, 60); align-items: stretch;">
+        <ui:Instance template="SaveFile" name="save_file1" style="align-items: center; justify-content: space-between; flex-grow: 1;" />
+        <ui:Instance template="SaveFile" name="save_file2" style="position: relative; flex-grow: 1; align-items: center;" />
     </ui:VisualElement>
 </ui:UXML>
