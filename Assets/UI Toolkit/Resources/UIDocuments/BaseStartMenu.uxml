@@ -49,9 +49,11 @@
     <ui:VisualElement name="file_select" style="position: absolute; width: 100%; height: 100%; visibility: hidden; background-color: rgba(60, 60, 60, 255); align-items: center;">
         <ui:VisualElement name="file1" class="file_selected" style="width: 90%; height: 30%; margin-top: 20px;">
             <ui:Label text="Save 1&#10;" display-tooltip-when-elided="true" style="font-size: 20px; -unity-text-align: upper-center;" />
+            <ui:Label text="Time: 00 : 00 : 00" display-tooltip-when-elided="true" name="time" />
         </ui:VisualElement>
         <ui:VisualElement name="file2" class="file_not_selected" style="width: 90%; height: 30%; margin-top: 20px;">
             <ui:Label text="Save 2&#10;" display-tooltip-when-elided="true" style="font-size: 20px; -unity-text-align: upper-center;" />
+            <ui:Label text="Time: 00 : 00 : 00" display-tooltip-when-elided="true" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

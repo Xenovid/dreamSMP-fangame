@@ -16,6 +16,7 @@ public class TitleScreenSystem : SystemBase
     private SceneSystem sceneSystem;
     private SceneSectionData test;
     private SettingsMenuSystem settingsMenuSystem;
+    SaveAndLoadSystem saveAndLoadSystem;
     private bool isSelected;
     private bool isInSettings;
     private bool isLinked;
@@ -25,6 +26,7 @@ public class TitleScreenSystem : SystemBase
     {
         
         sceneSystem = World.GetOrCreateSystem<SceneSystem>();
+        saveAndLoadSystem = World.GetOrCreateSystem<SaveAndLoadSystem>();
         base.OnStartRunning();
 
         currentSelection = titleMenuSelectables.Start;
@@ -137,11 +139,27 @@ public class TitleScreenSystem : SystemBase
                         }
                         else if(input.goselected){
                             AudioManager.playSound("menuchange");
-
+                            bool selectedFile = false;
                             for(int i = 1; i <= 2; i++){
                                 if(Directory.Exists(Application.persistentDataPath + "/save" + i.ToString())){
                                     currentSaveFile = i;
-                                    SelectFile(fileSelectBackground.Q<VisualElement>("file" + i.ToString()));
+
+                                    string savePath = Application.persistentDataPath + "/save" + i.ToString() + "/time";
+                                    string jsonString = File.ReadAllText(savePath);
+                                    TimePassedData timePassedData = JsonUtility.FromJson<TimePassedData>(jsonString);
+
+                                    int hours = (int) timePassedData.timePassed / 3600;
+                                    float remander = timePassedData.timePassed - (hours * 3600);
+                                    int minutes = (int) remander / 60;
+                                    remander -= minutes * 60;
+                                    int seconds = (int) remander;
+
+                                    
+
+                                    if(!selectedFile){
+                                        SelectFile(fileSelectBackground.Q<VisualElement>("file" + i.ToString()));
+                                        selectedFile = true;
+                                    }
                                     break;
                                 }
                             }

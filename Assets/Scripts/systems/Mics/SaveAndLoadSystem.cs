@@ -141,7 +141,7 @@ public class SaveAndLoadSystem : SystemBase
         .WithStructuralChanges()
         .WithAll<CaravanTag>()
         .ForEach((Entity entity, ref DynamicBuffer<WeaponData> weapons,ref DynamicBuffer<ArmorData> armors,ref DynamicBuffer<CharmData> charms,in ToLoadData loadData ) =>{
-            string savePath = Application.persistentDataPath + "/caravan" + loadData.saveID.ToString();
+            string savePath = Application.persistentDataPath + "/tempsave"+ "/caravan" + loadData.saveID.ToString();
             if(File.Exists(savePath)){
                 string jsonString = File.ReadAllText(savePath);
                 CaravanSaveData caravanSaveData = JsonUtility.FromJson<CaravanSaveData>(jsonString);
@@ -186,7 +186,7 @@ public class SaveAndLoadSystem : SystemBase
         .WithStructuralChanges()
         .WithAll<CaravanTag>()
         .ForEach((in DynamicBuffer<WeaponData> weapons,in DynamicBuffer<ArmorData> armors,in DynamicBuffer<CharmData> charms,in ToSaveTag saveTag ) =>{
-            string savePath = Application.persistentDataPath + "/caravan" + saveTag.saveID.ToString();
+            string savePath = Application.persistentDataPath + "/tempsave" + "/caravan" + saveTag.saveID.ToString();
             CaravanSaveData caravanSaveData = new CaravanSaveData{
                 weaponDatas = weapons.ToNativeArray(Allocator.Temp).ToArray(),
                 armorDatas = armors.ToNativeArray(Allocator.Temp).ToArray(),
@@ -195,6 +195,19 @@ public class SaveAndLoadSystem : SystemBase
             string jsonString = JsonUtility.ToJson(caravanSaveData);
             File.WriteAllText(savePath, jsonString);
         }).Run();
+    }
+    public void LoadTime(int saveFileNumber){
+        string savePath = Application.persistentDataPath + "/save" + saveFileNumber.ToString() + "/time";
+        string jsonString = File.ReadAllText(savePath);
+        TimePassedData timePassedData = JsonUtility.FromJson<TimePassedData>(jsonString);
+        SetSingleton<TimePassedData>(timePassedData);
+    }
+    public void SaveTime(){
+        string savePath = Application.persistentDataPath + "/tempsave"+ "/time";
+        
+        TimePassedData timePassedData = GetSingleton<TimePassedData>();
+        string jsonString = JsonUtility.ToJson(timePassedData);
+        File.WriteAllText(savePath, jsonString);
     }
     public void SaveCurrentSubscenes(){
         List<SubScene> subScenes = new List<SubScene>();
@@ -221,6 +234,7 @@ public class SaveAndLoadSystem : SystemBase
     }
     public void LoadGame(object sender, StartGameEventArgs e){
         string savePath = Application.persistentDataPath + "/save" + e.saveFileNumber.ToString();
+        LoadTime(e.saveFileNumber);
         // clear the temp file
         CreateSaveFiles();
         foreach(string file in Directory.GetFiles(Application.persistentDataPath + "/tempsave")){
