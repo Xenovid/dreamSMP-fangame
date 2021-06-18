@@ -550,12 +550,13 @@ public class BattleMenuSystem : SystemBase
         InputGatheringSystem.currentInput = CurrentInput.overworld;
         transitionSystem.OnTransitionEnd -= ResumeGameWorld_OnTransitionEnd;
     }
-    private void DisableMenu_OnBattleEnd(System.Object sender, System.EventArgs e){
+    private void DisableMenu_OnBattleEnd(System.Object sender, OnBattleEndEventArgs e){
         battleUI.visible = false;
         enemySelector.visible = false;
         hasBattleStarted = false;
-
-        transitionSystem.OnTransitionEnd += ResumeGameWorld_OnTransitionEnd;
+        if(e.isPlayerVictor){
+            transitionSystem.OnTransitionEnd += ResumeGameWorld_OnTransitionEnd;
+        }
     }
     private void EnableMenu_OnTransitionEnd(System.Object sender, System.EventArgs e){
         if(!hasBattleStarted){
@@ -655,6 +656,17 @@ public class BattleMenuSystem : SystemBase
 
             inkDisplaySystem.DisplayVictoryData();
             inkDisplaySystem.OnWritingFinished += FinishVictoryData_OnWritingFinished;
+        }
+        else{
+            var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
+            Entities
+            .WithoutBurst()
+            .WithStructuralChanges()
+            .ForEach((ref BeforeBattleData beforeBattleData,in Translation translation, in Entity entity) =>
+            {
+                ecb.AddComponent(entity, new TransitionData{newPosition = beforeBattleData.previousLocation, oldPosition = translation.Value});
+                ecb.RemoveComponent<BeforeBattleData>(entity);
+            }).Run();
         }
         
     }

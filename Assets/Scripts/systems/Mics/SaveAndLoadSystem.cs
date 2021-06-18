@@ -80,10 +80,6 @@ public class SaveAndLoadSystem : SystemBase
                 SelectFile(fileSelectBackground.Q<VisualElement>("save_file" + currentSaveFile.ToString()));
             }
         }
-
-        if(Input.GetKeyDown(KeyCode.I)){
-            tempReLoad();
-        }
         LoadSubSceneAssests();
         LoadPlayers();
     }
@@ -228,6 +224,7 @@ public class SaveAndLoadSystem : SystemBase
         List<SubScene> subScenes = new List<SubScene>();
         Entities
         .WithoutBurst()
+        .WithNone<EssentialsSubSceneTag>()
         .ForEach((Entity entity, in SubScene subScene) =>{
             if(sceneSystem.IsSceneLoaded(entity)){
                 subScenes.Add(subScene);
@@ -269,16 +266,33 @@ public class SaveAndLoadSystem : SystemBase
         if(!Directory.Exists(Application.persistentDataPath + "/tempsave")) Directory.CreateDirectory(Application.persistentDataPath + "/tempsave");
         if(!Directory.Exists(Application.persistentDataPath + "/save1")) Directory.CreateDirectory(Application.persistentDataPath + "/save1");
     }
-    public void tempReLoad(){
+    public void UnLoadSubScenes(){
+        
         Entities
         .WithoutBurst()
         .WithStructuralChanges()
         .ForEach((Entity entity, in SubScene subScene) =>{
-            if(sceneSystem.IsSceneLoaded(entity)){
+            if(!(subScene.SceneName == "GameEssentialSubScene")){
                 sceneSystem.UnloadScene(subScene.SceneGUID);
             }
         }).Run();
-        LoadGame(this, new StartGameEventArgs{saveFileNumber = 1});
+    }
+    public void LoadLastSavePoint(){
+        Entities
+        .WithAll<PlayerTag>()
+        .ForEach((ref Translation translation, in ToSaveTag saveTag) =>{
+            string savePath = Application.persistentDataPath + "/tempsave" +  "/player" + saveTag.saveID.ToString();
+            string jsonString = File.ReadAllText(savePath);
+            PlayerSaveData playerSaveData = JsonUtility.FromJson<PlayerSaveData>(jsonString);
+            translation.Value = playerSaveData.trasition;
+        }).Run();
+
+        string savePath = Application.persistentDataPath + "/tempsave" +  "/loadedscenes";
+        string jsonString = File.ReadAllText(savePath);
+        CurrentSubScenesData subScenesData = JsonUtility.FromJson<CurrentSubScenesData>(jsonString);
+        foreach(SubScene subScene in subScenesData.subScenes){
+            sceneSystem.LoadSceneAsync(subScene.SceneGUID);
+        }
     }
     public void SaveGame(int saveFileNumber){
         // To do save everything

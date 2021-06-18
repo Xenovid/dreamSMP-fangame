@@ -4,3 +4,16 @@
 .text {
     color: rgb(255, 255, 255);
 }
+
+.selected {
+    background-color: rgba(89, 89, 89, 255);
+}
+
+.unselected {
+    background-color: rgba(26, 26, 26, 255);
+}
+
+.unity-text-element {
+    color: rgba(255, 255, 255, 255);
+    -unity-font-definition: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7 SDF');
+}

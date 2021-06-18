@@ -1,5 +1,6 @@
 using Unity.Entities;
 using Unity.Mathematics;
+using UnityEngine;
 using Unity.Collections;
 using Unity.Transforms;
 using System.Collections.Generic;
@@ -38,8 +39,8 @@ public class BattleSystem : SystemBase
             NativeArray<CharacterStats> characterStatsList = characterStatsGroup.ToComponentDataArray<CharacterStats>(Allocator.TempJob);
             NativeArray<Entity> characterEntities = characterStatsGroup.ToEntityArray(Allocator.TempJob);
 
-            //int playersDown = 0;
             int enemiesDown = 0;
+            int playersDown = 0;
 
             if(isInBattle){
                   float dt = Time.DeltaTime;
@@ -52,10 +53,20 @@ public class BattleSystem : SystemBase
                               enemiesDown++;
                         }
                   }
+                  
+                  foreach(Entity entity in playerEntities){
+                        if(HasComponent<DownTag>(entity)){
+                              playersDown++;
+                        }
+                  }
                   // once all the enemies are down, the player has won
                   if(enemyEntities.Count == enemiesDown){
-                        EndBattle();
+                        EndBattle(true);
                   }
+                  else if(playerEntities.Count == playersDown){
+                        EndBattle(false);
+                  }
+                  
                   // need to add detection for when the player loses
                   else{
                         Entities
@@ -236,14 +247,14 @@ public class BattleSystem : SystemBase
                   characterEntities.Dispose();
             }
       }
-      public void EndBattle(){
+      public void EndBattle(bool isPlayerVictor){
             isInBattle = false;
             Entities.ForEach((ref CharacterStats characterstats) =>{
                   if(characterstats.health <= 0){
-                        characterstats.health = 1;
+                        characterstats.health = isPlayerVictor ? 1 : characterstats.maxHealth;
                   }
             }).ScheduleParallel();
-            OnBattleEnd?.Invoke(this, new OnBattleEndEventArgs{isPlayerVictor = true});
+            OnBattleEnd?.Invoke(this, new OnBattleEndEventArgs{isPlayerVictor = isPlayerVictor});
       }
       public void AddBattleData_OnTransitionEnd(System.Object sender, System.EventArgs e){
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();

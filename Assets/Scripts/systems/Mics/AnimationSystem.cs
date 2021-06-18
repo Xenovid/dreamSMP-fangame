@@ -112,12 +112,15 @@ public class AnimationSystem : SystemBase
         }
         transitionSystem.OnTransitionEnd += DrawWeapon_OnTransitionEnd;
     }
-    private void SheathWeapon_OnBattleEnd(System.Object sender, System.EventArgs e){
-        foreach(Entity entity in battleSystem.playerEntities){
-            Animator animator = EntityManager.GetComponentObject<Animator>(entity);
-            AnimationData animation = EntityManager.GetComponentObject<AnimationData>(entity);
-            animator.Play(animation.idleRightAnimationName);
+    private void SheathWeapon_OnBattleEnd(System.Object sender, OnBattleEndEventArgs e){
+        if(e.isPlayerVictor){
+            foreach(Entity entity in battleSystem.playerEntities){
+                Animator animator = EntityManager.GetComponentObject<Animator>(entity);
+                AnimationData animation = EntityManager.GetComponentObject<AnimationData>(entity);
+                animator.Play(animation.idleRightAnimationName);
+            }
         }
+        
     }
 }
 

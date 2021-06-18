@@ -348,7 +348,6 @@ public class TitleScreenSystem : SystemBase
 
                 Label currentTime = currentFile.Q<Label>("time");
                 
-
                 string savePath = Application.persistentDataPath + "/save" + i.ToString() + "/SavePointData";
                 string jsonString = File.ReadAllText(savePath);
                 SavePointData savePointData = JsonUtility.FromJson<SavePointData>(jsonString);
