@@ -73,6 +73,7 @@ public class TitleScreenSystem : SystemBase
                 switch(currentSelection){
                     case(titleMenuSelectables.Start):
                         if(input.goselected){
+                            AudioManager.playSound("menuselect");
                                     StartNewGame?.Invoke(this, EventArgs.Empty);
                                     AudioManager.playSound("menuchange");
                                     InputGatheringSystem.currentInput = CurrentInput.overworld;
@@ -119,6 +120,7 @@ public class TitleScreenSystem : SystemBase
                     case(titleMenuSelectables.Continue):
                         if(isSelected){
                             if(input.goback){
+                                AudioManager.playSound("menuback");
                                 UnSelectFile(fileSelectBackground.Q<VisualElement>("save_file" + currentSaveFile.ToString()));
                                 isSelected = false;
                                 fileSelectBackground.visible = false;
@@ -126,7 +128,7 @@ public class TitleScreenSystem : SystemBase
                             }
                             else if(input.goselected){
                                 StartGame?.Invoke(this, new StartGameEventArgs{saveFileNumber = currentSaveFile});
-                                AudioManager.playSound("menuchange");
+                                AudioManager.playSound("menuselect");
                                 InputGatheringSystem.currentInput = CurrentInput.overworld;
                                 sceneSystem.UnloadScene(SubSceneReferences.Instance.TitleSubScene.SceneGUID);
                                 AudioManager.stopSong("menuMusic");
@@ -148,7 +150,7 @@ public class TitleScreenSystem : SystemBase
                             }
                         }
                         else if(input.goselected){
-                            AudioManager.playSound("menuchange");
+                            AudioManager.playSound("menuselect");
                             UpdateSaveFileUI(fileSelectBackground);
                                 
                             
@@ -187,7 +189,7 @@ public class TitleScreenSystem : SystemBase
                                     }
                                 }
                                 else if(input.goselected){
-                                    AudioManager.playSound("menuchange");
+                                    AudioManager.playSound("menuselect");
 
                                     settingsMenuSystem.OnSettingsExit += ReactivateTitle_OnSettingsExit;
 
@@ -257,7 +259,7 @@ public class TitleScreenSystem : SystemBase
                                         isLinked = true;
                                     }
                                     if(input.goback){
-                                        AudioManager.playSound("menuchange");
+                                        AudioManager.playSound("menuback");
                                         creditsBackground.visible = false;
                                         titleBackground.visible = true;
                                         isSelected = false;
@@ -294,7 +296,7 @@ public class TitleScreenSystem : SystemBase
                                 break;
                             case(titleMenuSelectables.Exit):
                                 if(input.goselected){
-                                    AudioManager.playSound("menuchange");
+                                    AudioManager.playSound("menuselect");
                                     Application.Quit();
                                 }
                                 else if(input.moveup){

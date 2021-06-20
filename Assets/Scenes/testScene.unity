@@ -460,13 +460,16 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: bb4229063776b6944833f282fcabad03, type: 3}
     audioSource: {fileID: 0}
     soundName: defeatsong
+  - clip: {fileID: 8300000, guid: 90340eef2c632ed42b3e5a705add0cae, type: 3}
+    audioSource: {fileID: 0}
+    soundName: menuback
+  - clip: {fileID: 8300000, guid: 396f00d5820c4484e982ded74f7bb5b1, type: 3}
+    audioSource: {fileID: 0}
+    soundName: menuselect
   gameMusics:
   - clip: {fileID: 8300000, guid: 0b991bbf5622a9919aebe2f20d50debd, type: 3}
     audioSource: {fileID: 0}
     soundName: tempBattleMusic
-  - clip: {fileID: 8300000, guid: ea659ad0d77e23943a95da052239ba83, type: 3}
-    audioSource: {fileID: 0}
-    soundName: menuMusic
   - clip: {fileID: 8300000, guid: ea659ad0d77e23943a95da052239ba83, type: 3}
     audioSource: {fileID: 0}
     soundName: menuMusic

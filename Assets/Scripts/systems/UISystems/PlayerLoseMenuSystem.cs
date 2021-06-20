@@ -35,6 +35,7 @@ public class PlayerLoseMenuSystem : SystemBase
             switch(currentSelectable){
                 case LoseMenuSelectables.continueButton:
                     if(input.goselected && File.Exists(Application.persistentDataPath + "/tempsave" + "/SavePointData")){
+                        AudioManager.playSound("menuselect");
                         isActive = false;
                         OnContinue?.Invoke(this, EventArgs.Empty);
                         losingBackground.visible = false;
@@ -57,6 +58,7 @@ public class PlayerLoseMenuSystem : SystemBase
                 break;
                 case LoseMenuSelectables.titleScreen:
                     if(input.goselected){
+                        AudioManager.playSound("menuselect");
                         isActive = false;
                         currentSelectable = LoseMenuSelectables.continueButton;
                         sceneSystem.LoadSceneAsync(SubSceneReferences.Instance.TitleSubScene.SceneGUID);

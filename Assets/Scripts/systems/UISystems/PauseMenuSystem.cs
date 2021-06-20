@@ -86,7 +86,6 @@ public class PauseMenuSystem : SystemBase
                     VisualElement pauseBackground = root.Q<VisualElement>("pause_background");
 
                     if(!isPaused && overworldInput.escape){
-                        pauseSystem.Pause();
                         healingSystem.OnHealthChange += UpdateCharacterInfo_OnStatsUpdate;
                         isPaused = true;
                         InputGatheringSystem.currentInput = CurrentInput.ui;
@@ -118,9 +117,11 @@ public class PauseMenuSystem : SystemBase
                             }
                             
                         }
+                        pauseSystem.Pause();
                     }
                     else if(isPaused && !isSelected && uiInput.goback)
                         {
+                            AudioManager.playSound("menuback");
                             pauseSystem.UnPause();
                             isPaused = false;
                             pauseBackground.visible = false;
@@ -150,6 +151,7 @@ public class PauseMenuSystem : SystemBase
                                     }
                                     else if (uiInput.moveright)
                                     {
+                                        AudioManager.playSound("menuchange");
                                         UnselectButton(partyButton);
                                         SelectButton(equipButton);
                                         currentSelection = PauseMenuSelectables.Equip;
@@ -173,6 +175,7 @@ public class PauseMenuSystem : SystemBase
                                         // only used when there is more than one character
                                         if(onCharacterSelect){
                                             if(uiInput.goselected){
+                                                AudioManager.playSound("menuselect");
                                                 onCharacterSelect = false;
                                                 SelectInfoTab(equipmentInfo.Q<VisualElement>("current_equipment"));
                                                 SelectItem(equipmentInfo.Q<Label>("current_weapon"));
@@ -180,6 +183,7 @@ public class PauseMenuSystem : SystemBase
                                             }
                                             else if (uiInput.goback)
                                             {
+                                                AudioManager.playSound("menuback");
                                                 isSelected = false;
                                                 onCharacterSelect = false;
                                                 equipmentInfo.visible = false;
@@ -253,12 +257,14 @@ public class PauseMenuSystem : SystemBase
                                                     break;
                                                 }
                                                 // do the equivalent of goback
+                                                AudioManager.playSound("menuselect");
                                                 onItemSwitch = false;
                                                 currentEquipment.visible = true;
                                                 otherEquipmentBase.visible = false;
                                                 UnSelectItem(otherEquipmentBase.Q<Label>("equip" + (currentSwitchItem + 1).ToString()));
                                             }
                                             else if(uiInput.goback){
+                                                AudioManager.playSound("menuback");
                                                 onItemSwitch = false;
                                                 currentEquipment.visible = true;
                                                 otherEquipmentBase.visible = false;
@@ -270,6 +276,7 @@ public class PauseMenuSystem : SystemBase
 
                                                 }
                                                 else{
+                                                    AudioManager.playSound("menuchange");
                                                     UnSelectItem(otherEquipmentBase.Q<Label>("equip" + (currentSwitchItem + 1).ToString()));
                                                     currentSwitchItem--;
                                                     SelectItem(otherEquipmentBase.Q<Label>("equip" + (currentSwitchItem + 1).ToString()));
@@ -293,11 +300,13 @@ public class PauseMenuSystem : SystemBase
                                                     case Equipment.Weapon:
                                                         // need to make sure that when moving it doesn't go beyond the number of available items
                                                         if(currentSwitchItem < weaponInventory.Length - 1){
+                                                            
                                                             // move the items down when moving down when greater than or equal to 5
                                                             if(currentSwitchItem >= 5){
                                                                 
                                                             }
                                                             else{
+                                                                AudioManager.playSound("menuchange");
                                                                 UnSelectItem(otherEquipmentBase.Q<Label>("equip" + (currentSwitchItem + 1).ToString()));
                                                                 currentSwitchItem++;
                                                                 SelectItem(otherEquipmentBase.Q<Label>("equip" + (currentSwitchItem + 1).ToString()));
@@ -313,6 +322,7 @@ public class PauseMenuSystem : SystemBase
                                                                 
                                                             }
                                                             else{
+                                                                AudioManager.playSound("menuchange");
                                                                 UnSelectItem(otherEquipmentBase.Q<Label>("equip" + (currentSwitchItem + 1).ToString()));
                                                                 currentSwitchItem++;
                                                                 SelectItem(otherEquipmentBase.Q<Label>("equip" + (currentSwitchItem + 1).ToString()));
@@ -328,6 +338,7 @@ public class PauseMenuSystem : SystemBase
                                                                 
                                                             }
                                                             else{
+                                                                AudioManager.playSound("menuchange");
                                                                 UnSelectItem(otherEquipmentBase.Q<Label>("equip" + (currentSwitchItem + 1).ToString()));
                                                                 currentSwitchItem++;
                                                                 SelectItem(otherEquipmentBase.Q<Label>("equip" + (currentSwitchItem + 1).ToString()));
@@ -342,6 +353,7 @@ public class PauseMenuSystem : SystemBase
                                         // gives you the option to switch a piece of equipment or cancel
                                         else if(onQuickMenu){
                                             if(uiInput.goback){
+                                                AudioManager.playSound("menuback");
                                                 UnSelectQuickMenuButton(quickCancel);
                                                 UnSelectQuickMenuButton(quickSwitch);
                                                 equipQuickMenu.visible = false;
@@ -351,6 +363,7 @@ public class PauseMenuSystem : SystemBase
                                                     case QuickMenuSelectables.Switch:
                                                         // opens up the needed menus and sets the values nessasary to switch items
                                                         if(uiInput.goselected){
+                                                            AudioManager.playSound("menuselect");
                                                             // makes the new equipment visable and the current equipment invisable
                                                             otherEquipmentBase.visible = true;
                                                             currentEquipment.visible = false;
@@ -412,6 +425,7 @@ public class PauseMenuSystem : SystemBase
                                                             
                                                         }
                                                         else if(uiInput.movedown){
+                                                            AudioManager.playSound("menuchange");
                                                             currentQuickMenuSelection = QuickMenuSelectables.Cancel;
                                                             UnSelectQuickMenuButton(quickSwitch);
                                                             SelectQuickMenuButton(quickCancel);
@@ -419,12 +433,14 @@ public class PauseMenuSystem : SystemBase
                                                     break;
                                                     case QuickMenuSelectables.Cancel:
                                                         if(uiInput.goselected){
+                                                            AudioManager.playSound("menuselect");
                                                             UnSelectQuickMenuButton(quickCancel);
                                                             UnSelectQuickMenuButton(quickSwitch);
                                                             equipQuickMenu.visible = false;
                                                             onQuickMenu = false;
                                                         }
                                                         else if(uiInput.moveup){
+                                                            AudioManager.playSound("menuchange");
                                                             currentQuickMenuSelection = QuickMenuSelectables.Switch;
                                                             UnSelectQuickMenuButton(quickCancel);
                                                             SelectQuickMenuButton(quickSwitch);
@@ -434,6 +450,7 @@ public class PauseMenuSystem : SystemBase
                                         }
                                         else{
                                             if(uiInput.goselected){
+                                                AudioManager.playSound("menuselect");
                                                 //activate quickmenu
                                                 currentQuickMenuSelection = QuickMenuSelectables.Switch;
                                                 SelectQuickMenuButton(quickSwitch);
@@ -453,6 +470,7 @@ public class PauseMenuSystem : SystemBase
                                             }
                                             else if (uiInput.goback)
                                             {
+                                                AudioManager.playSound("menuback");
                                                 if(playerParty.Length == 1){
                                                     isSelected = false;
                                                     equipmentInfo.visible = false;
@@ -476,6 +494,7 @@ public class PauseMenuSystem : SystemBase
                                                 }
                                             }
                                             else if(uiInput.movedown){
+                                                AudioManager.playSound("menuchange");
                                                 switch(selectedEquipment){
                                                     case Equipment.Weapon:
                                                         selectedEquipment = Equipment.Armor;
@@ -497,6 +516,7 @@ public class PauseMenuSystem : SystemBase
                                                 }
                                             }
                                             else if(uiInput.moveup){
+                                                AudioManager.playSound("menuchange");
                                                 switch(selectedEquipment){
                                                     case Equipment.Weapon:
                                                         //UnSelectItem(currentWeapon);
@@ -521,6 +541,7 @@ public class PauseMenuSystem : SystemBase
                                     // go into the menu
                                     else if (uiInput.goselected)
                                     {
+                                        AudioManager.playSound("menuselect");
                                         isSelected = true;
                                         if(playerParty.Length == 1){
                                             
@@ -543,12 +564,14 @@ public class PauseMenuSystem : SystemBase
                                     // move to the other menus
                                     else if (uiInput.moveleft)
                                     {
+                                        AudioManager.playSound("menuchange");
                                         UnselectButton(equipButton);
                                         SelectButton(partyButton);
                                         currentSelection = PauseMenuSelectables.Party;
                                     }
                                     else if (uiInput.moveright)
                                     {
+                                        AudioManager.playSound("menuchange");
                                         UnselectButton(equipButton);
                                         SelectButton(itemsButton);
                                         currentSelection = PauseMenuSelectables.Items;
@@ -568,12 +591,15 @@ public class PauseMenuSystem : SystemBase
                                         if(onCharacterSelect){
                                             //select a character
                                             if (uiInput.goback) { 
+                                                AudioManager.playSound("menuback");
                                                 isSelected = false;
                                                 itemInfo.visible = false;
                                             }
                                         }
                                         else if(onQuickMenu){
                                             if(uiInput.goback){
+
+                                                AudioManager.playSound("menuback");
                                                 UnSelectQuickMenuButton(quickUseItems);
                                                 UnSelectQuickMenuButton(quickDropItems);
                                                 UnSelectQuickMenuButton(quickGiveItems);
@@ -582,6 +608,7 @@ public class PauseMenuSystem : SystemBase
                                                 onQuickMenu = false;
                                             }
                                             if(uiInput.goselected){
+                                                AudioManager.playSound("menuselect");
                                                 DynamicBuffer<ItemData> itemInventory = GetBuffer<ItemData>(characterEntities[currentCharacter -1]);
                                                 switch(currentQuickMenuSelection){
                                                     case QuickMenuSelectables.Use:
@@ -627,15 +654,18 @@ public class PauseMenuSystem : SystemBase
                                                 }
                                             }
                                             if(uiInput.moveup){
+                                                AudioManager.playSound("menuchange");
                                                 QuickMenuUp(itemsQuickMenu);
                                             }
                                             else if(uiInput.movedown){
+                                                AudioManager.playSound("menuchange");
                                                 QuickMenuDown(itemsQuickMenu);
                                             }
                                         }
                                         else{
                                             DynamicBuffer<ItemData> itemInventory = GetBuffer<ItemData>(characterEntities[currentCharacter -1]);
                                             if(uiInput.goselected && !(currentItem > itemInventory.Length )){
+                                                AudioManager.playSound("menuchange");
                                                 itemsQuickMenu.visible = true;
                                                 onQuickMenu = true;
                                                 placeQuickMenu(itemList.Q<Label>("item" + currentItem), itemsQuickMenu);
@@ -666,6 +696,7 @@ public class PauseMenuSystem : SystemBase
                                                 
                                             }
                                             else if(uiInput.goback){
+                                                AudioManager.playSound("menuback");
                                                 UnSelectItem(itemList.Q<Label>("item" + currentItem));
                                                 if(playerParty.Length == 1){
                                                     isSelected = false;
@@ -679,6 +710,7 @@ public class PauseMenuSystem : SystemBase
                                                 UnselectInfoTab(itemInfo.Q<VisualElement>("item_list"));
                                             }
                                             else if(uiInput.movedown){
+                                                AudioManager.playSound("menuchange");
                                                 if(currentItem < 10){
                                                     UnSelectItem(itemList.Q<Label>("item" + currentItem.ToString()));
                                                     currentItem++;
@@ -699,6 +731,7 @@ public class PauseMenuSystem : SystemBase
                                                 }
                                             }
                                             else if(uiInput.moveup){
+                                                AudioManager.playSound("menuchange");
                                                 if(currentItem > 1){
                                                     UnSelectItem(itemList.Q<Label>("item" + currentItem.ToString()));
                                                     currentItem--;
@@ -719,6 +752,7 @@ public class PauseMenuSystem : SystemBase
                                                 }
                                             }
                                             else if(uiInput.moveleft){
+                                                AudioManager.playSound("menuchange");
                                                 if(currentItem > 5){
                                                     UnSelectItem(itemList.Q<Label>("item" + currentItem.ToString()));
                                                     currentItem-= 5;
@@ -738,6 +772,7 @@ public class PauseMenuSystem : SystemBase
                                                 }
                                             }
                                             else if(uiInput.moveright){
+                                                AudioManager.playSound("menuchange");
                                                 if(currentItem < 6){
                                                     UnSelectItem(itemList.Q<Label>("item" + currentItem.ToString()));
                                                     currentItem+= 5;
@@ -761,6 +796,7 @@ public class PauseMenuSystem : SystemBase
                                     }
                                     else if (uiInput.goselected)
                                     {
+                                        AudioManager.playSound("menuselect");
                                         DynamicBuffer<ItemData> itemInventory = GetBuffer<ItemData>(characterEntities[currentCharacter - 1]);
                                         isSelected = true;
                                         if(playerParty.Length == 1){
@@ -799,6 +835,7 @@ public class PauseMenuSystem : SystemBase
                                     }
                                     else if (uiInput.moveleft)
                                     {
+                                        AudioManager.playSound("menuchange");
                                         UnselectButton(itemsButton);
                                         SelectButton(equipButton);
                                         currentSelection = PauseMenuSelectables.Equip;
@@ -806,6 +843,7 @@ public class PauseMenuSystem : SystemBase
                                     }
                                     else if (uiInput.moveright)
                                     {
+                                        AudioManager.playSound("menuchange");
                                         UnselectButton(itemsButton);
                                         SelectButton(skillsButton);
                                         currentSelection = PauseMenuSelectables.Skills;
@@ -826,15 +864,17 @@ public class PauseMenuSystem : SystemBase
                                         if(onCharacterSelect){
                                             //select a character
                                             if (uiInput.goback) { 
+                                                AudioManager.playSound("menuback");
                                                 isSelected = false;
                                                 skillInfo.visible = false;
                                             }
                                         }
                                         else if(onItemSwitch){
                                             if(uiInput.goselected){
+                                                AudioManager.playSound("menuselect");
                                                 //switchskill
                                                 EquipedSkillData newSkill = new EquipedSkillData{skill = skills[currentSwitchItem - 1].skill};
-                                                if(currentItem >= equipedSkills.Length){
+                                                if(currentItem > equipedSkills.Length){
                                                     // nothing equiped, so nothing to add to the unequiped skills
                                                     skills.RemoveAt(currentSwitchItem - 1);
 
@@ -856,12 +896,14 @@ public class PauseMenuSystem : SystemBase
                                                 UnSelectItem(otherSkills.Q<Label>("skill"+ currentSwitchItem.ToString()));
                                             }
                                             else if(uiInput.goback){
+                                                AudioManager.playSound("menuback");
                                                 onItemSwitch = false;
                                                 currentSkills.visible = true;
                                                 otherSkills.visible = false;
                                                 UnSelectItem(otherSkills.Q<Label>("skill"+ currentSwitchItem.ToString()));
                                             }
                                             else if(uiInput.moveup && currentSwitchItem > 1){
+                                                AudioManager.playSound("menuchange");
                                                 if(currentSwitchItem > 5){
 
                                                 }
@@ -874,6 +916,7 @@ public class PauseMenuSystem : SystemBase
                                                 }
                                             }
                                             else if(uiInput.movedown && currentSwitchItem < skills.Length){
+                                                AudioManager.playSound("menuchange");
                                                 if(currentSwitchItem > 5){
 
                                                 }
@@ -888,12 +931,14 @@ public class PauseMenuSystem : SystemBase
                                         }
                                         else if(onQuickMenu){
                                             if(uiInput.goback){
+                                                AudioManager.playSound("menuback");
                                                 UnSelectQuickMenuButton(quickCancelSkills);
                                                 UnSelectQuickMenuButton(quickSwitchSkills);
                                                 skillsQuickMenu.visible = false;
                                                 onQuickMenu = false;
                                             }
                                             else if(uiInput.goselected){
+                                                AudioManager.playSound("menuselect");
                                                 switch(currentQuickMenuSelection){
                                                     case QuickMenuSelectables.Switch:
                                                         //go into skill selection
@@ -918,7 +963,6 @@ public class PauseMenuSystem : SystemBase
                                                                 otherSkills.Q<Label>("skill" + i.ToString()).text = "None";
                                                             }
                                                         }
-                                                        Debug.Log("is updating the other skills");
                                                     break;
                                                     case QuickMenuSelectables.Cancel:
                                                         UnSelectQuickMenuButton(quickCancelSkills);
@@ -929,21 +973,23 @@ public class PauseMenuSystem : SystemBase
                                                 }
                                             }
                                             else if(uiInput.movedown){
+                                                AudioManager.playSound("menuchange");
                                                 QuickMenuDown(skillsQuickMenu);
                                             }
                                             else if(uiInput.moveup){
+                                                AudioManager.playSound("menuchange");
                                                 QuickMenuUp(skillsQuickMenu);
                                             }
                                         }
                                         else{
                                             
                                             if(uiInput.goselected){
-                                                
+                                                AudioManager.playSound("menuselect");
                                                 
                                                 skillsQuickMenu.visible = true;
                                                 onQuickMenu = true;
                                                 placeQuickMenu(currentSkills.Q<Label>("skill" + currentItem), skillsQuickMenu);
-
+                                                useableQuickSelectables.Clear();
                                                 useableQuickSelectables.Add(QuickMenuSelectables.Cancel);
                                                 if(skills.Length == 0){
                                                     // if there is no skills available, you shouldn't be able to switch
@@ -961,6 +1007,7 @@ public class PauseMenuSystem : SystemBase
                                                 
                                             }
                                             else if(uiInput.goback){
+                                                AudioManager.playSound("menuback");
                                                 UnSelectItem(currentSkills.Q<Label>("skill" + currentItem));
                                                 if(playerParty.Length == 1){
                                                     
@@ -976,6 +1023,7 @@ public class PauseMenuSystem : SystemBase
                                                 UnselectInfoTab(skillInfo.Q<VisualElement>("current_skills"));
                                             }
                                             else if(uiInput.movedown){
+                                                AudioManager.playSound("menuchange");
                                                 if(currentItem < 5){
                                                     UnSelectItem(currentSkills.Q<Label>("skill" + currentItem.ToString()));
                                                     currentItem++;
@@ -995,6 +1043,7 @@ public class PauseMenuSystem : SystemBase
                                                 }
                                             }
                                             else if(uiInput.moveup){
+                                                AudioManager.playSound("menuchange");
                                                 if(currentItem > 1){
                                                     UnSelectItem(currentSkills.Q<Label>("skill" + currentItem.ToString()));
                                                     currentItem--;
@@ -1017,6 +1066,7 @@ public class PauseMenuSystem : SystemBase
                                     }
                                     else if (uiInput.goselected)
                                     {
+                                        AudioManager.playSound("menuselect");
                                         isSelected = true;
                                         if(playerParty.Length == 1){
                                             onCharacterSelect = false;
@@ -1053,12 +1103,14 @@ public class PauseMenuSystem : SystemBase
                                     }
                                     else if (uiInput.moveleft)
                                     {
+                                        AudioManager.playSound("menuchange");
                                         UnselectButton(skillsButton);
                                         SelectButton(itemsButton);
                                         currentSelection = PauseMenuSelectables.Items;
                                     }
                                     else if (uiInput.moveright)
                                     {
+                                        AudioManager.playSound("menuchange");
                                         UnselectButton(skillsButton);
                                         SelectButton(optionsButton);
                                         currentSelection = PauseMenuSelectables.Options;
@@ -1071,6 +1123,7 @@ public class PauseMenuSystem : SystemBase
                                     }
                                     else if (uiInput.goselected)
                                     {
+                                        AudioManager.playSound("menuselect");
                                         //select the ui
                                         //isSelected = true
                                         // temporarly goes to the title screen
@@ -1082,6 +1135,7 @@ public class PauseMenuSystem : SystemBase
                                     }
                                     else if (uiInput.moveleft)
                                     {
+                                        AudioManager.playSound("menuchange");
                                         UnselectButton(optionsButton);
                                         SelectButton(skillsButton);
                                         currentSelection = PauseMenuSelectables.Skills;

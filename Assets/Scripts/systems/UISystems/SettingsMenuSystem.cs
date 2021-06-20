@@ -45,10 +45,18 @@ public class SettingsMenuSystem : SystemBase
                 }
                 else if(!settingsUIData.isSelected){
                     if(input.goback){
+                        AudioManager.playSound("menuback");
                         // go back to the previous menu
                         settingsUIData.isActive = false;
                         background.visible = false;
                         OnSettingsExit?.Invoke(this, System.EventArgs.Empty);
+                        settingsUIData.currentTab = SettingsTab.volume;
+                        UnSelectButton(bindingButton);
+                        UnSelectButton(otherButton);
+                        SelectButton(volumeButton);
+                        SelectTab(volumeControls);
+                        UnSelectTab(bindingControls);
+                        UnSelectTab(otherControls);
                         volumeControls.visible = false;
                         otherControls.visible = false;
                         bindingControls.visible = false;
@@ -57,9 +65,11 @@ public class SettingsMenuSystem : SystemBase
                         switch(settingsUIData.currentTab){
                             case SettingsTab.volume:
                                 if(input.goselected){
+                                    AudioManager.playSound("menuselect");
                                     settingsUIData.isSelected = true;
                                 }
                                 else if(input.moveright){
+                                    AudioManager.playSound("menuchange");
                                     settingsUIData.currentTab++;
                                     SelectButton(bindingButton);
                                     UnSelectButton(volumeButton);
@@ -71,10 +81,12 @@ public class SettingsMenuSystem : SystemBase
                             break;
                             case SettingsTab.controls:
                                 if(input.goselected){
+                                    AudioManager.playSound("menuselect");
                                     settingsUIData.isSelected = true;
                                     HoverBinding(bindingControls.Q<Label>("current_overworld_select"));
                                 }
                                 else if(input.moveright){
+                                    AudioManager.playSound("menuchange");
                                     settingsUIData.currentTab++;
                                     SelectButton(otherButton);
                                     UnSelectButton(bindingButton);
@@ -82,6 +94,7 @@ public class SettingsMenuSystem : SystemBase
                                     otherControls.visible = true;
                                 }
                                 else if(input.moveleft){
+                                    AudioManager.playSound("menuchange");
                                     settingsUIData.currentTab--;
                                     SelectButton(volumeButton);
                                     UnSelectButton(bindingButton);
@@ -95,11 +108,13 @@ public class SettingsMenuSystem : SystemBase
                                         //since going to the title screen is the only option here currently, there is no reason to go into it while in the title screen
                                     }
                                     else{
+                                        AudioManager.playSound("menuselect");
                                         SelectItem(otherControls.Q<Label>("return_text"));
                                         settingsUIData.isSelected = true;
                                     }
                                 }
                                 else if(input.moveleft){
+                                    AudioManager.playSound("menuchange");
                                     settingsUIData.currentTab--;
                                     UnSelectButton(otherButton);
                                     SelectButton(bindingButton);
@@ -115,6 +130,7 @@ public class SettingsMenuSystem : SystemBase
                         switch(settingsUIData.currentTab){
                             case SettingsTab.volume:
                                 if(input.goback){
+                                    AudioManager.playSound("menuback");
                                     settingsUIData.isSelected = false;
                                 }
                                 else if(input.moveright){
@@ -139,18 +155,23 @@ public class SettingsMenuSystem : SystemBase
                             break;
                             case SettingsTab.controls:
                                 if(input.goback){
+                                    AudioManager.playSound("menuback");
                                     settingsUIData.isSelected = false;
-                                    UnSelectBinding(bindingControls.Q<Label>("current_overworld_select"));
+                                    UnSelectBinding(GetBindingEquivalent(controlSelection));
+                                    controlSelection = Controls.overSelect;
                                 }
                                 else if(input.goselected){
+                                    AudioManager.playSound("menuselect");
                                     Rebind();
                                 }
                                 else if(input.movedown && controlSelection < Controls.uiLeft){
+                                    AudioManager.playSound("menuchange");
                                     UnSelectBinding(GetBindingEquivalent(controlSelection));
                                     controlSelection++;
                                     HoverBinding(GetBindingEquivalent(controlSelection));
                                 }
                                 else if(input.moveup && controlSelection != Controls.overSelect){
+                                    AudioManager.playSound("menuchange");
                                     UnSelectBinding(GetBindingEquivalent(controlSelection));
                                     controlSelection--;
                                     HoverBinding(GetBindingEquivalent(controlSelection));
@@ -158,10 +179,12 @@ public class SettingsMenuSystem : SystemBase
                             break;
                             case SettingsTab.other:
                                 if(input.goback){
+                                    AudioManager.playSound("menuback");
                                     UnSelectItem(otherControls.Q<Label>("return_text"));
                                     settingsUIData.isSelected = false;
                                 }
                                 else if(input.goselected){
+                                    AudioManager.playSound("menuselect");
                                     OnTitleReturn?.Invoke(this, EventArgs.Empty);
                                     sceneSystem.LoadSceneAsync(SubSceneReferences.Instance.TitleSubScene.SceneGUID);
                                     sceneSystem.UnloadScene(SubSceneReferences.Instance.WorldSubScene.SceneGUID);
@@ -331,7 +354,6 @@ public class SettingsMenuSystem : SystemBase
             Label binding = GetBindingEquivalent(control);
             InputAction inputAction = GetInputMapEquivalent(control);
             var bindingIndex = GetBindingIndex(inputAction, control);
-            Debug.Log(control);
             binding.text = InputControlPath.ToHumanReadableString(inputAction.bindings[bindingIndex].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice);
         }
     }
@@ -341,8 +363,7 @@ public class SettingsMenuSystem : SystemBase
         var bindingIndex = GetBindingIndex(inputAction, controlSelection);
         binding.text = InputControlPath.ToHumanReadableString(inputAction.bindings[bindingIndex].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice);
         rebindingOperation.Dispose();
-
-        HoverBinding(binding);
+        
         InputGatheringSystem.m_InputActions.Overworld.Enable();
         InputGatheringSystem.m_InputActions.UI.Enable();
     }
