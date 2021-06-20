@@ -35,6 +35,11 @@ public class PlayerLoseMenuSystem : SystemBase
             switch(currentSelectable){
                 case LoseMenuSelectables.continueButton:
                     if(input.goselected && File.Exists(Application.persistentDataPath + "/tempsave" + "/SavePointData")){
+                        OverworldUITag overworld = GetSingleton<OverworldUITag>();
+                        overworld.isVisable = false;
+                        SetSingleton<OverworldUITag>(overworld);
+
+
                         AudioManager.playSound("menuselect");
                         isActive = false;
                         OnContinue?.Invoke(this, EventArgs.Empty);

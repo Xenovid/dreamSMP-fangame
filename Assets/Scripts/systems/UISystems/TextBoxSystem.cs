@@ -21,6 +21,10 @@ public class TextBoxSystem : SystemBase
         .WithAll<OverworldUITag>()
         .ForEach((UIDocument UIDoc, DynamicBuffer<Text> texts) =>{
                 if(!texts.IsEmpty && !isDisplaying){
+                    OverworldUITag overworld = GetSingleton<OverworldUITag>();
+                    overworld.isVisable = false;
+                    SetSingleton<OverworldUITag>(overworld);
+
                     InputGatheringSystem.currentInput = CurrentInput.ui;
                     VisualElement root = UIDoc.rootVisualElement;
                     VisualElement characterText = root.Q<VisualElement>("TextBoxUI");
@@ -44,6 +48,10 @@ public class TextBoxSystem : SystemBase
                             textBoxText.text = "";
                             InputGatheringSystem.currentInput = CurrentInput.overworld;
                             OnDisplayFinished?.Invoke(this, EventArgs.Empty);
+
+                            OverworldUITag overworld = GetSingleton<OverworldUITag>();
+                            overworld.isVisable = true;
+                            SetSingleton<OverworldUITag>(overworld);
                         }
                         else{
                             texts.RemoveAt(0);

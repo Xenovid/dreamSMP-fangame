@@ -73,9 +73,10 @@ public class TitleScreenSystem : SystemBase
                 switch(currentSelection){
                     case(titleMenuSelectables.Start):
                         if(input.goselected){
+                            SetSingleton<OverworldAtmosphereData>(new OverworldAtmosphereData{songName = "CalmMountain"});
                             AudioManager.playSound("menuselect");
                                     StartNewGame?.Invoke(this, EventArgs.Empty);
-                                    AudioManager.playSound("menuchange");
+                                    AudioManager.playSong("CalmMountain");
                                     InputGatheringSystem.currentInput = CurrentInput.overworld;
                                     sceneSystem.UnloadScene(SubSceneReferences.Instance.TitleSubScene.SceneGUID);
                                     AudioManager.stopSong("menuMusic");

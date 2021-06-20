@@ -13,4 +13,9 @@
         <ui:Label text="Technoblade Never Dies" display-tooltip-when-elided="true" name="continue" class="selected" style="color: rgb(255, 0, 0); width: 30%; -unity-text-align: upper-center; font-size: 16px; margin-top: 10px; margin-bottom: 10px; padding-top: 12px; padding-bottom: 11px;" />
         <ui:Label text="To TitleScreen" display-tooltip-when-elided="true" name="title" class="unselected" style="-unity-text-align: upper-center; width: 30%; font-size: 16px; margin-top: 10px; padding-top: 12px; padding-bottom: 11px;" />
     </ui:VisualElement>
+    <ui:VisualElement name="overlay" style="position: absolute; width: 100%; height: 100%; visibility: visible;">
+        <ui:VisualElement name="interactive_item_check" class="no_interactive" style="position: absolute; width: 174px; height: 10%; top: 616px; left: 12px; border-left-width: 5px; border-right-width: 5px; border-top-width: 5px; border-bottom-width: 5px; flex-direction: row; justify-content: center;">
+            <ui:Label text="Interact" display-tooltip-when-elided="true" style="justify-content: center; -unity-text-align: middle-left; font-size: 18px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
 </ui:UXML>

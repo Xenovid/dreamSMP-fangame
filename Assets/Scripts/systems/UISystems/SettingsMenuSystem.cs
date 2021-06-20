@@ -295,29 +295,24 @@ public class SettingsMenuSystem : SystemBase
                 break;
                 case Controls.overUp:
                     bindingIndex = inputAction.bindings.IndexOf(x => x.isPartOfComposite && x.name == "up");
-                    Debug.Log(bindingIndex);
                 break;
                 case Controls.uiDown:
                     bindingIndex = inputAction.bindings.IndexOf(x => x.isPartOfComposite && x.name == "down");
-                    Debug.Log(bindingIndex);
                 break;
                 case Controls.overDown:
                     bindingIndex = inputAction.bindings.IndexOf(x => x.isPartOfComposite && x.name == "down");
-                    Debug.Log(bindingIndex);
                 break;
                 case Controls.uiRight:
                     bindingIndex = inputAction.bindings.IndexOf(x => x.isPartOfComposite && x.name == "right");
                 break;
                 case Controls.overRight:
                     bindingIndex = inputAction.bindings.IndexOf(x => x.isPartOfComposite && x.name == "right");
-                    Debug.Log(bindingIndex);
                 break;
                 case Controls.uiLeft:
                     bindingIndex = inputAction.bindings.IndexOf(x => x.isPartOfComposite && x.name == "left");
                 break;
                 case Controls.overLeft:
                     bindingIndex = inputAction.bindings.IndexOf(x => x.isPartOfComposite && x.name == "left");
-                    Debug.Log(bindingIndex);
                 break;
             }
         }
@@ -363,9 +358,11 @@ public class SettingsMenuSystem : SystemBase
         var bindingIndex = GetBindingIndex(inputAction, controlSelection);
         binding.text = InputControlPath.ToHumanReadableString(inputAction.bindings[bindingIndex].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice);
         rebindingOperation.Dispose();
-        
+
+        HoverBinding(binding);
         InputGatheringSystem.m_InputActions.Overworld.Enable();
         InputGatheringSystem.m_InputActions.UI.Enable();
+        AudioManager.playSound("menuavailable");
     }
     private void HoverBinding(Label binding){
         binding.AddToClassList("binding_hover");

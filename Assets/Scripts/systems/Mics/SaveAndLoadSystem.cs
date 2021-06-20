@@ -62,6 +62,10 @@ public class SaveAndLoadSystem : SystemBase
                 isSaving = false;
                 InputGatheringSystem.currentInput = CurrentInput.overworld;
                 fileSelectBackground.visible = false;
+                // reativate the hud
+                OverworldUITag overworld = GetSingleton<OverworldUITag>();
+                overworld.isVisable = true;
+                SetSingleton<OverworldUITag>(overworld);
             }
             else if(input.goselected){
                 if(!Directory.Exists(Application.persistentDataPath + "/save" + (currentSaveFile + 1).ToString())){
@@ -261,6 +265,7 @@ public class SaveAndLoadSystem : SystemBase
             File.Copy(file, fileSavePath);
         }
         LoadCurrentSubscenes(e.saveFileNumber);
+        LoadAtmosphere();
         // loads the players
         sceneSystem.LoadSceneAsync(SubSceneReferences.Instance.EssentialsSubScene.SceneGUID);
         
@@ -290,6 +295,7 @@ public class SaveAndLoadSystem : SystemBase
             translation.Value = playerSaveData.trasition;
         }).Run();
 
+        LoadAtmosphere();
         string savePath = Application.persistentDataPath + "/tempsave" +  "/loadedscenes";
         string jsonString = File.ReadAllText(savePath);
         CurrentSubScenesData subScenesData = JsonUtility.FromJson<CurrentSubScenesData>(jsonString);
@@ -299,10 +305,12 @@ public class SaveAndLoadSystem : SystemBase
     }
     public void SaveGame(int saveFileNumber){
         // To do save everything
+        SaveAtmosphere();
         SavePlayers();
         SaveSubsceneAssets();
         SaveCurrentSubscenes();
         SaveTime();
+        
         // gets everything in the temp folder and pastes it into the save
         
         string savePath = Application.persistentDataPath + "/save" + saveFileNumber.ToString();
@@ -316,6 +324,22 @@ public class SaveAndLoadSystem : SystemBase
         }
     }
 
+    public void SaveActionMap(ActionMap actionMap){
+
+    }
+    public void SaveAtmosphere(){
+        string savePath = Application.persistentDataPath+ "/tempsave" + "/atmosphere.json";
+        OverworldAtmosphereData overworldAtmosphereData = GetSingleton<OverworldAtmosphereData>();
+        string jsonString = JsonUtility.ToJson(overworldAtmosphereData);
+        File.WriteAllText(savePath, jsonString);
+    }
+    public void LoadAtmosphere(){
+        string savePath = Application.persistentDataPath+ "/tempsave" + "/atmosphere.json";
+        string jsonString = File.ReadAllText(savePath); 
+        OverworldAtmosphereData overworldAtmosphereData = JsonUtility.FromJson<OverworldAtmosphereData>(jsonString);;//songName = saveData.songName};
+        SetSingleton<OverworldAtmosphereData>(overworldAtmosphereData);
+        AudioManager.playSong(overworldAtmosphereData.songName.ToString());
+    }
     public void LoadNewGame(object sender, System.EventArgs e){
         foreach(string file in Directory.GetFiles(Application.persistentDataPath + "/tempsave")){
             File.Delete(file);

@@ -44,6 +44,7 @@ public class InputGatheringSystem : ComponentSystem,
 
     protected override void OnCreate()
     {
+        // either add a save method yourself or wait for unity to add it
         m_InputActions = new ActionMap();
         m_InputActions.Overworld.SetCallbacks(this);
         m_InputActions.UI.SetCallbacks(this);

@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
     private static List<SoundData> dialogues = new List<SoundData>();
     private static List<SoundData> gameSounds = new List<SoundData>();
     private static List<SoundData> gameMusic = new List<SoundData>();
+    private static SoundData currentSong;
 
     public static float volume = .1f;
     
@@ -159,9 +160,13 @@ public class AudioManager : MonoBehaviour
             Debug.Log("sound effect not found");
         }
     }
-
+    public static void stopCurrentSong(){
+        if(currentSong != null){
+            stopSong(currentSong.soundName);
+        }
+    }
     /// <summary>
-    /// starts playing a choosen song
+    /// stop the current music and plays new music
     /// </summary>
     /// <param name="name">the name of the sound</param>
     public static void playSong(string name){
@@ -172,6 +177,8 @@ public class AudioManager : MonoBehaviour
                 try{
                     sound.audioSource.volume = volume;
                     sound.audioSource.Play();
+                    stopCurrentSong();
+                    currentSong = sound;
                 }
                 catch(Exception e){
                     Debug.Log("something went wrong when trying to play the Music");
@@ -210,6 +217,9 @@ public class AudioManager : MonoBehaviour
         if(!wasFound){
             Debug.Log("music not found");
         }
+    }
+    public static string GetCurrentSongName(){
+        return currentSong.soundName;
     }
 }
 

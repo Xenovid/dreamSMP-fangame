@@ -317,6 +317,7 @@ MonoBehaviour:
   isSetUp: 0
   isSelected: 0
   currentItem: 0
+  isWaiting: 0
 --- !u!114 &829471597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -743,6 +744,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68611ecea2f09b34089416130d6a722b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isNextToInteractive: 0
+  wasNextToInteractive: 0
+  isVisable: 1
 --- !u!114 &1575903883
 MonoBehaviour:
   m_ObjectHideFlags: 0

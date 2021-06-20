@@ -18,20 +18,15 @@ public class SaveTriggerSystem : SystemBase
         OverworldInputData input = uiInputQuery.GetSingleton<OverworldInputData>();
 
         var triggerEvents = ((Simulation)physicsWorld.Simulation).TriggerEvents;
-
-        if(input.select){
-            EntityQuery playerQuery = GetEntityQuery(typeof(PlayerTag), typeof(MovementData));
-            MovementData playerMovment = playerQuery.GetSingleton<MovementData>();
-
-
-            foreach(TriggerEvent triggerEvent in triggerEvents)
-            {
+        foreach(TriggerEvent triggerEvent in triggerEvents)
+        {
                 
-                Entity entityA = triggerEvent.EntityA;
-                Entity entityB = triggerEvent.EntityB;
+            Entity entityA = triggerEvent.EntityA;
+            Entity entityB = triggerEvent.EntityB;
 
-                if (HasComponent<SavePointTag>(entityA) && HasComponent<InteractiveBoxCheckerData>(entityB))
-                {
+            if (HasComponent<SavePointTag>(entityA) && HasComponent<InteractiveBoxCheckerData>(entityB))
+            {
+                if(input.select){
                     string savePointName = GetComponent<SavePointTag>(entityA).saveName.ToString();
                     SavePointAlert?.Invoke(this, new SavePointEventArg{savePointName = savePointName});
                     Entities
@@ -39,10 +34,19 @@ public class SaveTriggerSystem : SystemBase
                     .ForEach((ref CharacterStats character) => {
                         character.health = character.maxHealth;
                     }).Run();
-                    
+                    OverworldUITag overworld = GetSingleton<OverworldUITag>();
+                    overworld.isVisable = false;
+                    SetSingleton<OverworldUITag>(overworld);
                 }
-                else if (HasComponent<SavePointTag>(entityB) && HasComponent<InteractiveBoxCheckerData>(entityA))
-                {
+                else{
+                    OverworldUITag overworld = GetSingleton<OverworldUITag>();
+                    overworld.isNextToInteractive = true;
+                    SetSingleton<OverworldUITag>(overworld);
+                }
+            }
+            else if (HasComponent<SavePointTag>(entityB) && HasComponent<InteractiveBoxCheckerData>(entityA))
+            {
+                if(input.select){
                     Entities
                     .WithStructuralChanges()
                     .ForEach((ref CharacterStats character) => {
@@ -50,6 +54,14 @@ public class SaveTriggerSystem : SystemBase
                     }).Run();
                     string savePointName = GetComponent<SavePointTag>(entityB).saveName.ToString();
                     SavePointAlert?.Invoke(this, new SavePointEventArg{savePointName = savePointName});
+                    OverworldUITag overworld = GetSingleton<OverworldUITag>();
+                    overworld.isVisable = false;
+                    SetSingleton<OverworldUITag>(overworld);
+                }
+                else{
+                    OverworldUITag overworld = GetSingleton<OverworldUITag>();
+                    overworld.isNextToInteractive = true;
+                    SetSingleton<OverworldUITag>(overworld);
                 }
             }
         }

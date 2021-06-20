@@ -473,6 +473,9 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: ea659ad0d77e23943a95da052239ba83, type: 3}
     audioSource: {fileID: 0}
     soundName: menuMusic
+  - clip: {fileID: 8300000, guid: 0551bd17eed4d2342b58479f85bffc91, type: 3}
+    audioSource: {fileID: 0}
+    soundName: CalmMountain
 --- !u!4 &1847510910
 Transform:
   m_ObjectHideFlags: 0

@@ -66,6 +66,11 @@ public class InkDisplaySystem : SystemBase
                 inkManagager.iswritingDialogue = false;
                 charaterText.visible = false;
                 InputGatheringSystem.currentInput = willSwitchInput ? CurrentInput.overworld : CurrentInput.ui;
+
+                OverworldUITag overworld = GetSingleton<OverworldUITag>();
+                overworld.isVisable = willSwitchInput;
+                SetSingleton<OverworldUITag>(overworld);
+
                 OnWritingFinished?.Invoke(this, EventArgs.Empty);
             }
             else if(input.goselected)
@@ -113,6 +118,9 @@ public class InkDisplaySystem : SystemBase
         }
     }
     public void DisplayVictoryData(){
+        OverworldUITag overworld = GetSingleton<OverworldUITag>();
+        overworld.isVisable = false;
+        SetSingleton<OverworldUITag>(overworld);
         willSwitchInput= false;
         Entities
             .WithoutBurst()
@@ -122,6 +130,9 @@ public class InkDisplaySystem : SystemBase
             }).Run();
     }
     public void StartCutScene(String startPoint){
+        OverworldUITag overworld = GetSingleton<OverworldUITag>();
+        overworld.isVisable = false;
+        SetSingleton<OverworldUITag>(overworld);
         willSwitchInput = true;
             Entities
             .WithoutBurst()

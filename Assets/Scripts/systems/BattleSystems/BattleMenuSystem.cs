@@ -551,6 +551,10 @@ public class BattleMenuSystem : SystemBase
     private void ResumeGameWorld_OnTransitionEnd(System.Object sender, System.EventArgs e){
         InputGatheringSystem.currentInput = CurrentInput.overworld;
         transitionSystem.OnTransitionEnd -= ResumeGameWorld_OnTransitionEnd;
+        
+        OverworldUITag overworld = GetSingleton<OverworldUITag>();
+        overworld.isVisable = true;
+        SetSingleton<OverworldUITag>(overworld);
     }
     private void DisableMenu_OnBattleEnd(System.Object sender, OnBattleEndEventArgs e){
         battleUI.visible = false;
@@ -616,6 +620,10 @@ public class BattleMenuSystem : SystemBase
         }
     }
     private void WaitForTransition_OnBattleStart(System.Object sender, System.EventArgs e){
+        OverworldUITag overworld = GetSingleton<OverworldUITag>();
+        overworld.isVisable = false;
+        SetSingleton<OverworldUITag>(overworld);
+
         playerNumber = battleSystem.playerEntities.Count;
         transitionSystem.OnTransitionEnd += EnableMenu_OnTransitionEnd;
     }
@@ -634,8 +642,9 @@ public class BattleMenuSystem : SystemBase
         }).Run();
     }
     private void StartVictoryData_OnBattleEnd(object sender, OnBattleEndEventArgs e){
-        AudioManager.stopSong("tempBattleMusic");
+        AudioManager.stopCurrentSong();
         if(e.isPlayerVictor){
+            AudioManager.playSong(GetSingleton<OverworldAtmosphereData>().songName.ToString());
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
 
             EntityQuery battleCharacterGroup = GetEntityQuery(ComponentType.ReadWrite<CharacterStats>(), ComponentType.ReadWrite<BattleData>());

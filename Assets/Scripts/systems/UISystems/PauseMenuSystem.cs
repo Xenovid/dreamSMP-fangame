@@ -86,6 +86,11 @@ public class PauseMenuSystem : SystemBase
                     VisualElement pauseBackground = root.Q<VisualElement>("pause_background");
 
                     if(!isPaused && overworldInput.escape){
+                        // make the hud invisable
+                        OverworldUITag overworld = GetSingleton<OverworldUITag>();
+                        overworld.isVisable = false;
+                        SetSingleton<OverworldUITag>(overworld);
+
                         healingSystem.OnHealthChange += UpdateCharacterInfo_OnStatsUpdate;
                         isPaused = true;
                         InputGatheringSystem.currentInput = CurrentInput.ui;
@@ -121,6 +126,11 @@ public class PauseMenuSystem : SystemBase
                     }
                     else if(isPaused && !isSelected && uiInput.goback)
                         {
+                            // make the overlay visable
+                            OverworldUITag overworld = GetSingleton<OverworldUITag>();
+                            overworld.isVisable = true;
+                            SetSingleton<OverworldUITag>(overworld);
+
                             AudioManager.playSound("menuback");
                             pauseSystem.UnPause();
                             isPaused = false;
