@@ -1,19 +1,16 @@
 fileFormatVersion: 2
-guid: 1947061848124d145861b0eb51f230fa
+guid: 2cba5414ac16afe4891f849618f8cda1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7894102611235412427
-    second: technoblade-sword-idle_0
+      213: -3734254185586973231
+    second: technoblade-down_0
   - first:
-      213: -8893308977084040361
-    second: technoblade-sword-idle_1
+      213: -398172106346258696
+    second: technoblade-down_1
   - first:
-      213: -5583320473486226147
-    second: technoblade-sword-idle_2
-  - first:
-      213: -8000620119403612585
-    second: technoblade-sword-idle_3
+      213: -9064786835849374769
+    second: technoblade-down_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -55,7 +52,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 32
@@ -103,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: technoblade-sword-idle_0
+      name: technoblade-down_0
       rect:
         serializedVersion: 2
         x: 0
@@ -117,14 +114,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bc99b2b008c7d8d60800000000000000
-      internalID: 7894102611235412427
+      spriteID: 1d5a2176a934d2cc0800000000000000
+      internalID: -3734254185586973231
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: technoblade-sword-idle_1
+      name: technoblade-down_1
       rect:
         serializedVersion: 2
         x: 44
@@ -138,14 +135,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 75bfc17aa9e949480800000000000000
-      internalID: -8893308977084040361
+      spriteID: 8fe13c13498697af0800000000000000
+      internalID: -398172106346258696
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: technoblade-sword-idle_2
+      name: technoblade-down_2
       rect:
         serializedVersion: 2
         x: 88
@@ -159,29 +156,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d1d00be6c9f0482b0800000000000000
-      internalID: -5583320473486226147
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: technoblade-sword-idle_3
-      rect:
-        serializedVersion: 2
-        x: 132
-        y: 0
-        width: 44
-        height: 37
-      alignment: 9
-      pivot: {x: 0.36, y: 0.08}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 756ba18f36618f090800000000000000
-      internalID: -8000620119403612585
+      spriteID: fc39f8c6668633280800000000000000
+      internalID: -9064786835849374769
       vertices: []
       indices: 
       edges: []

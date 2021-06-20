@@ -457,10 +457,16 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: b89afcdcba043d846b0053484ae6ccd3, type: 3}
     audioSource: {fileID: 0}
     soundName: swordswing
+  - clip: {fileID: 8300000, guid: bb4229063776b6944833f282fcabad03, type: 3}
+    audioSource: {fileID: 0}
+    soundName: defeatsong
   gameMusics:
   - clip: {fileID: 8300000, guid: 0b991bbf5622a9919aebe2f20d50debd, type: 3}
     audioSource: {fileID: 0}
     soundName: tempBattleMusic
+  - clip: {fileID: 8300000, guid: ea659ad0d77e23943a95da052239ba83, type: 3}
+    audioSource: {fileID: 0}
+    soundName: menuMusic
   - clip: {fileID: 8300000, guid: ea659ad0d77e23943a95da052239ba83, type: 3}
     audioSource: {fileID: 0}
     soundName: menuMusic

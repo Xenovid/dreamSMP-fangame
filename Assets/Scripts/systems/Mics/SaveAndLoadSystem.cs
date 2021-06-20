@@ -19,6 +19,7 @@ public class SaveAndLoadSystem : SystemBase
     int currentSaveFile;
     SaveTriggerSystem saveTriggerSystem;
     bool isSaving;
+    PauseSystem pauseSystem;
     UIDocument UIDoc;
     protected override void OnCreate()
     {
@@ -38,6 +39,7 @@ public class SaveAndLoadSystem : SystemBase
     }
     protected override void OnStartRunning()
     {
+        pauseSystem = World.GetOrCreateSystem<PauseSystem>();
         m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
         physicsWorld = World.GetExistingSystem<StepPhysicsWorld>();
         
@@ -55,6 +57,7 @@ public class SaveAndLoadSystem : SystemBase
             VisualElement root = UIDoc.rootVisualElement;
             VisualElement fileSelectBackground = root.Q<VisualElement>("file_select");
             if(input.goback){
+                pauseSystem.UnPause();
                 UnSelectFile(fileSelectBackground.Q<VisualElement>("save_file" + currentSaveFile.ToString()));
                 isSaving = false;
                 InputGatheringSystem.currentInput = CurrentInput.overworld;
@@ -326,6 +329,7 @@ public class SaveAndLoadSystem : SystemBase
         InputGatheringSystem.currentInput = CurrentInput.ui;
         savePointName = "hello";//e.savePointName;
         // pause the world
+        pauseSystem.Pause();
 
         EntityQuery UIDocQuery = GetEntityQuery(typeof(UIDocument), typeof(OverworldUITag));
         UIDoc = EntityManager.GetComponentObject<UIDocument>(UIDocQuery.GetSingletonEntity());

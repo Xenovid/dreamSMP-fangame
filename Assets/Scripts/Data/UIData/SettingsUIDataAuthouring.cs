@@ -19,4 +19,6 @@ public struct SettingsUIData : IComponentData
     [HideInInspector]
 
     public int currentItem;
+    [HideInInspector]
+    public bool isWaiting;
 }

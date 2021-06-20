@@ -357,6 +357,7 @@ MonoBehaviour:
   swordIdleAnimationName: TechnobladeSwordIdle
   takenDamageAnimationName: 
   basicSwordAnimationName: TechnobladeBasicSwordSwing
+  characterDownAnimationName: TechnoDown
 --- !u!114 &108625178797338095
 MonoBehaviour:
   m_ObjectHideFlags: 0

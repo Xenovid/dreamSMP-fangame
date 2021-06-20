@@ -73,7 +73,7 @@ public class BattleSystem : SystemBase
                         .WithStructuralChanges()
                         .WithoutBurst()
                         .WithNone<DownTag, TechnoData>()
-                        .ForEach((Entity entity, ref DynamicBuffer<DamageData> damages, ref BattleData battleData,ref CharacterStats characterStats) => {
+                        .ForEach((Animator animator, Entity entity, ref DynamicBuffer<DamageData> damages, ref BattleData battleData,ref CharacterStats characterStats, in AnimationData animationData) => {
                               DynamicBuffer<HealingData> healings = GetBuffer<HealingData>(entity);
                               for(int i = 0; i < damages.Length; i++){
                                     if(EntityManager.HasComponent<HeadsUpUIData>(entity)){
@@ -112,13 +112,16 @@ public class BattleSystem : SystemBase
                                     //*** need to add down animation
                                     //do others stuff for when a temporary enemy is down
                                     ecb.AddComponent<DownTag>(entity);
+                                    //animator.Play(animationData.characterDownAnimationName);
                               }
                         }).Run();
                         Entities
                         .WithStructuralChanges()
                         .WithoutBurst()
+                        .WithAll<AnimationData>()
                         .WithNone<DownTag>()
-                        .ForEach((HeadsUpUIData headsUpUI, Entity entity,ref TechnoData techno, ref RandomData random, ref DynamicBuffer<DamageData> damages, ref BattleData battleData,ref CharacterStats characterStats) => {
+                        .ForEach((Animator animator , HeadsUpUIData headsUpUI, Entity entity,ref TechnoData techno, ref RandomData random, ref DynamicBuffer<DamageData> damages, ref BattleData battleData,ref CharacterStats characterStats ) => {
+                              AnimationData animationData = EntityManager.GetComponentObject<AnimationData>(entity);
                               DynamicBuffer<HealingData> healings = GetBuffer<HealingData>(entity);
                               for(int i = 0; i < damages.Length; i++){
                                     
@@ -168,6 +171,7 @@ public class BattleSystem : SystemBase
                               { 
                                     characterStats.points = 0;
                                     ecb.AddComponent<DownTag>(entity);
+                                    animator.Play(animationData.characterDownAnimationName);
                               }
                         }).Run();
                   }
@@ -254,6 +258,7 @@ public class BattleSystem : SystemBase
                         characterstats.health = isPlayerVictor ? 1 : characterstats.maxHealth;
                   }
             }).ScheduleParallel();
+            Entities.WithStructuralChanges().WithAll<DownTag>().ForEach((Entity entity) => {EntityManager.RemoveComponent<DownTag>(entity);}).Run();
             OnBattleEnd?.Invoke(this, new OnBattleEndEventArgs{isPlayerVictor = isPlayerVictor});
       }
       public void AddBattleData_OnTransitionEnd(System.Object sender, System.EventArgs e){

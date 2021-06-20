@@ -34,10 +34,20 @@ public class SaveTriggerSystem : SystemBase
                 {
                     string savePointName = GetComponent<SavePointTag>(entityA).saveName.ToString();
                     SavePointAlert?.Invoke(this, new SavePointEventArg{savePointName = savePointName});
+                    Entities
+                    .WithStructuralChanges()
+                    .ForEach((ref CharacterStats character) => {
+                        character.health = character.maxHealth;
+                    }).Run();
                     
                 }
                 else if (HasComponent<SavePointTag>(entityB) && HasComponent<InteractiveBoxCheckerData>(entityA))
                 {
+                    Entities
+                    .WithStructuralChanges()
+                    .ForEach((ref CharacterStats character) => {
+                        character.health = character.maxHealth;
+                    }).Run();
                     string savePointName = GetComponent<SavePointTag>(entityB).saveName.ToString();
                     SavePointAlert?.Invoke(this, new SavePointEventArg{savePointName = savePointName});
                 }

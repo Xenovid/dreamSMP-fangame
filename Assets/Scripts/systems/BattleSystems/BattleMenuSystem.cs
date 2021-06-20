@@ -292,6 +292,8 @@ public class BattleMenuSystem : SystemBase
                                     temp.isSelected = false;
                                     EntityManager.SetComponentData(ent, temp);
                                 }
+                                battleUI.visible = true;
+                                enemySelector.visible = false;
                                 
                             }                           
                             break;
@@ -662,10 +664,12 @@ public class BattleMenuSystem : SystemBase
             Entities
             .WithoutBurst()
             .WithStructuralChanges()
+            .WithAll<BattleData>()
             .ForEach((ref BeforeBattleData beforeBattleData,in Translation translation, in Entity entity) =>
             {
                 ecb.AddComponent(entity, new TransitionData{newPosition = beforeBattleData.previousLocation, oldPosition = translation.Value});
                 ecb.RemoveComponent<BeforeBattleData>(entity);
+                ecb.RemoveComponent<BattleData>(entity);
             }).Run();
         }
         

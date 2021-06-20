@@ -5,12 +5,67 @@
             <ui:VisualElement name="volume_button" class="option_selected" style="flex-grow: 1; align-items: center; justify-content: center;">
                 <ui:Label text="volume" display-tooltip-when-elided="true" />
             </ui:VisualElement>
+            <ui:VisualElement name="bindings_button" class="option_unselected" style="flex-grow: 0; align-items: center; justify-content: center;">
+                <ui:Label text="controls&#10;" display-tooltip-when-elided="true" />
+            </ui:VisualElement>
             <ui:VisualElement name="other" class="option_unselected" style="flex-grow: 0; align-items: center; justify-content: center;">
                 <ui:Label text="other" display-tooltip-when-elided="true" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="volume_controls" style="flex-grow: 0; top: 20%; position: absolute; width: 100%; height: 80%;">
-            <ui:Slider picking-mode="Ignore" label="Volume" value="100" high-value="1" direction="Horizontal" inverted="false" name="volume_slider" focusable="true" class="volume_slider" style="font-size: 30px; -unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); color: rgba(255, 255, 255, 255);" />
+            <ui:Slider picking-mode="Ignore" label="Volume" value="100" high-value="1" direction="Horizontal" inverted="false" name="volume_slider" focusable="true" class="volume_slider" style="font-size: 30px; -unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); color: rgb(255, 255, 255);" />
+        </ui:VisualElement>
+        <ui:VisualElement name="bindings_controls" style="position: absolute; top: 20%; width: 100%; height: 80%; flex-direction: column; visibility: hidden;">
+            <ui:Label text="Overworld" display-tooltip-when-elided="true" style="-unity-text-align: upper-center; font-size: 20px;" />
+            <ui:VisualElement name="overworld_select" style="flex-direction: row; justify-content: space-between; margin-top: 4px; margin-bottom: 4px;">
+                <ui:Label text="Overwold Select" display-tooltip-when-elided="true" style="font-size: 18px;" />
+                <ui:Label text="Z&#10;" display-tooltip-when-elided="true" name="current_overworld_select" class="binding_unselected" style="font-size: 18px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="overworld_pause" style="flex-direction: row; justify-content: space-between; margin-top: 4px; margin-bottom: 4px;">
+                <ui:Label text="Overwold Pause" display-tooltip-when-elided="true" style="font-size: 18px;" />
+                <ui:Label text="Escape" display-tooltip-when-elided="true" name="current_overworld_pause" class="binding_unselected" style="font-size: 18px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="overworld_up" style="flex-direction: row; justify-content: space-between; padding-top: 4px; padding-bottom: 4px;">
+                <ui:Label text="Overwold Up" display-tooltip-when-elided="true" style="font-size: 18px;" />
+                <ui:Label text="UpArrow" display-tooltip-when-elided="true" name="current_overworld_up" class="binding_unselected" style="font-size: 18px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="overworld_down" style="flex-direction: row; justify-content: space-between; padding-top: 4px; padding-bottom: 4px;">
+                <ui:Label text="Overwold Down" display-tooltip-when-elided="true" style="font-size: 18px;" />
+                <ui:Label text="DownArrow" display-tooltip-when-elided="true" name="current_overworld_down" class="binding_unselected" style="font-size: 18px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="overworld_right" style="flex-direction: row; justify-content: space-between; padding-top: 4px; padding-bottom: 4px;">
+                <ui:Label text="Overwold Right" display-tooltip-when-elided="true" style="font-size: 18px;" />
+                <ui:Label text="RightArrow" display-tooltip-when-elided="true" name="current_overworld_right" class="binding_unselected" style="font-size: 18px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="overworld_left" style="flex-direction: row; justify-content: space-between; padding-top: 4px; padding-bottom: 4px;">
+                <ui:Label text="Overwold Left" display-tooltip-when-elided="true" style="font-size: 18px;" />
+                <ui:Label text="LeftArrow" display-tooltip-when-elided="true" name="current_overworld_left" class="binding_unselected" style="font-size: 18px;" />
+            </ui:VisualElement>
+            <ui:Label text="UI" display-tooltip-when-elided="true" style="-unity-text-align: upper-center; font-size: 20px;" />
+            <ui:VisualElement name="ui_select" style="flex-direction: row; justify-content: space-between; padding-top: 4px; padding-bottom: 4px;">
+                <ui:Label text="UI Select" display-tooltip-when-elided="true" style="font-size: 18px;" />
+                <ui:Label text="Z&#10;" display-tooltip-when-elided="true" name="current_ui_select" class="binding_unselected" style="font-size: 18px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="ui_back" style="flex-direction: row; justify-content: space-between; padding-top: 4px; padding-bottom: 4px;">
+                <ui:Label text="UI Back" display-tooltip-when-elided="true" style="font-size: 18px;" />
+                <ui:Label text="X" display-tooltip-when-elided="true" name="current_ui_back" class="binding_unselected" style="font-size: 18px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="ui_up" style="flex-direction: row; justify-content: space-between; padding-top: 4px; padding-bottom: 4px;">
+                <ui:Label text="UI Up" display-tooltip-when-elided="true" style="font-size: 18px;" />
+                <ui:Label text="UpArrow" display-tooltip-when-elided="true" name="current_ui_up" class="binding_unselected" style="font-size: 18px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="ui_down" style="flex-direction: row; justify-content: space-between; padding-top: 4px; padding-bottom: 4px;">
+                <ui:Label text="UI Down" display-tooltip-when-elided="true" style="font-size: 18px;" />
+                <ui:Label text="DownArrow" display-tooltip-when-elided="true" name="current_ui_down" class="binding_unselected" style="font-size: 18px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="ui_right" style="flex-direction: row; justify-content: space-between; padding-top: 4px; padding-bottom: 4px;">
+                <ui:Label text="UI Right" display-tooltip-when-elided="true" style="font-size: 18px;" />
+                <ui:Label text="RightArrow" display-tooltip-when-elided="true" name="current_ui_right" class="binding_unselected" style="font-size: 18px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="overworld_left" style="flex-direction: row; justify-content: space-between; padding-top: 4px;">
+                <ui:Label text="UI Left" display-tooltip-when-elided="true" style="font-size: 18px;" />
+                <ui:Label text="LeftArrow" display-tooltip-when-elided="true" name="current_ui_left" class="binding_unselected" style="font-size: 18px;" />
+            </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="other_controls" style="position: absolute; top: 20%; width: 100%; height: 80%; visibility: hidden;">
             <ui:VisualElement name="title_selectable" style="align-items: center; justify-content: center; font-size: 30px;">

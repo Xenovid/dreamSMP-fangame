@@ -32,9 +32,11 @@ public class PauseMenuSystem : SystemBase
       private bool canQuickGive;
       private bool canQuickDrop;
       private bool canQuickUse;
+      PauseSystem pauseSystem;
 
       protected override void OnStartRunning()
       {
+          pauseSystem = World.GetOrCreateSystem<PauseSystem>();
             base.OnStartRunning();
             sceneSystem = World.GetOrCreateSystem<SceneSystem>();
             settingsMenuSystem = World.GetOrCreateSystem<SettingsMenuSystem>();
@@ -84,7 +86,7 @@ public class PauseMenuSystem : SystemBase
                     VisualElement pauseBackground = root.Q<VisualElement>("pause_background");
 
                     if(!isPaused && overworldInput.escape){
-                        
+                        pauseSystem.Pause();
                         healingSystem.OnHealthChange += UpdateCharacterInfo_OnStatsUpdate;
                         isPaused = true;
                         InputGatheringSystem.currentInput = CurrentInput.ui;
@@ -119,6 +121,7 @@ public class PauseMenuSystem : SystemBase
                     }
                     else if(isPaused && !isSelected && uiInput.goback)
                         {
+                            pauseSystem.UnPause();
                             isPaused = false;
                             pauseBackground.visible = false;
                             InputGatheringSystem.currentInput = CurrentInput.overworld;
@@ -1094,6 +1097,7 @@ public class PauseMenuSystem : SystemBase
         
       }
     private void DisableMenu_OnTitleReturn(System.Object sender, System.EventArgs e){
+        pauseSystem.UnPause();
         isPaused = false;
         currentCharacter = 1;
         currentItem = 1;

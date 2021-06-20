@@ -26,6 +26,7 @@ public class AnimationData : IComponentData
     public string takenDamageAnimationName;
 
     public string basicSwordAnimationName;
+    public string characterDownAnimationName;
 }
 [System.Serializable]
 public struct AnimationSaveData{

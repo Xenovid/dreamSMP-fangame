@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System;
 using Unity.Scenes;
+using System.IO;
 public class PlayerLoseMenuSystem : SystemBase
 {
     UIDocument UIDoc;
@@ -33,13 +34,22 @@ public class PlayerLoseMenuSystem : SystemBase
 
             switch(currentSelectable){
                 case LoseMenuSelectables.continueButton:
-                    if(input.goselected){
+                    if(input.goselected && File.Exists(Application.persistentDataPath + "/tempsave" + "/SavePointData")){
+                        isActive = false;
                         OnContinue?.Invoke(this, EventArgs.Empty);
                         losingBackground.visible = false;
                         saveAndLoadSystem.LoadLastSavePoint();
                         InputGatheringSystem.currentInput = CurrentInput.overworld;
+                        Entities
+                        .WithoutBurst()
+                        .WithStructuralChanges()
+                        .WithAll<PlayerTag>()
+                        .ForEach((Animator animator, in AnimationData animationData) => {
+                            animator.Play(animationData.idleRightAnimationName);
+                        }).Run();
                     }
                     if(input.movedown){
+                        AudioManager.playSound("menuchange");
                         UnSelectButton(losingBackground.Q<Label>("continue"));
                         SelectButton(losingBackground.Q<Label>("title"));
                         currentSelectable = LoseMenuSelectables.titleScreen;
@@ -47,11 +57,14 @@ public class PlayerLoseMenuSystem : SystemBase
                 break;
                 case LoseMenuSelectables.titleScreen:
                     if(input.goselected){
+                        isActive = false;
+                        currentSelectable = LoseMenuSelectables.continueButton;
                         sceneSystem.LoadSceneAsync(SubSceneReferences.Instance.TitleSubScene.SceneGUID);
                         sceneSystem.UnloadScene(SubSceneReferences.Instance.EssentialsSubScene.SceneGUID);
                         AudioManager.playSong("menuMusic");
                     }
                     if(input.moveup){
+                        AudioManager.playSound("menuchange");
                         SelectButton(losingBackground.Q<Label>("continue"));
                         UnSelectButton(losingBackground.Q<Label>("title"));
                         currentSelectable = LoseMenuSelectables.continueButton;
@@ -63,6 +76,7 @@ public class PlayerLoseMenuSystem : SystemBase
 
     private void DisplayLoss_OnPlayerLoss(object sender, OnBattleEndEventArgs e){
         if(!e.isPlayerVictor){
+            AudioManager.playSound("defeatsong");
             EntityQuery UIDocQuery = GetEntityQuery(typeof(UIDocument), typeof(OverworldUITag));
             UIDoc = EntityManager.GetComponentObject<UIDocument>(UIDocQuery.GetSingletonEntity());
 

@@ -14,7 +14,7 @@ public class InputGatheringSystem : ComponentSystem,
     ActionMap.IOverworldActions,
     ActionMap.IUIActions
 {
-    static ActionMap m_InputActions;
+    public static ActionMap m_InputActions;
 
     EntityQuery m_UIInputInputQuery;
     EntityQuery m_OverWorldInputQuery;

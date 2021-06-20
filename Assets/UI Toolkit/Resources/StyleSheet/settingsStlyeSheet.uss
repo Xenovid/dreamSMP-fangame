@@ -24,7 +24,7 @@
     border-bottom-width: 5px;
     font-size: 40px;
     width: 50%;
-    color: rgba(255, 255, 255, 255);
+    color: rgb(255, 255, 255);
 }
 
 .volume_slider {
@@ -32,5 +32,37 @@
 
 .unity-label {
     -unity-font-definition: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7 SDF');
-    color: rgba(255, 255, 255, 255);
+    color: rgb(255, 255, 255);
+}
+
+.binding_selected {
+    border-left-color: rgba(180, 0, 0, 255);
+    border-right-color: rgba(180, 0, 0, 255);
+    border-top-color: rgba(180, 0, 0, 255);
+    border-bottom-color: rgba(180, 0, 0, 255);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+}
+
+.binding_unselected {
+}
+
+.binding_hover {
+    -unity-font-style: bold;
+    border-left-color: rgb(19, 19, 19);
+    border-right-color: rgb(19, 19, 19);
+    border-top-color: rgb(19, 19, 19);
+    border-bottom-color: rgb(19, 19, 19);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    background-color: rgb(70, 70, 70);
+}
+
+.unity-text-element {
+    color: rgb(255, 255, 255);
+    -unity-font-definition: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7 SDF');
 }
