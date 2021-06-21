@@ -280,7 +280,7 @@ public class SaveAndLoadSystem : SystemBase
         .WithoutBurst()
         .WithStructuralChanges()
         .ForEach((Entity entity, in SubScene subScene) =>{
-            if(!(subScene.SceneName == "GameEssentialSubScene")){
+            if(!(subScene.SceneGUID == SubSceneReferences.Instance.EssentialsSubScene.SceneGUID)){
                 sceneSystem.UnloadScene(subScene.SceneGUID);
             }
         }).Run();
@@ -288,6 +288,7 @@ public class SaveAndLoadSystem : SystemBase
     public void LoadLastSavePoint(){
         Entities
         .WithAll<PlayerTag>()
+        .WithoutBurst()
         .ForEach((ref Translation translation, in ToSaveTag saveTag) =>{
             string savePath = Application.persistentDataPath + "/tempsave" +  "/player" + saveTag.saveID.ToString();
             string jsonString = File.ReadAllText(savePath);
