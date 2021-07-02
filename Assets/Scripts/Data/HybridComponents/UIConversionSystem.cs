@@ -1,5 +1,6 @@
 using Unity.Entities;
 using UnityEngine.UIElements;
+using UnityEngine.UIElements.InputSystem;
 using UnityEngine;
 
 public class UIConversionSystem : GameObjectConversionSystem
@@ -10,6 +11,8 @@ public class UIConversionSystem : GameObjectConversionSystem
             AddHybridComponent(UIDoc);
             //AddHybridComponent(inputSystem);
         });
-        
+        Entities.ForEach((InputSystemEventSystem inputSystem) => {
+            AddHybridComponent(inputSystem);
+        });
     }
 }

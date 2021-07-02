@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayerID: 1408592303
   m_SortingLayer: 2
   m_SortingOrder: 2
-  m_Sprite: {fileID: -5782521184205631276, guid: 4189cf20b6be1179a80cd39461f57209, type: 3}
+  m_Sprite: {fileID: -8585762769051335824, guid: dcbaad2cf0aff174dbd8c3995ffce1bd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -136,6 +136,17 @@ MonoBehaviour:
     name: 
     description: 
     useTime: 0
+    weaponSkill:
+      name: 
+      description: 
+      functionName: 
+      animationName: 
+      damageIncrease: 0
+      cost: 0
+      waitTime: 0
+      keyTimes: []
+      skillType: 0
+      effects: 
   equipedArmor:
     name: 
     defense: 0
@@ -346,24 +357,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5335c935b364cd2ea4445cbec122147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previouslyFacing: 0
+  previouslyFacing: 3
   currentAnimation: 
   inIdleAnimation: 0
   hasTakenDamage: 0
   isAttacking: 0
   isDown: 0
-  idleUpAnimationName: 
-  idleDownAnimationName: 
-  idleRightAnimationName: 
-  idleLeftAnimationName: 
-  walkUpAnimationName: 
-  walkDownAnimationName: 
-  walkRightAnimationName: 
-  walkLeftAnimationName: 
+  idleUpAnimationName: ZombieIdleUp
+  idleDownAnimationName: ZombieIdleDown
+  idleRightAnimationName: ZombieIdleRight
+  idleLeftAnimationName: ZombieIdleLeft
+  walkUpAnimationName: ZombieWalkUp
+  walkDownAnimationName: ZombieWalkDown
+  walkRightAnimationName: ZombieWalkRight
+  walkLeftAnimationName: ZombieWalkLeft
   fistIdleAnimationName: 
   swordIdleAnimationName: 
   takenDamageAnimationName: 
   basicSwordAnimationName: 
+  characterDownAnimationName: 
 --- !u!114 &8041297513315535549
 MonoBehaviour:
   m_ObjectHideFlags: 0
