@@ -1,19 +1,14 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="/Assets/UI Toolkit/Resources/StyleSheet/settingsStlyeSheet.uss" />
-    <ui:VisualElement name="settings_background" style="flex-shrink: 0; flex-grow: 1; background-color: rgb(58, 58, 58); visibility: hidden;">
+    <ui:VisualElement name="settings_background" style="flex-shrink: 0; flex-grow: 1; background-color: rgb(58, 58, 58); visibility: visible;">
         <ui:VisualElement style="height: 20%; flex-direction: row;">
-            <ui:VisualElement name="volume_button" class="option_selected" style="flex-grow: 1; align-items: center; justify-content: center;">
-                <ui:Label text="volume" display-tooltip-when-elided="true" />
-            </ui:VisualElement>
-            <ui:VisualElement name="bindings_button" class="option_unselected" style="flex-grow: 0; align-items: center; justify-content: center;">
-                <ui:Label text="controls&#10;" display-tooltip-when-elided="true" />
-            </ui:VisualElement>
-            <ui:VisualElement name="other" class="option_unselected" style="flex-grow: 0; align-items: center; justify-content: center;">
-                <ui:Label text="other" display-tooltip-when-elided="true" />
-            </ui:VisualElement>
+            <ui:Button text="&#10;" display-tooltip-when-elided="true" focusable="true" class="settings_back_button" style="background-image: url(&apos;/Assets/Art/Icons/BackIcon.png&apos;); width: 139px;" />
+            <ui:Button text="Volume" display-tooltip-when-elided="true" name="volume_button" focusable="true" class="tab_button" style="flex-grow: 1;" />
+            <ui:Button text="Controls" display-tooltip-when-elided="true" name="bindings_button" focusable="true" class="tab_button" style="flex-grow: 1;" />
+            <ui:Button text="Other" display-tooltip-when-elided="true" name="others_button" focusable="true" class="tab_button" style="flex-grow: 1;" />
         </ui:VisualElement>
-        <ui:VisualElement name="volume_controls" style="flex-grow: 0; top: 20%; position: absolute; width: 100%; height: 80%;">
-            <ui:Slider picking-mode="Ignore" label="Volume" value="100" high-value="1" direction="Horizontal" inverted="false" name="volume_slider" focusable="true" class="volume_slider" style="font-size: 30px; -unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); color: rgb(255, 255, 255);" />
+        <ui:VisualElement name="volume_controls" style="flex-grow: 0; top: 20%; position: absolute; width: 100%; height: 80%; visibility: hidden;">
+            <ui:Slider picking-mode="Ignore" label="Volume" value="100" high-value="1" name="volume_slider" focusable="true" class="volume_slider" style="font-size: 30px; -unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); color: rgb(255, 255, 255);" />
         </ui:VisualElement>
         <ui:VisualElement name="bindings_controls" style="position: absolute; top: 20%; width: 100%; height: 80%; flex-direction: column; visibility: hidden;">
             <ui:Label text="Overworld" display-tooltip-when-elided="true" style="-unity-text-align: upper-center; font-size: 20px;" />
@@ -68,9 +63,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="other_controls" style="position: absolute; top: 20%; width: 100%; height: 80%; visibility: hidden;">
-            <ui:VisualElement name="title_selectable" style="align-items: center; justify-content: center; font-size: 30px;">
-                <ui:Label text="return to title screen" display-tooltip-when-elided="true" name="return_text" />
-            </ui:VisualElement>
+            <ui:Button text="Return To Title Screen" display-tooltip-when-elided="true" name="title_return_button" focusable="true" class="settings_button" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

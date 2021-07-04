@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 [UpdateBefore(typeof(CreditsMenuSystem))]
 [UpdateBefore(typeof(OptionMenuSystem))]
 [UpdateBefore(typeof(PauseMenuSystem))]
-[UpdateBefore(typeof(TitleScreenSystem))]
+[UpdateBefore(typeof(UISystem))]
 public class InputGatheringSystem : ComponentSystem,
     ActionMap.IOverworldActions,
     ActionMap.IUIActions

@@ -29,6 +29,7 @@ public class SettingsMenuSystem : SystemBase
       }
     protected override void OnUpdate()
     {
+        /*
         EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
         UIInputData input = uiInputQuery.GetSingleton<UIInputData>();
 
@@ -198,7 +199,7 @@ public class SettingsMenuSystem : SystemBase
                 
             }
         }).Run();
-        
+        */
     }
     private Label GetBindingEquivalent(Controls control){
         string uiName = "";

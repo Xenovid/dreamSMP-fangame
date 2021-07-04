@@ -7,6 +7,70 @@
 }
 
 .unity-text-element {
-    color: rgba(255, 255, 255, 255);
+    color: rgb(255, 255, 255);
     -unity-font-definition: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7 SDF');
+}
+
+.file {
+    background-color: rgba(58, 58, 58, 255);
+    border-left-color: rgba(140, 140, 140, 255);
+    border-right-color: rgba(140, 140, 140, 255);
+    border-top-color: rgba(140, 140, 140, 255);
+    border-bottom-color: rgba(140, 140, 140, 255);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+}
+
+.file:hover {
+    background-color: rgb(84, 84, 84);
+    border-left-color: rgb(140, 140, 140);
+    border-right-color: rgb(140, 140, 140);
+    border-top-color: rgb(140, 140, 140);
+    border-bottom-color: rgb(140, 140, 140);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+}
+
+.file:focus {
+    background-color: rgb(115, 115, 115);
+    border-left-color: rgb(140, 140, 140);
+    border-right-color: rgb(140, 140, 140);
+    border-top-color: rgb(140, 140, 140);
+    border-bottom-color: rgb(140, 140, 140);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+}
+
+.file:active {
+    background-color: rgb(113, 113, 113);
+    border-left-color: rgb(140, 140, 140);
+    border-right-color: rgb(140, 140, 140);
+    border-top-color: rgb(140, 140, 140);
+    border-bottom-color: rgb(140, 140, 140);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
 }

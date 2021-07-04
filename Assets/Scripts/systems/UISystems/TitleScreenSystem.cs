@@ -6,9 +6,9 @@ using Unity.Scenes;
 using System;
 using System.IO;
 using System.Collections;
-
+/*
 public class TitleScreenSystem : SystemBase
-{
+{/*
     int currentSaveFile;
     public event StartGameEventHandler StartGame;
     public event EventHandler StartNewGame;
@@ -82,7 +82,7 @@ public class TitleScreenSystem : SystemBase
                                     AudioManager.stopSong("menuMusic");
                                     isLinked = false;
                                     //Enabled = false;
-                                }
+                        }
                         /*else if(input.moveup){
                             AudioManager.playSound("menuchange");
                             currentSelection = titleMenuSelectables.Exit;
@@ -93,7 +93,7 @@ public class TitleScreenSystem : SystemBase
                             startButton.RemoveFromClassList("selected");
                             startButton.AddToClassList("not_selected");
 
-                        }*/
+                        }
                         else if(input.movedown){
                             // only allows to select the continue button if there is a save
                             if(File.Exists(Application.persistentDataPath + "/save1" + "/SavePointData") || File.Exists(Application.persistentDataPath + "/save2" + "/SavePointData")){
@@ -190,14 +190,7 @@ public class TitleScreenSystem : SystemBase
                                     }
                                 }
                                 else if(input.goselected){
-                                    AudioManager.playSound("menuselect");
-
-                                    settingsMenuSystem.OnSettingsExit += ReactivateTitle_OnSettingsExit;
-
-                                    titleBackground.visible = false;
-                                    isInSettings = true;
-                                    isSelected = true;
-                                    settingsMenuSystem.ActivateMenu();
+                                    
                                 }
                                 else if(input.moveup){
                                     if(File.Exists(Application.persistentDataPath + "/save1" + "/SavePointData") || File.Exists(Application.persistentDataPath + "/save1" + "/SavePointData")){
@@ -320,7 +313,7 @@ public class TitleScreenSystem : SystemBase
 
                                     exitButton.RemoveFromClassList("selected");
                                     exitButton.AddToClassList("not_selected");
-                                }*/
+                                }
                                 break;
 
 
@@ -376,7 +369,7 @@ public class TitleScreenSystem : SystemBase
         }
     }
 
-}
+}*/
 
 public enum currentTitleMenu{
     MainMenu,
@@ -394,7 +387,7 @@ public enum titleMenuSelectables{
 public class StartGameEventArgs : EventArgs{
     public int saveFileNumber;
 }
-public delegate void StartGameEventHandler(object sender, StartGameEventArgs e);
+
 
 public class temp : MonoBehaviour{
     public static void quitGame(){

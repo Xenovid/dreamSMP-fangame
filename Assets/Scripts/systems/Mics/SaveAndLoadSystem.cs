@@ -15,7 +15,7 @@ public class SaveAndLoadSystem : SystemBase
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
     string savePointName;
     SceneSystem sceneSystem;
-    TitleScreenSystem titleSystem;
+    UISystem uISystem;
     int currentSaveFile;
     SaveTriggerSystem saveTriggerSystem;
     bool isSaving;
@@ -24,12 +24,12 @@ public class SaveAndLoadSystem : SystemBase
     protected override void OnCreate()
     {
         isSaving = false;
-        titleSystem = World.GetOrCreateSystem<TitleScreenSystem>();
+        uISystem = World.GetOrCreateSystem<UISystem>();
         sceneSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<SceneSystem>();
         saveTriggerSystem = World.GetOrCreateSystem<SaveTriggerSystem>();
 
-        titleSystem.StartGame += LoadGame;
-        titleSystem.StartNewGame += LoadNewGame;
+        uISystem.StartGame += LoadGame;
+        uISystem.StartNewGame += LoadNewGame;
         saveTriggerSystem.SavePointAlert += LoadSaveUI;
         // creates save folders if they don't exist
         CreateSaveFiles();
@@ -244,6 +244,7 @@ public class SaveAndLoadSystem : SystemBase
     }
     public void LoadCurrentSubscenes(int saveFileNumber){
         string savePath = Application.persistentDataPath + "/save" + saveFileNumber.ToString()+ "/loadedscenes";
+        Debug.Log(savePath);
         string jsonString = File.ReadAllText(savePath);
         CurrentSubScenesData subScenesData = JsonUtility.FromJson<CurrentSubScenesData>(jsonString);
         foreach(SubScene subScene in subScenesData.subScenes){

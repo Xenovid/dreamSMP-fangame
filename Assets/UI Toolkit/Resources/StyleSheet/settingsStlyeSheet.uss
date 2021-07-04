@@ -1,4 +1,4 @@
-.option_unselected {
+.tab_button {
     background-color: rgb(72, 72, 72);
     border-left-color: rgb(0, 0, 0);
     border-right-color: rgb(0, 0, 0);
@@ -9,22 +9,6 @@
     border-top-width: 5px;
     border-bottom-width: 5px;
     font-size: 40px;
-    width: 50%;
-}
-
-.option_selected {
-    background-color: rgb(130, 130, 130);
-    border-left-color: rgb(41, 41, 41);
-    border-right-color: rgb(41, 41, 41);
-    border-top-color: rgb(41, 41, 41);
-    border-bottom-color: rgb(41, 41, 41);
-    border-left-width: 5px;
-    border-right-width: 5px;
-    border-top-width: 5px;
-    border-bottom-width: 5px;
-    font-size: 40px;
-    width: 50%;
-    color: rgb(255, 255, 255);
 }
 
 .volume_slider {
@@ -36,10 +20,10 @@
 }
 
 .binding_selected {
-    border-left-color: rgba(180, 0, 0, 255);
-    border-right-color: rgba(180, 0, 0, 255);
-    border-top-color: rgba(180, 0, 0, 255);
-    border-bottom-color: rgba(180, 0, 0, 255);
+    border-left-color: rgb(180, 0, 0);
+    border-right-color: rgb(180, 0, 0);
+    border-top-color: rgb(180, 0, 0);
+    border-bottom-color: rgb(180, 0, 0);
     border-left-width: 2px;
     border-right-width: 2px;
     border-top-width: 2px;
@@ -65,4 +49,180 @@
 .unity-text-element {
     color: rgb(255, 255, 255);
     -unity-font-definition: resource('Fonts & Materials/press-start-2p-font/PressStart2P-vaV7 SDF');
+}
+
+.settings_back_button {
+    background-color: rgb(72, 72, 72);
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    font-size: 40px;
+    width: 50%;
+}
+
+.settings_back_button:hover {
+    background-color: rgb(113, 113, 113);
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    font-size: 40px;
+    width: 50%;
+}
+
+.settings_back_button:focus {
+    background-color: rgb(130, 130, 130);
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    font-size: 40px;
+    width: 50%;
+}
+
+.settings_back_button:active {
+    background-color: rgb(164, 164, 164);
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    font-size: 40px;
+    width: 50%;
+}
+
+.tab_button:hover {
+    background-color: rgb(113, 113, 113);
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    font-size: 40px;
+}
+
+.tab_button:focus {
+    background-color: rgb(130, 130, 130);
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    font-size: 40px;
+}
+
+.tab_button:active {
+    background-color: rgb(164, 164, 164);
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    font-size: 40px;
+}
+
+#unity-tracker {
+    height: 6px;
+}
+
+#unity-dragger {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    height: 13px;
+    margin-top: -5px;
+}
+
+#unity-drag-container {
+}
+
+#unity-dragger-border {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-left: -4px;
+    margin-top: 2px;
+}
+
+.settings_button {
+    font-size: 30px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.settings_button:hover {
+    font-size: 30px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    background-color: rgba(0, 0, 0, 0.11);
+}
+
+.settings_button:focus {
+    font-size: 30px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.settings_button:active {
+    font-size: 30px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    background-color: rgba(0, 0, 0, 0.28);
 }
