@@ -3,7 +3,8 @@
     <Style src="/Assets/UI Toolkit/Resources/StyleSheet/BaseStartMenuStyle.uss" />
     <Style src="/Assets/UI Toolkit/Resources/StyleSheet/settingsStlyeSheet.uss" />
     <Style src="/Assets/UI Toolkit/Resources/StyleSheet/pauseMenuStyleSheet.uss" />
-    <ui:VisualElement name="title_background" style="align-items: center; justify-content: flex-start; top: auto; width: 100%; height: 100%; background-color: rgb(42, 200, 65); visibility: visible;">
+    <Style src="/Assets/UI Toolkit/Resources/StyleSheet/OverworldStlyeSheet.uss" />
+    <ui:VisualElement name="title_background" style="align-items: center; justify-content: flex-start; top: auto; width: 100%; height: 100%; background-color: rgb(42, 200, 65); visibility: hidden;">
         <ui:VisualElement name="Title" style="width: 80%; height: 15%; background-color: rgb(0, 0, 0); align-items: center; justify-content: center; font-size: 100px; -unity-font: resource(&apos;Fonts &amp; Materials/elf-boy-classic-font/Elfboyclassic-PKZgZ&apos;); margin-top: 0; -unity-text-align: middle-left; padding-top: 10px; padding-bottom: 10px;">
             <ui:Label text="The Dream Smp Fan RPG" display-tooltip-when-elided="true" style="align-items: center; justify-content: center; font-size: 40px;" />
         </ui:VisualElement>
@@ -114,31 +115,31 @@
             <ui:Button text="Return To Title Screen" display-tooltip-when-elided="true" name="title_return_button" focusable="true" class="settings_button" />
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="pause_background" style="flex-grow: 1; flex-shrink: 0; background-color: rgba(103, 103, 103, 0.72); visibility: visible; position: absolute; width: 100%; height: 100%;">
+    <ui:VisualElement name="pause_background" style="flex-grow: 1; flex-shrink: 0; visibility: hidden; position: absolute; width: 100%; height: 100%;">
         <ui:VisualElement name="UISelection" style="height: 20%; flex-direction: row;">
-            <ui:Button text="Party&#10;" display-tooltip-when-elided="true" name="Party" focusable="true" class="button_selected pause_menu_button" style="width: 20%; flex-shrink: 1; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
-            <ui:Button text="Equip" display-tooltip-when-elided="true" name="Equipment" focusable="true" class="button_unselected pause_menu_button" style="width: 20%; flex-shrink: 1; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
-            <ui:Button text="Items" display-tooltip-when-elided="true" name="Item" focusable="true" class="button_unselected pause_menu_button" style="width: 20%; flex-shrink: 1; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
-            <ui:Button text="Skills&#10;" display-tooltip-when-elided="true" name="Skills" focusable="true" class="button_unselected pause_menu_button" style="width: 20%; flex-shrink: 1; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
-            <ui:Button text="Options" display-tooltip-when-elided="true" name="Settings" focusable="true" class="button_unselected pause_menu_button" style="height: auto; width: 20%; flex-shrink: 1; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
+            <ui:Button display-tooltip-when-elided="true" name="pause_back_button" focusable="true" class="button_selected back_button" style="width: 141px; flex-shrink: 1; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); background-image: url(&apos;/Assets/Art/Icons/BackIcon.png&apos;);" />
+            <ui:Button text="Equip" display-tooltip-when-elided="true" name="Equipment" focusable="true" class="button_unselected pause_menu_button" style="width: 20%; flex-shrink: 1; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); flex-grow: 1;" />
+            <ui:Button text="Items" display-tooltip-when-elided="true" name="Item" focusable="true" class="button_unselected pause_menu_button" style="width: 20%; flex-shrink: 1; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); flex-grow: 1;" />
+            <ui:Button text="Skills&#10;" display-tooltip-when-elided="true" name="Skills" focusable="true" class="button_unselected pause_menu_button" style="width: 20%; flex-shrink: 1; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); flex-grow: 1;" />
+            <ui:Button text="Options" display-tooltip-when-elided="true" name="Settings" focusable="true" class="button_unselected pause_menu_button" style="height: auto; width: 20%; flex-shrink: 1; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); flex-grow: 1;" />
         </ui:VisualElement>
         <ui:VisualElement name="item_selection" style="position: absolute; top: 20%; width: 100%; height: 30%; flex-direction: row; visibility: hidden;">
             <ui:VisualElement name="item_list" class="tab_unselected" style="width: 75%; border-right-color: rgb(31, 31, 31); border-right-width: 5px; flex-direction: row; border-bottom-color: rgb(31, 31, 31); border-bottom-width: 5px;">
                 <ui:VisualElement name="list1" style="width: 50%;">
                     <ui:Label text="Items" display-tooltip-when-elided="true" class="text" style="font-size: 20px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
-                    <ui:Label text="Potion of Healing" display-tooltip-when-elided="true" name="item1" class="item_unselected" />
-                    <ui:Label text="None" display-tooltip-when-elided="true" name="item2" class="item_unselected" />
-                    <ui:Label text="None" display-tooltip-when-elided="true" name="item3" class="item_unselected" />
-                    <ui:Label text="None" display-tooltip-when-elided="true" name="item4" class="item_unselected" />
-                    <ui:Label text="None" display-tooltip-when-elided="true" name="item5" class="item_unselected" />
+                    <ui:Button text="None" display-tooltip-when-elided="true" name="item1" focusable="true" class="item_button" style="-unity-text-align: middle-left;" />
+                    <ui:Button text="None" display-tooltip-when-elided="true" name="item2" focusable="true" class="item_button" style="-unity-text-align: middle-left;" />
+                    <ui:Button text="None" display-tooltip-when-elided="true" name="item3" focusable="true" class="item_button" style="-unity-text-align: middle-left;" />
+                    <ui:Button text="None" display-tooltip-when-elided="true" name="item4" focusable="true" class="item_button" style="-unity-text-align: middle-left;" />
+                    <ui:Button text="None" display-tooltip-when-elided="true" name="item5" focusable="true" class="item_button" style="-unity-text-align: middle-left;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="list2" style="width: 50%;">
                     <ui:VisualElement style="height: 25px;" />
-                    <ui:Label text="None" display-tooltip-when-elided="true" name="item6" class="item_unselected" />
-                    <ui:Label text="None" display-tooltip-when-elided="true" name="item7" class="item_unselected" />
-                    <ui:Label text="None" display-tooltip-when-elided="true" name="item8" class="item_unselected" />
-                    <ui:Label text="None" display-tooltip-when-elided="true" name="item9" class="item_unselected" />
-                    <ui:Label text="None" display-tooltip-when-elided="true" name="item10" class="item_unselected" />
+                    <ui:Button text="None" display-tooltip-when-elided="true" name="item6" focusable="true" class="item_button" style="-unity-text-align: middle-left;" />
+                    <ui:Button text="None" display-tooltip-when-elided="true" name="item7" focusable="true" class="item_button" style="-unity-text-align: middle-left;" />
+                    <ui:Button text="None" display-tooltip-when-elided="true" name="item8" focusable="true" class="item_button" style="-unity-text-align: middle-left;" />
+                    <ui:Button text="None" display-tooltip-when-elided="true" name="item9" focusable="true" class="item_button" style="-unity-text-align: middle-left;" />
+                    <ui:Button text="None" display-tooltip-when-elided="true" name="item10" focusable="true" class="item_button" style="-unity-text-align: middle-left;" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="item_desc_background" class="tab_unselected" style="width: 50%; border-bottom-color: rgb(31, 31, 31); border-bottom-width: 5px;">
@@ -148,17 +149,14 @@
         <ui:VisualElement name="equipment_info" style="background-color: rgb(79, 79, 79); height: 30%; flex-direction: row; position: absolute; top: 20%; width: 100%; visibility: hidden;">
             <ui:VisualElement name="current_equipment" style="border-right-width: 5px; border-right-color: rgb(31, 31, 31); width: 50%; border-bottom-width: 5px; border-bottom-color: rgb(31, 31, 31);">
                 <ui:Label text="current equipment" display-tooltip-when-elided="true" class="text" style="-unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); font-size: 20px;" />
-                <ui:Label text="Weapon:" display-tooltip-when-elided="true" name="current_weapon" class="item_unselected" style="font-size: 18px; border-left-width: 5px; border-top-width: 10px;" />
-                <ui:Label text="Armor: " display-tooltip-when-elided="true" name="current_armor" class="item_unselected" style="font-size: 18px; border-left-width: 5px; border-top-width: 10px;" />
-                <ui:Label text="Extra:" display-tooltip-when-elided="true" name="current_charm" class="item_unselected" style="font-size: 18px; border-top-width: 10px; border-left-width: 5px;" />
+                <ui:Button text="Weapon: " display-tooltip-when-elided="true" focusable="true" name="current_weapon" class="item_button" style="font-size: 18px; -unity-text-align: middle-left;" />
+                <ui:Button text="Armor: " display-tooltip-when-elided="true" focusable="true" name="current_armor" class="item_button" style="font-size: 18px; -unity-text-align: middle-left;" />
+                <ui:Button text="Charm: " display-tooltip-when-elided="true" focusable="true" name="current_charm" class="item_button" style="font-size: 18px; -unity-text-align: middle-left;" />
             </ui:VisualElement>
             <ui:VisualElement name="other_equipment" class="tab_selected" style="flex-grow: 1; width: 50%; position: absolute; height: 100%; visibility: hidden; top: 0; left: 0; border-bottom-color: rgb(31, 31, 31); border-right-color: rgb(31, 31, 31); border-right-width: 5px; border-bottom-width: 5px;">
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="equip1" class="item_unselected" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="equip2" class="item_unselected" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="equip3" class="item_unselected" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="equip4" class="item_unselected" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="equip5" class="item_unselected" />
-                <ui:VisualElement name="weapon_desc" style="flex-grow: 1;" />
+                <ui:ScrollView name="equipment_list">
+                    <ui:Button text="skill" display-tooltip-when-elided="true" name="equip_test" class="item_button" style="-unity-text-align: middle-left;" />
+                </ui:ScrollView>
             </ui:VisualElement>
             <ui:VisualElement name="equipment_desc" style="width: 50%; border-bottom-color: rgb(31, 31, 31); border-bottom-width: 5px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); font-size: 18px;">
                 <ui:Label text="&#10;" display-tooltip-when-elided="true" name="equipment_text" class="text" style="font-size: 18px;" />
@@ -167,20 +165,15 @@
         <ui:VisualElement name="skill_selection" style="position: absolute; top: 20%; width: 100%; height: 30%; background-color: rgb(79, 79, 79); flex-direction: row; flex-grow: 1; visibility: hidden;">
             <ui:VisualElement name="current_skills" class="tab_unselected" style="border-right-width: 5px; border-right-color: rgb(19, 19, 19); width: 50%; height: 100%; border-bottom-width: 5px; border-bottom-color: rgb(19, 19, 19);">
                 <ui:Label text="Equiped Skills" display-tooltip-when-elided="true" class="text" style="font-size: 20px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="skill1" class="item_selected" style="font-size: 18px; margin-left: 5px; margin-top: 5px;" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="skill2" class="item_unselected" style="font-size: 18px; margin-left: 5px; margin-top: 5px;" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="skill3" class="item_unselected" style="font-size: 18px; margin-left: 5px; margin-top: 5px;" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="skill4" class="item_unselected" style="font-size: 18px; margin-left: 5px; margin-top: 5px;" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="skill5" class="item_unselected" style="font-size: 18px; margin-left: 5px; margin-top: 5px;" />
+                <ui:Button text="skill1" display-tooltip-when-elided="true" name="skill1" class="item_button" style="-unity-text-align: middle-left;" />
+                <ui:Button text="skill1" display-tooltip-when-elided="true" name="skill2" class="item_button" style="-unity-text-align: middle-left;" />
+                <ui:Button text="skill1" display-tooltip-when-elided="true" name="skill3" class="item_button" style="-unity-text-align: middle-left;" />
+                <ui:Button text="skill1" display-tooltip-when-elided="true" name="skill4" class="item_button" style="-unity-text-align: middle-left;" />
+                <ui:Button text="skill1" display-tooltip-when-elided="true" name="skill5" class="item_button" style="-unity-text-align: middle-left;" />
             </ui:VisualElement>
             <ui:VisualElement name="other_skills" class="tab_selected" style="flex-grow: 1; width: 50%; position: absolute; height: 100%; visibility: hidden;">
                 <ui:Label text="All Skills" display-tooltip-when-elided="true" class="text" style="font-size: 20px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="skill1" class="item_unselected" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="skill2" class="item_unselected" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="skill3" class="item_unselected" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="skill4" class="item_unselected" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="skill5" class="item_unselected" />
-                <ui:Label text="None" display-tooltip-when-elided="true" name="skill6" class="item_unselected" />
+                <ui:ScrollView name="other_skills_list" />
             </ui:VisualElement>
             <ui:VisualElement name="skill_desc_holder" class="tab_unselected" style="flex-grow: 1; width: 50%; height: 100%; border-bottom-color: rgb(19, 19, 19); border-bottom-width: 5px;">
                 <ui:Label display-tooltip-when-elided="true" name="skill_desc" class="text" style="font-size: 18px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
@@ -233,18 +226,34 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="equipment_quickmenu" class="quick_menu" style="visibility: hidden;">
-            <ui:Label text="Switch" display-tooltip-when-elided="true" enable-rich-text="true" name="switch" class="quickmenu_button_selected" style="font-size: 15px;" />
-            <ui:Label text="cancel" display-tooltip-when-elided="true" name="cancel" class="quickmenu_button_unselected" style="font-size: 15px;" />
+            <ui:Button text="switch" display-tooltip-when-elided="true" name="switch" focusable="true" class="quickmenu_button" style="font-size: 12px; -unity-text-align: middle-left;" />
+            <ui:Button text="cancel" display-tooltip-when-elided="true" name="cancel" focusable="true" class="quickmenu_button" style="font-size: 12px; -unity-text-align: middle-left;" />
         </ui:VisualElement>
         <ui:VisualElement name="skills_quickmenu" class="quick_menu" style="visibility: hidden;">
-            <ui:Label text="Switch" display-tooltip-when-elided="true" enable-rich-text="true" name="switch" class="quickmenu_button_unselected" />
-            <ui:Label text="cancel" display-tooltip-when-elided="true" name="cancel" class="quickmenu_button_unselected" />
+            <ui:Button text="switch" display-tooltip-when-elided="true" name="switch" focusable="true" class="quickmenu_button" style="font-size: 12px; -unity-text-align: middle-left;" />
+            <ui:Button text="cancel" display-tooltip-when-elided="true" name="cancel" focusable="true" class="quickmenu_button" style="font-size: 12px; -unity-text-align: middle-left;" />
         </ui:VisualElement>
         <ui:VisualElement name="items_quickmenu" class="quick_menu" style="visibility: hidden;">
-            <ui:Label text="use&#10;" display-tooltip-when-elided="true" enable-rich-text="true" name="use" class="quickmenu_button_unselected" />
-            <ui:Label text="drop&#10;" display-tooltip-when-elided="true" name="drop" class="quickmenu_button_unselected" />
-            <ui:Label text="give&#10;" display-tooltip-when-elided="true" name="give" class="quickmenu_button_unselected" />
-            <ui:Label text="cancel" display-tooltip-when-elided="true" name="cancel" class="quickmenu_button_unselected" />
+            <ui:Button text="use" display-tooltip-when-elided="true" name="use" focusable="true" class="quickmenu_button" style="font-size: 12px; -unity-text-align: middle-left;" />
+            <ui:Button text="drop" display-tooltip-when-elided="true" name="drop" focusable="true" class="quickmenu_button" style="font-size: 12px; -unity-text-align: middle-left;" />
+            <ui:Button text="give" display-tooltip-when-elided="true" name="give" focusable="true" class="quickmenu_button" style="font-size: 12px; -unity-text-align: middle-left;" />
+            <ui:Button text="cancel" display-tooltip-when-elided="true" name="cancel" focusable="true" class="quickmenu_button" style="font-size: 12px; -unity-text-align: middle-left;" />
         </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="TextBoxUI" class="base" style="top: 80%; flex-direction: row; height: 20%; background-color: rgb(89, 89, 89); visibility: hidden; border-top-color: rgb(29, 29, 29); border-top-width: 5px;">
+        <ui:VisualElement name="CharacterImage" style="width: 11%;" />
+        <ui:Label display-tooltip-when-elided="true" name="TextBoxText" class="text" style="flex-grow: 1; font-size: 20px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
+    </ui:VisualElement>
+    <ui:VisualElement name="file_select" style="position: absolute; width: 100%; height: 100%; visibility: hidden; background-color: rgba(60, 60, 60, 0.11); align-items: stretch;">
+        <ui:Instance template="SaveFile" name="save_file1" style="align-items: center; justify-content: space-between; flex-grow: 1;" />
+        <ui:Instance template="SaveFile" name="save_file2" style="position: relative; flex-grow: 1; align-items: center;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="losing_screen" style="position: absolute; width: 100%; height: 100%; align-items: center; visibility: hidden;">
+        <ui:Label text="Technoblade Never Dies" display-tooltip-when-elided="true" name="continue" class="selected" style="color: rgb(255, 0, 0); width: 30%; -unity-text-align: upper-center; font-size: 16px; margin-top: 10px; margin-bottom: 10px; padding-top: 12px; padding-bottom: 11px;" />
+        <ui:Label text="To TitleScreen" display-tooltip-when-elided="true" name="title" class="unselected" style="-unity-text-align: upper-center; width: 30%; font-size: 16px; margin-top: 10px; padding-top: 12px; padding-bottom: 11px;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="overworld_overlay" style="position: absolute; width: 100%; height: 100%; visibility: visible;">
+        <ui:Button text="Interact&#10;" display-tooltip-when-elided="true" name="interactive_item_check" enable-rich-text="true" class="interactive_button" style="position: absolute; top: 606px; left: 21px; width: 156px; height: 55px;" />
+        <ui:Button text="Pause" display-tooltip-when-elided="true" name="pause_button" class="pause_button" style="position: absolute; top: 19px; left: 22px; height: 55px; width: 156px;" />
     </ui:VisualElement>
 </ui:UXML>

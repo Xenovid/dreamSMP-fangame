@@ -22,7 +22,7 @@ public class OverWorldHealingSystem : SystemBase
             }
         }).Run();
         if(isHealthChanged){
-                OnHealthChange.Invoke(this, EventArgs.Empty);
+                OnHealthChange?.Invoke(this, EventArgs.Empty);
         }
     }
 }

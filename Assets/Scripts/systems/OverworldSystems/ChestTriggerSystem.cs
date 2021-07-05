@@ -7,6 +7,7 @@ using UnityEngine;
 public class ChestTriggerSystem : SystemBase
 {
     StepPhysicsWorld physicsWorld;
+    UISystem uISystem;
     CollisionWorld collisionWorld;
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
 
@@ -14,6 +15,7 @@ public class ChestTriggerSystem : SystemBase
     {
         m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
 
+        uISystem = World.GetOrCreateSystem<UISystem>();
         physicsWorld = World.GetExistingSystem<StepPhysicsWorld>();
         var physicsWorldSystem = World.GetExistingSystem<Unity.Physics.Systems.BuildPhysicsWorld>();
         collisionWorld = physicsWorldSystem.PhysicsWorld.CollisionWorld;
@@ -37,7 +39,7 @@ public class ChestTriggerSystem : SystemBase
             DynamicBuffer<ArmorData> armorInventory = GetBuffer<ArmorData>(caravan);
             DynamicBuffer<CharmData> charmInventory = GetBuffer<CharmData>(caravan);
 
-            Entity messageBoard = GetSingletonEntity<OverworldUITag>();
+            Entity messageBoard = GetSingletonEntity<UITag>();
             DynamicBuffer<Text> texts = GetBuffer<Text>(messageBoard);
             Entity entityA = triggerEvent.EntityA;
             Entity entityB = triggerEvent.EntityB;
@@ -110,9 +112,7 @@ public class ChestTriggerSystem : SystemBase
                 }
                 else if(!isChestOpen){
                     // activate the visual indicator to let the player know they can interact with something
-                    OverworldUITag overworld = GetSingleton<OverworldUITag>();
-                    overworld.isNextToInteractive = true;
-                    SetSingleton<OverworldUITag>(overworld);
+                    uISystem.EnableInteractive();
                 }
                     
             }

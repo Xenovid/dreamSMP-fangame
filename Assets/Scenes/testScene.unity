@@ -284,7 +284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _SceneAsset: {fileID: 102900000, guid: bd5411a717ac0df80bba2a9b7ae75cad, type: 3}
   _HierarchyColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  AutoLoadScene: 0
+  AutoLoadScene: 1
   _SceneGUID:
     Value:
       x: 2047952347
@@ -481,8 +481,9 @@ GameObject:
   - component: {fileID: 1816887307}
   - component: {fileID: 1816887306}
   - component: {fileID: 1816887309}
-  - component: {fileID: 1816887311}
   - component: {fileID: 1816887308}
+  - component: {fileID: 1816887310}
+  - component: {fileID: 1816887311}
   m_Layer: 5
   m_Name: BaseMenu
   m_TagString: Untagged
@@ -545,6 +546,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd80aee4c778c64f933e7833febf249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1816887310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816887305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90b34909f0c5b5efdbfea38940809622, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Values: []
 --- !u!114 &1816887311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -554,7 +568,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1816887305}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eceecf7b7ccd724fc92b61384ca28d17, type: 3}
+  m_Script: {fileID: 11500000, guid: 81ed24f4b7bb52b468568cd37c092a1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1847510908
@@ -664,7 +678,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _SceneAsset: {fileID: 102900000, guid: cca4bbc87c59149b6820fd8a1076318a, type: 3}
   _HierarchyColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  AutoLoadScene: 1
+  AutoLoadScene: 0
   _SceneGUID:
     Value:
       x: 2361084620

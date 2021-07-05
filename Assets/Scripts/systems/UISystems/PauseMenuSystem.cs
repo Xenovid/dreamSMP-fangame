@@ -1135,12 +1135,10 @@ public class PauseMenuSystem : SystemBase
                                     {
                                         AudioManager.playSound("menuselect");
                                         //select the ui
-                                        //isSelected = true
                                         // temporarly goes to the title screen
                                         isSelected = true;
                                         settingsMenuSystem.OnSettingsExit += EnableMenu_OnSettingsExit;
                                         settingsMenuSystem.ActivateMenu();
-                                        //isPaused = false;
                                         pauseBackground.visible = false;
                                     }
                                     else if (uiInput.moveleft)
