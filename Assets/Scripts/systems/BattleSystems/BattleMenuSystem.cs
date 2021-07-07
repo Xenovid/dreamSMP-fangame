@@ -552,9 +552,9 @@ public class BattleMenuSystem : SystemBase
         InputGatheringSystem.currentInput = CurrentInput.overworld;
         transitionSystem.OnTransitionEnd -= ResumeGameWorld_OnTransitionEnd;
         
-        OverworldUITag overworld = GetSingleton<OverworldUITag>();
+        /*OverworldUITag overworld = GetSingleton<OverworldUITag>();
         overworld.isVisable = true;
-        SetSingleton<OverworldUITag>(overworld);
+        SetSingleton<OverworldUITag>(overworld);*/
     }
     private void DisableMenu_OnBattleEnd(System.Object sender, OnBattleEndEventArgs e){
         battleUI.visible = false;
@@ -620,9 +620,10 @@ public class BattleMenuSystem : SystemBase
         }
     }
     private void WaitForTransition_OnBattleStart(System.Object sender, System.EventArgs e){
+        /*
         OverworldUITag overworld = GetSingleton<OverworldUITag>();
         overworld.isVisable = false;
-        SetSingleton<OverworldUITag>(overworld);
+        SetSingleton<OverworldUITag>(overworld);*/
 
         playerNumber = battleSystem.playerEntities.Count;
         transitionSystem.OnTransitionEnd += EnableMenu_OnTransitionEnd;

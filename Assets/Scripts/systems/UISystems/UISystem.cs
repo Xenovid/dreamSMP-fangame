@@ -5,6 +5,7 @@ using UnityEngine;
 using System;
 using System.IO;
 using Unity.Scenes;
+[UpdateBefore(typeof(SaveTriggerSystem))]
 public class UISystem : SystemBase
 {
     bool setup = false;
@@ -16,7 +17,9 @@ public class UISystem : SystemBase
     public event EventHandler StartNewGame;
     SceneSystem sceneSystem;
     PauseSystem pauseSystem;
-    VisualElement root;
+    public VisualElement root;
+    public Button textBoxUI;
+    VisualElement nullFocus;
     SaveAndLoadSystem saveAndLoadSystem;
 
     VisualElement titleBackground;
@@ -31,14 +34,18 @@ public class UISystem : SystemBase
     VisualElement skillsQuickMenu;
     VisualElement equipmentInfo;
     VisualElement itemInfo;
-    VisualElement overworldOverlay;
+    public VisualElement overworldOverlay;
     VisualElement skillInfo;
     EntityQuery caravanQuery;
     EntityQuery characterStatsQuery;
     OverWorldHealingSystem healingSystem;
+    TextBoxSystem textBoxSystem;
+    EntityQuery interactiveButtonQuery;
     protected override void OnCreate()
     {
+        interactiveButtonQuery = GetEntityQuery(typeof(InteractiveButtonData));
         healingSystem = World.GetOrCreateSystem<OverWorldHealingSystem>();
+        textBoxSystem = World.GetOrCreateSystem<TextBoxSystem>();
         healingSystem.OnHealthChange += UpdateCharacterInfo_OnStatsUpdate;
 
         pauseSystem = World.GetOrCreateSystem<PauseSystem>();
@@ -52,10 +59,10 @@ public class UISystem : SystemBase
     }
     protected override void OnUpdate()
     {
-        EntityQuery tempQuery = GetEntityQuery(typeof(UILoadTag));
+        // sets up the ui
         Entities
         .WithoutBurst()
-        .WithAll< UILoadTag>()
+        .WithAll<UILoadTag>()
         .WithStructuralChanges()
         .ForEach((Entity entity, UIDocument UIDoc) =>{
             if(UIDoc.rootVisualElement != null){
@@ -63,6 +70,7 @@ public class UISystem : SystemBase
                 setup = true;
                 AudioManager.playSong("menuMusic");
                 root = UIDoc.rootVisualElement;
+                nullFocus = root.Q<VisualElement>("null_focus");
                 // for the title screen
                 {
                 titleBackground = root.Q<VisualElement>("title_background");
@@ -149,16 +157,22 @@ public class UISystem : SystemBase
                 equipmentInfo.Q<Button>("current_charm").clicked += () => CurrentEquipmentButton(currentWeapon, Equipment.Charm);
                 }
                 // for overworld overlay
+                {
                 overworldOverlay = root.Q<VisualElement>("overworld_overlay");
                 overworldOverlay.Q<Button>("pause_button").clicked += ActivatePauseMenu;
 
                 overworldOverlay.Q<Button>("interactive_item_check").SetEnabled(false);
+                overworldOverlay.Q<Button>("interactive_item_check").clicked += InteractButton;}
+                textBoxUI = root.Q<Button>("textbox");
+                textBoxUI.clicked += textBoxSystem.ContinueText;
+                //textBoxUI.Q<Button>("textbox_button").clicked += textBoxSystem.ContinueText;
+                
                 EntityManager.RemoveComponent<UILoadTag>(entity);
             }
         }).Run();
-        if(isInteractiveEnabled && setup){
+        if(isInteractiveEnabled && setup &&!textBoxSystem.isDisplaying){
             Button interactiveButton = overworldOverlay.Q<Button>("interactive_item_check");
-            if(!interactiveButton.enabledSelf){
+            if(!interactiveButton.enabledSelf && interactiveButton.visible == true){
                 AudioManager.playSound("menuavailable");
                 interactiveButton.SetEnabled(true);
             }
@@ -167,7 +181,25 @@ public class UISystem : SystemBase
             Button interactiveButton = overworldOverlay.Q<Button>("interactive_item_check");
             interactiveButton.SetEnabled(false);
         }
+        InteractiveButtonData interactiveButtonData = GetSingleton<InteractiveButtonData>();
+        if(interactiveButtonData.isPressed){
+            OverworldInputData tempinput = GetSingleton<OverworldInputData>();
+            tempinput.select = true;
+            SetSingleton<OverworldInputData>(tempinput);
+        }
+        interactiveButtonData.isPressed = false;
+        SetSingleton(interactiveButtonData);
         isInteractiveEnabled = false;
+    }
+    public void ResetFocus(){
+        nullFocus.Focus();
+    }
+    private void InteractButton(){
+        if(!textBoxSystem.isDisplaying){
+            InteractiveButtonData interactiveButton = GetSingleton<InteractiveButtonData>();
+            interactiveButton.isPressed = true;
+            SetSingleton(interactiveButton);
+        }
     }
     public void EnableInteractive(){
         isInteractiveEnabled = true;
@@ -785,4 +817,10 @@ public class UISystem : SystemBase
         characterStatsList.Dispose();
     }
     public delegate void StartGameEventHandler(object sender, StartGameEventArgs e);
+}
+
+public enum Equipment{
+    Weapon,
+    Armor,
+    Charm
 }

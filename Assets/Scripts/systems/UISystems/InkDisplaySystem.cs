@@ -8,12 +8,6 @@ public class InkDisplaySystem : SystemBase
 {
     public event EventHandler OnWritingFinished;
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
-    private float charTime = .5f;
-    Label textBoxText;
-    VisualElement charaterText;
-    VisualElement charaterImage;
-    bool willSwitchInput;
-
     UIDocument UIDoc;
     protected override void OnCreate()
     {
@@ -24,125 +18,64 @@ public class InkDisplaySystem : SystemBase
 
     protected override void OnStartRunning()
     {
-        EntityQuery UIGroup = GetEntityQuery(typeof(UIDocument), typeof(OverworldUITag));
-        UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
-        UIDoc = UIDocs[0];
-
     }
 
     protected override void OnUpdate()
     {
-        EntityQuery UIGroup = GetEntityQuery(typeof(UIDocument), typeof(OverworldUITag));
-        UIDocument[] UIDocs = UIGroup.ToComponentArray<UIDocument>();
-        // need to check if it is null
-        if(!UIGroup.IsEmpty){
-        UIDoc = UIDocs[0];
-        EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
-        UIInputData input = uiInputQuery.GetSingleton<UIInputData>();
-
-        var root = UIDoc.rootVisualElement;
-        if(root == null){
-        }
-        else{
-        charaterText = root.Q<VisualElement>("TextBoxUI");
-        textBoxText = root.Q<Label>("TextBoxText");
-        charaterImage = root.Q<VisualElement>("CharacterImage");
         var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
         EntityManager.CompleteAllJobs();
         var DeltaTime = Time.DeltaTime;
         Entities
         .WithoutBurst()
-        .ForEach((InkManagerData inkManagager, ref TextBoxData textBoxData, ref Entity entity) => {
+        .ForEach((InkManagerData inkManagager, ref Entity entity) => {
             if(inkManagager.inkStory == null){
-                    inkManagager.inkStory = new Story(inkManagager.inkAssest.text);
+                inkManagager.inkStory = new Story(inkManagager.inkAssest.text);
             }
-            if(!inkManagager.iswritingDialogue){
-            }
-            else if(!inkManagager.inkStory.canContinue && textBoxData.isFinishedPage && input.goselected){
-                textBoxData.currentSentence = "";
-                textBoxData.isFinishedPage = false;
-                textBoxData.currentChar = 0;
-                
-                inkManagager.iswritingDialogue = false;
-                charaterText.visible = false;
-                InputGatheringSystem.currentInput = willSwitchInput ? CurrentInput.overworld : CurrentInput.ui;
-
-                OverworldUITag overworld = GetSingleton<OverworldUITag>();
-                overworld.isVisable = willSwitchInput;
-                SetSingleton<OverworldUITag>(overworld);
-
-                OnWritingFinished?.Invoke(this, EventArgs.Empty);
-            }
-            else if(input.goselected)
-            {
-                if (textBoxData.isFinishedPage)
-                {
-                    textBoxData.timeFromLastChar = 0.0f;
-                    textBoxData.isFinishedPage = false;
-                    textBoxData.currentChar = 0;
+        }).Run(); 
+    }
+    public void DisplayVictoryData(){
+        Entity messageBoard = GetSingletonEntity<UITag>();
+        DynamicBuffer<Text> texts = GetBuffer<Text>(messageBoard);
+        Entities
+        .WithoutBurst()
+        .ForEach((InkManagerData inkManager) => {
+            Debug.Log("adding text");
+            inkManager.inkStory.ChoosePathString("victory");
+            while(inkManager.inkStory.canContinue){
+                texts.Add(new Text{text = inkManager.inkStory.Continue()});
+                if(inkManager.inkStory.currentTags.Count > 0){
+                    Debug.Log("has tags");
                 }
-                else
-                {
-                    textBoxData.currentChar = textBoxData.currentSentence.Length - 1;
-                    textBoxData.isFinishedPage = true;
-                    textBoxText.text = textBoxData.currentSentence.ToString();
-                }
-            }
-            else
-            {
-                charaterText.visible = true;
-                if (!textBoxData.isFinishedPage)
-                {
-                    textBoxData.timeFromLastChar += DeltaTime;
-                }
-                textBoxData.timeFromLastChar += DeltaTime;
-                while (textBoxData.timeFromLastChar >= charTime && !textBoxData.isFinishedPage){
-                    if(textBoxData.currentChar == 0){
-                        textBoxData.currentSentence = inkManagager.inkStory.Continue();
-                        textBoxText.text = "";
-                        charaterImage.style.width = 0;
-                    }
-                    string textString = textBoxData.currentSentence.ToString();
-                    textBoxData.currentChar++;
-                    if(textBoxData.currentChar >= textString.Length){
-                        textBoxData.isFinishedPage = true;
-                    }
-                    else{
-                        textBoxText.text = textString.Substring(0,textBoxData.currentChar);
-                    }
-                    textBoxData.timeFromLastChar -= charTime;
+                else{
+                    Debug.Log("doesn't have tags");
                 }
             }
         }).Run();
-        }
-        }
     }
-    public void DisplayVictoryData(){
-        OverworldUITag overworld = GetSingleton<OverworldUITag>();
-        overworld.isVisable = false;
-        SetSingleton<OverworldUITag>(overworld);
-        willSwitchInput= false;
+    public void StartCutScene(String startPoint){;
+        Entity messageBoard = GetSingletonEntity<UITag>();
+        DynamicBuffer<Text> texts = GetBuffer<Text>(messageBoard);
+        CharacterPortraitData characterPortraits = EntityManager.GetComponentObject<CharacterPortraitData>(messageBoard);
         Entities
-            .WithoutBurst()
-            .ForEach((InkManagerData inkManager) => {
-                inkManager.iswritingDialogue = true;
-                inkManager.inkStory.ChoosePathString("victory");
-            }).Run();
-    }
-    public void StartCutScene(String startPoint){
-        OverworldUITag overworld = GetSingleton<OverworldUITag>();
-        overworld.isVisable = false;
-        SetSingleton<OverworldUITag>(overworld);
-        willSwitchInput = true;
-            Entities
-            .WithoutBurst()
-            .ForEach((InkManagerData inkManager) => {
-                inkManager.iswritingDialogue = true;
-                if(inkManager.inkStory == null){
-                    inkManager.inkStory = new Story(inkManager.inkAssest.text);
+        .WithoutBurst()
+        .ForEach((InkManagerData inkManager) => {
+            inkManager.inkStory.ChoosePathString(startPoint);
+            int i = 0;
+            characterPortraits.portraits.Clear();
+            while(inkManager.inkStory.canContinue){
+                Text text = new Text{text = inkManager.inkStory.Continue()};
+                characterPortraits.portraits.Add(Resources.Load<Sprite>("CharacterPortraits/Default"));
+                if(inkManager.inkStory.currentTags.Contains("instant")){
+                    text.instant = true;
                 }
-                inkManager.inkStory.ChoosePathString(startPoint);
-            }).Run();
+                if(inkManager.inkStory.currentTags.Contains("technoblade")){
+                    Debug.Log("should do techno portriat");
+                    characterPortraits.portraits[i] = Resources.Load<Sprite>("CharacterPortraits/TechnoDefault");
+                }
+                texts.Add(text);
+                i++;
+            }
+        }).Run();
     }
 
 }

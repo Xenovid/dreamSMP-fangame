@@ -10,11 +10,13 @@ public class InteractableItemSystem : SystemBase
 {
     StepPhysicsWorld physicsWorld;
     CollisionWorld collisionWorld;
+    UISystem uISystem;
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
 
     InkDisplaySystem inkDisplaySystem;
     protected override void OnCreate()
     {
+        uISystem = World.GetOrCreateSystem<UISystem>();
         m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
 
         physicsWorld = World.GetExistingSystem<StepPhysicsWorld>();
@@ -50,9 +52,7 @@ public class InteractableItemSystem : SystemBase
                 }
                 else{
                     // activate the visual indicator to let the player know they can interact with something
-                    OverworldUITag overworld = GetSingleton<OverworldUITag>();
-                    overworld.isNextToInteractive = true;
-                    SetSingleton<OverworldUITag>(overworld);
+                    uISystem.EnableInteractive();
                 }
             }
             else if (HasComponent<InteractiveItemData>(entityB) && HasComponent<InteractiveBoxCheckerData>(entityA))
@@ -64,10 +64,7 @@ public class InteractableItemSystem : SystemBase
                 }
                 else{
                     // activate the visual indicator to let the player know they can interact with something
-                    OverworldUITag overworld = GetSingleton<OverworldUITag>();
-                    overworld.isNextToInteractive = true;
-                    SetSingleton<OverworldUITag>(overworld);
-                    
+                    uISystem.EnableInteractive();
                 }
             }
         }

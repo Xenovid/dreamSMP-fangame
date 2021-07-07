@@ -62,10 +62,6 @@ public class SaveAndLoadSystem : SystemBase
                 isSaving = false;
                 InputGatheringSystem.currentInput = CurrentInput.overworld;
                 fileSelectBackground.visible = false;
-                // reativate the hud
-                OverworldUITag overworld = GetSingleton<OverworldUITag>();
-                overworld.isVisable = true;
-                SetSingleton<OverworldUITag>(overworld);
             }
             else if(input.goselected){
                 if(!Directory.Exists(Application.persistentDataPath + "/save" + (currentSaveFile + 1).ToString())){
@@ -351,7 +347,7 @@ public class SaveAndLoadSystem : SystemBase
     }
 
     public void LoadSaveUI(System.Object sender, SavePointEventArg e){
-        isSaving = true;
+        /*isSaving = true;
         InputGatheringSystem.currentInput = CurrentInput.ui;
         savePointName = "hello";//e.savePointName;
         // pause the world
@@ -363,7 +359,7 @@ public class SaveAndLoadSystem : SystemBase
         VisualElement fileSelectUI = root.Q<VisualElement>("file_select");
 
         UpdateSaveFileUI(fileSelectUI);
-        fileSelectUI.visible = true;
+        fileSelectUI.visible = true;*/
     }
     public void UpdateSaveFile(VisualElement currentFile, int saveFileNumber){
         Label currentTime = currentFile.Q<Label>("time");

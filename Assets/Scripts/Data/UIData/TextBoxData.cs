@@ -5,8 +5,12 @@ using UnityEngine;
 [GenerateAuthoringComponent]
 public struct TextBoxData : IComponentData
 {
+    public float textSpeed;
+    [HideInInspector]
     public int currentChar;
+    [HideInInspector]
     public bool isFinishedPage;
+    [HideInInspector]
     public float timeFromLastChar;
     [HideInInspector]
     public FixedString128 currentSentence;

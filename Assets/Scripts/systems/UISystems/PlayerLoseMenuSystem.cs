@@ -35,9 +35,9 @@ public class PlayerLoseMenuSystem : SystemBase
             switch(currentSelectable){
                 case LoseMenuSelectables.continueButton:
                     if(input.goselected && File.Exists(Application.persistentDataPath + "/tempsave" + "/SavePointData")){
-                        OverworldUITag overworld = GetSingleton<OverworldUITag>();
+                        /*OverworldUITag overworld = GetSingleton<OverworldUITag>();
                         overworld.isVisable = false;
-                        SetSingleton<OverworldUITag>(overworld);
+                        SetSingleton<OverworldUITag>(overworld);*/
 
 
                         AudioManager.playSound("menuselect");
@@ -83,6 +83,7 @@ public class PlayerLoseMenuSystem : SystemBase
 
     private void DisplayLoss_OnPlayerLoss(object sender, OnBattleEndEventArgs e){
         if(!e.isPlayerVictor){
+            /*
             AudioManager.playSound("defeatsong");
             EntityQuery UIDocQuery = GetEntityQuery(typeof(UIDocument), typeof(OverworldUITag));
             UIDoc = EntityManager.GetComponentObject<UIDocument>(UIDocQuery.GetSingletonEntity());
@@ -94,7 +95,7 @@ public class PlayerLoseMenuSystem : SystemBase
             losingBackground.visible = true;
 
             isActive = true;
-            transitionSystem.OnTransitionEnd += UnLoadScenes_OnTransitionnEnd;
+            transitionSystem.OnTransitionEnd += UnLoadScenes_OnTransitionnEnd;*/
         }
     }
     private void UnLoadScenes_OnTransitionnEnd(object sender, System.EventArgs e){

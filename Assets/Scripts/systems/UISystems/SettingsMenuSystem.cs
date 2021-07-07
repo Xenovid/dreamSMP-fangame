@@ -10,8 +10,6 @@ using UnityEngine;
 public class SettingsMenuSystem : SystemBase
 {
     SceneSystem sceneSystem;
-    public event EventHandler OnSettingsExit;
-    public event EventHandler OnTitleReturn;
 
     VisualElement background;
     VisualElement volumeButton;

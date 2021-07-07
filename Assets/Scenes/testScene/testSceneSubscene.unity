@@ -28024,7 +28024,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2041744331}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.68, y: -2.42, z: 0}
+  m_LocalPosition: {x: -3.63, y: -2.33, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -28249,7 +28249,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!1001 &6581668474787500860
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28300,6 +28300,10 @@ PrefabInstance:
     - target: {fileID: 6581668474788148509, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581668474788148510, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
+      propertyPath: m_Material.m_CollisionResponse.m_Value
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6581668474788148515, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
       propertyPath: m_Name

@@ -117,7 +117,7 @@
     </ui:VisualElement>
     <ui:VisualElement name="pause_background" style="flex-grow: 1; flex-shrink: 0; visibility: hidden; position: absolute; width: 100%; height: 100%;">
         <ui:VisualElement name="UISelection" style="height: 20%; flex-direction: row;">
-            <ui:Button display-tooltip-when-elided="true" name="pause_back_button" focusable="true" class="button_selected back_button" style="width: 141px; flex-shrink: 1; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); background-image: url(&apos;/Assets/Art/Icons/BackIcon.png&apos;);" />
+            <ui:Button display-tooltip-when-elided="true" name="pause_back_button" focusable="true" class="button_selected back_button" style="width: 141px; flex-shrink: 1; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); background-image: url(&apos;/Assets/Art/Icons/BackIcon.png#BackIcon&apos;);" />
             <ui:Button text="Equip" display-tooltip-when-elided="true" name="Equipment" focusable="true" class="button_unselected pause_menu_button" style="width: 20%; flex-shrink: 1; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); flex-grow: 1;" />
             <ui:Button text="Items" display-tooltip-when-elided="true" name="Item" focusable="true" class="button_unselected pause_menu_button" style="width: 20%; flex-shrink: 1; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); flex-grow: 1;" />
             <ui:Button text="Skills&#10;" display-tooltip-when-elided="true" name="Skills" focusable="true" class="button_unselected pause_menu_button" style="width: 20%; flex-shrink: 1; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); flex-grow: 1;" />
@@ -240,10 +240,15 @@
             <ui:Button text="cancel" display-tooltip-when-elided="true" name="cancel" focusable="true" class="quickmenu_button" style="font-size: 12px; -unity-text-align: middle-left;" />
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="TextBoxUI" class="base" style="top: 80%; flex-direction: row; height: 20%; background-color: rgb(89, 89, 89); visibility: hidden; border-top-color: rgb(29, 29, 29); border-top-width: 5px;">
-        <ui:VisualElement name="CharacterImage" style="width: 11%;" />
-        <ui:Label display-tooltip-when-elided="true" name="TextBoxText" class="text" style="flex-grow: 1; font-size: 20px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;);" />
+    <ui:VisualElement name="overworld_overlay" style="position: absolute; width: 100%; height: 100%; visibility: visible;">
+        <ui:Button text="Interact&#10;" display-tooltip-when-elided="true" name="interactive_item_check" enable-rich-text="true" class="interactive_button" style="position: absolute; top: 606px; left: 21px; width: 156px; height: 55px;" />
+        <ui:Button text="Pause" display-tooltip-when-elided="true" name="pause_button" tooltip="pause the game" class="pause_button" style="position: absolute; top: 19px; left: 22px; height: 55px; width: 156px;" />
     </ui:VisualElement>
+    <ui:Button text="&#10;" display-tooltip-when-elided="true" enable-rich-text="false" name="textbox" style="position: absolute; top: 80%; height: 20%; width: 100%; border-left-width: 5px; border-right-width: 5px; border-top-width: 5px; border-bottom-width: 5px; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; flex-direction: row; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; background-color: rgb(12, 12, 12); visibility: hidden; border-left-color: rgb(236, 236, 236); border-right-color: rgb(236, 236, 236); border-top-color: rgb(236, 236, 236); border-bottom-color: rgb(236, 236, 236);">
+        <ui:VisualElement name="CharacterImage" style="width: 128px; background-image: resource(&apos;CharacterPortraits/TechnoDefault&apos;); margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; max-width: 11%; min-width: 0;" />
+        <ui:Label display-tooltip-when-elided="true" name="TextBoxText" class="text" style="flex-grow: 1; font-size: 20px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); -unity-text-align: upper-left; border-left-color: rgba(248, 248, 248, 255); border-right-color: rgba(248, 248, 248, 255); border-top-color: rgba(248, 248, 248, 255); border-bottom-color: rgba(248, 248, 248, 255); border-left-width: 5px; padding-left: 22px; padding-top: 14px;" />
+        <ui:VisualElement name="player_choices" style="position: absolute; width: 100%; height: 100%; flex-direction: row; align-items: center; justify-content: center;" />
+    </ui:Button>
     <ui:VisualElement name="file_select" style="position: absolute; width: 100%; height: 100%; visibility: hidden; background-color: rgba(60, 60, 60, 0.11); align-items: stretch;">
         <ui:Instance template="SaveFile" name="save_file1" style="align-items: center; justify-content: space-between; flex-grow: 1;" />
         <ui:Instance template="SaveFile" name="save_file2" style="position: relative; flex-grow: 1; align-items: center;" />
@@ -252,8 +257,5 @@
         <ui:Label text="Technoblade Never Dies" display-tooltip-when-elided="true" name="continue" class="selected" style="color: rgb(255, 0, 0); width: 30%; -unity-text-align: upper-center; font-size: 16px; margin-top: 10px; margin-bottom: 10px; padding-top: 12px; padding-bottom: 11px;" />
         <ui:Label text="To TitleScreen" display-tooltip-when-elided="true" name="title" class="unselected" style="-unity-text-align: upper-center; width: 30%; font-size: 16px; margin-top: 10px; padding-top: 12px; padding-bottom: 11px;" />
     </ui:VisualElement>
-    <ui:VisualElement name="overworld_overlay" style="position: absolute; width: 100%; height: 100%; visibility: visible;">
-        <ui:Button text="Interact&#10;" display-tooltip-when-elided="true" name="interactive_item_check" enable-rich-text="true" class="interactive_button" style="position: absolute; top: 606px; left: 21px; width: 156px; height: 55px;" />
-        <ui:Button text="Pause" display-tooltip-when-elided="true" name="pause_button" class="pause_button" style="position: absolute; top: 19px; left: 22px; height: 55px; width: 156px;" />
-    </ui:VisualElement>
+    <ui:VisualElement name="null_focus" tooltip="removes focus on objects that shouldn&apos;t have focus" focusable="true" style="width: 0; height: 0;" />
 </ui:UXML>

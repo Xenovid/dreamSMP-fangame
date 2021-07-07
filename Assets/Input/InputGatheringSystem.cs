@@ -8,7 +8,8 @@ using UnityEngine.InputSystem;
 [UpdateBefore(typeof(MovementSystem))]
 [UpdateBefore(typeof(CreditsMenuSystem))]
 [UpdateBefore(typeof(OptionMenuSystem))]
-[UpdateBefore(typeof(PauseMenuSystem))]
+[UpdateBefore(typeof(ChestTriggerSystem))]
+[UpdateBefore(typeof(TextBoxSystem))]
 [UpdateBefore(typeof(UISystem))]
 public class InputGatheringSystem : ComponentSystem,
     ActionMap.IOverworldActions,

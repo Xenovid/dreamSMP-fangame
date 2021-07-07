@@ -10,7 +10,6 @@ public class InkManagerDataAuthoring : MonoBehaviour
 public class InkManagerData : IComponentData{
     public TextAsset inkAssest;
     public Story inkStory {get; set;}
-    public bool iswritingDialogue;
 }
 public class InkManagerConversionSystem : GameObjectConversionSystem
 {

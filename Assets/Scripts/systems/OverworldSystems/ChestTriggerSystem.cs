@@ -53,7 +53,7 @@ public class ChestTriggerSystem : SystemBase
                         ChestWeaponData weaponData = GetComponent<ChestWeaponData>(entityA);
                         SetComponent<ChestTag>(entityA, new ChestTag{isOpen = true});
                         weaponInventory.Insert(0, new WeaponData{weapon = weaponData.weapon});
-                        texts.Add(new Text{text = "you obtained a " + weaponData.weapon.name});      
+                        texts.Add(new Text{text = "you obtained a " + weaponData.weapon.name.ToString()});   
                     }
                     else if(HasComponent<ChestArmorData>(entityA)){
                         ChestArmorData armorData = GetComponent<ChestArmorData>(entityA);
@@ -73,9 +73,7 @@ public class ChestTriggerSystem : SystemBase
                 }
                 else if(!isChestOpen){
                     // activate the visual indicator to let the player know they can interact with something
-                    OverworldUITag overworld = GetSingleton<OverworldUITag>();
-                    overworld.isNextToInteractive = true;
-                    SetSingleton<OverworldUITag>(overworld);
+                    uISystem.EnableInteractive();
                 }      
             }
             else if (HasComponent<ChestTag>(entityB) && HasComponent<InteractiveBoxCheckerData>(entityA))
