@@ -11,4 +11,6 @@ public struct BattleData : IComponentData
     public bool isUsingSkill;
     [HideInInspector]
     public int DamageTaken;
+    [HideInInspector]
+    public bool isRecharging;
 }

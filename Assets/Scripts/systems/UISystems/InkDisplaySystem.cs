@@ -43,12 +43,6 @@ public class InkDisplaySystem : SystemBase
             inkManager.inkStory.ChoosePathString("victory");
             while(inkManager.inkStory.canContinue){
                 texts.Add(new Text{text = inkManager.inkStory.Continue()});
-                if(inkManager.inkStory.currentTags.Count > 0){
-                    Debug.Log("has tags");
-                }
-                else{
-                    Debug.Log("doesn't have tags");
-                }
             }
         }).Run();
     }
@@ -69,7 +63,6 @@ public class InkDisplaySystem : SystemBase
                     text.instant = true;
                 }
                 if(inkManager.inkStory.currentTags.Contains("technoblade")){
-                    Debug.Log("should do techno portriat");
                     characterPortraits.portraits[i] = Resources.Load<Sprite>("CharacterPortraits/TechnoDefault");
                 }
                 texts.Add(text);

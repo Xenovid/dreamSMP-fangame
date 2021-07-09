@@ -455,3 +455,100 @@
     border-top-color: rgb(5, 5, 5);
     border-bottom-color: rgb(5, 5, 5);
 }
+
+.techno_battleUI {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    border-left-color: rgb(2, 2, 2);
+    border-right-color: rgb(2, 2, 2);
+    border-top-color: rgb(2, 2, 2);
+    border-bottom-color: rgb(2, 2, 2);
+    background-color: rgb(29, 29, 29);
+}
+
+.battle_choice {
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-color: rgb(75, 75, 75);
+    border-right-color: rgb(75, 75, 75);
+    border-top-color: rgb(75, 75, 75);
+    border-bottom-color: rgb(75, 75, 75);
+    background-color: rgb(26, 26, 26);
+    width: 80px;
+    height: 73px;
+    display: flex;
+    color: rgba(9, 9, 9, 0);
+    font-size: 0;
+}
+
+.battle_choice:hover {
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-color: rgb(75, 75, 75);
+    border-right-color: rgb(75, 75, 75);
+    border-top-color: rgb(75, 75, 75);
+    border-bottom-color: rgb(75, 75, 75);
+    background-color: rgb(46, 46, 46);
+    width: 80px;
+    height: 80px;
+    display: flex;
+    font-size: 10px;
+}
+
+.battle_choice:focus {
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-color: rgb(75, 75, 75);
+    border-right-color: rgb(75, 75, 75);
+    border-top-color: rgb(75, 75, 75);
+    border-bottom-color: rgb(75, 75, 75);
+    background-color: rgb(46, 46, 46);
+    width: 80px;
+    height: 80px;
+    display: flex;
+    font-size: 10px;
+}
+
+.battle_choice:active {
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-color: rgb(89, 89, 89);
+    border-right-color: rgb(89, 89, 89);
+    border-top-color: rgb(89, 89, 89);
+    border-bottom-color: rgb(89, 89, 89);
+    background-color: rgb(60, 60, 60);
+    width: 80px;
+    height: 80px;
+    display: flex;
+    font-size: 10px;
+}

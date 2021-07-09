@@ -1,11 +1,20 @@
 using Unity.Entities;
 using UnityEngine;
+using Unity.Physics;
+using Unity.Mathematics;
+using Unity.Transforms;
 
 public class PauseSystem : SystemBase
 {
     protected override void OnUpdate()
     {
-        
+        Entities
+        .WithAny<PausedTag, BattleData>()
+        .ForEach((ref Translation translation, ref Rotation rotation, ref PhysicsVelocity velocity) => {
+            translation.Value = new float3(translation.Value.x, translation.Value.y, 0);
+            rotation.Value = quaternion.EulerXYZ(new float3(0,0,0));
+            velocity.Linear = new float3(0,0,0);
+        }).ScheduleParallel();
     }
     public void Pause(){
         Entities

@@ -28,11 +28,11 @@ public class BattleTriggerSystem : SystemBase
         EntityManager.CompleteAllJobs();
 
         // finds all the items that caused trigger events
-        var triggerEvents =  ((Simulation)physicsWorld.Simulation).TriggerEvents;
+        var triggerEvents =  ((Simulation)physicsWorld.Simulation).CollisionEvents;
 
         var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
 
-        foreach (TriggerEvent triggerEvent in triggerEvents)
+        foreach (CollisionEvent triggerEvent in triggerEvents)
         {
             // the entities from the trigger event
             Entity entityA = triggerEvent.EntityA;

@@ -28,7 +28,7 @@ public class BasicEnemyMovementSystem : SystemBase
             float3 newDirection = new float3(0, 0,0);
             translation.Value = new float3(translation.Value.x, translation.Value.y, 0);
             rotation.Value = quaternion.EulerXYZ(new float3(0,0,0));
-            if(math.distance(translation.Value, movementData.followDistance) < 3.0f){
+            if(math.distance(translation.Value, playerTranslation.Value) < movementData.followDistance){
                 // enemy should follow the player
                 movementData.state = BasicEnemyMovementState.Following;
             }
@@ -108,6 +108,5 @@ public class BasicEnemyMovementSystem : SystemBase
             Animator.SetFloat("moveY", newDirection.y);
             vel.Linear = new float3(movementData.speed * newDirection.x, movementData.speed * newDirection.y, 0);
         }).Run();
-
     }
 }

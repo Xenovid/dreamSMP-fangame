@@ -415,6 +415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6f542eb30eebec42aeec66da7c077a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  followDistance: 3
   speed: 1
   direction: 0
   waitTime: 0

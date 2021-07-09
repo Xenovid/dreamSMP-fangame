@@ -11,7 +11,7 @@ public class EnemySelectorUISystem : SystemBase
         battleSystem = World.GetOrCreateSystem<BattleSystem>();
         battleSystem.OnBattleEnd += RemoveSelectorUI_OnBattleEnd;
 
-        EntityQuery UIDocumentGroup = GetEntityQuery(typeof(UIDocument), typeof(BattleUITag));
+        EntityQuery UIDocumentGroup = GetEntityQuery(typeof(UIDocument), typeof(UITag));
         UIDoc = UIDocumentGroup.ToComponentArray<UIDocument>()[0];
         m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
     }
@@ -38,8 +38,6 @@ public class EnemySelectorUISystem : SystemBase
                     myMatBlock.SetInt("IsSelected", 1);
                     sprite.SetPropertyBlock(myMatBlock);
 
-                    enemySelectorUI.enemySelectorUI.RemoveFromClassList("enemyBase");
-                    enemySelectorUI.enemySelectorUI.AddToClassList("enemySelected");
                 }
                 else{
                     //make the enemy not glow
@@ -50,16 +48,14 @@ public class EnemySelectorUISystem : SystemBase
                     //myMatBlock.SetColor("_Color", new Color(1 * factor, 1 * factor, 1 * factor));
                     sprite.SetPropertyBlock(myMatBlock);
 
-                    enemySelectorUI.enemySelectorUI.RemoveFromClassList("enemySelected");
-                     enemySelectorUI.enemySelectorUI.AddToClassList("enemyBase");
                 }
                 if(characterStats.health <= 0){
                     enemySelectorData.isDead = true;
                     MaterialPropertyBlock myMatBlock = new MaterialPropertyBlock();
                     myMatBlock.SetInt("IsSelected", 0);
                     sprite.enabled = false;
-                    enemySelectorUI.enemySelectorUI.parent.Remove(enemySelectorUI.enemySelectorUI);
-                    ecb.RemoveComponent<EnemySelectorUI>(entity);
+                    
+                    enemySelectorUI.enemySelectorUI.SetEnabled(false);
 
 
                 }
@@ -72,7 +68,8 @@ public class EnemySelectorUISystem : SystemBase
             .WithoutBurst()
             .WithStructuralChanges()
             .ForEach((Entity entity, EnemySelectorUI enemySelectorUI,ref EnemySelectorData enemySelectorData) => {
-                enemySelector.Remove(enemySelectorUI.enemySelectorUI);
+                enemySelectorUI.enemySelectorUI.parent.Remove(enemySelectorUI.enemySelectorUI);
+                //enemySelector.Remove(enemySelectorUI.enemySelectorUI);
                 EntityManager.RemoveComponent<EnemySelectorUI>(entity);
                 EntityManager.RemoveComponent<EnemySelectorData>(entity);
             }).Run();

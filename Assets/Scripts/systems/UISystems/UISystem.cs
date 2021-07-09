@@ -40,9 +40,11 @@ public class UISystem : SystemBase
     EntityQuery characterStatsQuery;
     OverWorldHealingSystem healingSystem;
     TextBoxSystem textBoxSystem;
+    BattleMenuSystem battleMenuSystem;
     EntityQuery interactiveButtonQuery;
     protected override void OnCreate()
     {
+        battleMenuSystem = World.GetOrCreateSystem<BattleMenuSystem>();
         interactiveButtonQuery = GetEntityQuery(typeof(InteractiveButtonData));
         healingSystem = World.GetOrCreateSystem<OverWorldHealingSystem>();
         textBoxSystem = World.GetOrCreateSystem<TextBoxSystem>();
@@ -163,9 +165,17 @@ public class UISystem : SystemBase
 
                 overworldOverlay.Q<Button>("interactive_item_check").SetEnabled(false);
                 overworldOverlay.Q<Button>("interactive_item_check").clicked += InteractButton;}
+                // for battle menu
+                VisualElement battleUI = root.Q<VisualElement>("BattleUI");
+                // should be technoblade
+                Button technobladeBattleUI = battleUI.Q<Button>("character1");
+                technobladeBattleUI.Q<Button>("fight").clicked += () => battleMenuSystem.AttackButton(0);
+                technobladeBattleUI.Q<Button>("skills").clicked += () => battleMenuSystem.SkillsButton(0);
+                technobladeBattleUI.Q<Button>("items").clicked += () => battleMenuSystem.ItemsButton(0);
+
+                
                 textBoxUI = root.Q<Button>("textbox");
                 textBoxUI.clicked += textBoxSystem.ContinueText;
-                //textBoxUI.Q<Button>("textbox_button").clicked += textBoxSystem.ContinueText;
                 
                 EntityManager.RemoveComponent<UILoadTag>(entity);
             }
