@@ -30,7 +30,6 @@ public class SaveAndLoadSystem : SystemBase
 
         uISystem.StartGame += LoadGame;
         uISystem.StartNewGame += LoadNewGame;
-        saveTriggerSystem.SavePointAlert += LoadSaveUI;
         // creates save folders if they don't exist
         CreateSaveFiles();
         foreach(string file in Directory.GetFiles(Application.persistentDataPath + "/tempsave")){
@@ -43,7 +42,6 @@ public class SaveAndLoadSystem : SystemBase
         m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
         physicsWorld = World.GetExistingSystem<StepPhysicsWorld>();
         
-        //dataHold = new Data();
         g = ScriptableObject.CreateInstance<ReferencedUnityObjects>();
         test = ScriptableObject.CreateInstance<ReferencedUnityObjects>();
         LoadPlayers();
@@ -52,37 +50,7 @@ public class SaveAndLoadSystem : SystemBase
  
     protected override void OnUpdate()
     {
-        UIInputData input = GetSingleton<UIInputData>();
-        if(isSaving){
-            VisualElement root = UIDoc.rootVisualElement;
-            VisualElement fileSelectBackground = root.Q<VisualElement>("file_select");
-            if(input.goback){
-                pauseSystem.UnPause();
-                UnSelectFile(fileSelectBackground.Q<VisualElement>("save_file" + currentSaveFile.ToString()));
-                isSaving = false;
-                InputGatheringSystem.currentInput = CurrentInput.overworld;
-                fileSelectBackground.visible = false;
-            }
-            else if(input.goselected){
-                if(!Directory.Exists(Application.persistentDataPath + "/save" + (currentSaveFile + 1).ToString())){
-                    Directory.CreateDirectory(Application.persistentDataPath + "/save" + (currentSaveFile + 1).ToString());
-                }
-                SaveGame(currentSaveFile);
-                UpdateSaveFile(fileSelectBackground.Q<VisualElement>("save_file" + currentSaveFile.ToString()), currentSaveFile);              
-            }
-            else if(input.moveup && currentSaveFile > 1){
-                AudioManager.playSound("menuchange");
-                UnSelectFile(fileSelectBackground.Q<VisualElement>("save_file" + currentSaveFile.ToString()));
-                currentSaveFile--;
-                SelectFile(fileSelectBackground.Q<VisualElement>("save_file" + currentSaveFile.ToString()));
-            }
-            else if(input.movedown && currentSaveFile < 2){
-                AudioManager.playSound("menuchange");
-                UnSelectFile(fileSelectBackground.Q<VisualElement>("save_file" + currentSaveFile.ToString()));
-                currentSaveFile++;
-                SelectFile(fileSelectBackground.Q<VisualElement>("save_file" + currentSaveFile.ToString()));
-            }
-        }
+
         LoadSubSceneAssests();
         LoadPlayers();
     }
@@ -99,6 +67,7 @@ public class SaveAndLoadSystem : SystemBase
         }
     }
     public void SaveSubsceneAssets(){
+        
         //Entity sceneEntity = sceneSystem.GetSceneEntity(subScene.SceneGUID);
         Entities
         .WithoutBurst()
@@ -114,16 +83,18 @@ public class SaveAndLoadSystem : SystemBase
         .WithAll<ChestTag>()
         .WithoutBurst()
         .WithStructuralChanges()
-        .ForEach((Entity entity, Animator animator,ref ChestTag chestTag, in ToLoadData loadData)=>{
-            string savePath = Application.persistentDataPath + "/tempsave" + "/chestsave" + loadData.saveID.ToString();
-            if(File.Exists(savePath)){
-                string jsonString = File.ReadAllText(savePath);
-                ChestSaveData chestSaveData = JsonUtility.FromJson<ChestSaveData>(jsonString);
-                animator.Play(chestSaveData.animationSaveData.shortNameHash, 0 , chestSaveData.animationSaveData.normilizedtime);
-                chestTag.isOpen = chestSaveData.isOpen;
+        .ForEach((Entity entity, Animator animator,ref ChestTag chestTag,in ChestAnimationData animationData, in ToLoadData loadData)=>{
+            if(animator.isActiveAndEnabled){
+                string savePath = Application.persistentDataPath + "/tempsave" + "/chestsave" + loadData.saveID.ToString();
+                if(File.Exists(savePath)){
+                    string jsonString = File.ReadAllText(savePath);
+                    ChestSaveData chestSaveData = JsonUtility.FromJson<ChestSaveData>(jsonString);
+                    animator.Play(chestSaveData.animationSaveData.shortNameHash, 0 , chestSaveData.animationSaveData.normilizedtime);  
+                    chestTag.isOpen = chestSaveData.isOpen;
+                }
+                EntityManager.AddComponentData(entity, new ToSaveTag{saveID = loadData.saveID});
+                EntityManager.RemoveComponent<ToLoadData>(entity);
             }
-            EntityManager.AddComponentData(entity, new ToSaveTag{saveID = loadData.saveID});
-            EntityManager.RemoveComponent<ToLoadData>(entity);
         }).Run();
     }
     public void LoadPlayers(){
@@ -132,22 +103,25 @@ public class SaveAndLoadSystem : SystemBase
         .WithStructuralChanges()
         .WithAll<PlayerTag>()
         .ForEach((Entity entity,Animator Animator,ref MovementData movementData, ref Translation translation, ref CharacterStats characterStats, ref DynamicBuffer<SkillData> skills, ref DynamicBuffer<ItemData> items, ref ToLoadData loadData) =>{
-            string savePath = Application.persistentDataPath +"/tempsave" + "/player" + loadData.saveID.ToString();
-            if(File.Exists(savePath)){
-                string jsonString = File.ReadAllText(savePath);
-                PlayerSaveData playerSaveData = JsonUtility.FromJson<PlayerSaveData>(jsonString);
-                
-                Animator.Play(playerSaveData.animationSaveData.shortNameHash, 0 , playerSaveData.animationSaveData.normilizedtime);
-                movementData = playerSaveData.movementData;
-                translation.Value = playerSaveData.trasition;
-                characterStats = playerSaveData.characterStats;
-                skills.Clear();
-                foreach (var skill in playerSaveData.skills) skills.Add(skill);
-                items.Clear();
-                foreach(var item in playerSaveData.itemInventory) items.Add(item);
+            if(Animator.isActiveAndEnabled){
+                string savePath = Application.persistentDataPath +"/tempsave" + "/player" + loadData.saveID.ToString();
+                if(File.Exists(savePath)){
+                    string jsonString = File.ReadAllText(savePath);
+                    PlayerSaveData playerSaveData = JsonUtility.FromJson<PlayerSaveData>(jsonString);
+                    
+                    Animator.Play(playerSaveData.animationSaveData.shortNameHash, 0 , playerSaveData.animationSaveData.normilizedtime);
+                    movementData = playerSaveData.movementData;
+                    translation.Value = playerSaveData.trasition;
+                    characterStats = playerSaveData.characterStats;
+                    skills.Clear();
+                    foreach (var skill in playerSaveData.skills) skills.Add(skill);
+                    items.Clear();
+                    foreach(var item in playerSaveData.itemInventory) items.Add(item);
+                }
+                EntityManager.AddComponentData(entity, new ToSaveTag{saveID = loadData.saveID});
+                EntityManager.RemoveComponent(entity, typeof(ToLoadData));
             }
-            EntityManager.AddComponentData(entity, new ToSaveTag{saveID = loadData.saveID});
-            EntityManager.RemoveComponent(entity, typeof(ToLoadData));
+            
         }).Run();
         Entities
         .WithoutBurst()
@@ -347,21 +321,54 @@ public class SaveAndLoadSystem : SystemBase
     }
 
     public void LoadSaveUI(System.Object sender, SavePointEventArg e){
-        /*isSaving = true;
-        InputGatheringSystem.currentInput = CurrentInput.ui;
-        savePointName = "hello";//e.savePointName;
+
+        savePointName = e.savePointName;
         // pause the world
         pauseSystem.Pause();
 
-        EntityQuery UIDocQuery = GetEntityQuery(typeof(UIDocument), typeof(OverworldUITag));
-        UIDoc = EntityManager.GetComponentObject<UIDocument>(UIDocQuery.GetSingletonEntity());
-        VisualElement root = UIDoc.rootVisualElement;
-        VisualElement fileSelectUI = root.Q<VisualElement>("file_select");
+        VisualElement root = uISystem.root;
+        VisualElement fileSelectUI = root.Q<VisualElement>("overworld_file_select");
 
         UpdateSaveFileUI(fileSelectUI);
-        fileSelectUI.visible = true;*/
+        fileSelectUI.visible = true;
     }
-    public void UpdateSaveFile(VisualElement currentFile, int saveFileNumber){
+    public void UpdateSaveFileUI(VisualElement saveFileUI){
+        saveFileUI.visible = true;
+        bool selectedFile = false;
+        for(int i = 1; i <= 2; i++){
+            TemplateContainer fileContainer = saveFileUI.Q<TemplateContainer>("save_file" + i.ToString());
+            Button currentFile = fileContainer.Q<Button>("background");
+            if(File.Exists(Application.persistentDataPath + "/save" + i.ToString() + "/SavePointData")){
+                Label currentTime = currentFile.Q<Label>("time");
+                
+                string savePath = Application.persistentDataPath + "/save" + i.ToString() + "/SavePointData";
+                string jsonString = File.ReadAllText(savePath);
+                SavePointData savePointData = JsonUtility.FromJson<SavePointData>(jsonString);
+
+                float remainder = savePointData.timePassed;
+                int hours = (int) remainder / 3600;
+                remainder -= (hours * 3600);
+                int minutes = (int) remainder / 60;
+                remainder -= minutes * 60;
+                int seconds = (int) remainder;
+                                    
+                currentTime.text = "Time: " + hours.ToString() + " : " + minutes.ToString() + " : " + seconds.ToString();
+
+                Label location = currentFile.Q<Label>("location");
+                location.text = savePointData.savePointName.ToString();
+
+                if(!selectedFile){
+                    currentFile.Focus();
+                }
+            }
+            else{
+                currentFile.SetEnabled(false);
+            }
+
+        }
+    }
+    public void UpdateSaveFile(Button currentFile, int saveFileNumber){
+        AudioManager.playSound("menuselect");
         Label currentTime = currentFile.Q<Label>("time");
         string savePath = Application.persistentDataPath + "/save" + saveFileNumber.ToString() + "/SavePointData";
         string jsonString = File.ReadAllText(savePath);
@@ -379,46 +386,7 @@ public class SaveAndLoadSystem : SystemBase
         Label location = currentFile.Q<Label>("location");
         location.text = savePointData.savePointName.ToString();
     }
-    public void UpdateSaveFileUI(VisualElement saveFileUI){
-        currentSaveFile = 1;
-        for(int i = 1; i <= 2; i++){
-                TemplateContainer fileContainer = saveFileUI.Q<TemplateContainer>("save_file" + i.ToString());
-                VisualElement currentFile = fileContainer.Q<VisualElement>("background");
-
-                Label currentTime = currentFile.Q<Label>("time");
-                
-                if(File.Exists(Application.persistentDataPath + "/save" + i.ToString() + "/SavePointData")){
-                    string savePath = Application.persistentDataPath + "/save" + i.ToString() + "/SavePointData";
-                    string jsonString = File.ReadAllText(savePath);
-                    SavePointData savePointData = JsonUtility.FromJson<SavePointData>(jsonString);
-
-                    float remainder = savePointData.timePassed;
-                    int hours = (int) remainder / 3600;
-                    remainder -= (hours * 3600);
-                    int minutes = (int) remainder / 60;
-                    remainder -= minutes * 60;
-                    int seconds = (int) remainder;
-                    
-                    currentTime.text = "Time: " + hours.ToString() + " : " + minutes.ToString() + " : " + seconds.ToString();
-
-                    Label location = currentFile.Q<Label>("location");
-                    location.text = savePointData.savePointName.ToString();
-                }
-                if(i == 1){
-                    SelectFile(currentFile);
-                }
-        }
-    }
-
-    public void SelectFile(VisualElement file){
-        VisualElement background = file.Q<VisualElement>("background");
-        background.RemoveFromClassList("file_not_selected");
-        background.AddToClassList("file_selected");
-    }
-    public void UnSelectFile(VisualElement file){
-        VisualElement background = file.Q<VisualElement>("background");
-        background.RemoveFromClassList("file_selected");
-        background.AddToClassList("file_not_selected");
-    }
 }
+
+
 

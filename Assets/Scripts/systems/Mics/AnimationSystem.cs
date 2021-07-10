@@ -19,51 +19,54 @@ public class AnimationSystem : SystemBase
         .WithoutBurst()
         .WithNone<BattleData>()
         .ForEach((Animator animator, AnimationData animationData, in MovementData movement) =>{
-            if(movement.direction.x == 0 && movement.direction.y == 0){
-                if(!animationData.inIdleAnimation){
-                    switch(animationData.previouslyFacing){
-                        case Direction.up:
-                            animationData.inIdleAnimation = true;
-                            animator.Play(animationData.idleUpAnimationName);
-                            break;
-                        case Direction.down:
-                            animationData.inIdleAnimation = true;
-                            animator.Play(animationData.idleDownAnimationName);
-                            break;
-                        case Direction.left:
-                            animationData.inIdleAnimation = true;
-                            animator.Play(animationData.idleLeftAnimationName);
-                            break;
-                        case Direction.right:
-                            animationData.inIdleAnimation = true;
-                            animator.Play(animationData.idleRightAnimationName);
-                            break;
+            if(animator.isActiveAndEnabled){
+                if(movement.direction.x == 0 && movement.direction.y == 0){
+                    if(!animationData.inIdleAnimation){
+                        switch(animationData.previouslyFacing){
+                            case Direction.up:
+                                animationData.inIdleAnimation = true;
+                                animator.Play(animationData.idleUpAnimationName);
+                                break;
+                            case Direction.down:
+                                animationData.inIdleAnimation = true;
+                                animator.Play(animationData.idleDownAnimationName);
+                                break;
+                            case Direction.left:
+                                animationData.inIdleAnimation = true;
+                                animator.Play(animationData.idleLeftAnimationName);
+                                break;
+                            case Direction.right:
+                                animationData.inIdleAnimation = true;
+                                animator.Play(animationData.idleRightAnimationName);
+                                break;
+                        }
+                    }
+                }
+                else if(Mathf.Abs(movement.direction.x) > Mathf.Abs(movement.direction.y)){
+                    animationData.inIdleAnimation = false;
+                    if(movement.direction.x > 0){
+                        
+                        animationData.previouslyFacing = Direction.right;
+                        animator.Play(animationData.walkRightAnimationName);
+                    }
+                    else{
+                        animationData.previouslyFacing = Direction.left;
+                        animator.Play(animationData.walkLeftAnimationName);
+                    }
+                }
+                else{
+                    animationData.inIdleAnimation = false;
+                    if(movement.direction.y > 0){
+                        animationData.previouslyFacing = Direction.up;
+                        animator.Play(animationData.walkUpAnimationName);
+                    }
+                    else{
+                        animationData.previouslyFacing = Direction.down;
+                        animator.Play(animationData.walkDownAnimationName);
                     }
                 }
             }
-            else if(Mathf.Abs(movement.direction.x) > Mathf.Abs(movement.direction.y)){
-                animationData.inIdleAnimation = false;
-                if(movement.direction.x > 0){
-                    
-                    animationData.previouslyFacing = Direction.right;
-                    animator.Play(animationData.walkRightAnimationName);
-                }
-                else{
-                    animationData.previouslyFacing = Direction.left;
-                    animator.Play(animationData.walkLeftAnimationName);
-                }
-            }
-            else{
-                animationData.inIdleAnimation = false;
-                if(movement.direction.y > 0){
-                    animationData.previouslyFacing = Direction.up;
-                    animator.Play(animationData.walkUpAnimationName);
-                }
-                else{
-                    animationData.previouslyFacing = Direction.down;
-                    animator.Play(animationData.walkDownAnimationName);
-                }
-            }
+            
         }).Run();
 
         Entities

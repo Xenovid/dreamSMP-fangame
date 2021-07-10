@@ -6,9 +6,7 @@ using UnityEngine;
 
 public class InkDisplaySystem : SystemBase
 {
-    public event EventHandler OnWritingFinished;
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
-    UIDocument UIDoc;
     protected override void OnCreate()
     {
         base.OnCreate();
@@ -46,7 +44,8 @@ public class InkDisplaySystem : SystemBase
             }
         }).Run();
     }
-    public void StartCutScene(String startPoint){;
+    public void StartCutScene(String startPoint){
+        
         Entity messageBoard = GetSingletonEntity<UITag>();
         DynamicBuffer<Text> texts = GetBuffer<Text>(messageBoard);
         CharacterPortraitData characterPortraits = EntityManager.GetComponentObject<CharacterPortraitData>(messageBoard);
@@ -57,13 +56,17 @@ public class InkDisplaySystem : SystemBase
             int i = 0;
             characterPortraits.portraits.Clear();
             while(inkManager.inkStory.canContinue){
-                Text text = new Text{text = inkManager.inkStory.Continue()};
+                Text text = new Text{text = inkManager.inkStory.Continue(), dialogueSoundName = "default"};
                 characterPortraits.portraits.Add(Resources.Load<Sprite>("CharacterPortraits/Default"));
                 if(inkManager.inkStory.currentTags.Contains("instant")){
                     text.instant = true;
                 }
                 if(inkManager.inkStory.currentTags.Contains("technoblade")){
                     characterPortraits.portraits[i] = Resources.Load<Sprite>("CharacterPortraits/TechnoDefault");
+                    text.dialogueSoundName = "technoblade";
+                }
+                if(inkManager.inkStory.currentTags.Contains("bell")){
+                    text.dialogueSoundName = "bell";
                 }
                 texts.Add(text);
                 i++;

@@ -1,5 +1,4 @@
 using Unity.Entities;
-using Unity.Transforms;
 using Unity.Physics;
 using Unity.Physics.Systems;
 using UnityEngine;
@@ -18,7 +17,6 @@ public class ChestTriggerSystem : SystemBase
         uISystem = World.GetOrCreateSystem<UISystem>();
         physicsWorld = World.GetExistingSystem<StepPhysicsWorld>();
         var physicsWorldSystem = World.GetExistingSystem<Unity.Physics.Systems.BuildPhysicsWorld>();
-        collisionWorld = physicsWorldSystem.PhysicsWorld.CollisionWorld;
     }
 
     protected override void OnUpdate()

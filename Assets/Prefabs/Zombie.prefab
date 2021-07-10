@@ -345,8 +345,8 @@ MonoBehaviour:
   attacks:
   - chance: 1
     damage: 1
-    attackAnimation: zombieBasicAttack
-    useTime: 1.6
+    attackAnimation: ZombieAttack
+    useTime: 3
 --- !u!114 &6581668474788148502
 MonoBehaviour:
   m_ObjectHideFlags: 0

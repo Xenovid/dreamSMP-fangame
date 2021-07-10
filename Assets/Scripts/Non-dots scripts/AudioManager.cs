@@ -63,12 +63,10 @@ public class AudioManager : MonoBehaviour
     public static void playDialogue(string soundName){
         bool wasFound = false;
         foreach(SoundData dialogue in dialogues){
-            Debug.Log("audio found");
             if(dialogue.soundName == soundName){
                 try{
                     dialogue.audioSource.volume = volume;
                     dialogue.audioSource.Play();
-                    Debug.Log("played Dialogue");
                 }
                 catch(Exception e){
                     Debug.Log("something went wrong when trying to play the dialogue");
@@ -80,6 +78,7 @@ public class AudioManager : MonoBehaviour
             }
         }
         if(!wasFound){
+            playDialogue("default");
             Debug.Log("dialogue not found");
         }
     }
@@ -176,8 +175,9 @@ public class AudioManager : MonoBehaviour
             if(sound.soundName == name){
                 try{
                     sound.audioSource.volume = volume;
-                    sound.audioSource.Play();
                     stopCurrentSong();
+                    sound.audioSource.Play();
+                    
                     currentSong = sound;
                 }
                 catch(Exception e){

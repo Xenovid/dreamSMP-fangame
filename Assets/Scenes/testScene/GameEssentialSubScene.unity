@@ -304,7 +304,6 @@ GameObject:
   - component: {fileID: 1320044258}
   - component: {fileID: 1320044257}
   - component: {fileID: 1320044256}
-  - component: {fileID: 1320044255}
   - component: {fileID: 1320044260}
   m_Layer: 0
   m_Name: Main Camera
@@ -327,26 +326,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1320044255
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1320044253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c88f5cead0c0b2a4eb05b5900433f8d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AssetsPPU: 64
-  m_RefResolutionX: 320
-  m_RefResolutionY: 180
-  m_UpscaleRT: 0
-  m_PixelSnapping: 0
-  m_CropFrameX: 0
-  m_CropFrameY: 0
-  m_StretchFill: 0
 --- !u!114 &1320044256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,7 +405,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 2.0546875
+  orthographic size: 2.86
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -895,11 +874,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338087, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.77
+      value: -1.15
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338087, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.97
+      value: -2.23
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338087, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: m_LocalPosition.z

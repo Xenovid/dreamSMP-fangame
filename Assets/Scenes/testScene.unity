@@ -781,9 +781,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialoguess:
-  - clip: {fileID: 8300000, guid: 3ce7973ede3bed263982794b76a8359c, type: 3}
+  - clip: {fileID: 8300000, guid: e50e8bab97f7627479f42d837bf3ee44, type: 3}
     audioSource: {fileID: 0}
-    soundName: convo1
+    soundName: technoblade
+  - clip: {fileID: 8300000, guid: b242458ea87ee4d44990eadcc5f7a0c3, type: 3}
+    audioSource: {fileID: 0}
+    soundName: default
+  - clip: {fileID: 8300000, guid: cb0316e40f3a9114a911998626e5495d, type: 3}
+    audioSource: {fileID: 0}
+    soundName: bell
   gameSoundss:
   - clip: {fileID: 8300000, guid: b89afcdcba043d846b0053484ae6ccd3, type: 3}
     audioSource: {fileID: 0}

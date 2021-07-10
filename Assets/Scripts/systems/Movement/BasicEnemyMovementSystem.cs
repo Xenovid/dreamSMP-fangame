@@ -108,5 +108,13 @@ public class BasicEnemyMovementSystem : SystemBase
             Animator.SetFloat("moveY", newDirection.y);
             vel.Linear = new float3(movementData.speed * newDirection.x, movementData.speed * newDirection.y, 0);
         }).Run();
+        Entities
+        .WithoutBurst()
+        .WithAll<BattleData>()
+        .ForEach((Animator Animator, ref BasicEnemyMovementData movementData) =>{
+            Animator.SetInteger("direction_state", 3);
+            Animator.SetFloat("moveX", 0);
+            Animator.SetFloat("moveY", 0);
+        }).Run();
     }
 }

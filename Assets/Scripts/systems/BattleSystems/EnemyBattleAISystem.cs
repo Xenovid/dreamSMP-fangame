@@ -25,6 +25,7 @@ public class EnemyBattleAISystem : SystemBase
 
         Entities
         .WithAll<EnemySelectorUI>()
+        .WithNone<DownTag>()
         .WithoutBurst()
         .ForEach((ref BattleData battleData, ref RandomData random, in RandomAIData randomAIData, in AnimationData animation, in Animator animator) =>
         {

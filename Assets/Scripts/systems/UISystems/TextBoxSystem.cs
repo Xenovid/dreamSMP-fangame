@@ -57,7 +57,6 @@ public class TextBoxSystem : SystemBase
                     }
 
                     if(characterPortrait.portraits.Count > 0 && characterPortrait.portraits[0] != null){
-                        Debug.Log("displaying image");
                         characterImage.visible = true;
                         characterImage.style.backgroundImage = Background.FromSprite(characterPortrait.portraits[0]);
                         characterPortrait.portraits.RemoveAt(0);
@@ -112,6 +111,7 @@ public class TextBoxSystem : SystemBase
                         textBoxData.timeFromLastChar += DeltaTime;
                         while (textBoxData.timeFromLastChar >= textBoxData.textSpeed && !textBoxData.isFinishedPage){
                             string textString = textBoxData.currentSentence.ToString();
+                            AudioManager.playDialogue(texts[0].dialogueSoundName.ToString());
                             textBoxData.currentChar++;
                             if(textBoxData.currentChar >= textString.Length){
                                 textBoxData.isFinishedPage = true;

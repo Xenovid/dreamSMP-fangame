@@ -45,7 +45,8 @@
             <ui:Label text="Fonts:  ELFBOYCLASSIC and Press Start 2P" display-tooltip-when-elided="true" style="-unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;);" />
         </ui:ScrollView>
     </ui:VisualElement>
-    <ui:VisualElement name="file_select" style="position: absolute; width: 100%; height: 100%; visibility: hidden; background-color: rgb(60, 60, 60); align-items: center;">
+    <ui:VisualElement name="file_select" style="position: absolute; width: 100%; height: 100%; visibility: hidden; background-color: rgb(60, 60, 60); align-items: flex-start;">
+        <ui:Button display-tooltip-when-elided="true" name="load_back_button" class="back_button" style="background-image: url(&apos;/Assets/Art/Icons/BackIcon.png&apos;); height: 86px; width: 92px;" />
         <ui:Instance template="SaveFile" name="save_file1" style="flex-grow: 1; width: 100%; align-items: center;" />
         <ui:Instance template="SaveFile" name="save_file2" style="flex-grow: 1; width: 100%; align-items: center;" />
     </ui:VisualElement>
@@ -250,16 +251,17 @@
         <ui:Label display-tooltip-when-elided="true" name="TextBoxText" class="text" style="flex-grow: 1; font-size: 20px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); -unity-text-align: upper-left; border-left-color: rgb(248, 248, 248); border-right-color: rgb(248, 248, 248); border-top-color: rgb(248, 248, 248); border-bottom-color: rgb(248, 248, 248); border-left-width: 5px; padding-left: 22px; padding-top: 14px;" />
         <ui:VisualElement name="player_choices" style="position: absolute; width: 100%; height: 100%; flex-direction: row; align-items: center; justify-content: center;" />
     </ui:Button>
-    <ui:VisualElement name="file_select" style="position: absolute; width: 100%; height: 100%; visibility: hidden; background-color: rgba(60, 60, 60, 0.11); align-items: stretch;">
-        <ui:Instance template="SaveFile" name="save_file1" style="align-items: center; justify-content: space-between; flex-grow: 1;" />
+    <ui:VisualElement name="overworld_file_select" style="position: absolute; width: 100%; height: 100%; visibility: hidden; background-color: rgba(60, 60, 60, 0.11); align-items: stretch;">
+        <ui:Button text="&#10;" display-tooltip-when-elided="true" name="save_back_button" class="back_button" style="width: 106px; background-image: url(&apos;/Assets/Art/Icons/BackIcon.png#BackIcon&apos;); height: 97px;" />
         <ui:Instance template="SaveFile" name="save_file2" style="position: relative; flex-grow: 1; align-items: center;" />
+        <ui:Instance template="SaveFile" name="save_file1" style="align-items: center; justify-content: space-between; flex-grow: 1;" />
     </ui:VisualElement>
     <ui:VisualElement name="losing_screen" style="position: absolute; width: 100%; height: 100%; align-items: center; visibility: hidden;">
-        <ui:Label text="Technoblade Never Dies" display-tooltip-when-elided="true" name="continue" class="selected" style="color: rgb(255, 0, 0); width: 30%; -unity-text-align: upper-center; font-size: 16px; margin-top: 10px; margin-bottom: 10px; padding-top: 12px; padding-bottom: 11px;" />
-        <ui:Label text="To TitleScreen" display-tooltip-when-elided="true" name="title" class="unselected" style="-unity-text-align: upper-center; width: 30%; font-size: 16px; margin-top: 10px; padding-top: 12px; padding-bottom: 11px;" />
+        <ui:Button text="Technoblade Never Dies" display-tooltip-when-elided="true" name="continue" focusable="true" class="player_loss_button" style="color: rgb(171, 0, 0);" />
+        <ui:Button text="To TitleScreen" display-tooltip-when-elided="true" name="title" focusable="true" class="player_loss_button" />
     </ui:VisualElement>
     <ui:VisualElement name="null_focus" tooltip="removes focus on objects that shouldn&apos;t have focus" focusable="true" style="width: 0; height: 0;" />
-    <ui:VisualElement name="Battlebackground" style="width: 100%; height: 100%; justify-content: flex-end; position: absolute; visibility: hidden;">
+    <ui:VisualElement name="battle_background" style="width: 100%; height: 100%; justify-content: flex-end; position: absolute; visibility: hidden;">
         <ui:VisualElement name="BattleUI" picking-mode="Ignore" style="position: relative; width: auto; visibility: hidden; -unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); -unity-text-align: middle-center; align-items: stretch; justify-content: flex-start; flex-grow: 0; flex-shrink: 0; flex-basis: auto; flex-direction: row; left: auto; font-size: 40%; display: flex;">
             <ui:Button display-tooltip-when-elided="true" name="character1" class="techno_battleUI" style="top: 0;">
                 <ui:VisualElement name="character_details" style="height: 50px; flex-direction: row; justify-content: flex-start; align-items: stretch; width: 100%;">
@@ -299,26 +301,31 @@
                 </ui:VisualElement>
             </ui:Button>
         </ui:VisualElement>
-        <ui:VisualElement name="EnemySelector" style="justify-content: center; top: auto; height: 30%; visibility: hidden; align-items: center; flex-direction: row; display: flex; position: absolute; width: 100%; bottom: 0;" />
+        <ui:VisualElement name="EnemySelector" style="justify-content: center; top: auto; height: 30%; visibility: hidden; align-items: center; flex-direction: row; display: flex; position: absolute; width: 100%; bottom: 0;">
+            <ui:Button display-tooltip-when-elided="true" name="selector_back_button" class="back_button" style="background-image: url(&apos;/Assets/Art/Icons/BackIcon.png#BackIcon&apos;); position: absolute; height: 77px; width: 77px; top: 22px; left: 11px;" />
+        </ui:VisualElement>
         <ui:VisualElement name="skill_selector" class="selector" style="position: absolute; width: 100%; height: 30%; bottom: 0; background-color: rgb(75, 75, 75); visibility: hidden; border-left-color: rgb(41, 41, 41); border-right-color: rgb(41, 41, 41); border-top-color: rgb(41, 41, 41); border-bottom-color: rgb(41, 41, 41); border-left-width: 5px; border-right-width: 5px; border-top-width: 5px; border-bottom-width: 0;">
-            <ui:Label text="Skills" display-tooltip-when-elided="true" class="text title_background" style="font-size: 35px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); border-bottom-color: rgb(41, 41, 41); border-bottom-width: 5px;" />
+            <ui:Label text="Skills" display-tooltip-when-elided="true" class="text title_background" style="font-size: 35px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); border-bottom-color: rgb(41, 41, 41); border-bottom-width: 5px; flex-direction: row; -unity-text-align: upper-center; height: 53px;">
+                <ui:Button text="&#10;" display-tooltip-when-elided="true" name="skills_back_button" class="back_button" style="background-image: url(&apos;/Assets/Art/Icons/BackIcon.png#BackIcon&apos;); height: 41px; width: 41px;" />
+            </ui:Label>
             <ui:VisualElement style="flex-direction: row;">
                 <ui:ScrollView name="skill_list" horizontal-scroller-visibility="Hidden" style="width: 50%; height: 158px;" />
                 <ui:VisualElement style="left: 50%; position: absolute; height: 100%; width: 50%; border-left-color: rgb(41, 41, 41); border-left-width: 5px;">
-                    <ui:Label text="&#10;" display-tooltip-when-elided="true" name="skill_desc" class="skill_desc" />
+                    <ui:Label text="&#10;" display-tooltip-when-elided="true" name="skill_desc" class="skill_desc" style="flex-wrap: wrap;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="item_selector" class="selector" style="position: absolute; width: 100%; height: 30%; bottom: 0; background-color: rgb(75, 75, 75); visibility: hidden; flex-direction: column;">
             <ui:VisualElement name="list_labels" style="height: auto; flex-direction: row; justify-content: space-between;">
-                <ui:Label text="Items&#10;" display-tooltip-when-elided="true" name="Label" class="text title_background" style="font-size: 35px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); border-bottom-color: rgb(41, 41, 41); border-bottom-width: 5px; width: 50%;" />
-                <ui:Label text="Description&#10;" display-tooltip-when-elided="true" class="text title_background" style="font-size: 35px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); border-bottom-color: rgb(41, 41, 41); border-bottom-width: 5px; border-left-color: rgb(41, 41, 41); width: 50%; border-left-width: 5px;" />
+                <ui:Button display-tooltip-when-elided="true" name="items_back_button" class="back_button" style="background-image: url(&apos;/Assets/Art/Icons/BackIcon.png#BackIcon&apos;); height: 42px; width: 36px;" />
+                <ui:Label text="Items&#10;" display-tooltip-when-elided="true" name="Label" class="text title_background" style="font-size: 35px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); border-bottom-color: rgb(41, 41, 41); border-bottom-width: 5px; width: 50%; flex-grow: 1; flex-shrink: 1;" />
+                <ui:Label text="Description&#10;" display-tooltip-when-elided="true" class="text title_background" style="font-size: 35px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); border-bottom-color: rgb(41, 41, 41); border-bottom-width: 5px; border-left-color: rgb(41, 41, 41); width: 50%; border-left-width: 5px; flex-grow: 1; flex-shrink: 1;" />
                 <ui:Label text="&#10;" display-tooltip-when-elided="true" class="text title_background" style="font-size: 35px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); border-bottom-color: rgb(41, 41, 41); border-bottom-width: 5px;" />
             </ui:VisualElement>
             <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
                 <ui:ScrollView name="list1" style="width: 25%;" />
                 <ui:ScrollView name="list2" style="width: 25%;" />
-                <ui:Label text="&#10;" display-tooltip-when-elided="true" style="width: 50%; font-size: 20px;" />
+                <ui:Label text="&#10;" display-tooltip-when-elided="true" name="item_desc" style="width: 601px; font-size: 20px; left: 35px; flex-wrap: wrap;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

@@ -1,28 +1,20 @@
 test
--> textbox
-
-=== textbox ===
-    
-    They lived happily ever after.
-    -> END
-=== testarea ===
-    = wakeup
-        
-#stop       
 -> END
 == thebell ==
     = thefirstbell
+        #sound
+        thetimer
+        #technoblade
         technoblade rings the bell
-        it was great
+        #bell
+        #technoblade
+        subscribe to technoblade!!!!!
         -> END
-== unimportant ==
-    = whitebox
-    #instant
-        a single white box sits on the floor
-    #technoblade
-        hello
+== story ==
+    = intro
+        #technoblade
+        Staaarting the streeeam
         -> END
-
 == victory ==
 You Won
 -> END

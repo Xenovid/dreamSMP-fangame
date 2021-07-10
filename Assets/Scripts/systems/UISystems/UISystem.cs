@@ -22,7 +22,7 @@ public class UISystem : SystemBase
     VisualElement nullFocus;
     SaveAndLoadSystem saveAndLoadSystem;
 
-    VisualElement titleBackground;
+    public VisualElement titleBackground;
     VisualElement creditsBackground;
     VisualElement fileSelectBackground;
     VisualElement settingsBackground;
@@ -42,6 +42,7 @@ public class UISystem : SystemBase
     TextBoxSystem textBoxSystem;
     BattleMenuSystem battleMenuSystem;
     EntityQuery interactiveButtonQuery;
+    VisualElement overworldSaveFileSelect;
     protected override void OnCreate()
     {
         battleMenuSystem = World.GetOrCreateSystem<BattleMenuSystem>();
@@ -87,8 +88,10 @@ public class UISystem : SystemBase
 
                 creditsBackground.Q<Button>("credits_back_button").clicked += CreditsBackButton;
 
-                fileSelectBackground.Q<TemplateContainer>("save_file1").Q<Button>("background").clicked += () => SaveButton(1);
-                fileSelectBackground.Q<TemplateContainer>("save_file2").Q<Button>("background").clicked += () => SaveButton(2);
+                fileSelectBackground.Q<TemplateContainer>("save_file1").Q<Button>("background").clicked += () => ContinueGameButton(1);
+                fileSelectBackground.Q<TemplateContainer>("save_file2").Q<Button>("background").clicked += () => ContinueGameButton(2);
+
+                fileSelectBackground.Q<Button>("load_back_button").clicked += LoadSaveFileBackButton;
                 }
                 //for the credits menu, links all the items to the links
                 {
@@ -122,9 +125,12 @@ public class UISystem : SystemBase
                 Button volumeButton = settingsBackground.Q<Button>("volume_button");
                 volumeButton.RegisterCallback<FocusEvent>(ev => ActivateSettingsTab(settingsBackground.Q<VisualElement>("volume_controls")));
                 Button bindingsButton = settingsBackground.Q<Button>("bindings_button");
+                bindingsButton.SetEnabled(false);
                 bindingsButton.RegisterCallback<FocusEvent>(ev => ActivateSettingsTab(settingsBackground.Q<VisualElement>("bindings_controls")));
                 Button othersButton = settingsBackground.Q<Button>("others_button");
                 othersButton.RegisterCallback<FocusEvent>(ev => ActivateSettingsTab(settingsBackground.Q<VisualElement>("other_controls")));
+                settingsBackground.Q<Slider>("volume_slider").RegisterValueChangedCallback(ev => ChangeVolume(ev.newValue));
+                settingsBackground.Q<Button>("title_return_button").clicked += SettingsReturnToTitleButton;
                 }
                 // for pause menu
                 {
@@ -166,14 +172,33 @@ public class UISystem : SystemBase
                 overworldOverlay.Q<Button>("interactive_item_check").SetEnabled(false);
                 overworldOverlay.Q<Button>("interactive_item_check").clicked += InteractButton;}
                 // for battle menu
-                VisualElement battleUI = root.Q<VisualElement>("BattleUI");
+                {
+                VisualElement battleBackground = root.Q<VisualElement>("battle_background");
+                VisualElement battleUI = battleBackground.Q<VisualElement>("BattleUI");
+                VisualElement losingBackground = root.Q<VisualElement>("losing_screen");
+                losingBackground.Q<Button>("continue").clicked += battleMenuSystem.ContinueButton;
+                losingBackground.Q<Button>("title").clicked += battleMenuSystem.LossReturnToTitleButton;
+                
                 // should be technoblade
                 Button technobladeBattleUI = battleUI.Q<Button>("character1");
                 technobladeBattleUI.Q<Button>("fight").clicked += () => battleMenuSystem.AttackButton(0);
                 technobladeBattleUI.Q<Button>("skills").clicked += () => battleMenuSystem.SkillsButton(0);
                 technobladeBattleUI.Q<Button>("items").clicked += () => battleMenuSystem.ItemsButton(0);
 
-                
+                battleBackground.Q<Button>("selector_back_button").clicked += battleMenuSystem.EnemySelectBack;
+                battleBackground.Q<Button>("skills_back_button").clicked += battleMenuSystem.SkillsBackButton;
+                battleBackground.Q<Button>("items_back_button").clicked += battleMenuSystem.ItemsBackButton;
+                }
+                overworldSaveFileSelect = root.Q<VisualElement>("overworld_file_select");
+                TemplateContainer fileContainer1 = overworldSaveFileSelect.Q<TemplateContainer>("save_file1");
+                fileContainer1.Q<Button>("background").clicked += () =>  saveAndLoadSystem.SaveGame(1);
+                fileContainer1.Q<Button>("background").clicked += () =>  saveAndLoadSystem.UpdateSaveFile(fileContainer1.Q<Button>("background"), 1);
+
+                TemplateContainer fileContainer2 = overworldSaveFileSelect.Q<TemplateContainer>("save_file2");
+                fileContainer2.Q<Button>("background").clicked += () =>  saveAndLoadSystem.SaveGame(2);
+                fileContainer2.Q<Button>("background").clicked += () =>  saveAndLoadSystem.UpdateSaveFile(fileContainer2.Q<Button>("background"), 2);
+                overworldSaveFileSelect.Q<Button>("save_back_button").clicked += SaveBackButton;
+
                 textBoxUI = root.Q<Button>("textbox");
                 textBoxUI.clicked += textBoxSystem.ContinueText;
                 
@@ -204,6 +229,21 @@ public class UISystem : SystemBase
     public void ResetFocus(){
         nullFocus.Focus();
     }
+    private void LoadSaveFileBackButton(){
+        AudioManager.playSound("menuback");
+        titleBackground.visible = true;
+        fileSelectBackground.visible = false;
+    }
+    private void SaveBackButton(){
+        pauseSystem.UnPause();
+        textBoxUI.visible = false;
+        InputGatheringSystem.currentInput = CurrentInput.overworld;
+        overworldOverlay.visible = true;
+        overworldSaveFileSelect.visible = false;
+    }
+    private void ChangeVolume(float newVolume){
+        AudioListener.volume = newVolume;
+    }
     private void InteractButton(){
         if(!textBoxSystem.isDisplaying){
             InteractiveButtonData interactiveButton = GetSingleton<InteractiveButtonData>();
@@ -222,6 +262,8 @@ public class UISystem : SystemBase
         pauseBackground.visible = true;
     }
     public void StartButton(){
+        titleBackground.visible = false;
+        overworldOverlay.visible = true;
         SetSingleton<OverworldAtmosphereData>(new OverworldAtmosphereData{songName = "CalmMountain"});
         AudioManager.playSound("menuselect");
         StartNewGame?.Invoke(this, EventArgs.Empty);
@@ -229,18 +271,13 @@ public class UISystem : SystemBase
         InputGatheringSystem.currentInput = CurrentInput.overworld;
         sceneSystem.UnloadScene(SubSceneReferences.Instance.TitleSubScene.SceneGUID);
         AudioManager.stopSong("menuMusic");
-        //isLinked = false;
     }
     public void continueButton(){
-        Entities
-        .WithoutBurst()
-        .ForEach((in TitleMenuTag titleUIData) =>{
-            AudioManager.playSound("menuselect");
-            UpdateSaveFileUI(fileSelectBackground);                
-                                
-            fileSelectBackground.visible = true;
-            titleBackground.visible = false;
-        }).Run();    
+        AudioManager.playSound("menuselect");
+        saveAndLoadSystem.UpdateSaveFileUI(fileSelectBackground);                
+                            
+        fileSelectBackground.visible = true;
+        titleBackground.visible = false;   
     }
     public void OptionsButton(){
         AudioManager.playSound("menuselect");
@@ -252,6 +289,7 @@ public class UISystem : SystemBase
         //settingsMenuSystem.ActivateMenu();
     }
     public void ToTitleSettingsBackButton(){
+        AudioManager.playSound("menuback");
         DeActivateSettingsTabs();
         settingsBackground.visible = false;
         titleBackground.visible = true;
@@ -272,42 +310,11 @@ public class UISystem : SystemBase
         creditsBackground.visible = false;
         titleBackground.visible = true;
     }
-    public void UpdateSaveFileUI(VisualElement saveFileUI){
-        bool selectedFile = false;
-        for(int i = 1; i <= 2; i++){
-            TemplateContainer fileContainer = saveFileUI.Q<TemplateContainer>("save_file" + i.ToString());
-            VisualElement currentFile = fileContainer.Q<VisualElement>("background");
-            if(File.Exists(Application.persistentDataPath + "/save" + i.ToString() + "/SavePointData")){
-                Label currentTime = currentFile.Q<Label>("time");
-                
-                string savePath = Application.persistentDataPath + "/save" + i.ToString() + "/SavePointData";
-                string jsonString = File.ReadAllText(savePath);
-                SavePointData savePointData = JsonUtility.FromJson<SavePointData>(jsonString);
+    public void ContinueGameButton(int saveFileNubmer){
+        overworldOverlay.visible = true;
+        titleBackground.visible = false;
+        fileSelectBackground.visible = false;
 
-                float remainder = savePointData.timePassed;
-                int hours = (int) remainder / 3600;
-                remainder -= (hours * 3600);
-                int minutes = (int) remainder / 60;
-                remainder -= minutes * 60;
-                int seconds = (int) remainder;
-                                    
-                currentTime.text = "Time: " + hours.ToString() + " : " + minutes.ToString() + " : " + seconds.ToString();
-
-                Label location = currentFile.Q<Label>("location");
-                location.text = savePointData.savePointName.ToString();
-
-                if(!selectedFile){
-                    currentFile.Focus();
-                    selectedFile = true;
-                }
-            }
-            else{
-                currentFile.focusable = false;
-            }
-
-        }
-    }
-    public void SaveButton(int saveFileNubmer){
         StartGame?.Invoke(this, new StartGameEventArgs{saveFileNumber = saveFileNubmer});
         AudioManager.playSound("menuselect");
         InputGatheringSystem.currentInput = CurrentInput.overworld;
@@ -709,6 +716,7 @@ public class UISystem : SystemBase
         RestartPauseMenu();
     }
     public void ReturnToPauseMenu(){
+        DeActivateSettingsTabs();
         settingsBackground.visible = false;
         pauseBackground.visible = true;
         settingsBackButton.clicked -= ReturnToPauseMenu;
@@ -716,15 +724,11 @@ public class UISystem : SystemBase
     private void PauseBackButton(){
         overworldOverlay.visible = true;
         RestartPauseMenu();
-        //OverworldUITag overworld = GetSingleton<OverworldUITag>();
-        //overworld.isVisable = true;
-        //SetSingleton<OverworldUITag>(overworld);
 
         AudioManager.playSound("menuback");
         pauseSystem.UnPause();
         pauseBackground.visible = false;
         InputGatheringSystem.currentInput = CurrentInput.overworld;
-        //healingSystem.OnHealthChange -= UpdateCharacterInfo_OnStatsUpdate;
     }
     public void RestartPauseMenu(){
         skillInfo.visible = false;
@@ -770,7 +774,21 @@ public class UISystem : SystemBase
         quickMenu.style.right = item.contentRect.width + item.worldBound.x;
         quickMenu.style.top = item.worldBound.y;
     }
-    
+    private void SettingsReturnToTitleButton(){
+        AudioManager.playSound("menuback");
+        DeActivateSettingsTabs();
+        settingsBackButton.clicked -= ToTitleSettingsBackButton;
+        settingsBackButton.clicked -= ReturnToPauseMenu;
+
+        
+        settingsBackground.visible = false;
+        titleBackground.visible = true;
+        saveAndLoadSystem.UnLoadSubScenes();
+        sceneSystem.LoadSceneAsync(SubSceneReferences.Instance.TitleSubScene.SceneGUID);
+        
+        sceneSystem.UnloadScene(SubSceneReferences.Instance.EssentialsSubScene.SceneGUID);
+        AudioManager.playSong("menuMusic");
+    }
     private void ItemUse(){
         NativeArray<CharacterStats> characterStatsList = characterStatsQuery.ToComponentDataArray<CharacterStats>(Allocator.Temp);
         NativeArray<Entity> characterEntities = characterStatsQuery.ToEntityArray(Allocator.Temp);
@@ -828,7 +846,9 @@ public class UISystem : SystemBase
     }
     public delegate void StartGameEventHandler(object sender, StartGameEventArgs e);
 }
-
+public class StartGameEventArgs: EventArgs{
+    public int saveFileNumber{get; set;}
+}
 public enum Equipment{
     Weapon,
     Armor,

@@ -7,9 +7,8 @@ public class CameraConvertionSystem : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
-        Entities.ForEach((Camera camera, AudioListener audio, PixelPerfectCamera pixelCamera, UniversalAdditionalCameraData universe) => {
+        Entities.ForEach((Camera camera, AudioListener audio,  UniversalAdditionalCameraData universe) => {
             AddHybridComponent(universe);
-            AddHybridComponent(pixelCamera);
                 AddHybridComponent(camera);
                 AddHybridComponent(audio);
         });

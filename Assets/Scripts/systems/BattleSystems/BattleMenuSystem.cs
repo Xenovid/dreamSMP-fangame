@@ -5,20 +5,28 @@ using UnityEngine;
 using Unity.Collections;
 using System.Collections.Generic;
 using Unity.Transforms;
+using Unity.Scenes;
+using System;
+using System.IO;
 
 public class BattleMenuSystem : SystemBase
 {
+    public event EventHandler OnContinue;
+    SceneSystem sceneSystem;
+    SaveAndLoadSystem saveAndLoadSystem;
     VisualElement battleUI;
+    VisualElement losingBackground;
     VisualElement enemySelector;
     VisualElement skillSelector;
     VisualElement itemSelector;
+    VisualElement previousUI;
     UIDocument UIDoc;
     bool hasBattleStarted;
 
     InkDisplaySystem inkDisplaySystem;
+    TextBoxSystem textBoxSystem;
     private int currentPlayer;
 
-    private menuType currentMenu;
     private int currentCharacterSelected;
     private int currentEnemySelected;
     public BattleSystem battleSystem;
@@ -36,6 +44,8 @@ public class BattleMenuSystem : SystemBase
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
     protected override void OnCreate()
     {
+        sceneSystem = World.GetOrCreateSystem<SceneSystem>();
+        saveAndLoadSystem = World.GetOrCreateSystem<SaveAndLoadSystem>();
         uISystem = World.GetOrCreateSystem<UISystem>();
         battleSystem = World.GetOrCreateSystem<BattleSystem>();
         battleSystem.OnBattleStart += WaitForTransition_OnBattleStart;
@@ -47,13 +57,13 @@ public class BattleMenuSystem : SystemBase
         overHeadUITemplate = Resources.Load<VisualTreeAsset>("UIDocuments/OverHeadBattleStats");
 
         inkDisplaySystem = World.GetOrCreateSystem<InkDisplaySystem>();
+        textBoxSystem = World.GetOrCreateSystem<TextBoxSystem>();
 
         playerCharactersQuery = GetEntityQuery(typeof(PlayerSelectorUI));
+        battleSystem.OnBattleEnd += DisplayLoss_OnPlayerLoss;
     }
 
     protected override void OnStartRunning(){
-        currentMenu = menuType.battleMenu;
-
         m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
         //getting the battle system then subscribing to the battle start event so it can activate the menu when the transition is done
     }
@@ -64,36 +74,12 @@ public class BattleMenuSystem : SystemBase
             EntityManager.CompleteAllJobs();
             float deltaTime = Time.DeltaTime;
 
-            EntityQuery enemyUiSelectionGroup = GetEntityQuery(typeof(EnemySelectorUI), typeof(EnemySelectorData));
-            NativeArray<Entity> temp = enemyUiSelectionGroup.ToEntityArray(Allocator.TempJob);
-            List<Entity> enemyUiSelection = new List<Entity>();
-
-            // sometimes the order isn't right, this makes it match the order in the battlesystem
-            foreach(Entity entity in battleSystem.enemyEntities){
-                for(int i = 0; i < temp.Length; i++){
-                    if(temp[i] == entity){
-                        enemyUiSelection.Add(entity);
-                    }
-                }
-            }
-
-            int enemyLength = battleSystem.enemyEntities.Count;
-
-            EntityQuery battleCharacters = GetEntityQuery(typeof(CharacterStats), typeof(BattleData));
-
-            EntityQuery uiInputQuery = GetEntityQuery(typeof(UIInputData));
-            UIInputData input = uiInputQuery.GetSingleton<UIInputData>();
-
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
-
-            Color black = Color.black;
-            Color grey = Color.grey;
             
             Entities
             .WithoutBurst()
             .WithStructuralChanges()
             .ForEach((DynamicBuffer<ItemData> itemInventory, AnimationData animation, Animator animator, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStats, in Entity entity) =>{
-                DynamicBuffer<EquipedSkillData> equipedSkills = GetBuffer<EquipedSkillData>(entity);
 
                 Label healthText = selectorUI.UI.Q<Label>("health_text");
                 VisualElement healthBarBase = selectorUI.UI.Q<VisualElement>("health_bar_base");
@@ -108,160 +94,13 @@ public class BattleMenuSystem : SystemBase
 
                 bloodBar.style.width = bloodBarBase.contentRect.width * ((float)characterStats.points/ characterStats.maxPoints);
                 bloodText.text = "Blood: " + characterStats.points.ToString() + "/" + characterStats.maxPoints.ToString();
-                /*
-                if(selectorUI.isSelectable){
-                    battleData.DamageTaken = 0;
-                    VisualElement useBar = selectorUI.UI.Q<VisualElement>("use_bar");
-                    useBar.style.width = 0;
-                    switch (currentMenu){
-                        case menuType.battleMenu:
-                            if(selectorUI.isHovered && currentCharacterSelected == entityInQueryIndex && !hasMoved){
-                            }
-                            else if(selectorUI.isSelected){
-                                if(input.goback){
-                                    selectorUI.UI.experimental.animation.Position(new Vector3(0,0,0), 0);
-                                    AudioManager.playSound("menuchange");
-                                    selectorUI.isSelected = false;
-                                    selectorUI.isHovered = true;
 
-                                    selectorUI.UI.RemoveFromClassList("selected");
-                                    selectorUI.UI.AddToClassList("hovering");
-                                }
-                                if(input.goselected){
-                                    int i = 0;
-                                    switch(selectorUI.currentSelection){
-                                        case battleSelectables.fight:
-                                            currentMenu = menuType.attackMenu;
-                                            currentEnemySelected = 0;
-                                        break;
-                                        case battleSelectables.skills:
-                                            battleUI.visible = false;
-                                            skillSelector.visible = true;
-                                            currentMenu = menuType.skillMenu;
-                                            currentSkill = 1;
-                                            SelectSkill(skillSelector.Q<Label>("skill1"));
-                                            while(i < equipedSkills.Length){
-                                                skillSelector.Q<Label>("skill" + (i + 1).ToString()).text = equipedSkills[i].skill.name.ToString();
-                                                i++;
-                                                if(!equipedSkills.IsEmpty){
-                                                    Skill skill = equipedSkills[currentSkill - 1].skill;
-                                                    skillSelector.Q<Label>("skill_desc").text = skill.description.ToString();
-                                                }
-                                                else{
-                                                    skillSelector.Q<Label>("skill_desc").text = "";
-                                                }
-                                            }
-                                        break;
-                                        case battleSelectables.items:
-                                            battleUI .visible = false;
-                                            itemSelector.visible = true;
-                                            currentMenu = menuType.itemsMenu;
-                                            currentItem = 1;
-                                            
-                                            // changing the names of the items
-                                            while(i < itemInventory.Length){
-                                                itemSelector.Q<Label>("item" + (i + 1).ToString()).text = itemInventory[i].item.name.ToString();
-                                                i++;
-                                            }
-                                            while(i < 10){
-                                                itemSelector.Q<Label>("item" + (i + 1).ToString()).text = "None";
-                                                i++;
-                                            }
-                                        break;
-                                    }
-                                }
-                                
-                            }
-                            break;
-                        case menuType.attackMenu:
-                            if(input.goback){
-                                AudioManager.playSound("menuchange");
-                                currentMenu = menuType.battleMenu;
-                                foreach(Entity ent in enemyUiSelection){
-                                    EnemySelectorData temp = GetComponent<EnemySelectorData>(ent);
-                                    temp.isSelected = false;
-                                    EntityManager.SetComponentData(ent, temp);
-                                }
-                                battleUI.visible = true;
-                                enemySelector.visible = false;
-                                
-                            }                           
-                            break;
-                        case menuType.skillMenu:
-                                else if(input.goback){
-                                    selectorUI.UI.experimental.animation.Position(new Vector3(0,-38,0), 0);
-                                    isInEnemySelection = false;
-                                    skillSelector.visible = true;
-                                    enemySelector.visible = false;
-                                else if(input.goback){
-                                    currentMenu = menuType.battleMenu;
-                                    skillSelector.visible = false;
-                                    battleUI.visible = true;
-                                }
-
-                            }
-                        break;
-                        case menuType.itemsMenu:
-                            Item item =  currentItem - 1 < itemInventory.Length ? itemInventory[currentItem - 1].item : new Item{itemType = ItemType.none};
-                            if(isInEnemySelection){
-
-                            }
-                            else if(isInPlayerSelection){
-                                if(input.goselected){
-                                    // when adding the moving box, make sure to turn it off here
-                                    selectorUI.UI.experimental.animation.Position(new Vector3(0,0,0), 0);
-                                    switch(item.itemType){
-                                        case ItemType.healing:
-                                            DynamicBuffer<HealingData> healings = GetBuffer<HealingData>(battleSystem.playerEntities[currentPlayer]);
-                                            HealingData healing = new HealingData{healing = item.strength};
-                                            healings.Add(healing);
-
-                                            
-                                        break;
-                                    }
-                                    currentMenu = menuType.battleMenu;
-                                    selectorUI.isSelectable = false;
-                                    battleData.useTime = item.useTime;
-                                    battleData.maxUseTime = battleData.useTime;
-                                    itemInventory.RemoveAt(currentItem - 1);
-                                    currentPlayer = 0;
-                                    currentItem = 0;
-                                    isInPlayerSelection = false;
-                                }
-                                else if(input.goback){
-                                    isInPlayerSelection = false;
-                                    itemSelector.visible = true;
-                                    battleUI.visible = false;
-                                }
-                                //have a box that highlights a playerbox that animates over
-                                else if(input.moveright && currentPlayer < playerNumber){
-                                    currentPlayer++;
-                                }
-                                else if(input.moveleft && currentPlayer > 0){
-                                    currentPlayer--;
-                                }
-                            }
-                            else{
-                                if(input.goselected){
-                                    
-                                    switch(item.itemType){
-                                        case ItemType.healing:
-                                            isInPlayerSelection = true;
-                                            itemSelector.visible = false;
-                                            battleUI.visible = true;
-                                        break;
-                                    }
-                                }
-                                else if(input.goback){
-                                    currentMenu = menuType.battleMenu;
-                                    itemSelector.visible = false;
-                                    battleUI.visible = true;
-                                }
-
-                            }
-                        break;
-                    } 
-                }*/
+                if(itemInventory.Length <= 0){
+                    selectorUI.UI.Q<Button>("items").SetEnabled(false);
+                }
+                else{
+                    selectorUI.UI.Q<Button>("items").SetEnabled(true);
+                }
                 if(battleData.useTime < battleData.maxUseTime)
                 {
 
@@ -280,18 +119,19 @@ public class BattleMenuSystem : SystemBase
                     battleData.isRecharging = false;
                 }
             }).Run();
-            temp.Dispose();
         
         m_EndSimulationEcbSystem.AddJobHandleForProducer(this.Dependency);
         hasMoved = false;
     }
     public void ItemsButton(int characterNumber){
+        AudioManager.playSound("menuchange");
         currentCharacterSelected = characterNumber;
         battleUI .visible = false;
         itemSelector.visible = true;
 
         DynamicBuffer<ItemData> itemInventory = EntityManager.GetBuffer<ItemData>(playerCharactersQuery.ToEntityArray(Allocator.Temp)[characterNumber]);
         int i = 0;
+        int firstItemCheck = 0;
         ScrollView list1 = itemSelector.Q<ScrollView>("list1");
         ScrollView list2 = itemSelector.Q<ScrollView>("list2");
         list1.Clear();
@@ -300,11 +140,19 @@ public class BattleMenuSystem : SystemBase
         // changing the names of the items
         while(i < itemInventory.Length){
             int z = i;
+            Item item = itemInventory[i].item;
             Button button = new Button();
             button.focusable = true;
-            button.text = itemInventory[i].item.name.ToString();
+            button.text = item.name.ToString();
             button.AddToClassList("item_button");
             button.clicked += () => ItemButton(z);
+            button.RegisterCallback<FocusEvent>(ev => UpdateItemDescription(item.description.ToString()));
+            button.RegisterCallback<PointerEnterEvent>(ev => UpdateItemDescription(item.description.ToString()));
+            switch(itemInventory[i].item.itemType){
+                case ItemType.none:
+                    button.SetEnabled(false);
+                break;
+            }
 
             if(i < 6){
                 list1.Add(button);
@@ -312,8 +160,13 @@ public class BattleMenuSystem : SystemBase
             else{
                 list2.Add(button);
             }
-            if(i == 0){
+            if(i == firstItemCheck && item.itemType != ItemType.none){
                 button.Focus();
+                UpdateItemDescription(item.description.ToString());
+            }
+            else{
+                firstItemCheck++;
+                UpdateItemDescription("");
             }
             i++;
         }
@@ -325,6 +178,7 @@ public class BattleMenuSystem : SystemBase
         }
     }
     private void ItemButton(int itemNumber){
+        AudioManager.playSound("menuchange");
         Entity playerEntity = playerCharactersQuery.ToEntityArray(Allocator.Temp)[currentCharacterSelected];
         DynamicBuffer<ItemData> itemInventory = EntityManager.GetBuffer<ItemData>(playerEntity);
         PlayerSelectorUI selectorUI = EntityManager.GetComponentObject<PlayerSelectorUI>(playerEntity);
@@ -345,22 +199,33 @@ public class BattleMenuSystem : SystemBase
         itemSelector.visible = false;
     }
     private void SkillButton(int skillNumber){
-        int i = 0;
-        skillSelector.visible = false;
-        enemySelector.visible = true;
+        Entity playerEntity = playerCharactersQuery.ToEntityArray(Allocator.Temp)[currentCharacterSelected];
+        DynamicBuffer<EquipedSkillData> equipedSkills = GetBuffer<EquipedSkillData>(playerEntity);
+        CharacterStats characterStats = GetComponent<CharacterStats>(playerEntity);
+        //checking if there have enough points to use the move
+        if(characterStats.points >= equipedSkills[skillNumber].skill.cost){
+            AudioManager.playSound("menuchange");
+            int i = 0;
+            previousUI = skillSelector;
+            skillSelector.visible = false;
+            enemySelector.visible = true;
 
-        EntityQuery enemySelectorQuery = GetEntityQuery(typeof(EnemySelectorUI));
-        NativeArray<Entity> enemySelectorEntities = enemySelectorQuery.ToEntityArray(Allocator.Temp);
-        while(i < enemySelectorEntities.Length){
-            int z = i;
-            EnemySelectorUI enemySelectorUI = EntityManager.GetComponentObject<EnemySelectorUI>(enemySelectorEntities[i]);
-            Button button = enemySelectorUI.enemySelectorUI.Q<Button>("Base");
-            button.clicked += () => SkillEnemySelectButton(z, skillNumber, button);
-            i++;
-        }   
-        enemySelectorEntities.Dispose();
+            EntityQuery enemySelectorQuery = GetEntityQuery(typeof(EnemySelectorUI));
+            NativeArray<Entity> enemySelectorEntities = enemySelectorQuery.ToEntityArray(Allocator.Temp);
+            while(i < enemySelectorEntities.Length){
+                int z = i;
+                EnemySelectorUI enemySelectorUI = EntityManager.GetComponentObject<EnemySelectorUI>(enemySelectorEntities[i]);
+                Button button = enemySelectorUI.enemySelectorUI.Q<Button>("Base");
+                button.clicked += () => SkillEnemySelectButton(z, skillNumber, button);
+                i++;
+            }   
+            enemySelectorEntities.Dispose();
+        }
+        
     }
     private void SkillEnemySelectButton(int enemyNumber, int currentSkill, Button selectButton){
+        AudioManager.playSound("menuselect");
+        battleUI.Focus();
         EntityQuery enemyUiSelectionGroup = GetEntityQuery(typeof(EnemySelectorUI), typeof(EnemySelectorData));
         NativeArray<Entity> enemyUiSelection = enemyUiSelectionGroup.ToEntityArray(Allocator.TempJob);
         var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
@@ -394,8 +259,6 @@ public class BattleMenuSystem : SystemBase
             battleData.useTime = 0;
             battleData.maxUseTime = skill.waitTime;                            
 
-            currentMenu = menuType.battleMenu;
-
 
             battleUI.visible = true;
             enemySelector.visible = false;
@@ -405,55 +268,64 @@ public class BattleMenuSystem : SystemBase
 
         enemyUiSelection.Dispose();
     }
+    public void EnemySelectBack(){
+        AudioManager.playSound("menuback");
+        enemySelector.visible = false;
+        previousUI.visible = true;
+    }
     public void SkillsButton(int characterNumber){
+        AudioManager.playSound("menuchange");
         currentCharacterSelected = characterNumber;
         skillSelector.visible = true;
         battleUI.visible = false;
         uISystem.ResetFocus();
         List<Button> skillButtons = new List<Button>();
+        DynamicBuffer<EquipedSkillData> equipedSkills = GetBuffer<EquipedSkillData>(playerCharactersQuery.ToEntityArray(Allocator.Temp)[characterNumber]);
+        int i = 0;
+        ScrollView skillList = skillSelector.Q<ScrollView>("skill_list");
+        skillList.Clear();
+        while(i < equipedSkills.Length){
+            int z = i;
+            Button skillButton = new Button();
+            skillButton.focusable = true;
 
-        int j = 0;
-        Entities
-        .WithoutBurst()
-        .ForEach((DynamicBuffer<ItemData> itemInventory, AnimationData animation, Animator animator, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStats, in Entity entity) =>{
-            DynamicBuffer<EquipedSkillData> equipedSkills = GetBuffer<EquipedSkillData>(entity);
-            if(j == characterNumber){
-                int i = 0;
-                ScrollView skillList = skillSelector.Q<ScrollView>("skill_list");
-                skillList.Clear();
-                while(i < equipedSkills.Length){
-                    int z = i;
-                    Button skillButton = new Button();
-                    skillButton.focusable = true;
-
-                    Skill skill = equipedSkills[i].skill;
-                    skillButton.text = skill.description.ToString();
-                    
-
-                    skillButton.AddToClassList("item_button");
-                    skillSelector.Q<Label>("skill_desc").text = equipedSkills[i].skill.description.ToString();
-                    skillList.Add(skillButton);
-                    skillButtons.Add(skillButton);
-                    if(i == 0){
-                        skillButton.Focus();
-                    }
-                    i++;
-                }
-            }
-            //byepasses dots glitch
+            Skill skill = equipedSkills[i].skill;
+            skillButton.text = skill.description.ToString();
+            skillButton.clicked += () => SkillButton(z);
+            skillButton.RegisterCallback<FocusEvent>(ev => UpdateSkillDescription(skill.description.ToString()));
+            skillButton.RegisterCallback<PointerEnterEvent>(ev => UpdateSkillDescription(skill.description.ToString()));
             
-            j++;
-        }).Run();
-        int o = 0;
-        foreach(Button button in skillButtons){
-            int z = o;
-            button.clicked += () => SkillButton(z);
-            o++;
+
+            skillButton.AddToClassList("item_button");
+            skillSelector.Q<Label>("skill_desc").text = equipedSkills[i].skill.description.ToString();
+            skillList.Add(skillButton);
+            skillButtons.Add(skillButton);
+            if(i == 0){
+                UpdateSkillDescription(skill.description.ToString());
+                skillButton.Focus();
+            }
+            i++;
         }
-        
-        
+    }
+    private void UpdateSkillDescription(string description){
+        skillSelector.Q<Label>("skill_desc").text = description;
+    }
+    private void UpdateItemDescription(string description){
+        itemSelector.Q<Label>("item_desc").text = description;
+    }
+    public void ItemsBackButton(){
+        AudioManager.playSound("menuback");
+        itemSelector.visible = false;
+        battleUI.visible = true;
+    }
+    public void SkillsBackButton(){
+        AudioManager.playSound("menuback");
+        skillSelector.visible = false;
+        battleUI.visible = true;
     }
     public void AttackButton(int characterNumber){
+        AudioManager.playSound("menuchange");
+        previousUI = battleUI;
         battleUI.visible = false;
         enemySelector.visible = true;
         currentCharacterSelected = characterNumber;
@@ -506,8 +378,6 @@ public class BattleMenuSystem : SystemBase
                 battleData.useTime = 0;
                 battleData.maxUseTime = characterStats.equipedWeapon.useTime;                           
 
-                currentMenu = menuType.battleMenu;
-
                 battleUI.visible = true;
                 enemySelector.visible = false;
             }
@@ -532,7 +402,16 @@ public class BattleMenuSystem : SystemBase
     private void DisableMenu_OnBattleEnd(System.Object sender, OnBattleEndEventArgs e){
         battleUI.visible = false;
         enemySelector.visible = false;
+        skillSelector.visible = false;
+        itemSelector.visible = false;
         hasBattleStarted = false;
+        Entities
+        .WithoutBurst()
+        .WithStructuralChanges()
+        .ForEach((Entity entity, PlayerSelectorUI selectorUI) =>{
+            selectorUI.UI.SetEnabled(true);
+            EntityManager.RemoveComponent<PlayerSelectorUI>(entity);
+        }).Run();
         if(e.isPlayerVictor){
             transitionSystem.OnTransitionEnd += ResumeGameWorld_OnTransitionEnd;
         }
@@ -542,13 +421,13 @@ public class BattleMenuSystem : SystemBase
             // enables all the features of the menu
             Camera cam = GetEntityQuery(typeof(Camera)).ToComponentArray<Camera>()[0];
             float positionRatio = 1280.0f / cam.pixelWidth;
-            
-            Debug.Log("battle ui should be visible");
+
             VisualElement root = uISystem.root;
             battleUI = root.Q<VisualElement>("BattleUI");
             enemySelector = root.Q<VisualElement>("EnemySelector");
             skillSelector = root.Q<VisualElement>("skill_selector");
             itemSelector = root.Q<VisualElement>("item_selector");
+            losingBackground = root.Q<VisualElement>("losing_screen");
             battleUI.visible = true;
             battleUI.Focus();
             // adding the selectorUI stuff to the players
@@ -602,8 +481,8 @@ public class BattleMenuSystem : SystemBase
         transitionSystem.OnTransitionEnd += EnableMenu_OnTransitionEnd;
     }
 
-    private void FinishVictoryData_OnWritingFinished(object sender, System.EventArgs e){
-        inkDisplaySystem.OnWritingFinished -= FinishVictoryData_OnWritingFinished;
+    private void FinishVictoryData_OnDisplayFinished(object sender, System.EventArgs e){
+        textBoxSystem.OnDisplayFinished -= FinishVictoryData_OnDisplayFinished;
         var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
         // transition back once the writer is done
         Entities
@@ -640,7 +519,7 @@ public class BattleMenuSystem : SystemBase
             battleCharacters.Dispose();
 
             inkDisplaySystem.DisplayVictoryData();
-            inkDisplaySystem.OnWritingFinished += FinishVictoryData_OnWritingFinished;
+            textBoxSystem.OnDisplayFinished += FinishVictoryData_OnDisplayFinished;
         }
         else{
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
@@ -657,12 +536,48 @@ public class BattleMenuSystem : SystemBase
         }
         
     }
+    public void ContinueButton(){
+        
+        AudioManager.playSound("menuselect");
+        OnContinue?.Invoke(this, EventArgs.Empty);
+        losingBackground.visible = false;
+        saveAndLoadSystem.LoadLastSavePoint();
+        InputGatheringSystem.currentInput = CurrentInput.overworld;
+        Entities
+        .WithoutBurst()
+        .WithStructuralChanges()
+        .WithAll<PlayerTag>()
+        .ForEach((Animator animator, in AnimationData animationData) => {
+            animator.Play(animationData.idleRightAnimationName);
+        }).Run();
+    }
+    public void LossReturnToTitleButton(){
+        losingBackground.visible = false;
+        uISystem.titleBackground.visible = true;
+        AudioManager.playSound("menuselect");
+        sceneSystem.LoadSceneAsync(SubSceneReferences.Instance.TitleSubScene.SceneGUID);
+        sceneSystem.UnloadScene(SubSceneReferences.Instance.EssentialsSubScene.SceneGUID);
+        AudioManager.playSong("menuMusic");
+    }
+
+    private void UnLoadScenes_OnTransitionnEnd(object sender, System.EventArgs e){
+        transitionSystem.OnTransitionEnd -= UnLoadScenes_OnTransitionnEnd;
+        saveAndLoadSystem.UnLoadSubScenes();
+    }
+    private void DisplayLoss_OnPlayerLoss(object sender, OnBattleEndEventArgs e){
+        if(!e.isPlayerVictor){
+            AudioManager.playSound("defeatsong");
+            VisualElement losingBackground = uISystem.root.Q<VisualElement>("losing_screen");
+            if(!File.Exists(Application.persistentDataPath + "/tempsave"+ "/SavePointData")){
+                losingBackground.Q<Button>("continue").SetEnabled(false);
+            }
+            else{
+                losingBackground.Q<Button>("continue").SetEnabled(true);
+            }
+
+            losingBackground.visible = true;
+            transitionSystem.OnTransitionEnd += UnLoadScenes_OnTransitionnEnd;
+        }
+    }
 }
 
-
-public enum menuType{
-    battleMenu,
-    attackMenu,
-    skillMenu,
-    itemsMenu
-}

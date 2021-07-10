@@ -8,12 +8,14 @@ public class SaveTriggerSystem : SystemBase
 {
     StepPhysicsWorld physicsWorld;
     public event SavePointEventHandler SavePointAlert;
+    SaveAndLoadSystem saveAndLoadSystem;
     UISystem uISystem;
     TextBoxSystem textBoxSystem;
     InkDisplaySystem inkDisplaySystem;
 
     protected override void OnStartRunning()
     {
+        saveAndLoadSystem = World.GetOrCreateSystem<SaveAndLoadSystem>();
         textBoxSystem = World.GetOrCreateSystem<TextBoxSystem>();
         uISystem = World.GetOrCreateSystem<UISystem>();
         physicsWorld = World.GetExistingSystem<StepPhysicsWorld>();
@@ -63,6 +65,7 @@ public class SaveTriggerSystem : SystemBase
                     .ForEach((ref CharacterStats character) => {
                         character.health = character.maxHealth;
                     }).Run();
+                    uISystem.overworldOverlay.visible = false;
                     string savePointName = GetComponent<SavePointTag>(entityB).saveName.ToString();
                     Button ringButton = new Button();
                     ringButton.AddToClassList("player_choice");
@@ -74,9 +77,10 @@ public class SaveTriggerSystem : SystemBase
                     Button saveButton = new Button();
                     saveButton.AddToClassList("player_choice");
                     saveButton.text = "save progress";
+                    saveButton.clicked += () => saveAndLoadSystem.LoadSaveUI(this, new SavePointEventArg{savePointName = savePointName});
 
                     textBoxSystem.DisplayChoices(new Button[]{ringButton, saveButton});
-                    //SavePointAlert?.Invoke(this, new SavePointEventArg{savePointName = savePointName});
+
                     
                 }
                 else{
@@ -88,6 +92,7 @@ public class SaveTriggerSystem : SystemBase
 }
 
 public delegate void SavePointEventHandler(System.Object sender, SavePointEventArg e);
+
 public class SavePointEventArg : EventArgs{
     public string savePointName;
 }

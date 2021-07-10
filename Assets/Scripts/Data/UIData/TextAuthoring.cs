@@ -8,11 +8,13 @@ public class TextAuthoring : MonoBehaviour{
 public struct TextInfo{
         public string text;
         public bool instant;
+        public string dialogueSoundName;
 }
 public struct Text : IBufferElementData
 {
         public FixedString512 text;
         public bool instant;
+        public FixedString32 dialogueSoundName;
 }
 
 

@@ -7,7 +7,6 @@ using UnityEngine.InputSystem;
 [UpdateBefore(typeof(SaveAndLoadSystem))]
 [UpdateBefore(typeof(MovementSystem))]
 [UpdateBefore(typeof(CreditsMenuSystem))]
-[UpdateBefore(typeof(OptionMenuSystem))]
 [UpdateBefore(typeof(ChestTriggerSystem))]
 [UpdateBefore(typeof(TextBoxSystem))]
 [UpdateBefore(typeof(UISystem))]
