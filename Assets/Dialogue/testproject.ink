@@ -3,9 +3,11 @@ test
 == thebell ==
     = thefirstbell
         #sound
-        thetimer
+        sellouttimer
         #technoblade
-        technoblade rings the bell
+        #unskipable
+        #slow
+        . . .
         #bell
         #technoblade
         subscribe to technoblade!!!!!

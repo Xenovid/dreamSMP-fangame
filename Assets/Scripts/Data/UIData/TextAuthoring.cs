@@ -12,8 +12,11 @@ public struct TextInfo{
 }
 public struct Text : IBufferElementData
 {
+        public FixedString32 dialoguePortraitName;
         public FixedString512 text;
         public bool instant;
+        public bool unSkipable;
+        public float textSpeed;
         public FixedString32 dialogueSoundName;
 }
 

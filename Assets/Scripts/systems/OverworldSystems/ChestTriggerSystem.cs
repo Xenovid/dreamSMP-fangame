@@ -51,19 +51,19 @@ public class ChestTriggerSystem : SystemBase
                         ChestWeaponData weaponData = GetComponent<ChestWeaponData>(entityA);
                         SetComponent<ChestTag>(entityA, new ChestTag{isOpen = true});
                         weaponInventory.Insert(0, new WeaponData{weapon = weaponData.weapon});
-                        texts.Add(new Text{text = "you obtained a " + weaponData.weapon.name.ToString()});   
+                        texts.Add(new Text{text = "you obtained a " + weaponData.weapon.name.ToString(), instant = true});   
                     }
                     else if(HasComponent<ChestArmorData>(entityA)){
                         ChestArmorData armorData = GetComponent<ChestArmorData>(entityA);
                         SetComponent<ChestTag>(entityA, new ChestTag{isOpen = true});
                         armorInventory.Insert(0, new ArmorData{armor = armorData.armor});
-                        texts.Add(new Text{text = "you obtained a " + armorData.armor.name});
+                        texts.Add(new Text{text = "you obtained a " + armorData.armor.name, instant = true});
                     }
                     else if(HasComponent<ChestCharmData>(entityA)){
                         ChestCharmData charmData = GetComponent<ChestCharmData>(entityA);
                         SetComponent<ChestTag>(entityA, new ChestTag{isOpen = true});
                         charmInventory.Insert(0, new CharmData{charm = charmData.charm});
-                        texts.Add(new Text{text = "you obtained a " + charmData.charm.name});
+                        texts.Add(new Text{text = "you obtained a " + charmData.charm.name, instant = true});
                     }
                     else if(HasComponent<ChestItemData>(entityA)){
 
@@ -86,21 +86,21 @@ public class ChestTriggerSystem : SystemBase
                         SetComponent<ChestTag>(entityB, new ChestTag{isOpen = true});
                         ChestWeaponData weaponData = GetComponent<ChestWeaponData>(entityB);
                         weaponInventory.Insert(0, new WeaponData{weapon = weaponData.weapon});
-                        texts.Add(new Text{text = "you obtained a " + weaponData.weapon.name});
+                        texts.Add(new Text{text = "you obtained a " + weaponData.weapon.name, instant = true});
                     }
                     else if(HasComponent<ChestArmorData>(entityB)){
                         animator.Play(animationData.openAnimationName);
                         SetComponent<ChestTag>(entityB, new ChestTag{isOpen = true});
                         ChestArmorData armorData = GetComponent<ChestArmorData>(entityB);
                         armorInventory.Insert(0, new ArmorData{armor = armorData.armor});
-                        texts.Add(new Text{text = "you obtained a " + armorData.armor.name});
+                        texts.Add(new Text{text = "you obtained a " + armorData.armor.name, instant = true});
                     }
                     else if(HasComponent<ChestCharmData>(entityB)){
                         animator.Play(animationData.openAnimationName);
                         SetComponent<ChestTag>(entityB, new ChestTag{isOpen = true});
                         ChestCharmData charmData = GetComponent<ChestCharmData>(entityB);
                         charmInventory.Insert(0, new CharmData{charm = charmData.charm});
-                        texts.Add(new Text{text = "you obtained a " + charmData.charm.name});
+                        texts.Add(new Text{text = "you obtained a " + charmData.charm.name, instant = true});
                     }
                     else if(HasComponent<ChestItemData>(entityB)){
                                     

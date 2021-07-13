@@ -33,14 +33,14 @@ public class CutsceneTriggerSystem : SystemBase
             Entity entityA = triggerEvent.EntityA;
             Entity entityB = triggerEvent.EntityB;
 
-            if (HasComponent<CutsceneTriggerTag>(entityA) && HasComponent<InteractiveBoxCheckerData>(entityB))
+            if (HasComponent<CutsceneTriggerTag>(entityA) && HasComponent<InteractiveBoxCheckerData>(entityB) && uISystem.textBoxUI != null)
             {
                 CutsceneData text = EntityManager.GetComponentObject<CutsceneData>(entityA);
                 inkDisplaySystem.StartCutScene(text.cutsceneName);
                 InputGatheringSystem.currentInput = CurrentInput.ui;
                 EntityManager.RemoveComponent<CutsceneTriggerTag>(entityA);
             }
-            else if (HasComponent<CutsceneTriggerTag>(entityB) && HasComponent<InteractiveBoxCheckerData>(entityA))
+            else if (HasComponent<CutsceneTriggerTag>(entityB) && HasComponent<InteractiveBoxCheckerData>(entityA) && uISystem.textBoxUI != null)
             {
                 CutsceneData text = EntityManager.GetComponentObject<CutsceneData>(entityB);
                 inkDisplaySystem.StartCutScene(text.cutsceneName);

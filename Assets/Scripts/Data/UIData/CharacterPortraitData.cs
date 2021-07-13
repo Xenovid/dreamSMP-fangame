@@ -1,9 +1,14 @@
 using Unity.Entities;
 using UnityEngine;
-using System.Collections.Generic;
-[GenerateAuthoringComponent]
-public class CharacterPortraitData : IComponentData
+[System.Serializable]
+public class CharacterPortraitData
 {
-    [HideInInspector]
-    public List<Sprite> portraits = new List<Sprite>();
+    public string name;
+    public Sprite[] portraits;
+    
+    public Sprite[] eyeAnimations;
+    
+    public Sprite[] mouthAnimations;
 }
+
+

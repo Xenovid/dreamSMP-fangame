@@ -585,7 +585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf72fb1ec8c6c0344be200fa72776a98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portraits: []
+  characterPortraitList: []
 --- !u!114 &1816887313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -809,6 +809,9 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: 396f00d5820c4484e982ded74f7bb5b1, type: 3}
     audioSource: {fileID: 0}
     soundName: menuselect
+  - clip: {fileID: 8300000, guid: d50e3a2fd982e494faa0466fa61f251c, type: 3}
+    audioSource: {fileID: 0}
+    soundName: sellouttimer
   gameMusics:
   - clip: {fileID: 8300000, guid: 0b991bbf5622a9919aebe2f20d50debd, type: 3}
     audioSource: {fileID: 0}
@@ -885,3 +888,91 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1945046194
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1945046197}
+  - component: {fileID: 1945046196}
+  - component: {fileID: 1945046195}
+  - component: {fileID: 1945046198}
+  m_Layer: 0
+  m_Name: CharacterImageHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1945046195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945046194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf72fb1ec8c6c0344be200fa72776a98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterPortraitList:
+  - name: technoblade
+    portraits:
+    - {fileID: 2211357456315834789, guid: 42790c220fd40d1468072a5077a8dfb7, type: 3}
+    eyeAnimations:
+    - {fileID: 1359794845377153185, guid: 42790c220fd40d1468072a5077a8dfb7, type: 3}
+    - {fileID: 5521392179742155830, guid: 42790c220fd40d1468072a5077a8dfb7, type: 3}
+    - {fileID: 5440103769258618587, guid: 42790c220fd40d1468072a5077a8dfb7, type: 3}
+    mouthAnimations:
+    - {fileID: 0}
+    - {fileID: 631765361247734418, guid: 42790c220fd40d1468072a5077a8dfb7, type: 3}
+  - name: default
+    portraits:
+    - {fileID: 21300000, guid: d1afb2e8a282574428e8f318fd5b3d6b, type: 3}
+    eyeAnimations:
+    - {fileID: 0}
+    mouthAnimations:
+    - {fileID: 0}
+--- !u!114 &1945046196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945046194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConversionMode: 0
+--- !u!4 &1945046197
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945046194}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.4659936, y: -1.6474868, z: -18.305336}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1945046198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945046194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97867da968cbce94aac0a0bde7ee8f40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

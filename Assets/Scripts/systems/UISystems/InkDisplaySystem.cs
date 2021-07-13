@@ -1,5 +1,6 @@
 using Unity.Entities;
 using UnityEngine.UIElements;
+using System.Linq;
 using Ink.Runtime;
 using System;
 using UnityEngine;
@@ -45,33 +46,45 @@ public class InkDisplaySystem : SystemBase
         }).Run();
     }
     public void StartCutScene(String startPoint){
-        
+
         Entity messageBoard = GetSingletonEntity<UITag>();
         DynamicBuffer<Text> texts = GetBuffer<Text>(messageBoard);
-        CharacterPortraitData characterPortraits = EntityManager.GetComponentObject<CharacterPortraitData>(messageBoard);
         Entities
         .WithoutBurst()
         .ForEach((InkManagerData inkManager) => {
             inkManager.inkStory.ChoosePathString(startPoint);
             int i = 0;
-            characterPortraits.portraits.Clear();
             while(inkManager.inkStory.canContinue){
                 Text text = new Text{text = inkManager.inkStory.Continue(), dialogueSoundName = "default"};
-                characterPortraits.portraits.Add(Resources.Load<Sprite>("CharacterPortraits/Default"));
-                if(inkManager.inkStory.currentTags.Contains("instant")){
-                    text.instant = true;
+                // text is meant to be a sound to be played
+                if(inkManager.inkStory.currentTags.Contains("sound")){
+                    //for some reason it has white space, so it has to be removed
+                    AudioManager.playSound(String.Concat(text.text.ToString().Where(c => !Char.IsWhiteSpace(c))));
                 }
-                if(inkManager.inkStory.currentTags.Contains("technoblade")){
-                    characterPortraits.portraits[i] = Resources.Load<Sprite>("CharacterPortraits/TechnoDefault");
-                    text.dialogueSoundName = "technoblade";
+                else{
+                    text.textSpeed = 1f;
+                    if(inkManager.inkStory.currentTags.Contains("unskipable")){
+                        text.unSkipable = true;
+                    }
+                    if(inkManager.inkStory.currentTags.Contains("slow")){
+                        text.textSpeed = .2f;
+                    }
+                    if(inkManager.inkStory.currentTags.Contains("instant")){
+                        text.instant = true;
+                    }
+                    if(inkManager.inkStory.currentTags.Contains("technoblade")){
+                        
+                        text.dialoguePortraitName = "technoblade";
+                        text.dialogueSoundName = "technoblade";
+                    }
+                    if(inkManager.inkStory.currentTags.Contains("bell")){
+                        text.dialogueSoundName = "bell";
+                    }
+                    texts.Add(text);
+                    i++;
                 }
-                if(inkManager.inkStory.currentTags.Contains("bell")){
-                    text.dialogueSoundName = "bell";
-                }
-                texts.Add(text);
-                i++;
+                
             }
         }).Run();
     }
-
 }
