@@ -5,7 +5,7 @@
     <Style src="/Assets/UI Toolkit/Resources/StyleSheet/pauseMenuStyleSheet.uss" />
     <Style src="/Assets/UI Toolkit/Resources/StyleSheet/OverworldStlyeSheet.uss" />
     <Style src="/Assets/UI Toolkit/Resources/StyleSheet/battleDetails.uss" />
-    <ui:VisualElement name="title_background" style="align-items: center; justify-content: flex-start; top: auto; width: 100%; height: 100%; background-color: rgb(42, 200, 65); visibility: hidden;">
+    <ui:VisualElement name="title_background" style="align-items: center; justify-content: flex-start; top: auto; width: 100%; height: 100%; background-color: rgb(42, 200, 65); visibility: visible;">
         <ui:VisualElement name="Title" style="width: 80%; height: 15%; background-color: rgb(0, 0, 0); align-items: center; justify-content: center; font-size: 100px; -unity-font: resource(&apos;Fonts &amp; Materials/elf-boy-classic-font/Elfboyclassic-PKZgZ&apos;); margin-top: 0; -unity-text-align: middle-left; padding-top: 10px; padding-bottom: 10px;">
             <ui:Label text="The Dream Smp Fan RPG" display-tooltip-when-elided="true" style="align-items: center; justify-content: center; font-size: 40px;" />
         </ui:VisualElement>
@@ -242,7 +242,7 @@
             <ui:Button text="cancel" display-tooltip-when-elided="true" name="cancel" focusable="true" class="quickmenu_button" style="font-size: 12px; -unity-text-align: middle-left;" />
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="overworld_overlay" style="position: absolute; width: 100%; height: 100%; visibility: visible;">
+    <ui:VisualElement name="overworld_overlay" style="position: absolute; width: 100%; height: 100%; visibility: hidden;">
         <ui:Button text="Interact&#10;" display-tooltip-when-elided="true" name="interactive_item_check" enable-rich-text="true" class="interactive_button" style="position: absolute; top: 606px; left: 21px; width: 156px; height: 55px;" />
         <ui:Button text="Pause" display-tooltip-when-elided="true" name="pause_button" tooltip="pause the game" class="pause_button" style="position: absolute; top: 19px; left: 22px; height: 55px; width: 156px;" />
     </ui:VisualElement>

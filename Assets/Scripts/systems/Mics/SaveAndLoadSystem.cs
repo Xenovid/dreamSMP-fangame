@@ -7,6 +7,7 @@ using Unity.Physics.Systems;
 using System.IO;
 using Unity.Transforms;
 using UnityEngine.UIElements;
+[UpdateInGroup(typeof(InitializationSystemGroup))]
 public class SaveAndLoadSystem : SystemBase
 {
     ReferencedUnityObjects g;

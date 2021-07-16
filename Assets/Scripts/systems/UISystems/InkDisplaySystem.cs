@@ -41,7 +41,7 @@ public class InkDisplaySystem : SystemBase
             Debug.Log("adding text");
             inkManager.inkStory.ChoosePathString("victory");
             while(inkManager.inkStory.canContinue){
-                texts.Add(new Text{text = inkManager.inkStory.Continue()});
+                texts.Add(new Text{text = inkManager.inkStory.Continue(), instant = true});
             }
         }).Run();
     }

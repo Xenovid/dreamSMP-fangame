@@ -59,6 +59,7 @@ public class TextBoxSystem : SystemBase
             uIAnimation.spritePerSecond = .2f;
             EntityManager.SetComponentData(characterMouthAnimationEntity, uIAnimation);
         }
+
         Entity characterBaseEntity = characterBaseAnimationQuery.GetSingletonEntity();
         Entity characterEyesEntity = characterEyeAnimationQuery.GetSingletonEntity();
         Entity characterMouthEntity = characterMouthAnimationQuery.GetSingletonEntity();
@@ -190,7 +191,28 @@ public class TextBoxSystem : SystemBase
         EntityManager.SetComponentData(characterMouthEntity, characterMouthAnimation);
     }
     public void DisplayChoices(Button[] choices){
-        
+        Entity characterBaseEntity = characterBaseAnimationQuery.GetSingletonEntity();
+        Entity characterEyesEntity = characterEyeAnimationQuery.GetSingletonEntity();
+        Entity characterMouthEntity = characterMouthAnimationQuery.GetSingletonEntity();
+
+        UIAnimationData characterBaseAnimation = EntityManager.GetComponentObject<UIAnimationData>(characterBaseEntity);
+        UIAnimationData characterEyeAnimation = EntityManager.GetComponentObject<UIAnimationData>(characterEyesEntity);
+        UIAnimationData characterMouthAnimation = EntityManager.GetComponentObject<UIAnimationData>(characterMouthEntity);
+
+        CharacterPortraitData characterPortraitData = GetPortriatList("technoblade");
+        // updating the portrait
+        characterBaseAnimation.visualElement.style.backgroundImage = Background.FromSprite(characterPortraitData.portraits[0]);
+        characterEyeAnimation.visualElement.style.backgroundImage = Background.FromSprite(characterPortraitData.eyeAnimations[0]);
+        characterMouthAnimation.visualElement.style.backgroundImage = Background.FromSprite(characterPortraitData.mouthAnimations[0]);
+
+        characterBaseAnimation.sprites = characterPortraitData.portraits;
+        characterEyeAnimation.sprites = characterPortraitData.eyeAnimations;
+        characterMouthAnimation.sprites = characterPortraitData.mouthAnimations;
+
+        characterBaseAnimation.active = characterBaseAnimation.sprites.Length > 1;
+        characterEyeAnimation.active = characterEyeAnimation.sprites.Length > 1;
+        characterMouthAnimation.active = false;
+
         Button textBoxUI = uISystem.textBoxUI;
         if(!isDisplaying){
             textBoxUI.visible = true;
@@ -199,10 +221,14 @@ public class TextBoxSystem : SystemBase
         VisualElement playerChoiceUI = textBoxUI.Q<VisualElement>("player_choices");
         playerChoiceUI.Clear();
         foreach(Button choice in choices){
+            choice.focusable = true;
             choice.Focus();
             playerChoiceUI.Add(choice);
         }
 
+        EntityManager.SetComponentData(characterBaseEntity, characterBaseAnimation);
+        EntityManager.SetComponentData(characterEyesEntity, characterEyeAnimation);
+        EntityManager.SetComponentData(characterMouthEntity, characterMouthAnimation);
     }
     public void ContinueText(){
         VisualElement textBoxUI = uISystem.textBoxUI;

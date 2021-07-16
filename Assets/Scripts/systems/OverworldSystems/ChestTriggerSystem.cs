@@ -37,6 +37,8 @@ public class ChestTriggerSystem : SystemBase
             DynamicBuffer<ArmorData> armorInventory = GetBuffer<ArmorData>(caravan);
             DynamicBuffer<CharmData> charmInventory = GetBuffer<CharmData>(caravan);
 
+            DynamicBuffer<ItemData> items = EntityManager.GetBuffer<ItemData>(GetSingletonEntity<PlayerTag>());
+
             Entity messageBoard = GetSingletonEntity<UITag>();
             DynamicBuffer<Text> texts = GetBuffer<Text>(messageBoard);
             Entity entityA = triggerEvent.EntityA;
@@ -66,7 +68,15 @@ public class ChestTriggerSystem : SystemBase
                         texts.Add(new Text{text = "you obtained a " + charmData.charm.name, instant = true});
                     }
                     else if(HasComponent<ChestItemData>(entityA)){
-
+                        if(items.Length < 10){
+                            SetComponent<ChestTag>(entityA, new ChestTag{isOpen = true});
+                            ChestItemData itemData = GetComponent<ChestItemData>(entityA);
+                            items.Add(new ItemData{item = itemData.item});
+                            texts.Add(new Text{text = "you obtained a " + itemData.item.name, instant = true});
+                        }
+                        else{
+                            texts.Add(new Text{text = "you don't have enough room to pick up this item", instant = true});
+                        }
                     }
                 }
                 else if(!isChestOpen){
@@ -103,7 +113,17 @@ public class ChestTriggerSystem : SystemBase
                         texts.Add(new Text{text = "you obtained a " + charmData.charm.name, instant = true});
                     }
                     else if(HasComponent<ChestItemData>(entityB)){
-                                    
+                        
+                        if(items.Length < 10){
+                            animator.Play(animationData.openAnimationName);
+                            SetComponent<ChestTag>(entityB, new ChestTag{isOpen = true});
+                            ChestItemData itemData = GetComponent<ChestItemData>(entityB);
+                            items.Add(new ItemData{item = itemData.item});
+                            texts.Add(new Text{text = "you obtained a " + itemData.item.name, instant = true});
+                        }
+                        else{
+                            texts.Add(new Text{text = "you don't have enough room to pick up this item", instant = true});
+                        }
                     }
                 }
                 else if(!isChestOpen){

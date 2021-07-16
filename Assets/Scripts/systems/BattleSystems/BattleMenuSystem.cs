@@ -31,7 +31,6 @@ public class BattleMenuSystem : SystemBase
     private int currentEnemySelected;
     public BattleSystem battleSystem;
     public TransitionSystem transitionSystem;
-    private bool isInEnemySelection;
     private bool isInPlayerSelection;
 
     public int playerNumber;
@@ -262,7 +261,6 @@ public class BattleMenuSystem : SystemBase
 
             battleUI.visible = true;
             enemySelector.visible = false;
-            isInEnemySelection = false;
         }).Run();
         selectButton.clicked -= () => SkillEnemySelectButton(enemyNumber, currentSkill, selectButton);
 

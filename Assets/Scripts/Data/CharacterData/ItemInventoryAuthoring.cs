@@ -31,6 +31,16 @@ public class ItemConversionSystem : GameObjectConversionSystem
             }
         });
     }
+    public static Item ItemInfoToItem(ItemInfo itemInfo){
+        Item item = new Item{
+            itemType = itemInfo.itemType,
+            name = itemInfo.name,
+            description = itemInfo.description,
+            useTime = itemInfo.useTime,
+            strength = itemInfo.strength
+        };
+        return item;
+    }
 }
 public enum ItemType{
     none,

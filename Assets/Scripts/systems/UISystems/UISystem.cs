@@ -5,7 +5,7 @@ using UnityEngine;
 using System;
 using System.IO;
 using Unity.Scenes;
-[UpdateBefore(typeof(SaveTriggerSystem))]
+//[UpdateBefore(typeof(SaveTriggerSystem))]
 public class UISystem : SystemBase
 {
     bool setup = false;
@@ -255,11 +255,30 @@ public class UISystem : SystemBase
         isInteractiveEnabled = true;
     }
     private void ActivatePauseMenu(){
+        NativeArray<CharacterStats> characterStatsList = characterStatsQuery.ToComponentDataArray<CharacterStats>(Allocator.Temp);
+        NativeArray<Entity> characterEntities = characterStatsQuery.ToEntityArray(Allocator.Temp);
+
         AudioManager.playSound("menuselect");
         pauseSystem.Pause();
         InputGatheringSystem.currentInput = CurrentInput.ui;
         overworldOverlay.visible = false;
         pauseBackground.visible = true;
+
+        VisualElement currentCharacterUI = pauseBackground.Q<VisualElement>("character" + (currentCharacter + 1).ToString());
+        Label healthBarText = currentCharacterUI.Q<Label>("health_text");
+        VisualElement healthBarBase = currentCharacterUI.Q<VisualElement>("health_bar_base");
+        VisualElement healthBar = currentCharacterUI.Q<VisualElement>("health_bar");
+        VisualElement bloodBar = currentCharacterUI.Q<VisualElement>("blood_bar");
+        VisualElement bloodBarBase = currentCharacterUI.Q<VisualElement>("blood_bar_base");
+        Label bloodBarText = currentCharacterUI.Q<Label>("blood_text");
+        CharacterStats characterStats = characterStatsList[currentCharacter];
+        healthBar.style.width = healthBarBase.contentRect.width * (characterStats.health / characterStats.maxHealth);
+        healthBarText.text = "HP: " + characterStats.health.ToString() + "/" + characterStats.maxHealth.ToString();
+
+        bloodBar.style.width = bloodBarBase.contentRect.width * (characterStats.points / characterStats.maxPoints);
+        bloodBarText.text = "Blood: " + characterStats.points.ToString() + "/" + characterStats.maxPoints.ToString();
+
+        characterEntities.Dispose();
     }
     public void StartButton(){
         titleBackground.visible = false;
@@ -569,7 +588,7 @@ public class UISystem : SystemBase
                 currentItemButton.text = item.name.ConvertToString();
                 currentItemButton.clicked += () => PauseItemButton(z + 1);
                 // once an item is in focus, change the description accordingly
-                string descriptionToShow = itemInventory[z].item.description.ToString() == "" ? "no description" : itemInventory[0].item.description.ToString();
+                string descriptionToShow = itemInventory[z].item.description.ToString() == "" ? "no description" : itemInventory[z].item.description.ToString();
                 currentItemButton.RegisterCallback<FocusEvent>(ev => UpdateDescription(itemDesc, descriptionToShow));
             }
             i++;
