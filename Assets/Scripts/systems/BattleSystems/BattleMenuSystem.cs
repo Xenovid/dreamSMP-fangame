@@ -24,7 +24,6 @@ public class BattleMenuSystem : SystemBase
     bool hasBattleStarted;
 
     InkDisplaySystem inkDisplaySystem;
-    TextBoxSystem textBoxSystem;
     private int currentPlayer;
 
     private int currentCharacterSelected;
@@ -56,7 +55,6 @@ public class BattleMenuSystem : SystemBase
         overHeadUITemplate = Resources.Load<VisualTreeAsset>("UIDocuments/OverHeadBattleStats");
 
         inkDisplaySystem = World.GetOrCreateSystem<InkDisplaySystem>();
-        textBoxSystem = World.GetOrCreateSystem<TextBoxSystem>();
 
         playerCharactersQuery = GetEntityQuery(typeof(PlayerSelectorUI));
         battleSystem.OnBattleEnd += DisplayLoss_OnPlayerLoss;
@@ -208,7 +206,6 @@ public class BattleMenuSystem : SystemBase
             previousUI = skillSelector;
             skillSelector.visible = false;
             enemySelector.visible = true;
-
             EntityQuery enemySelectorQuery = GetEntityQuery(typeof(EnemySelectorUI));
             NativeArray<Entity> enemySelectorEntities = enemySelectorQuery.ToEntityArray(Allocator.Temp);
             while(i < enemySelectorEntities.Length){
@@ -364,6 +361,11 @@ public class BattleMenuSystem : SystemBase
                     selector.isSelected = false;
                     EntityManager.SetComponentData(ent, selector);
                 }
+                
+                if(characterStats.characterName == "technoblade"){
+                    // do technoblade specific attack
+                }
+                /*
                 switch(characterStats.equipedWeapon.weaponSkill.skillType){
                     case SkillType.Regular:
                         ecb.AddComponent(entity, new UsingSkillData{
@@ -372,7 +374,7 @@ public class BattleMenuSystem : SystemBase
                         });
                         ecb.AddComponent<RegularAttackData>(entity);
                     break;
-                }
+                }*/
                 battleData.useTime = 0;
                 battleData.maxUseTime = characterStats.equipedWeapon.useTime;                           
 
@@ -392,10 +394,11 @@ public class BattleMenuSystem : SystemBase
         
     }
     private void ResumeGameWorld_OnTransitionEnd(System.Object sender, System.EventArgs e){
-        InputGatheringSystem.currentInput = CurrentInput.overworld;
+        inkDisplaySystem.ContinueStory();
+        //InputGatheringSystem.currentInput = CurrentInput.overworld;
         transitionSystem.OnTransitionEnd -= ResumeGameWorld_OnTransitionEnd;
         
-        uISystem.overworldOverlay.visible = true;
+        //uISystem.overworldOverlay.visible = true;
     }
     private void DisableMenu_OnBattleEnd(System.Object sender, OnBattleEndEventArgs e){
         battleUI.visible = false;
@@ -480,7 +483,7 @@ public class BattleMenuSystem : SystemBase
     }
 
     private void FinishVictoryData_OnDisplayFinished(object sender, System.EventArgs e){
-        textBoxSystem.OnDisplayFinished -= FinishVictoryData_OnDisplayFinished;
+        inkDisplaySystem.OnVictoryDisplayFinish -= FinishVictoryData_OnDisplayFinished;
         var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
         // transition back once the writer is done
         Entities
@@ -517,7 +520,7 @@ public class BattleMenuSystem : SystemBase
             battleCharacters.Dispose();
 
             inkDisplaySystem.DisplayVictoryData();
-            textBoxSystem.OnDisplayFinished += FinishVictoryData_OnDisplayFinished;
+            inkDisplaySystem.OnVictoryDisplayFinish += FinishVictoryData_OnDisplayFinished;
         }
         else{
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
@@ -577,5 +580,6 @@ public class BattleMenuSystem : SystemBase
             transitionSystem.OnTransitionEnd += UnLoadScenes_OnTransitionnEnd;
         }
     }
+    
 }
 

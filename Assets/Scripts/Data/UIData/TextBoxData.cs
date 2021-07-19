@@ -13,5 +13,5 @@ public struct TextBoxData : IComponentData
     [HideInInspector]
     public float timeFromLastChar;
     [HideInInspector]
-    public FixedString128 currentSentence;
+    public bool isDisplaying;
 }

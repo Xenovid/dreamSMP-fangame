@@ -198,32 +198,10 @@ MonoBehaviour:
     name: ToothPick
     description: The best way to remove teeth
     useTime: 1
-    weaponSkill:
-      name: 
-      description: 
-      functionName: 
-      animationName: 
-      damageIncrease: 0
-      cost: 0
-      waitTime: 0
-      keyTimes: []
-      skillType: 0
-      effects: 
   - power: 8
     name: ToothPick2
     description: not the best way to remove teeth
     useTime: 1
-    weaponSkill:
-      name: 
-      description: 
-      functionName: 
-      animationName: 
-      damageIncrease: 0
-      cost: 0
-      waitTime: 0
-      keyTimes: []
-      skillType: 0
-      effects: 
 --- !u!4 &623176116
 Transform:
   m_ObjectHideFlags: 0
@@ -487,142 +465,7 @@ MonoBehaviour:
   currentChar: 0
   isFinishedPage: 0
   timeFromLastChar: 0
-  currentSentence:
-    utf8LengthInBytes: 0
-    bytes:
-      offset0000:
-        byte0000: 0
-        byte0001: 0
-        byte0002: 0
-        byte0003: 0
-        byte0004: 0
-        byte0005: 0
-        byte0006: 0
-        byte0007: 0
-        byte0008: 0
-        byte0009: 0
-        byte0010: 0
-        byte0011: 0
-        byte0012: 0
-        byte0013: 0
-        byte0014: 0
-        byte0015: 0
-      offset0016:
-        byte0000: 0
-        byte0001: 0
-        byte0002: 0
-        byte0003: 0
-        byte0004: 0
-        byte0005: 0
-        byte0006: 0
-        byte0007: 0
-        byte0008: 0
-        byte0009: 0
-        byte0010: 0
-        byte0011: 0
-        byte0012: 0
-        byte0013: 0
-        byte0014: 0
-        byte0015: 0
-      offset0032:
-        byte0000: 0
-        byte0001: 0
-        byte0002: 0
-        byte0003: 0
-        byte0004: 0
-        byte0005: 0
-        byte0006: 0
-        byte0007: 0
-        byte0008: 0
-        byte0009: 0
-        byte0010: 0
-        byte0011: 0
-        byte0012: 0
-        byte0013: 0
-        byte0014: 0
-        byte0015: 0
-      offset0048:
-        byte0000: 0
-        byte0001: 0
-        byte0002: 0
-        byte0003: 0
-        byte0004: 0
-        byte0005: 0
-        byte0006: 0
-        byte0007: 0
-        byte0008: 0
-        byte0009: 0
-        byte0010: 0
-        byte0011: 0
-        byte0012: 0
-        byte0013: 0
-        byte0014: 0
-        byte0015: 0
-      offset0064:
-        byte0000: 0
-        byte0001: 0
-        byte0002: 0
-        byte0003: 0
-        byte0004: 0
-        byte0005: 0
-        byte0006: 0
-        byte0007: 0
-        byte0008: 0
-        byte0009: 0
-        byte0010: 0
-        byte0011: 0
-        byte0012: 0
-        byte0013: 0
-        byte0014: 0
-        byte0015: 0
-      offset0080:
-        byte0000: 0
-        byte0001: 0
-        byte0002: 0
-        byte0003: 0
-        byte0004: 0
-        byte0005: 0
-        byte0006: 0
-        byte0007: 0
-        byte0008: 0
-        byte0009: 0
-        byte0010: 0
-        byte0011: 0
-        byte0012: 0
-        byte0013: 0
-        byte0014: 0
-        byte0015: 0
-      offset0096:
-        byte0000: 0
-        byte0001: 0
-        byte0002: 0
-        byte0003: 0
-        byte0004: 0
-        byte0005: 0
-        byte0006: 0
-        byte0007: 0
-        byte0008: 0
-        byte0009: 0
-        byte0010: 0
-        byte0011: 0
-        byte0012: 0
-        byte0013: 0
-        byte0014: 0
-        byte0015: 0
-      byte0112: 0
-      byte0113: 0
-      byte0114: 0
-      byte0115: 0
-      byte0116: 0
-      byte0117: 0
-      byte0118: 0
-      byte0119: 0
-      byte0120: 0
-      byte0121: 0
-      byte0122: 0
-      byte0123: 0
-      byte0124: 0
-      byte0125: 0
+  isDisplaying: 0
 --- !u!4 &2066887959
 Transform:
   m_ObjectHideFlags: 0
@@ -720,6 +563,14 @@ PrefabInstance:
       propertyPath: equipedWeapon.weaponSkill.keyTimes.Array.data[0]
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedWeapon.weaponSkill.skillTrack.prefabTrack.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedWeapon.weaponSkill.skillTrack.prefabTrack.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 3914832553692700297, guid: ed825af909363c54783d1234b8fee42b, type: 3}
     - target: {fileID: 108625178797338082, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: m_Mass
       value: 1000
@@ -766,7 +617,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: equipedSkills.Array.data[0].cost
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: equipedSkills.Array.data[0].name
@@ -865,8 +716,32 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedSkills.Array.data[0].skillTrack.damageTrack.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedSkills.Array.data[0].skillTrack.prefabTrack.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: testEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedSkills.Array.data[0].skillTrack.animationTrack.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedSkills.Array.data[0].skillTrack.damageTrack.Array.data[0].damage
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedSkills.Array.data[0].skillTrack.prefabTrack.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 932883727213704804, guid: 4ad6ad0bab13e2942a893f46dc0f07ed, type: 3}
+    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedSkills.Array.data[0].skillTrack.prefabTrack.Array.data[0].prefabName
+      value: explosion
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338087, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: m_RootOrder

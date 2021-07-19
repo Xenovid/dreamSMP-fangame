@@ -45,6 +45,23 @@ public class TransitionSystem : SystemBase
                 ecb.RemoveComponent<TransitionData>(entity);
             }  
         }).Run();
+        Entities
+        .WithoutBurst()
+        .WithStructuralChanges()
+        .WithNone<PhysicsCollider>()
+        .ForEach((Entity entity, ref Translation translation, ref TransitionData transitionData) =>
+        {
+            transitionData.timePassed += 2* dT;
+            // making it so that the collision wont hit anything while moving to the location
+            translation.Value = math.lerp(transitionData.oldPosition, transitionData.newPosition, transitionData.timePassed);
+            //translation.Value = Vector3.MoveTowards(translation.Value, transitionData.newPosition, 10 * dT);
+            if(transitionData.timePassed >= 1)
+            {
+                translation.Value = transitionData.newPosition;
+                // now in the location, stop translating
+                ecb.RemoveComponent<TransitionData>(entity);
+            }  
+        }).Run();
         // if the translation is done, let every system that wants to know, know
         if(translationDone){
             OnTransitionEnd?.Invoke(this, System.EventArgs.Empty);

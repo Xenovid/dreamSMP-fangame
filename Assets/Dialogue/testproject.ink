@@ -1,9 +1,12 @@
 test
 -> END
+
+EXTERNAL playSound(soundName)
+EXTERNAL displayPortrait(portriatName)
+EXTERNAL setTextSound(soundName)
 == thebell ==
     = thefirstbell
-        #sound
-        sellouttimer
+        ~playSound("sellouttimer")
         #technoblade
         #unskipable
         #slow
@@ -14,8 +17,12 @@ test
         -> END
 == story ==
     = intro
-        #technoblade
+        ~displayPortrait("technoblade")
+        ~setTextSound("technoblade")
         Staaarting the streeeam
+        #battle
+        testbattle
+        hello
         -> END
 == victory ==
 You Won

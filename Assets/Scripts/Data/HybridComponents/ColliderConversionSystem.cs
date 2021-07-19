@@ -9,7 +9,9 @@ public class ColliderConversionSystem : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
-        Entities.ForEach((PolygonCollider2D collider, Transform transform) => {
+        Entities
+        .WithNone<Prefab>()
+        .ForEach((PolygonCollider2D collider, Transform transform) => {
             Entity entity = GetPrimaryEntity(collider);
             Mesh tempMesh = collider.CreateMesh(true, true);
             NativeArray<float3> vertices = new NativeArray<float3>(tempMesh.vertices.Length, Allocator.Temp);

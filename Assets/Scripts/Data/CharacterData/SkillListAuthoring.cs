@@ -36,9 +36,33 @@ public class SkillConversionSystem : GameObjectConversionSystem
             }
         });
     }
-    public static Skill SkillInfoToSkill(SkillInfo skillInfo){
+    public Skill SkillInfoToSkill(SkillInfo skillInfo){
         FixedList64<float> keyTimes = new FixedList64<float>();
         FixedList32<StatusEffects> effects = new FixedList32<StatusEffects>();
+
+        FixedList128<SkillPrefabInstatiationData> prefabTrack = new FixedList128<SkillPrefabInstatiationData>();
+        FixedList64<SkillDamageTrackData> damageTrack = new FixedList64<SkillDamageTrackData>();
+        FixedList128<AnimationTrackData> animationTrack = new FixedList128<AnimationTrackData>();
+
+        if(skillInfo.skillTrack.prefabTrack != null){
+            foreach(SkillPrefabInstatiationInfo prefabInfo in skillInfo.skillTrack.prefabTrack){
+                SkillPrefabInstatiationData prefabInstatiationData = new SkillPrefabInstatiationData{prefabName = prefabInfo.prefabName, instatiationTime = prefabInfo.instatiationTime};
+                prefabTrack.Add(prefabInstatiationData);
+            }
+        }
+        if(skillInfo.skillTrack.damageTrack != null){
+            foreach(SkillDamageTrackData damageData in skillInfo.skillTrack.damageTrack){
+                damageTrack.Add(damageData);
+            }
+        }
+        if(skillInfo.skillTrack.animationTrack != null){
+            foreach(AnimationTrackInfo animationTrackInfo in skillInfo.skillTrack.animationTrack){
+                AnimationTrackData animationTrackData = new AnimationTrackData{animationName = animationTrackInfo.animationName, time = animationTrackInfo.time};
+                animationTrack.Add(animationTrackData);
+            }
+        }
+        SkillTrackData skillTrackData = new SkillTrackData{prefabTrack = prefabTrack, damageTrack = damageTrack, animationTrack = animationTrack};
+
         foreach(float number in skillInfo.keyTimes){
             keyTimes.Add(number);
         }
@@ -55,7 +79,8 @@ public class SkillConversionSystem : GameObjectConversionSystem
             waitTime = skillInfo.waitTime,
             keyTimes = keyTimes,
             skillType = skillInfo.skillType,
-            effects = effects
+            effects = effects,
+            trackData = skillTrackData
         };
     }
 }
@@ -74,8 +99,22 @@ public struct SkillInfo{
     public List<float> keyTimes;
     public SkillType skillType;
     public List<StatusEffects> effects;
+    public SkillTrackInfo skillTrack;
+
+}
+[System.Serializable]
+public struct SkillTrackInfo
+{
+    public SkillPrefabInstatiationInfo[] prefabTrack;
+    public SkillDamageTrackData[] damageTrack;
+    public AnimationTrackInfo[] animationTrack;
 }
 
+[System.Serializable]
+public struct AnimationTrackInfo{
+    public string animationName;
+    public float time;
+}
 
 public enum SkillType{
     Regular

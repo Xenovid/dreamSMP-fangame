@@ -44,7 +44,6 @@ public class CharacterStatsConversion : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
-        
         Entities.ForEach((CharacterStatsAuthouring characterStat) => {
             Stats stats = new Stats{
                 attack = characterStat.baseStats.attack + characterStat.equipedWeapon.power,
@@ -70,5 +69,6 @@ public class CharacterStatsConversion : GameObjectConversionSystem
             });
         });
     }
+    
 }
 

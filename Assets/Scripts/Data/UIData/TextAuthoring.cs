@@ -10,14 +10,16 @@ public struct TextInfo{
         public bool instant;
         public string dialogueSoundName;
 }
-public struct Text : IBufferElementData
+public struct Text : IComponentData
 {
         public FixedString32 dialoguePortraitName;
+        public FixedString32 dialogueSoundName;
         public FixedString512 text;
         public bool instant;
         public bool unSkipable;
         public float textSpeed;
-        public FixedString32 dialogueSoundName;
+        public bool isContinuable;
+        public bool isEnabled;
 }
 
 
@@ -27,7 +29,7 @@ class TextConversion : GameObjectConversionSystem
     {
         Entities.ForEach((TextAuthoring textAuthoring) => {
                 var entity = GetPrimaryEntity(textAuthoring);
-                DstEntityManager.AddBuffer<Text>(entity);
+                DstEntityManager.AddComponent<Text>(entity);
                 //DynamicBuffer<Text> texts = DstEntityManager.GetBuffer<Text>(entity);
                 /*foreach(TextInfo textInfo in textAuthoring.textInfos){
                         texts.Add(new Text{text = textInfo.text, instant = textInfo.instant});

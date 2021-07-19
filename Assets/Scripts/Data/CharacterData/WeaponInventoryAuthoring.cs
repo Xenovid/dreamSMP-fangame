@@ -16,7 +16,7 @@ public class WeaponConversionSystem : GameObjectConversionSystem
     protected override void OnUpdate()
     {
         Entities
-        .ForEach(( WeaponInventoryAuthoring weaponInventory) => {
+        .ForEach((WeaponInventoryAuthoring weaponInventory) => {
             Entity entity = GetPrimaryEntity(weaponInventory);
             DstEntityManager.AddBuffer<WeaponData>(entity);
             DynamicBuffer<WeaponData> WeaponInventory = DstEntityManager.GetBuffer<WeaponData>(entity);
@@ -33,9 +33,9 @@ public class WeaponConversionSystem : GameObjectConversionSystem
             name = weaponInfo.name,
             description = weaponInfo.description,
             useTime = weaponInfo.useTime,
-            weaponSkill = SkillConversionSystem.SkillInfoToSkill(weaponInfo.weaponSkill)
         };
     }
+    
 }
 
 [System.Serializable]
@@ -45,15 +45,11 @@ public struct WeaponInfo{
     [TextArea]
     public string description;
     public float useTime;
-    public SkillInfo weaponSkill;
 }
 [System.Serializable]
 public struct Weapon {
-    public FixedString32 nome {get; set;}
     public int power;
     public FixedString32 name;
     public FixedString128 description;
     public float useTime;
-
-    public Skill weaponSkill;
 }

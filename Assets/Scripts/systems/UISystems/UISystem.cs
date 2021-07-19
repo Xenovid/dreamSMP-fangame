@@ -43,6 +43,7 @@ public class UISystem : SystemBase
     BattleMenuSystem battleMenuSystem;
     EntityQuery interactiveButtonQuery;
     VisualElement overworldSaveFileSelect;
+    InkDisplaySystem inkDisplaySystem;
     protected override void OnCreate()
     {
         battleMenuSystem = World.GetOrCreateSystem<BattleMenuSystem>();
@@ -57,7 +58,7 @@ public class UISystem : SystemBase
         caravanQuery = GetEntityQuery(typeof(CaravanTag));
         sceneSystem = World.GetOrCreateSystem<SceneSystem>();
         saveAndLoadSystem = World.GetOrCreateSystem<SaveAndLoadSystem>();
-
+        inkDisplaySystem = World.GetOrCreateSystem<InkDisplaySystem>();
         
     }
     protected override void OnUpdate()
@@ -200,12 +201,12 @@ public class UISystem : SystemBase
                 overworldSaveFileSelect.Q<Button>("save_back_button").clicked += SaveBackButton;
 
                 textBoxUI = root.Q<Button>("textbox");
-                textBoxUI.clicked += textBoxSystem.ContinueText;
+                textBoxUI.clicked += inkDisplaySystem.ContinueText;
                 
                 EntityManager.RemoveComponent<UILoadTag>(entity);
             }
         }).Run();
-        if(isInteractiveEnabled && setup &&!textBoxSystem.isDisplaying){
+        if(isInteractiveEnabled && setup){
             Button interactiveButton = overworldOverlay.Q<Button>("interactive_item_check");
             if(!interactiveButton.enabledSelf && interactiveButton.visible == true){
                 AudioManager.playSound("menuavailable");
@@ -245,11 +246,9 @@ public class UISystem : SystemBase
         AudioListener.volume = newVolume;
     }
     private void InteractButton(){
-        if(!textBoxSystem.isDisplaying){
-            InteractiveButtonData interactiveButton = GetSingleton<InteractiveButtonData>();
-            interactiveButton.isPressed = true;
-            SetSingleton(interactiveButton);
-        }
+        InteractiveButtonData interactiveButton = GetSingleton<InteractiveButtonData>();
+        interactiveButton.isPressed = true;
+        SetSingleton(interactiveButton);
     }
     public void EnableInteractive(){
         isInteractiveEnabled = true;

@@ -7,6 +7,8 @@ public class ChestTriggerSystem : SystemBase
 {
     StepPhysicsWorld physicsWorld;
     UISystem uISystem;
+    InkDisplaySystem inkDisplaySystem;
+    InventorySystem inventorySystem;
     CollisionWorld collisionWorld;
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
 
@@ -15,6 +17,8 @@ public class ChestTriggerSystem : SystemBase
         m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
 
         uISystem = World.GetOrCreateSystem<UISystem>();
+        inkDisplaySystem = World.GetOrCreateSystem<InkDisplaySystem>();
+        inventorySystem = World.GetOrCreateSystem<InventorySystem>();
         physicsWorld = World.GetExistingSystem<StepPhysicsWorld>();
         var physicsWorldSystem = World.GetExistingSystem<Unity.Physics.Systems.BuildPhysicsWorld>();
     }
@@ -28,8 +32,6 @@ public class ChestTriggerSystem : SystemBase
 
         var triggerEvents = ((Simulation)physicsWorld.Simulation).TriggerEvents;
 
-        
-
         foreach(TriggerEvent triggerEvent in triggerEvents)
         {
             Entity caravan = GetSingletonEntity<CaravanTag>();
@@ -40,7 +42,7 @@ public class ChestTriggerSystem : SystemBase
             DynamicBuffer<ItemData> items = EntityManager.GetBuffer<ItemData>(GetSingletonEntity<PlayerTag>());
 
             Entity messageBoard = GetSingletonEntity<UITag>();
-            DynamicBuffer<Text> texts = GetBuffer<Text>(messageBoard);
+            Text text = GetComponent<Text>(messageBoard);
             Entity entityA = triggerEvent.EntityA;
             Entity entityB = triggerEvent.EntityB;
 
@@ -52,30 +54,34 @@ public class ChestTriggerSystem : SystemBase
                     if(HasComponent<ChestWeaponData>(entityA)){
                         ChestWeaponData weaponData = GetComponent<ChestWeaponData>(entityA);
                         SetComponent<ChestTag>(entityA, new ChestTag{isOpen = true});
-                        weaponInventory.Insert(0, new WeaponData{weapon = weaponData.weapon});
-                        texts.Add(new Text{text = "you obtained a " + weaponData.weapon.name.ToString(), instant = true});   
+                        SetComponent(messageBoard, new Text{text = "you obtained a " + weaponData.weapon.name, dialogueSoundName = "default", isEnabled = true, instant = true});
+                        inkDisplaySystem.UpdateTextBox();
+                        inventorySystem.AddWeapon("weaponData.weapon.name");
                     }
                     else if(HasComponent<ChestArmorData>(entityA)){
                         ChestArmorData armorData = GetComponent<ChestArmorData>(entityA);
                         SetComponent<ChestTag>(entityA, new ChestTag{isOpen = true});
                         armorInventory.Insert(0, new ArmorData{armor = armorData.armor});
-                        texts.Add(new Text{text = "you obtained a " + armorData.armor.name, instant = true});
+                        //texts.Add(new Text{text = "you obtained a " + armorData.armor.name, instant = true});
                     }
                     else if(HasComponent<ChestCharmData>(entityA)){
                         ChestCharmData charmData = GetComponent<ChestCharmData>(entityA);
                         SetComponent<ChestTag>(entityA, new ChestTag{isOpen = true});
                         charmInventory.Insert(0, new CharmData{charm = charmData.charm});
-                        texts.Add(new Text{text = "you obtained a " + charmData.charm.name, instant = true});
+                        //texts.Add(new Text{text = "you obtained a " + charmData.charm.name, instant = true});
                     }
                     else if(HasComponent<ChestItemData>(entityA)){
                         if(items.Length < 10){
                             SetComponent<ChestTag>(entityA, new ChestTag{isOpen = true});
                             ChestItemData itemData = GetComponent<ChestItemData>(entityA);
-                            items.Add(new ItemData{item = itemData.item});
-                            texts.Add(new Text{text = "you obtained a " + itemData.item.name, instant = true});
+                            inventorySystem.AddItem(itemData.item.name.ToString());
+                            SetComponent(messageBoard, new Text{text = "you obtained a " + itemData.item.name, dialogueSoundName = "default", isEnabled = true, instant = true});
+                            inkDisplaySystem.UpdateTextBox();
+                            inventorySystem.AddWeapon(itemData.item.name.ToString());
                         }
                         else{
-                            texts.Add(new Text{text = "you don't have enough room to pick up this item", instant = true});
+                            SetComponent(messageBoard, new Text{text = "you don't have enough room for items", dialogueSoundName = "default", isEnabled = true, instant = true});
+                            inkDisplaySystem.UpdateTextBox();
                         }
                     }
                 }
@@ -96,21 +102,22 @@ public class ChestTriggerSystem : SystemBase
                         SetComponent<ChestTag>(entityB, new ChestTag{isOpen = true});
                         ChestWeaponData weaponData = GetComponent<ChestWeaponData>(entityB);
                         weaponInventory.Insert(0, new WeaponData{weapon = weaponData.weapon});
-                        texts.Add(new Text{text = "you obtained a " + weaponData.weapon.name, instant = true});
+                        SetComponent(messageBoard, new Text{text = "you obtained a " + weaponData.weapon.name, dialogueSoundName = "default", isEnabled = true, instant = true});
+                        inkDisplaySystem.UpdateTextBox();
                     }
                     else if(HasComponent<ChestArmorData>(entityB)){
                         animator.Play(animationData.openAnimationName);
                         SetComponent<ChestTag>(entityB, new ChestTag{isOpen = true});
                         ChestArmorData armorData = GetComponent<ChestArmorData>(entityB);
                         armorInventory.Insert(0, new ArmorData{armor = armorData.armor});
-                        texts.Add(new Text{text = "you obtained a " + armorData.armor.name, instant = true});
+                        //texts.Add(new Text{text = "you obtained a " + armorData.armor.name, instant = true});
                     }
                     else if(HasComponent<ChestCharmData>(entityB)){
                         animator.Play(animationData.openAnimationName);
                         SetComponent<ChestTag>(entityB, new ChestTag{isOpen = true});
                         ChestCharmData charmData = GetComponent<ChestCharmData>(entityB);
                         charmInventory.Insert(0, new CharmData{charm = charmData.charm});
-                        texts.Add(new Text{text = "you obtained a " + charmData.charm.name, instant = true});
+                        //texts.Add(new Text{text = "you obtained a " + charmData.charm.name, instant = true});
                     }
                     else if(HasComponent<ChestItemData>(entityB)){
                         
@@ -118,11 +125,12 @@ public class ChestTriggerSystem : SystemBase
                             animator.Play(animationData.openAnimationName);
                             SetComponent<ChestTag>(entityB, new ChestTag{isOpen = true});
                             ChestItemData itemData = GetComponent<ChestItemData>(entityB);
-                            items.Add(new ItemData{item = itemData.item});
-                            texts.Add(new Text{text = "you obtained a " + itemData.item.name, instant = true});
+                            SetComponent(messageBoard, new Text{text = "you obtained a " + itemData.item.name, dialogueSoundName = "default", isEnabled = true, instant = true});
+                            inkDisplaySystem.UpdateTextBox();
+                            inventorySystem.AddWeapon(itemData.item.name.ToString());
                         }
                         else{
-                            texts.Add(new Text{text = "you don't have enough room to pick up this item", instant = true});
+                            //texts.Add(new Text{text = "you don't have enough room to pick up this item", instant = true});
                         }
                     }
                 }

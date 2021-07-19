@@ -18,4 +18,6 @@ public struct Skill{
 
     public SkillType skillType;
     public FixedList32<StatusEffects> effects;
+    public SkillTrackData trackData;
+
 }

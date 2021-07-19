@@ -49,7 +49,7 @@ public class SaveTriggerSystem : SystemBase
                     ringButton.AddToClassList("player_choice");
                     ringButton.text = "ring the bell";
                     ringButton.text = "ring the bell";
-                    textBoxSystem.DisplayChoices(new Button[]{ringButton});
+                    inkDisplaySystem.DisplayChoices(new Button[]{ringButton});
                    
                 }
                 else{
@@ -79,7 +79,7 @@ public class SaveTriggerSystem : SystemBase
                     saveButton.text = "save progress";
                     saveButton.clicked += () => saveAndLoadSystem.LoadSaveUI(this, new SavePointEventArg{savePointName = savePointName});
 
-                    textBoxSystem.DisplayChoices(new Button[]{ringButton, saveButton});
+                    inkDisplaySystem.DisplayChoices(new Button[]{ringButton, saveButton});
 
                     
                 }
