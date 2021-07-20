@@ -74,10 +74,9 @@ public class ChestTriggerSystem : SystemBase
                         if(items.Length < 10){
                             SetComponent<ChestTag>(entityA, new ChestTag{isOpen = true});
                             ChestItemData itemData = GetComponent<ChestItemData>(entityA);
-                            inventorySystem.AddItem(itemData.item.name.ToString());
-                            SetComponent(messageBoard, new Text{text = "you obtained a " + itemData.item.name, dialogueSoundName = "default", isEnabled = true, instant = true});
+                            SetComponent(messageBoard, new Text{text = "you obtained a " + itemData.itemName, dialogueSoundName = "default", isEnabled = true, instant = true});
                             inkDisplaySystem.UpdateTextBox();
-                            inventorySystem.AddWeapon(itemData.item.name.ToString());
+                            inventorySystem.AddItem(itemData.itemName.ToString());
                         }
                         else{
                             SetComponent(messageBoard, new Text{text = "you don't have enough room for items", dialogueSoundName = "default", isEnabled = true, instant = true});
@@ -125,9 +124,9 @@ public class ChestTriggerSystem : SystemBase
                             animator.Play(animationData.openAnimationName);
                             SetComponent<ChestTag>(entityB, new ChestTag{isOpen = true});
                             ChestItemData itemData = GetComponent<ChestItemData>(entityB);
-                            SetComponent(messageBoard, new Text{text = "you obtained a " + itemData.item.name, dialogueSoundName = "default", isEnabled = true, instant = true});
+                            SetComponent(messageBoard, new Text{text = "you obtained a " + itemData.itemName, dialogueSoundName = "default", isEnabled = true, instant = true});
                             inkDisplaySystem.UpdateTextBox();
-                            inventorySystem.AddWeapon(itemData.item.name.ToString());
+                            inventorySystem.AddItem(itemData.itemName.ToString());
                         }
                         else{
                             //texts.Add(new Text{text = "you don't have enough room to pick up this item", instant = true});

@@ -8,6 +8,7 @@ using Unity.Collections;
 
 public class InkDisplaySystem : SystemBase
 {
+    PauseSystem pauseSystem;
     UISystem uISystem;
     public event EventHandler OnCutsceneFinish;
     public event EventHandler OnVictoryDisplayFinish;
@@ -21,7 +22,7 @@ public class InkDisplaySystem : SystemBase
     EntityQuery inkQuery;
     protected override void OnCreate()
     {
-        base.OnCreate();
+        pauseSystem = World.GetOrCreateSystem<PauseSystem>();
         uISystem = World.GetOrCreateSystem<UISystem>();
 
         m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
@@ -103,6 +104,7 @@ public class InkDisplaySystem : SystemBase
 
         Entities
         .WithoutBurst()
+        .WithStructuralChanges()
         .ForEach((ref Text text,  ref TextBoxData textBoxData) =>{ 
             if(textBoxData.isDisplaying){
                 Label textBoxText = textBoxUI.Q<Label>("TextBoxText");
@@ -170,8 +172,10 @@ public class InkDisplaySystem : SystemBase
         UIInputData input = GetSingleton<UIInputData>();
         Entities
         .WithoutBurst()
+        .WithStructuralChanges()
         .ForEach((  ref TextBoxData textBoxData, in Text text) =>{ 
             if(text.isEnabled && !textBoxData.isDisplaying){
+                pauseSystem.Pause();
                 overworldOverlay.visible = false;
                 textBoxUI.visible = true;
                 textBoxUI.Focus();
@@ -215,6 +219,7 @@ public class InkDisplaySystem : SystemBase
         Text text = GetComponent<Text>(messageBoard);
         Entities
         .WithoutBurst()
+        .WithStructuralChanges()
         .ForEach((InkManagerData inkManager) => {
             inkManager.inkStory.SwitchFlow("victory");
             inkManager.inkStory.ChoosePathString("victory");
@@ -236,6 +241,7 @@ public class InkDisplaySystem : SystemBase
     public void ContinueStory(){
         Entities
         .WithoutBurst()
+        .WithStructuralChanges()
         .ForEach((InkManagerData inkManager) => {
             if(inkManager.inkStory.canContinue){
                 inkManager.inkStory.Continue();
@@ -251,9 +257,7 @@ public class InkDisplaySystem : SystemBase
                     for(int i = 0; i < battleDataTags.Length; i++){
                         if(battleDataTags[i].name == battleName){
                             battleSystem.StartBattle(battleDataEntities[i]);
-
                             inkManager.inkStory.SwitchFlow("battle");
-                            //inkManager.inkStory.ChoosePathString("test");
                             break;
                         }
                         
@@ -302,6 +306,7 @@ public class InkDisplaySystem : SystemBase
         }).Run();
     }
     public void DisableTextboxUI(){
+        pauseSystem.UnPause();
         uISystem.textBoxUI.visible = false;
         uISystem.overworldOverlay.visible = true;
         Entities
@@ -363,6 +368,7 @@ public class InkDisplaySystem : SystemBase
 
         Entities
         .WithoutBurst()
+        .WithStructuralChanges()
         .ForEach((ref TextBoxData textBoxData, in Text text) =>{
             Label textBoxText = textBoxUI.Q<Label>("TextBoxText");
             VisualElement characterImage = textBoxUI.Q<VisualElement>("CharacterImage");

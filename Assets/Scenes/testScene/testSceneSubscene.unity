@@ -427,7 +427,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &303016155
 PrefabInstance:
@@ -799,7 +799,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54726761e3493d543bc681da13f2c708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attacks: []
+  randomAttacks:
+  - attack:
+      name: staby staby
+      description: 
+      damageIncrease: 0
+      cost: 0
+      waitTime: 4
+      skillTrack:
+        prefabTrack: []
+        damageTrack:
+        - damage: 10
+          time: 0.1
+        animationTrack:
+        - animationName: WilburSootStab
+          time: 0
+    chance: 0.75
+  - attack:
+      name: lamanberg 2.0
+      description: 
+      damageIncrease: 0
+      cost: 0
+      waitTime: 10
+      skillTrack:
+        prefabTrack:
+        - prefabName: explosion
+          instatiationTime: 0.1
+        damageTrack: []
+        animationTrack:
+        - animationName: WilburSootTnt
+          time: 0
+    chance: 0.25
 --- !u!114 &358640987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -827,7 +857,7 @@ MonoBehaviour:
   walkRightAnimationName: 
   walkLeftAnimationName: 
   fistIdleAnimationName: 
-  swordIdleAnimationName: 
+  swordIdleAnimationName: WilburSootBattleIdle
   takenDamageAnimationName: 
   basicSwordAnimationName: 
   characterDownAnimationName: 
@@ -869,8 +899,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71a3c05c28a7797b2b7438da58dbd418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  health: 100
+  maxHealth: 10
+  health: 10
   maxPoints: 0
   points: 0
   baseStats:
@@ -888,17 +918,6 @@ MonoBehaviour:
     name: 
     description: 
     useTime: 0
-    weaponSkill:
-      name: 
-      description: 
-      functionName: 
-      animationName: 
-      damageIncrease: 0
-      cost: 0
-      waitTime: 0
-      keyTimes: []
-      skillType: 0
-      effects: 
   equipedArmor:
     name: 
     defense: 0
@@ -1217,7 +1236,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!60 &541231328
 PolygonCollider2D:
@@ -1294,7 +1313,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!483693784 &609190879
 TilemapRenderer:
@@ -1313,7 +1332,7 @@ TilemapRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 2147483647
   m_RendererPriority: 0
   m_Materials:
   - {fileID: -3033667219593020291, guid: eaa6c47361520974cb9ad5cd3991f5ee, type: 3}
@@ -34192,7 +34211,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2191799098087514384, guid: afa5ba8324c31674d94e95b16f5b73e7, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2191799098087514384, guid: afa5ba8324c31674d94e95b16f5b73e7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -34524,7 +34543,208 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1612036478
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1612036482}
+  - component: {fileID: 1612036481}
+  - component: {fileID: 1612036480}
+  - component: {fileID: 1612036479}
+  m_Layer: 0
+  m_Name: WilbursootBattleandCutscene
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1612036479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612036478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShapeType: 0
+  m_PrimitiveCenter:
+    x: 0
+    y: 0
+    z: 0
+  m_PrimitiveSize:
+    x: 2.3496842
+    y: 1.022793
+    z: 1
+  m_PrimitiveOrientation:
+    Value:
+      x: 0
+      y: 0
+      z: 0
+    RotationOrder: 4
+  m_Capsule:
+    Height: 2.3496842
+    Radius: 0.5113965
+    Axis: 0
+  m_Cylinder:
+    Height: 2.3496842
+    Radius: 0.5113965
+    Axis: 0
+  m_CylinderSideCount: 20
+  m_SphereRadius: 1.1748421
+  m_MinimumSkinnedVertexWeight: 0.1
+  m_ConvexHullGenerationParameters:
+    m_SimplificationTolerance: 0.015
+    m_BevelRadius: 0.05
+    m_MinimumAngle: 2.5000002
+  m_CustomMesh: {fileID: 0}
+  m_ForceUnique: 0
+  m_Material:
+    m_SupportsTemplate: 1
+    m_Template: {fileID: 0}
+    m_CollisionResponse:
+      m_Override: 0
+      m_Value: 3
+    m_Friction:
+      m_Override: 0
+      m_Value:
+        Value: 0.5
+        CombineMode: 0
+    m_Restitution:
+      m_Override: 0
+      m_Value:
+        Value: 0
+        CombineMode: 2
+    m_BelongsToCategories:
+      m_Override: 0
+      m_Value:
+        Category00: 1
+        Category01: 1
+        Category02: 1
+        Category03: 1
+        Category04: 1
+        Category05: 1
+        Category06: 1
+        Category07: 1
+        Category08: 1
+        Category09: 1
+        Category10: 1
+        Category11: 1
+        Category12: 1
+        Category13: 1
+        Category14: 1
+        Category15: 1
+        Category16: 1
+        Category17: 1
+        Category18: 1
+        Category19: 1
+        Category20: 1
+        Category21: 1
+        Category22: 1
+        Category23: 1
+        Category24: 1
+        Category25: 1
+        Category26: 1
+        Category27: 1
+        Category28: 1
+        Category29: 1
+        Category30: 1
+        Category31: 1
+    m_CollidesWithCategories:
+      m_Override: 0
+      m_Value:
+        Category00: 1
+        Category01: 1
+        Category02: 1
+        Category03: 1
+        Category04: 1
+        Category05: 1
+        Category06: 1
+        Category07: 1
+        Category08: 1
+        Category09: 1
+        Category10: 1
+        Category11: 1
+        Category12: 1
+        Category13: 1
+        Category14: 1
+        Category15: 1
+        Category16: 1
+        Category17: 1
+        Category18: 1
+        Category19: 1
+        Category20: 1
+        Category21: 1
+        Category22: 1
+        Category23: 1
+        Category24: 1
+        Category25: 1
+        Category26: 1
+        Category27: 1
+        Category28: 1
+        Category29: 1
+        Category30: 1
+        Category31: 1
+    m_CustomMaterialTags:
+      m_Override: 0
+      m_Value:
+        Tag00: 0
+        Tag01: 0
+        Tag02: 0
+        Tag03: 0
+        Tag04: 0
+        Tag05: 0
+        Tag06: 0
+        Tag07: 0
+    m_SerializedVersion: 1
+  m_SerializedVersion: 1
+--- !u!114 &1612036480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612036478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1f0db985e6a00a88c5b60b4d4d40d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cutsceneName: story.wilbur
+--- !u!114 &1612036481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612036478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc29e0d8706ba7111a75f62e9c81a92b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1612036482
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612036478}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 31.764, y: 21.752, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1659220760
 PrefabInstance:
@@ -34621,7 +34841,7 @@ Transform:
   - {fileID: 1777305665}
   - {fileID: 1494201827}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1687142058
 PrefabInstance:
@@ -35343,7 +35563,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2191799098087514384, guid: afa5ba8324c31674d94e95b16f5b73e7, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2191799098087514384, guid: afa5ba8324c31674d94e95b16f5b73e7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -35461,7 +35681,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5864816029394356042, guid: 6291f231446bf0f4baf28ac66798fe33, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5864816029394356042, guid: 6291f231446bf0f4baf28ac66798fe33, type: 3}
       propertyPath: m_LocalPosition.x
@@ -35518,7 +35738,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6581668474788148509, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6581668474788148509, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
       propertyPath: m_LocalPosition.x

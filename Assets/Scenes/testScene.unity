@@ -501,6 +501,7 @@ GameObject:
   - component: {fileID: 1368963923}
   - component: {fileID: 1368963922}
   - component: {fileID: 1368963925}
+  - component: {fileID: 1368963926}
   m_Layer: 0
   m_Name: AllItems
   m_TagString: Untagged
@@ -564,6 +565,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ConversionMode: 0
+--- !u!114 &1368963926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1368963921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b0547941443e14696f4653fc7b0d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemInfos:
+  - itemType: 1
+    name: Golden Apple
+    strength: 40
+    description: A simple golden apple that can heal 40 hp
+    useTime: 0.2
 --- !u!1 &1410342116
 GameObject:
   m_ObjectHideFlags: 0

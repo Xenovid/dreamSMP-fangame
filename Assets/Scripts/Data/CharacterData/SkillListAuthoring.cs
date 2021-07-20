@@ -36,10 +36,7 @@ public class SkillConversionSystem : GameObjectConversionSystem
             }
         });
     }
-    public Skill SkillInfoToSkill(SkillInfo skillInfo){
-        FixedList64<float> keyTimes = new FixedList64<float>();
-        FixedList32<StatusEffects> effects = new FixedList32<StatusEffects>();
-
+    public static Skill SkillInfoToSkill(SkillInfo skillInfo){
         FixedList128<SkillPrefabInstatiationData> prefabTrack = new FixedList128<SkillPrefabInstatiationData>();
         FixedList64<SkillDamageTrackData> damageTrack = new FixedList64<SkillDamageTrackData>();
         FixedList128<AnimationTrackData> animationTrack = new FixedList128<AnimationTrackData>();
@@ -62,24 +59,12 @@ public class SkillConversionSystem : GameObjectConversionSystem
             }
         }
         SkillTrackData skillTrackData = new SkillTrackData{prefabTrack = prefabTrack, damageTrack = damageTrack, animationTrack = animationTrack};
-
-        foreach(float number in skillInfo.keyTimes){
-            keyTimes.Add(number);
-        }
-        foreach(StatusEffects effect in skillInfo.effects){
-            effects.Add(effect);
-        }
         return new Skill{
             name = skillInfo.name,
             description = skillInfo.description,
-            functionName = skillInfo.functionName,
             damageIncrease = skillInfo.damageIncrease,
-            animationName = skillInfo.animationName,
             cost = skillInfo.cost,
             waitTime = skillInfo.waitTime,
-            keyTimes = keyTimes,
-            skillType = skillInfo.skillType,
-            effects = effects,
             trackData = skillTrackData
         };
     }
@@ -89,16 +74,10 @@ public class SkillConversionSystem : GameObjectConversionSystem
 public struct SkillInfo{
     public string name;
     public string description;
-    public string functionName;
-    public string animationName;
     public int damageIncrease;
     public int cost;
     public float waitTime;
     // the key points in animation
-    [SerializeField]
-    public List<float> keyTimes;
-    public SkillType skillType;
-    public List<StatusEffects> effects;
     public SkillTrackInfo skillTrack;
 
 }

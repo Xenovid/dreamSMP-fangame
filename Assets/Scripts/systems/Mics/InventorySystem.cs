@@ -16,7 +16,6 @@ public class InventorySystem : SystemBase
 
         foreach(WeaponData weaponData in allWeapons){
             if(weaponData.weapon.name == weaponName){
-                Debug.Log("weapon found");
                 weaponInventory.Insert(0, new WeaponData{weapon = weaponData.weapon});
                 break;
             }
@@ -25,5 +24,15 @@ public class InventorySystem : SystemBase
     }
     public void AddItem(string itemName){
         DynamicBuffer<ItemData> items = EntityManager.GetBuffer<ItemData>(GetSingletonEntity<PlayerTag>());
+
+        Entity allItemsHolder = GetSingletonEntity<AllItemTypesTag>();
+        DynamicBuffer<ItemData> allItems = GetBuffer<ItemData>(allItemsHolder);
+
+        foreach(ItemData itemData in allItems){
+            if(itemData.item.name == itemName){
+                items.Add(itemData);
+                break;
+            }
+        }
     }
 }

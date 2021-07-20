@@ -27,7 +27,8 @@ public class EnemyBattleAISystem : SystemBase
         .WithAll<EnemySelectorUI>()
         .WithNone<DownTag>()
         .WithoutBurst()
-        .ForEach((ref BattleData battleData, ref RandomData random, in RandomAIData randomAIData, in AnimationData animation, in Animator animator) =>
+        .WithStructuralChanges()
+        .ForEach((Entity entity, DynamicBuffer<RandomAIData> attacks, ref BattleData battleData, ref RandomData random, in AnimationData animation, in Animator animator) =>
         {
             //have something to remember the ai type and do actions accordingly
             // have a list of battle attacks that you can choose
@@ -39,18 +40,16 @@ public class EnemyBattleAISystem : SystemBase
             {
                 
                 float randomValue = random.Value.NextFloat(0 , 1);
-                foreach (RandomAttack attack in randomAIData.attacks)
+                foreach (RandomAIData attack in attacks)
                 {
                     if (attack.chance >= randomValue)
                     {
-                        DynamicBuffer<DamageData> playerDamages = GetBuffer<DamageData>(battleSystem.playerEntities[Target]);
-                        playerDamages.Add(new DamageData{damage = attack.damage});
-
-                        animator.Play(attack.attackAnimation);
+                        EntityManager.AddComponentData(entity, new UsingSkillData{skill = attack.attack, target =battleSystem.playerEntities[Target]});
+                        EntityManager.AddComponent<BasicSkillTag>(entity);
 
                         battleData.useTime = 0;
                         float temp = random.Value.NextFloat(1, 2);
-                        battleData.maxUseTime = attack.useTime * temp;
+                        battleData.maxUseTime = attack.attack.waitTime * temp;
                         //attack selected, don't loop through the rest of the attacks
                         break;
                     }

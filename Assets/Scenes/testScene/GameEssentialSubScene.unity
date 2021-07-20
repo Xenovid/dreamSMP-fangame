@@ -254,21 +254,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveID: 2
---- !u!1 &800008014 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6967261542168547288, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-  m_PrefabInstance: {fileID: 108625178374415961}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1118489792 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7190637847759810050, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-  m_PrefabInstance: {fileID: 108625178374415961}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1247861156 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9199027584432113624, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-  m_PrefabInstance: {fileID: 108625178374415961}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1320044253
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,7 +351,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -413,11 +398,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 1320044254}
   cameraObject: {fileID: 1320044253}
---- !u!1 &1947241694 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7563077867623698034, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-  m_PrefabInstance: {fileID: 108625178374415961}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2066887956
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,259 +469,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: health
-      value: 20
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: points
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: maxHealth
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: maxPoints
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: characterName
-      value: Techno
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: baseStats.attack
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: baseStats.defense
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedArmor.name
-      value: Techno Armor
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedCharm.name
-      value: Golden Crown
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedWeapon.name
-      value: Orphan Obliterator
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: baseStats.superArmor
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedArmor.description
-      value: Techno's Armor
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedCharm.description
-      value: a golden crown blessed by the blood god
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedWeapon.description
-      value: Obliterates Orphans
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedWeapon.weaponSkill.waitTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedWeapon.weaponSkill.damageIncrease
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedWeapon.weaponSkill.effects.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedWeapon.weaponSkill.keyTimes.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedWeapon.weaponSkill.keyTimes.Array.data[0]
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedWeapon.weaponSkill.skillTrack.prefabTrack.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedWeapon.weaponSkill.skillTrack.prefabTrack.Array.data[0].prefab
-      value: 
-      objectReference: {fileID: 3914832553692700297, guid: ed825af909363c54783d1234b8fee42b, type: 3}
-    - target: {fileID: 108625178797338082, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: m_Mass
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338082, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: m_MotionType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338085, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: m_Capsule.Radius
-      value: 0.12463121
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338085, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: m_PrimitiveSize.x
-      value: 0.24926242
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338085, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: m_PrimitiveSize.y
-      value: 0.24926242
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: skillInfos.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedSkills.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: skillInfos.Array.data[0].cost
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: skillInfos.Array.data[0].name
-      value: tatical slash
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: skillInfos.Array.data[1].cost
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: skillInfos.Array.data[1].name
-      value: tatical slash
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedSkills.Array.data[0].cost
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedSkills.Array.data[0].name
-      value: rage slice
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedSkills.Array.data[1].name
-      value: rage slice
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: skillInfos.Array.data[0].useTime
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: skillInfos.Array.data[1].useTime
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: skillInfos.Array.data[0].waitTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedSkills.Array.data[0].useTime
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedSkills.Array.data[0].waitTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedSkills.Array.data[1].waitTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: skillInfos.Array.data[0].damageBoost
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: skillInfos.Array.data[0].description
-      value: tatically slash an opponent
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: skillInfos.Array.data[1].damageBoost
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: skillInfos.Array.data[1].description
-      value: tatically slash an opponent
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: skillInfos.Array.data[0].functionName
-      value: test
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: skillInfos.Array.data[1].functionName
-      value: test
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedSkills.Array.data[0].damageBoost
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedSkills.Array.data[0].description
-      value: strike with great rage
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedSkills.Array.data[1].description
-      value: strike with great rage
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedSkills.Array.data[0].damageIncrease
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: skillInfos.Array.data[0].keyTimes.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: testEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedSkills.Array.data[0].keyTimes.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: skillInfos.Array.data[0].keyTimes.Array.data[0]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedSkills.Array.data[0].keyTimes.Array.data[0]
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: testEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedSkills.Array.data[0].skillTrack.damageTrack.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedSkills.Array.data[0].skillTrack.prefabTrack.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: testEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedSkills.Array.data[0].skillTrack.animationTrack.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedSkills.Array.data[0].skillTrack.damageTrack.Array.data[0].damage
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedSkills.Array.data[0].skillTrack.prefabTrack.Array.data[0].prefab
-      value: 
-      objectReference: {fileID: 932883727213704804, guid: 4ad6ad0bab13e2942a893f46dc0f07ed, type: 3}
-    - target: {fileID: 108625178797338086, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: equipedSkills.Array.data[0].skillTrack.prefabTrack.Array.data[0].prefabName
-      value: explosion
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338087, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: m_RootOrder
@@ -792,56 +528,59 @@ PrefabInstance:
       value: Technoblade
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338091, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: itemInfos.Array.data[0].name
-      value: Golden Apple
+      propertyPath: itemInfos.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338091, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: itemInfos.Array.data[1].name
+      propertyPath: itemInfos.Array.data[0].name
       value: Crossbow
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338091, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: itemInfos.Array.data[0].useTime
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338091, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: itemInfos.Array.data[0].itemType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338091, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: itemInfos.Array.data[0].strength
-      value: 20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338091, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: itemInfos.Array.data[0].description
-      value: An apple coated in gold with special magical properties
+      value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338093, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: m_SortingOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338093, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: m_SpriteSortPoint
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 108625178797338093, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-    - target: {fileID: 2142607590626710268, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: following
-      value: 
-      objectReference: {fileID: 1947241694}
-    - target: {fileID: 2167476986545998173, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: following
-      value: 
-      objectReference: {fileID: 1118489792}
-    - target: {fileID: 4635912567600409036, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: following
-      value: 
-      objectReference: {fileID: 1247861156}
-    - target: {fileID: 8026142365537843315, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
-      propertyPath: following
-      value: 
-      objectReference: {fileID: 800008014}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+--- !u!1 &108625178374415962 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 108625178797338088, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+  m_PrefabInstance: {fileID: 108625178374415961}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &108625178374415963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108625178374415962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68ba3b0a76477404d85af098116b9f2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillInfo:
+    name: orphan destroyer
+    description: Technoblade is the second worst thing that's happened to those orphans
+    damageIncrease: 0
+    cost: 0
+    waitTime: 2
+    skillTrack:
+      prefabTrack: []
+      damageTrack:
+      - damage: 10
+        time: 0.1
+      animationTrack:
+      - animationName: TechnobladeBasicSwordSwing
+        time: 0

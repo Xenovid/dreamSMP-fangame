@@ -138,17 +138,6 @@ MonoBehaviour:
     name: 
     description: 
     useTime: 0
-    weaponSkill:
-      name: 
-      description: 
-      functionName: 
-      animationName: 
-      damageIncrease: 0
-      cost: 0
-      waitTime: 0
-      keyTimes: []
-      skillType: 0
-      effects: 
   equipedArmor:
     name: 
     defense: 0
@@ -342,11 +331,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54726761e3493d543bc681da13f2c708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attacks:
-  - chance: 1
-    damage: 1
-    attackAnimation: ZombieAttack
-    useTime: 3
+  randomAttacks:
+  - attack:
+      name: 
+      description: 
+      damageIncrease: 0
+      cost: 0
+      waitTime: 5
+      skillTrack:
+        prefabTrack: []
+        damageTrack:
+        - damage: 1
+          time: 0.1
+        animationTrack:
+        - animationName: ZombieAttack
+          time: 0
+    chance: 1
 --- !u!114 &6581668474788148502
 MonoBehaviour:
   m_ObjectHideFlags: 0

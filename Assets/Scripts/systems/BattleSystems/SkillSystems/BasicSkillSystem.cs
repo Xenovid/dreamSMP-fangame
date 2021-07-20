@@ -50,10 +50,10 @@ public class BasicSkillSystem : SystemBase
             // stop skill
             else if(battleData.DamageTaken > characterStats.battleStats.superArmor){
                 // skip the action and add it to the wait the rest of the time
-                 
-                battleData.useTime = skillData.skill.keyTimes[0];
+                 //stutters aren't finished yet, so I'll implement it later
+                /*battleData.useTime = skillData.skill.keyTimes[0];
                 ecb.RemoveComponent<BasicSkillTag>(entity);
-                ecb.RemoveComponent<UsingSkillData>(entity);
+                ecb.RemoveComponent<UsingSkillData>(entity);*/
             }   
         }).Run();
     }

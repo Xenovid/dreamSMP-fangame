@@ -16,6 +16,36 @@ public class PauseSystem : SystemBase
             velocity.Linear = new float3(0,0,0);
         }).ScheduleParallel();
     }
+    public void BattlePause(){
+        Entities
+        .WithoutBurst()
+        .WithStructuralChanges()
+        .WithNone<BattleData>()
+        .ForEach((Entity entity) => {
+            EntityManager.AddComponent<PausedTag>(entity);
+        }).Run();
+        Entities
+        .WithoutBurst()
+        .WithNone<BattleData>()
+        .ForEach((Animator animator) => {
+            animator.speed = 0;
+        }).Run();
+    }
+    public void BattleUnPause(){
+        Entities
+        .WithoutBurst()
+        .WithStructuralChanges()
+        .WithNone<BattleData>()
+        .ForEach((Entity entity) => {
+            EntityManager.RemoveComponent<PausedTag>(entity);
+        }).Run();
+        Entities
+        .WithoutBurst()
+        .WithNone<BattleData>()
+        .ForEach((Animator animator) => {
+            animator.speed = 1;
+        }).Run();
+    }
     public void Pause(){
         Entities
         .WithoutBurst()

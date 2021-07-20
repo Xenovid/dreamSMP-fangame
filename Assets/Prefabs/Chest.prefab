@@ -303,9 +303,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8b18cbc96b4ec34d9f9588d0a333cf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    itemType: 1
-    name: GoldenApple
-    strength: 20
-    description: A golden apple
-    useTime: 0.2
+  itemName: Golden Apple

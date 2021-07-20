@@ -1,11 +1,12 @@
 using Unity.Entities;
+using Unity.Collections;
 using UnityEngine;
 public class ChestItemAuthoring : MonoBehaviour{
-    public ItemInfo item;
+    public string itemName;
 }
 public struct ChestItemData : IComponentData
 {
-    public Item item;
+    public FixedString32 itemName;
 }
 public class ChestItemConversionSystem : GameObjectConversionSystem
 {
@@ -13,11 +14,9 @@ public class ChestItemConversionSystem : GameObjectConversionSystem
     {
         Entities
         .ForEach((ChestItemAuthoring chestItem) => {
-            
             Entity entity = GetPrimaryEntity(chestItem);
-            Item newItem = ItemConversionSystem.ItemInfoToItem(chestItem.item);
             DstEntityManager.AddComponentData(entity, new ChestItemData{
-                item = newItem
+                itemName = chestItem.itemName
             });
         });
     }

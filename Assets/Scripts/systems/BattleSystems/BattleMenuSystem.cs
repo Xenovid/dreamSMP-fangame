@@ -8,9 +8,10 @@ using Unity.Transforms;
 using Unity.Scenes;
 using System;
 using System.IO;
-
+using UnityEngine.Tilemaps;
 public class BattleMenuSystem : SystemBase
 {
+    PauseSystem pauseSystem;
     public event EventHandler OnContinue;
     SceneSystem sceneSystem;
     SaveAndLoadSystem saveAndLoadSystem;
@@ -42,6 +43,7 @@ public class BattleMenuSystem : SystemBase
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
     protected override void OnCreate()
     {
+        pauseSystem = World.GetOrCreateSystem<PauseSystem>();
         sceneSystem = World.GetOrCreateSystem<SceneSystem>();
         saveAndLoadSystem = World.GetOrCreateSystem<SaveAndLoadSystem>();
         uISystem = World.GetOrCreateSystem<UISystem>();
@@ -349,12 +351,10 @@ public class BattleMenuSystem : SystemBase
         Entities
         .WithoutBurst()
         .WithStructuralChanges()
-        .ForEach((DynamicBuffer<ItemData> itemInventory, AnimationData animation, Animator animator, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStats, in Entity entity) =>{
+        .ForEach((Entity entity, DynamicBuffer<ItemData> itemInventory, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStats, in CharacterSkill characterSkill) =>{
             if(i == currentCharacterSelected){
                 battleUI.visible = true;
                 selectorUI.UI.SetEnabled(false);
-                animator.Play(animation.basicSwordAnimationName);
-                AudioManager.playSound("swordswing");
                 //makes sure that nothing is selected
                 foreach(Entity ent in enemyUiSelection){
                     EnemySelectorData selector = GetComponent<EnemySelectorData>(ent);
@@ -362,19 +362,9 @@ public class BattleMenuSystem : SystemBase
                     EntityManager.SetComponentData(ent, selector);
                 }
                 
-                if(characterStats.characterName == "technoblade"){
-                    // do technoblade specific attack
-                }
-                /*
-                switch(characterStats.equipedWeapon.weaponSkill.skillType){
-                    case SkillType.Regular:
-                        ecb.AddComponent(entity, new UsingSkillData{
-                            target = enemyUiSelection[EnemyNumber],
-                            skill = characterStats.equipedWeapon.weaponSkill
-                        });
-                        ecb.AddComponent<RegularAttackData>(entity);
-                    break;
-                }*/
+                ecb.AddComponent(entity, new UsingSkillData{skill = characterSkill.skill, target = enemyUiSelection[EnemyNumber]});
+                ecb.AddComponent<BasicSkillTag>(entity);
+                
                 battleData.useTime = 0;
                 battleData.maxUseTime = characterStats.equipedWeapon.useTime;                           
 
@@ -397,7 +387,7 @@ public class BattleMenuSystem : SystemBase
         inkDisplaySystem.ContinueStory();
         //InputGatheringSystem.currentInput = CurrentInput.overworld;
         transitionSystem.OnTransitionEnd -= ResumeGameWorld_OnTransitionEnd;
-        
+        pauseSystem.BattleUnPause();
         //uISystem.overworldOverlay.visible = true;
     }
     private void DisableMenu_OnBattleEnd(System.Object sender, OnBattleEndEventArgs e){
@@ -485,6 +475,20 @@ public class BattleMenuSystem : SystemBase
     private void FinishVictoryData_OnDisplayFinished(object sender, System.EventArgs e){
         inkDisplaySystem.OnVictoryDisplayFinish -= FinishVictoryData_OnDisplayFinished;
         var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
+        //makes sure everthing is visiable again
+        Entities
+            .WithoutBurst()
+            .WithNone<BattleData>()
+            .ForEach((SpriteRenderer sprite) => {
+                  Color newColor = sprite.color;
+                  newColor.a = 1;
+                  sprite.color = newColor;
+            }).Run();
+             Entities
+            .WithoutBurst()
+            .ForEach((TilemapRenderer tilemap) => {
+                  tilemap.enabled = true;
+            }).Run();
         // transition back once the writer is done
         Entities
         .WithoutBurst()

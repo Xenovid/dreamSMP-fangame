@@ -1,15 +1,17 @@
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Physics;
 using UnityEngine;
 using Unity.Collections;
 using Unity.Transforms;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
+using UnityEngine.Tilemaps;
 using System;
 
 public class BattleSystem : SystemBase
 {
-
+      PauseSystem pauseSystem;
       EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
       public bool isInBattle;
       public event BattleEndEventHandler OnBattleEnd;
@@ -19,6 +21,7 @@ public class BattleSystem : SystemBase
       TransitionSystem transitionSystem;
       protected override void OnCreate(){
             base.OnCreate();
+            pauseSystem = World.GetOrCreateSystem<PauseSystem>();
             m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
             isInBattle = false;
             transitionSystem = World.GetOrCreateSystem<TransitionSystem>();
@@ -264,11 +267,35 @@ public class BattleSystem : SystemBase
       public void AddBattleData_OnTransitionEnd(System.Object sender, System.EventArgs e){
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
             foreach(Entity entity in playerEntities){
-                  ecb.AddComponent<BattleData>(entity);
+                  EntityManager.AddComponent<BattleData>(entity);
+                  if(HasComponent<PhysicsCollider>(entity)){
+                        PhysicsCollider collider = GetComponent<PhysicsCollider>(entity);
+                        collider.Value.Value.Filter = CollisionFilter.Zero;
+                        SetComponent<PhysicsCollider>(entity, collider);
+                  }
             }
             foreach(Entity entity in enemyEntities){
-                  ecb.AddComponent<BattleData>(entity);
+                  EntityManager.AddComponent<BattleData>(entity);
+                  if(HasComponent<PhysicsCollider>(entity)){
+                        PhysicsCollider collider = GetComponent<PhysicsCollider>(entity);
+                        collider.Value.Value.Filter = CollisionFilter.Zero;
+                        SetComponent<PhysicsCollider>(entity, collider);
+                  }
             }
+            Entities
+            .WithoutBurst()
+            .WithNone<BattleData>()
+            .ForEach((SpriteRenderer sprite) => {
+                  Color newColor = sprite.color;
+                  newColor.a = 0;
+                  sprite.color = newColor;
+            }).Run();
+             Entities
+            .WithoutBurst()
+            .ForEach((TilemapRenderer tilemap) => {
+                  tilemap.enabled = false;
+            }).Run();
+            pauseSystem.BattlePause();
             transitionSystem.OnTransitionEnd -= AddBattleData_OnTransitionEnd;
       }
 }

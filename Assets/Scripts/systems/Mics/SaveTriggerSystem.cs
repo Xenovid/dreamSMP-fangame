@@ -37,19 +37,27 @@ public class SaveTriggerSystem : SystemBase
             if (HasComponent<SavePointTag>(entityA) && HasComponent<InteractiveBoxCheckerData>(entityB))
             {
                 if(input.select){
-                    string savePointName = GetComponent<SavePointTag>(entityA).saveName.ToString();
                     //SavePointAlert?.Invoke(this, new SavePointEventArg{savePointName = savePointName});
                     Entities
                     .WithStructuralChanges()
                     .ForEach((ref CharacterStats character) => {
                         character.health = character.maxHealth;
                     }).Run();
-                    
+                    uISystem.overworldOverlay.visible = false;
+                    string savePointName = GetComponent<SavePointTag>(entityA).saveName.ToString();
                     Button ringButton = new Button();
                     ringButton.AddToClassList("player_choice");
                     ringButton.text = "ring the bell";
-                    ringButton.text = "ring the bell";
-                    inkDisplaySystem.DisplayChoices(new Button[]{ringButton});
+                    ringButton.focusable = true;
+                    // when the ring button is pressed, display a cutscene to ring the bell
+                    ringButton.clicked += () => {inkDisplaySystem.StartCutScene("thebell.thefirstbell");};
+
+                    Button saveButton = new Button();
+                    saveButton.AddToClassList("player_choice");
+                    saveButton.text = "save progress";
+                    saveButton.clicked += () => saveAndLoadSystem.LoadSaveUI(this, new SavePointEventArg{savePointName = savePointName});
+
+                    inkDisplaySystem.DisplayChoices(new Button[]{ringButton, saveButton});
                    
                 }
                 else{
