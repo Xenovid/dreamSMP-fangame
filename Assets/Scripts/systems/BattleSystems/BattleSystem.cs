@@ -98,6 +98,16 @@ public class BattleSystem : SystemBase
                                           Message message = new Message{timePassed = 0, label = label, direction = random.Value.NextFloat2Direction()};
                                           headsUpUI.messages.Add(message);
                                     }
+                                    switch(damages[i].statusEffect){
+                                          case StatusEffect.bleeding:
+                                                if(HasComponent<BleedingData>(entity)){
+                                                      BleedingData bleedingData = GetComponent<BleedingData>(entity);
+                                                      bleedingData.level++;
+                                                      SetComponent(entity, bleedingData);
+                                                }
+                                                else ecb.AddComponent(entity, new BleedingData{level = 1});
+                                          break;
+                                    }
                                     characterStats.health -= damages[i].damage;
                                     damages.RemoveAt(i);
                                     i--;
@@ -230,19 +240,15 @@ public class BattleSystem : SystemBase
                   // adding battle data to the enemies
                   DynamicBuffer<EnemyBattleData> enemies = GetBuffer<EnemyBattleData>(enemy);
                   //always adds the enemies by how they are list in the enemybattledata
-                  for(int i = 0; i < enemies.Length; i++){
-                        int j = 0;
-                        foreach(CharacterStats characterStats in characters){
-                              if(enemies[i].id == characterStats.id){
-                                    enemyEntities.Add(characterEntities[j]);
-                                    Translation translation = GetComponent<Translation>(characterEntities[j]);
-                                    // so that it can be moved back after battle
-                                    ecb.AddComponent(characterEntities[j], new BeforeBattleData{previousLocation = translation.Value});
-                                    if(HasComponent<BattleTriggerData>(characterEntities[j])){
-                                          ecb.RemoveComponent<BattleTriggerData>(characterEntities[j]);
-                                    }
+                  foreach(EnemyBattleData enemyBattleData in enemies){
+                        if(HasComponent<CharacterStats>(enemyBattleData.enemyEntity)){
+                              enemyEntities.Add(enemyBattleData.enemyEntity);
+                              Translation translation = GetComponent<Translation>(enemyBattleData.enemyEntity);
+                              // so that it can be moved back after battle
+                              ecb.AddComponent(enemyBattleData.enemyEntity, new BeforeBattleData{previousLocation = translation.Value});
+                              if(HasComponent<BattleTriggerData>(enemyBattleData.enemyEntity)){
+                                    ecb.RemoveComponent<BattleTriggerData>(enemyBattleData.enemyEntity);
                               }
-                              j++;
                         }
                   }
                   isInBattle = true;

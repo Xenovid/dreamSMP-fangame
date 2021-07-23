@@ -1,5 +1,6 @@
 using Unity.Entities;
 using UnityEngine.UIElements;
+using Unity.Physics;
 using UnityEngine.Rendering.Universal;
 using UnityEngine;
 using Unity.Collections;
@@ -287,7 +288,7 @@ public class BattleMenuSystem : SystemBase
             skillButton.focusable = true;
 
             Skill skill = equipedSkills[i].skill;
-            skillButton.text = skill.description.ToString();
+            skillButton.text = skill.name.ToString();
             skillButton.clicked += () => SkillButton(z);
             skillButton.RegisterCallback<FocusEvent>(ev => UpdateSkillDescription(skill.description.ToString()));
             skillButton.RegisterCallback<PointerEnterEvent>(ev => UpdateSkillDescription(skill.description.ToString()));
@@ -475,6 +476,21 @@ public class BattleMenuSystem : SystemBase
     private void FinishVictoryData_OnDisplayFinished(object sender, System.EventArgs e){
         inkDisplaySystem.OnVictoryDisplayFinish -= FinishVictoryData_OnDisplayFinished;
         var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
+        EntityQuery battleCharacterGroup = GetEntityQuery(ComponentType.ReadWrite<CharacterStats>(), ComponentType.ReadWrite<BattleData>());
+        NativeArray<Entity> battleCharacters = battleCharacterGroup.ToEntityArray(Allocator.TempJob);
+
+        foreach (Entity entity in battleSystem.enemyEntities){
+            if(HasComponent<DestroyEnemyTag>(entity)){
+                if(HasComponent<PhysicsCollider>(entity)){
+                    PhysicsCollider collider = GetComponent<PhysicsCollider>(entity);
+                    collider.Value.Value.Filter = CollisionFilter.Default;
+                    SetComponent(entity, collider);
+                }
+                ecb.DestroyEntity(entity);
+            }
+        }
+
+        // destroys all unnessary entities
         //makes sure everthing is visiable again
         Entities
             .WithoutBurst()
@@ -498,6 +514,7 @@ public class BattleMenuSystem : SystemBase
             ecb.AddComponent(entity, new TransitionData{newPosition = beforeBattleData.previousLocation, oldPosition = translation.Value});
             ecb.RemoveComponent<BeforeBattleData>(entity);
         }).Run();
+        battleCharacters.Dispose();
     }
     private void StartVictoryData_OnBattleEnd(object sender, OnBattleEndEventArgs e){
         AudioManager.stopCurrentSong();

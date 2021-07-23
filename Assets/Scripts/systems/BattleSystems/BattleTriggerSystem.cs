@@ -40,15 +40,17 @@ public class BattleTriggerSystem : SystemBase
             //checks if the player hit an entity with battle data on it, and if so triggers a battle
             if (GetComponentDataFromEntity<PlayerTag>().HasComponent(entityA) && GetComponentDataFromEntity<BattleTriggerData>().HasComponent(entityB))
             {
+                AreaData areaData = GetSingleton<AreaData>();
                 InputGatheringSystem.currentInput = CurrentInput.ui;
-                AudioManager.playSong("tempBattleMusic");
+                AudioManager.playSong(areaData.areaBattleSongName.ToString());
                 battleSystem.StartBattle(entityB);
                 ecb.RemoveComponent<BattleTriggerData>(entityB);
             }
             else if (GetComponentDataFromEntity<PlayerTag>().HasComponent(entityB) && GetComponentDataFromEntity<BattleTriggerData>().HasComponent(entityA))
             {
+                AreaData areaData = GetSingleton<AreaData>();
                 InputGatheringSystem.currentInput = CurrentInput.ui;
-                AudioManager.playSong("tempBattleMusic");
+                AudioManager.playSong(areaData.areaBattleSongName.ToString());
                 battleSystem.StartBattle(entityA);
                 ecb.RemoveComponent<BattleTriggerData>(entityA);
             }

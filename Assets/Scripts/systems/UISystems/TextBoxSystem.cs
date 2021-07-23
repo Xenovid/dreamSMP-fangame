@@ -24,7 +24,7 @@ public class TextBoxSystem : SystemBase
         characterMouthAnimationQuery = GetEntityQuery(typeof(UIAnimationData), typeof(CharacterMouthTag));
 
         TextBoxData text = GetSingleton<TextBoxData>();
-        text.textSpeed = text.textSpeed == 0 ? .02f : text.textSpeed;
+        text.textSpeed = text.textSpeed == 0 ? .01f : text.textSpeed;
         SetSingleton<TextBoxData>(text);
         uISystem = World.GetOrCreateSystem<UISystem>();
         inkDisplaySystem = World.GetOrCreateSystem<InkDisplaySystem>();

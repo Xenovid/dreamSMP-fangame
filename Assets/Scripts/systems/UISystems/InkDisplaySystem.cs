@@ -89,6 +89,9 @@ public class InkDisplaySystem : SystemBase
             if(inkManager.inkStory == null){
                 // setting up story
                 inkManager.inkStory = new Story(inkManager.inkAssest.text);
+                inkManager.inkStory.BindExternalFunction("playSong", (string name) => {
+                    AudioManager.playSong(name);
+                });
                 inkManager.inkStory.BindExternalFunction("playSound", (string name) => {
                     AudioManager.playSound(name);
                 });
@@ -179,7 +182,7 @@ public class InkDisplaySystem : SystemBase
                 overworldOverlay.visible = false;
                 textBoxUI.visible = true;
                 textBoxUI.Focus();
-
+                characterMouthAnimation.active = true;
                 //ensures that there isn't any buttons blocking the view
                 VisualElement playerChoiceUI = textBoxUI.Q<VisualElement>("player_choices");
                 playerChoiceUI.Clear();
@@ -204,17 +207,21 @@ public class InkDisplaySystem : SystemBase
                 textBoxData.timeFromLastChar = 0f;
                     textBoxData.currentChar = 0;
                     if(text.instant){
+                        characterMouthAnimation.active = false;
                         textBoxText.text = text.text.ToString();
                         textBoxData.isFinishedPage = true;
                     }
                     else{
+                        characterMouthAnimation.active = true;
                         textBoxData.isFinishedPage = false;
                     }
                     
             }
         }).Run();
+        EntityManager.SetComponentData(characterMouthEntity, characterMouthAnimation);
     }
     public void DisplayVictoryData(){
+        DisplayPortriat("default");
         Entity messageBoard = GetSingletonEntity<UITag>();
         Text text = GetComponent<Text>(messageBoard);
         Entities
@@ -248,7 +255,7 @@ public class InkDisplaySystem : SystemBase
                 if(inkManager.inkStory.currentTags.Contains("battle")){
                     //initiate battle
                     DisableTextboxUI();
-                    AudioManager.playSong("tempBattleMusic");
+                    //AudioManager.playSong("tempBattleMusic");
                     EntityQuery cutsceneBattleQuery = GetEntityQuery(typeof(CutsceneBattleDataTag));
                     NativeArray<CutsceneBattleDataTag> battleDataTags = cutsceneBattleQuery.ToComponentDataArray<CutsceneBattleDataTag>(Allocator.Temp);
                     NativeArray<Entity> battleDataEntities = cutsceneBattleQuery.ToEntityArray(Allocator.Temp);

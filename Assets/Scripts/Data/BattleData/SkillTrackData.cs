@@ -24,6 +24,7 @@ public struct SkillPrefabInstatiationData
 [System.Serializable]
 public struct SkillDamageTrackData{
     public int damage;
+    public StatusEffect statusEffect;
     public float time;
 }
 public struct AnimationTrackData{

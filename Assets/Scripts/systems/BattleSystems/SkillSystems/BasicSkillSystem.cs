@@ -28,7 +28,7 @@ public class BasicSkillSystem : SystemBase
             if(skillData.skill.trackData.damageTrack.Length > 0){
                 if(skillData.skill.trackData.damageTrack[0].time < battleData.useTime){
                     DynamicBuffer<DamageData> enemyDamages = GetBuffer<DamageData>(skillData.target);
-                    enemyDamages.Add(new DamageData{damage = skillData.skill.trackData.damageTrack[0].damage + characterStats.baseStats.attack, type = damageType.physical});
+                    enemyDamages.Add(new DamageData{damage = skillData.skill.trackData.damageTrack[0].damage + characterStats.baseStats.attack, type = damageType.physical, statusEffect = skillData.skill.trackData.damageTrack[0].statusEffect});
                     skillData.skill.trackData.damageTrack.RemoveAt(0);
                 }
                 isEmpty = false;

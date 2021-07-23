@@ -20,7 +20,7 @@ public class EnemySelectorUISystem : SystemBase
           var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
             Entities
             .WithoutBurst()
-            .ForEach((Entity entity,EnemySelectorUI enemySelectorUI,ref EnemySelectorData enemySelectorData, in CharacterStats characterStats, in SpriteRenderer sprite) => {
+            .ForEach((Entity entity,EnemySelectorUI enemySelectorUI,ref EnemySelectorData enemySelectorData, in CharacterStats characterStats, in AnimationData animationData, in SpriteRenderer sprite, in Animator animator) => {
                 VisualElement enemyPicture = enemySelectorUI.enemySelectorUI.Q<VisualElement>("EnemyPicture");
                 VisualElement enemyHealthBar = enemySelectorUI.enemySelectorUI.Q<VisualElement>("EnemyHealth");
                 Label enemyNameLabel = enemySelectorUI.enemySelectorUI.Q<Label>("EnemyName");
@@ -53,11 +53,9 @@ public class EnemySelectorUISystem : SystemBase
                     enemySelectorData.isDead = true;
                     MaterialPropertyBlock myMatBlock = new MaterialPropertyBlock();
                     myMatBlock.SetInt("IsSelected", 0);
-                    sprite.enabled = false;
+                    animator.Play(animationData.characterDownAnimationName);
                     
                     enemySelectorUI.enemySelectorUI.SetEnabled(false);
-
-
                 }
             }).Run();
       }
@@ -67,12 +65,21 @@ public class EnemySelectorUISystem : SystemBase
             Entities
             .WithoutBurst()
             .WithStructuralChanges()
-            .ForEach((Entity entity, EnemySelectorUI enemySelectorUI,ref EnemySelectorData enemySelectorData) => {
+            .ForEach((Entity entity, EnemySelectorUI enemySelectorUI,ref EnemySelectorData enemySelectorData, in HeadsUpUIData headsUpUIData) => {
                 enemySelectorUI.enemySelectorUI.parent.Remove(enemySelectorUI.enemySelectorUI);
+                foreach(Message message in headsUpUIData.messages){
+                    message.label.parent.Remove(message.label);
+                }
+                headsUpUIData.UI.parent.Remove(headsUpUIData.UI);
+                
+                
                 //enemySelector.Remove(enemySelectorUI.enemySelectorUI);
+                EntityManager.RemoveComponent<HeadsUpUIData>(entity);
                 EntityManager.RemoveComponent<EnemySelectorUI>(entity);
                 EntityManager.RemoveComponent<EnemySelectorData>(entity);
             }).Run();
+            
+            
       }
 
 }

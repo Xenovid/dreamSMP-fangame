@@ -767,7 +767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d68946a4988b8af2a5fdf9ed91338d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textSpeed: 0.1
+  textSpeed: 0.03
   currentChar: 0
   isFinishedPage: 0
   timeFromLastChar: 0
@@ -824,6 +824,9 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: cb0316e40f3a9114a911998626e5495d, type: 3}
     audioSource: {fileID: 0}
     soundName: bell
+  - clip: {fileID: 8300000, guid: b242458ea87ee4d44990eadcc5f7a0c3, type: 3}
+    audioSource: {fileID: 0}
+    soundName: Wilbur
   gameSoundss:
   - clip: {fileID: 8300000, guid: b89afcdcba043d846b0053484ae6ccd3, type: 3}
     audioSource: {fileID: 0}
@@ -856,6 +859,9 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: 0551bd17eed4d2342b58479f85bffc91, type: 3}
     audioSource: {fileID: 0}
     soundName: CalmMountain
+  - clip: {fileID: 8300000, guid: a69e19152dbb74847a6f2e4a90f9951f, type: 3}
+    audioSource: {fileID: 0}
+    soundName: WilburTheme
 --- !u!4 &1847510910
 Transform:
   m_ObjectHideFlags: 0
@@ -967,11 +973,22 @@ MonoBehaviour:
     - {fileID: 631765361247734418, guid: 42790c220fd40d1468072a5077a8dfb7, type: 3}
   - name: default
     portraits:
-    - {fileID: 21300000, guid: d1afb2e8a282574428e8f318fd5b3d6b, type: 3}
+    - {fileID: 0}
     eyeAnimations:
     - {fileID: 0}
     mouthAnimations:
     - {fileID: 0}
+  - name: Wilbur
+    portraits:
+    - {fileID: 520214832235992092, guid: 6a6bbc8594886054e8aa6526bf1f7d9b, type: 3}
+    eyeAnimations:
+    - {fileID: 1423613824537333289, guid: 6a6bbc8594886054e8aa6526bf1f7d9b, type: 3}
+    - {fileID: 6273790542221291617, guid: 6a6bbc8594886054e8aa6526bf1f7d9b, type: 3}
+    - {fileID: 1979747753595933974, guid: 6a6bbc8594886054e8aa6526bf1f7d9b, type: 3}
+    - {fileID: 6273790542221291617, guid: 6a6bbc8594886054e8aa6526bf1f7d9b, type: 3}
+    mouthAnimations:
+    - {fileID: 9035087110161571551, guid: 6a6bbc8594886054e8aa6526bf1f7d9b, type: 3}
+    - {fileID: -4253855865588494609, guid: 6a6bbc8594886054e8aa6526bf1f7d9b, type: 3}
 --- !u!114 &1945046196
 MonoBehaviour:
   m_ObjectHideFlags: 0

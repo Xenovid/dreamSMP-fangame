@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 3914832553692700303}
   - component: {fileID: 3914832553692700296}
   - component: {fileID: 3914832553692700302}
+  - component: {fileID: 830757584682189384}
+  - component: {fileID: 2392205143741948034}
   m_Layer: 0
   m_Name: trees
   m_TagString: Untagged
@@ -119,3 +121,28 @@ PolygonCollider2D:
       - {x: 0.23688841, y: 0.09157336}
       - {x: 0.17438841, y: 0.12282336}
       - {x: 0.11188841, y: 0.18532336}
+--- !u!114 &830757584682189384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3914832553692700297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1f0db985e6a00a88c5b60b4d4d40d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cutsceneName: aintro.tree
+--- !u!114 &2392205143741948034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3914832553692700297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb6add9bad0bb1f4387ed85f8c590828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

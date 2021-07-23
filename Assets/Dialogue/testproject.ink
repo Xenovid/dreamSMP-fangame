@@ -4,16 +4,30 @@ test
 EXTERNAL playSound(soundName)
 EXTERNAL displayPortrait(portriatName)
 EXTERNAL setTextSound(soundName)
+EXTERNAL playSong(songName)
+== aintro ==
+    =tree
+    it's just a tree
+    -> END
+== devdoor ==
+    Sadly this is the current end of this story
+    Quite pitful isn't it...
+    What's is inside the pyramid
+    Will Wilbursoot form a cult that last more than a one episode
+    And will Technoblade get his cookies
+    I hope you enjoyed what little I had to show you and that you will one day come back to play a more finished game
+    -> END
 == thebell ==
     = thefirstbell
         ~playSound("sellouttimer")
-        #technoblade
+        ~displayPortrait("technoblade")
+        ~setTextSound("technoblade")
         #unskipable
         #slow
         . . .
-        #bell
+        ~setTextSound("bell")
         #technoblade
-        subscribe to technoblade!!!!!
+        subscribe to Technoblade!!!!!
         -> END
 == story ==
     = intro
@@ -79,9 +93,22 @@ EXTERNAL setTextSound(soundName)
         What, did I say something wrong?
         ~displayPortrait("Wilbur")
         ~setTextSound("Wilbur")
+        ~playSong("WilburTheme")
         Technoblade, I'm going to need those keys
         #battle
         WilburSoot
+        ~displayPortrait("technoblade")
+        ~setTextSound("technoblade")
+        If you want to go so bad, you could just follow me in
+        ~displayPortrait("Wilbur")
+        ~setTextSound("Wilbur")
+        Its not that man. The problem is that my savior is a pig who has quite literally gone on the record on being an atheist. It just doesn't sit right
+        ~displayPortrait("technoblade")
+        ~setTextSound("technoblade")
+        would a cookies help?
+        ~displayPortrait("Wilbur")
+        ~setTextSound("Wilbur")
+        you've ruined my appetite, JUST GO!
         -> END
 == victory ==
 You Won

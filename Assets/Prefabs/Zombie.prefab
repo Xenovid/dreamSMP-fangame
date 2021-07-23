@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 5828142680971138788}
   - component: {fileID: 8487859158436272762}
   - component: {fileID: 5096407178319633397}
+  - component: {fileID: 8349599627664974248}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Untagged
@@ -106,7 +107,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba75e783802bac5dfa2c40fe1eacf95d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Values: 0000000002000000
+  enemyBattleInfos:
+  - songName: 
+    id: 0
 --- !u!114 &6581668474788148504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,8 +122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71a3c05c28a7797b2b7438da58dbd418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 11
-  health: 11
+  maxHealth: 20
+  health: 20
   maxPoints: 0
   points: 0
   baseStats:
@@ -342,6 +345,7 @@ MonoBehaviour:
         prefabTrack: []
         damageTrack:
         - damage: 1
+          statusEffect: 0
           time: 0.1
         animationTrack:
         - animationName: ZombieAttack
@@ -377,7 +381,7 @@ MonoBehaviour:
   swordIdleAnimationName: 
   takenDamageAnimationName: 
   basicSwordAnimationName: 
-  characterDownAnimationName: 
+  characterDownAnimationName: ZombieDead
 --- !u!114 &8041297513315535549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,3 +474,15 @@ MonoBehaviour:
     Tag05: 0
     Tag06: 0
     Tag07: 0
+--- !u!114 &8349599627664974248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6581668474788148515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ca9ad0a4e514314f9001e2c53131644, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
