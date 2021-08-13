@@ -10,7 +10,7 @@ public class InkDisplaySystem : SystemBase
 {
     PauseSystem pauseSystem;
     UISystem uISystem;
-    public event EventHandler OnCutsceneFinish;
+    //public event EventHandler OnCutsceneFinish;
     public event EventHandler OnVictoryDisplayFinish;
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
 

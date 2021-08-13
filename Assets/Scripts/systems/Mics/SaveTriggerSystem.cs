@@ -7,7 +7,7 @@ using UnityEngine;
 public class SaveTriggerSystem : SystemBase
 {
     StepPhysicsWorld physicsWorld;
-    public event SavePointEventHandler SavePointAlert;
+    //public event SavePointEventHandler SavePointAlert;
     SaveAndLoadSystem saveAndLoadSystem;
     UISystem uISystem;
     TextBoxSystem textBoxSystem;

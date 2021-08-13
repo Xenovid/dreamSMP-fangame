@@ -317,6 +317,7 @@ GameObject:
   - component: {fileID: 1073731654}
   - component: {fileID: 1073731653}
   - component: {fileID: 1073731656}
+  - component: {fileID: 1073731657}
   m_Layer: 0
   m_Name: test prefab holder
   m_TagString: Untagged
@@ -380,6 +381,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5057a28ee38ab74b99d000f1b93cb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1073731657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073731652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5dd99538f753f48acf3b6bcb1404f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skills:
+  - skill:
+      id: 0
+    data:
+      timePassed: 0
+  references:
+    version: 1
+    00000000:
+      type: {class: BasicPolySkill, ns: , asm: Assembly-CSharp}
 --- !u!1 &1086236115
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,15 +1002,11 @@ MonoBehaviour:
     - {fileID: 0}
   - name: Wilbur
     portraits:
-    - {fileID: 520214832235992092, guid: 6a6bbc8594886054e8aa6526bf1f7d9b, type: 3}
+    - {fileID: 21300000, guid: dfd2eb1573051704ab034e9d00963e8c, type: 3}
     eyeAnimations:
-    - {fileID: 1423613824537333289, guid: 6a6bbc8594886054e8aa6526bf1f7d9b, type: 3}
-    - {fileID: 6273790542221291617, guid: 6a6bbc8594886054e8aa6526bf1f7d9b, type: 3}
-    - {fileID: 1979747753595933974, guid: 6a6bbc8594886054e8aa6526bf1f7d9b, type: 3}
-    - {fileID: 6273790542221291617, guid: 6a6bbc8594886054e8aa6526bf1f7d9b, type: 3}
+    - {fileID: 0}
     mouthAnimations:
-    - {fileID: 9035087110161571551, guid: 6a6bbc8594886054e8aa6526bf1f7d9b, type: 3}
-    - {fileID: -4253855865588494609, guid: 6a6bbc8594886054e8aa6526bf1f7d9b, type: 3}
+    - {fileID: 0}
 --- !u!114 &1945046196
 MonoBehaviour:
   m_ObjectHideFlags: 0

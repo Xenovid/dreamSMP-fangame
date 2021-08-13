@@ -36,9 +36,6 @@ public class BattleSystem : SystemBase
             EntityQuery characterStatsGroup = GetEntityQuery(ComponentType.ReadWrite<CharacterStats>(), ComponentType.ReadWrite<BattleData>());
             EntityQuery PlayerParty = GetEntityQuery(ComponentType.ReadWrite<PlayerPartyData>());
             
-
-            NativeArray<Entity> battleManagers = BattleManagerGroup.ToEntityArray(Allocator.Temp);
-            
             NativeArray<CharacterStats> characterStatsList = characterStatsGroup.ToComponentDataArray<CharacterStats>(Allocator.TempJob);
             NativeArray<Entity> characterEntities = characterStatsGroup.ToEntityArray(Allocator.TempJob);
 
@@ -189,11 +186,8 @@ public class BattleSystem : SystemBase
                         }).Run();
                   }
             }
-
-            //EntityManager.CompleteAllJobs();
             characterEntities.Dispose();
             characterStatsList.Dispose();
-            battleManagers.Dispose();
             m_EndSimulationEcbSystem.AddJobHandleForProducer(this.Dependency);
       }
       // goes through the party of the character and the enemies conneceted to the triggering enemy and adds battle data to all of them
@@ -228,14 +222,9 @@ public class BattleSystem : SystemBase
                   .ForEach((DynamicBuffer<PlayerPartyData> players) =>
                   {
                         for(int i = 0; i < players.Length; i++){
-                        int j = 0;
-                              foreach(CharacterStats characterStats in characters){
-                                    if(players[i].playerId == characterStats.id){
-                                          playerEntities.Add(characterEntities[j]);
-                                    }
-                                    j++;
-                              }
+                              playerEntities.Add(players[i].player);
                         }
+
                   }).Run();
                   // adding battle data to the enemies
                   DynamicBuffer<EnemyBattleData> enemies = GetBuffer<EnemyBattleData>(enemy);

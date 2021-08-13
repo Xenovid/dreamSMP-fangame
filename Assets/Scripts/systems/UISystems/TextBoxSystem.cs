@@ -8,8 +8,8 @@ using UnityEngine.UIElements.InputSystem;
 
 public class TextBoxSystem : SystemBase
 {
-    public event EventHandler OnTextFinished;
-    public event EventHandler OnDisplayFinished;
+    //public event EventHandler OnTextFinished;
+    //public event EventHandler OnDisplayFinished;
     public bool isDisplaying;
     UISystem uISystem;
     InkDisplaySystem inkDisplaySystem;

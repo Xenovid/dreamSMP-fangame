@@ -5,7 +5,7 @@
     <Style src="/Assets/UI Toolkit/Resources/StyleSheet/pauseMenuStyleSheet.uss" />
     <Style src="/Assets/UI Toolkit/Resources/StyleSheet/OverworldStlyeSheet.uss" />
     <Style src="/Assets/UI Toolkit/Resources/StyleSheet/battleDetails.uss" />
-    <ui:VisualElement name="title_background" style="align-items: center; justify-content: flex-start; top: auto; width: 100%; height: 100%; background-color: rgb(120, 120, 120); visibility: visible;">
+    <ui:VisualElement name="title_background" style="align-items: center; justify-content: flex-start; top: auto; width: 100%; height: 100%; background-color: rgb(120, 120, 120); visibility: hidden;">
         <ui:VisualElement name="Title" style="width: 1050px; height: 50px; background-color: rgb(0, 0, 0); align-items: center; justify-content: center; font-size: 100px; -unity-font: resource(&apos;Fonts &amp; Materials/elf-boy-classic-font/Elfboyclassic-PKZgZ&apos;); margin-top: 0; -unity-text-align: middle-left; padding-top: 10px; padding-bottom: 10px;">
             <ui:Label text="Dream SMP: A New World&#10;" display-tooltip-when-elided="true" style="align-items: center; justify-content: center; font-size: 40px;" />
         </ui:VisualElement>
@@ -246,15 +246,6 @@
         <ui:Button text="Interact&#10;" display-tooltip-when-elided="true" name="interactive_item_check" enable-rich-text="true" class="interactive_button" style="position: absolute; top: 606px; left: 21px; width: 156px; height: 55px;" />
         <ui:Button text="Pause" display-tooltip-when-elided="true" name="pause_button" tooltip="pause the game" class="pause_button" style="position: absolute; top: 19px; left: 22px; height: 55px; width: 156px;" />
     </ui:VisualElement>
-    <ui:Button text="&#10;" display-tooltip-when-elided="true" enable-rich-text="false" name="textbox" style="position: absolute; top: 80%; height: 20%; width: 100%; border-left-width: 5px; border-right-width: 5px; border-top-width: 5px; border-bottom-width: 5px; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; flex-direction: row; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; background-color: rgb(12, 12, 12); visibility: hidden; border-left-color: rgb(236, 236, 236); border-right-color: rgb(236, 236, 236); border-top-color: rgb(236, 236, 236); border-bottom-color: rgb(236, 236, 236);">
-        <ui:VisualElement name="CharacterImage" style="width: 128px; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; max-width: 11%; min-width: 0; flex-shrink: 0;">
-            <ui:VisualElement name="character_base" style="position: absolute; width: 100%; height: 100%;" />
-            <ui:VisualElement name="character_eyes" style="position: absolute; width: 100%; height: 100%;" />
-            <ui:VisualElement name="character_mouth" style="position: absolute; width: 100%; height: 100%;" />
-        </ui:VisualElement>
-        <ui:Label display-tooltip-when-elided="true" name="TextBoxText" class="text" style="flex-grow: 1; font-size: 20px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); -unity-text-align: upper-left; border-left-color: rgb(248, 248, 248); border-right-color: rgb(248, 248, 248); border-top-color: rgb(248, 248, 248); border-bottom-color: rgb(248, 248, 248); border-left-width: 5px; padding-left: 22px; padding-top: 14px; white-space: normal; flex-shrink: 1;" />
-        <ui:VisualElement name="player_choices" style="position: absolute; width: 100%; height: 100%; flex-direction: row; align-items: center; justify-content: center;" />
-    </ui:Button>
     <ui:VisualElement name="overworld_file_select" style="position: absolute; width: 100%; height: 100%; visibility: hidden; background-color: rgba(60, 60, 60, 0.11); align-items: stretch;">
         <ui:Button text="&#10;" display-tooltip-when-elided="true" name="save_back_button" class="back_button" style="width: 106px; background-image: url(&apos;/Assets/Art/Icons/BackIcon.png#BackIcon&apos;); height: 97px;" />
         <ui:Instance template="SaveFile" name="save_file2" style="position: relative; flex-grow: 1; align-items: center;" />
@@ -265,6 +256,15 @@
         <ui:Button text="To TitleScreen" display-tooltip-when-elided="true" name="title" focusable="true" class="player_loss_button" />
     </ui:VisualElement>
     <ui:VisualElement name="null_focus" tooltip="removes focus on objects that shouldn&apos;t have focus" focusable="true" style="width: 0; height: 0;" />
+    <ui:Button text="&#10;" display-tooltip-when-elided="true" enable-rich-text="false" name="textbox" style="position: absolute; top: 0; height: 100%; width: 100%; border-left-width: 5px; border-right-width: 5px; border-top-width: 5px; border-bottom-width: 5px; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; flex-direction: row; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; visibility: visible; background-color: rgba(228, 228, 228, 0);">
+        <ui:VisualElement name="CharacterImage" style="width: 350px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; min-width: 0; flex-shrink: 0; height: 350px; position: absolute; bottom: 139px;">
+            <ui:VisualElement name="character_base" style="flex-shrink: 0; flex-grow: 1; background-image: url(&apos;/Assets/Art/CharacterPortraits/wilbur2croped.png#wilbur2croped&apos;);" />
+            <ui:VisualElement name="character_eyes" style="position: absolute; width: 100%; height: 100%;" />
+            <ui:VisualElement name="character_mouth" style="position: absolute; width: 100%; height: 100%;" />
+        </ui:VisualElement>
+        <ui:Label display-tooltip-when-elided="true" name="TextBoxText" class="text" style="flex-grow: 1; font-size: 20px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7 SDF&apos;); -unity-text-align: upper-left; border-left-color: rgb(248, 248, 248); border-right-color: rgb(248, 248, 248); border-top-color: rgb(248, 248, 248); border-bottom-color: rgb(248, 248, 248); border-left-width: 5px; padding-left: 22px; padding-top: 14px; white-space: normal; flex-shrink: 1; height: 20%; top: 80%; background-color: rgb(79, 79, 79); border-right-width: 5px; border-top-width: 6px; border-bottom-width: 6px;" />
+        <ui:VisualElement name="player_choices" style="position: absolute; width: 100%; height: 100%; flex-direction: row; align-items: center; justify-content: center;" />
+    </ui:Button>
     <ui:VisualElement name="battle_background" style="width: 100%; height: 100%; justify-content: flex-end; position: absolute; visibility: hidden;">
         <ui:VisualElement name="BattleUI" picking-mode="Ignore" style="position: relative; width: auto; visibility: hidden; -unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;); -unity-text-align: middle-center; align-items: stretch; justify-content: flex-start; flex-grow: 0; flex-shrink: 0; flex-basis: auto; flex-direction: row; left: auto; font-size: 40%; display: flex;">
             <ui:Button display-tooltip-when-elided="true" name="character1" class="techno_battleUI" style="top: 0;">

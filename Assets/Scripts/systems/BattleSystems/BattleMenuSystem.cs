@@ -456,7 +456,7 @@ public class BattleMenuSystem : SystemBase
                 
                 enemySelector.Add(newEnemySelectUI);
                 CharacterStats characterStats = GetComponent<CharacterStats>(entity);
-                EntityManager.AddComponentData(entity, new EnemySelectorData { enemyId = characterStats.id, isSelected = false });
+                EntityManager.AddComponentData(entity, new EnemySelectorData { isSelected = false });
                 EntityManager.AddComponentObject(entity, new EnemySelectorUI{ enemySelectorUI = newEnemySelectUI});
                 EntityManager.AddComponentObject(entity, new HeadsUpUIData{UI = newHeadsUpDisplay, messages = new List<Message>()});
                 i++;

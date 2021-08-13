@@ -13,4 +13,5 @@ public struct BattleData : IComponentData
     public int DamageTaken;
     [HideInInspector]
     public bool isRecharging;
+    public Stats battleStats;
 }

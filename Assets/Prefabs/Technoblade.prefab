@@ -15,16 +15,15 @@ GameObject:
   - component: {fileID: 108625178797338080}
   - component: {fileID: 108625178797338081}
   - component: {fileID: 108625178797338094}
-  - component: {fileID: 108625178797338095}
   - component: {fileID: 108625178797338092}
   - component: {fileID: 108625178797338093}
   - component: {fileID: 108625178797338086}
   - component: {fileID: 108625178797338091}
   - component: {fileID: 3048491766725577472}
-  - component: {fileID: 3421703950802469044}
   - component: {fileID: 824294691773278683}
   - component: {fileID: 7013334921349821737}
   - component: {fileID: 2793789030013601656}
+  - component: {fileID: 108625178374415963}
   m_Layer: 0
   m_Name: Technoblade
   m_TagString: Untagged
@@ -278,19 +277,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71a3c05c28a7797b2b7438da58dbd418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
-  health: 20
+  maxHealth: 100
+  health: 100
   maxPoints: 30
-  points: 1
+  points: 0
   baseStats:
     attack: 8
     defense: 2
     superArmor: 2
-  battleStats:
-    attack: 0
-    defense: 0
-    superArmor: 0
-  id: 1
   characterName: Techno
   equipedWeapon:
     power: 10
@@ -347,19 +341,6 @@ MonoBehaviour:
   takenDamageAnimationName: 
   basicSwordAnimationName: TechnobladeBasicSwordSwing
   characterDownAnimationName: TechnoDown
---- !u!114 &108625178797338095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 108625178797338088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43c21a063b4a6245693917cb163ad4a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Values: 01000000
 --- !u!95 &108625178797338092
 Animator:
   serializedVersion: 3
@@ -444,7 +425,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillInfos: []
-  equipedSkills: []
+  equipedSkills:
+  - name: Crit
+    description: Technoblade Lands a critiacal hit on the opponent for extra damage.
+      costs 5 blood
+    damageIncrease: 0
+    cost: 5
+    waitTime: 2
+    skillTrack:
+      prefabTrack: []
+      damageTrack:
+      - damage: 40
+        statusEffect: 0
+        time: 0.2
+      animationTrack:
+      - animationName: TechnobladeBasicSwordSwing
+        time: 0
 --- !u!114 &108625178797338091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,17 +453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2b0547941443e14696f4653fc7b0d19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemInfos:
-  - itemType: 1
-    name: Golden Apple
-    strength: 20
-    description: An apple coated in gold with special magical properties
-    useTime: 0.5
-  - itemType: 0
-    name: Crossbow
-    strength: 0
-    description: 
-    useTime: 0
+  itemInfos: []
 --- !u!114 &3048491766725577472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -481,18 +467,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Values: 
---- !u!114 &3421703950802469044
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 108625178797338088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30501fdd107919b4083073c5aa154d4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &824294691773278683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -531,6 +505,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveID: 1
+--- !u!114 &108625178374415963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108625178797338088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68ba3b0a76477404d85af098116b9f2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillInfo:
+    name: orphan destroyer
+    description: Technoblade is the second worst thing that's happened to those orphans
+    damageIncrease: 0
+    cost: 0
+    waitTime: 2
+    skillTrack:
+      prefabTrack: []
+      damageTrack:
+      - damage: 10
+        statusEffect: 1
+        time: 0.1
+      animationTrack:
+      - animationName: TechnobladeBasicSwordSwing
+        time: 0
 --- !u!1 &3535655577391564099
 GameObject:
   m_ObjectHideFlags: 0
