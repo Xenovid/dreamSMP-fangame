@@ -7,7 +7,6 @@ public struct SharedSkillData{
     public Entity target;
     public float timePassed;
     public float recoveryTime;
-    public float damageModifier;
 }
 [PolymorphicComponentDefinition(
     "PolySkillData",
@@ -18,5 +17,8 @@ public struct SharedSkillData{
 )]
 public interface IPolySkillData
 {
-    void Update(float deltaTime, Animator animator, ref SharedSkillData sharedSkillData);
+    void Update(float deltaTime, EntityManager entityManager, ref SharedSkillData sharedSkillData);
+    void UseSkill(Animator animator, EntityManager entityManager, ref SharedSkillData sharedSkillData);
+
+    
 }
