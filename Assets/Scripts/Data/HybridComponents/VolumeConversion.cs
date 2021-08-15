@@ -6,9 +6,10 @@ public class VolumeConversion : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
+        /*
         Entities.ForEach((Volume volume) =>
         {
             AddHybridComponent(volume);
-        });
+        });*/
     }
 }
