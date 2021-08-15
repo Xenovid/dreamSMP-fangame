@@ -21,7 +21,6 @@ public class SaveAndLoadSystem : SystemBase
     SaveTriggerSystem saveTriggerSystem;
     bool isSaving;
     PauseSystem pauseSystem;
-    UIDocument UIDoc;
     protected override void OnCreate()
     {
         isSaving = false;
