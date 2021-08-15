@@ -5,14 +5,14 @@ using UnityEngine;
 public class EnemySelectorUISystem : SystemBase
 {
     BattleSystem battleSystem;
-    //UIDocument UIDoc;
+    UIDocument UIDoc;
     EndSimulationEntityCommandBufferSystem m_EndSimulationEcbSystem;
     protected override void OnStartRunning(){
         battleSystem = World.GetOrCreateSystem<BattleSystem>();
         battleSystem.OnBattleEnd += RemoveSelectorUI_OnBattleEnd;
 
         EntityQuery UIDocumentGroup = GetEntityQuery(typeof(UIDocument), typeof(UITag));
-        //UIDoc = UIDocumentGroup.ToComponentArray<UIDocument>()[0];
+        UIDoc = UIDocumentGroup.ToComponentArray<UIDocument>()[0];
         m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
     }
     protected override void OnUpdate()
@@ -60,9 +60,7 @@ public class EnemySelectorUISystem : SystemBase
             }).Run();
       }
       private void RemoveSelectorUI_OnBattleEnd(System.Object sender, System.EventArgs e){
-        EntityQuery UIDocumentGroup = GetEntityQuery(typeof(UIDocument), typeof(UITag));
-        UIDocument UIDoc = UIDocumentGroup.ToComponentArray<UIDocument>()[0];
-        VisualElement root = UIDoc.rootVisualElement;
+            VisualElement root = UIDoc.rootVisualElement;
             VisualElement enemySelector = root.Q<VisualElement>("EnemySelector");
             Entities
             .WithoutBurst()
