@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using Unity.Entities;
 using UnityEngine.UIElements;
-using UnityEngine.UIElements.InputSystem;
+//using UnityEngine.UIElements.InputSystem;
 
 public class TextBoxSystem : SystemBase
 {

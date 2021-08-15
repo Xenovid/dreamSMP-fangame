@@ -5,5 +5,5 @@ using UnityEngine;
 public struct UsingSkillData : IComponentData
 {
     public Entity target;
-    public Skill skill;
+    public PolySkillData skill;
 }

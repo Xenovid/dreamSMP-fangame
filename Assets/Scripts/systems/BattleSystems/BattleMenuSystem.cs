@@ -22,7 +22,7 @@ public class BattleMenuSystem : SystemBase
     VisualElement skillSelector;
     VisualElement itemSelector;
     VisualElement previousUI;
-    UIDocument UIDoc;
+    ////UIDocument UIDoc;
     bool hasBattleStarted;
 
     InkDisplaySystem inkDisplaySystem;
@@ -234,10 +234,10 @@ public class BattleMenuSystem : SystemBase
         .WithStructuralChanges()
         .ForEach((DynamicBuffer<ItemData> itemInventory, AnimationData animation, Animator animator, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStats, in Entity entity) =>{
             
-            DynamicBuffer<EquipedSkillData> equipedSkills = GetBuffer<EquipedSkillData>(entity);
-            Skill skill = equipedSkills[currentSkill].skill;
-            if(characterStats.points >= skill.cost){
-                characterStats.points -= skill.cost;
+            DynamicBuffer<PolySkillData> skills = GetBuffer<PolySkillData>(entity);
+            PolySkillData skill = skills[currentSkill];
+            if(characterStats.points >= skill.SharedSkillData.cost){
+                characterStats.points -= skill.SharedSkillData.cost;
             }
             else{
                 characterStats.points = 0;
@@ -256,7 +256,7 @@ public class BattleMenuSystem : SystemBase
 
             // wait until you are recharged
             battleData.useTime = 0;
-            battleData.maxUseTime = skill.waitTime;                            
+            battleData.maxUseTime = skill.SharedSkillData.recoveryTime;                            
 
 
             battleUI.visible = true;
@@ -352,7 +352,7 @@ public class BattleMenuSystem : SystemBase
         Entities
         .WithoutBurst()
         .WithStructuralChanges()
-        .ForEach((Entity entity, DynamicBuffer<ItemData> itemInventory, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStats, in CharacterSkill characterSkill) =>{
+        .ForEach((Entity entity, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref DynamicBuffer<PolySkillData> skills, ref CharacterStats characterStats) =>{
             if(i == currentCharacterSelected){
                 battleUI.visible = true;
                 selectorUI.UI.SetEnabled(false);
@@ -363,7 +363,7 @@ public class BattleMenuSystem : SystemBase
                     EntityManager.SetComponentData(ent, selector);
                 }
                 
-                ecb.AddComponent(entity, new UsingSkillData{skill = characterSkill.skill, target = enemyUiSelection[EnemyNumber]});
+                ecb.AddComponent(entity, new UsingSkillData{skill = skills[0], target = enemyUiSelection[EnemyNumber]});
                 ecb.AddComponent<BasicSkillTag>(entity);
                 
                 battleData.useTime = 0;

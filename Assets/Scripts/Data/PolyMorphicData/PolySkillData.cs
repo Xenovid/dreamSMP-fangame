@@ -6,7 +6,9 @@ using Unity.Entities;
 public struct SharedSkillData{
     public Entity target;
     public float timePassed;
+    public float chance;
     public float recoveryTime;
+    public int cost;
 }
 [PolymorphicComponentDefinition(
     "PolySkillData",

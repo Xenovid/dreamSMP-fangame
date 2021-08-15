@@ -399,7 +399,9 @@ MonoBehaviour:
     typeID: 0
     data:
       timePassed: 0
+      chance: 0
       recoveryTime: 0
+      cost: 0
     importantStrings:
     - 
     - 
@@ -747,7 +749,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1816887307}
-  - component: {fileID: 1816887306}
   - component: {fileID: 1816887311}
   - component: {fileID: 1816887313}
   - component: {fileID: 1816887310}
@@ -755,6 +756,7 @@ GameObject:
   - component: {fileID: 1816887309}
   - component: {fileID: 1816887312}
   - component: {fileID: 1816887314}
+  - component: {fileID: 1816887306}
   m_Layer: 5
   m_Name: BaseMenu
   m_TagString: Untagged
@@ -774,7 +776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f21c074d86024caca2a0034ce4f53f73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PanelSettings: {fileID: 11400000, guid: 706ef1adf9b8716ceb5cf7b0c6eef910, type: 2}
+  m_PanelSettings: {fileID: 11400000, guid: e16aee0c540301f40a32f0d4383af1f6, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: cb62f30224c9935b69b9ff5f8189f7ae, type: 3}
   m_SortingOrder: 0
