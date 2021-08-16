@@ -408,10 +408,10 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: BasicPolySkill, ns: , asm: Assembly-CSharp}
+      type: {class: BasicPolySkill, ns: , asm: BaseAssembly}
       data:
-        damage: 10
-        damType: 1
+        damage: 0
+        damType: 0
         damageTime: 0
         animationName:
           utf8LengthInBytes: 0
@@ -776,7 +776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f21c074d86024caca2a0034ce4f53f73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PanelSettings: {fileID: 11400000, guid: e16aee0c540301f40a32f0d4383af1f6, type: 2}
+  m_PanelSettings: {fileID: 11400000, guid: 706ef1adf9b8716ceb5cf7b0c6eef910, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: cb62f30224c9935b69b9ff5f8189f7ae, type: 3}
   m_SortingOrder: 0

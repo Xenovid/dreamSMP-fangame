@@ -2,9 +2,11 @@
     "name": "BaseAssembly",
     "rootNamespace": "",
     "references": [
-        "GUID:023ac9b81facd43ebbb2a6f1c6252835",
-        "GUID:734d92eba21c94caba915361bd5ac177",
+        "GUID:7104629240eb8a645904aa070efcaeb8",
+        "GUID:8c09aa1e4b73db04094be9d510142dd2",
+        "GUID:35204e0755890ae4ca9df5ef224708ba",
         "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:734d92eba21c94caba915361bd5ac177",
         "GUID:d8b63aba1907145bea998dd612889d6b",
         "GUID:5f3cf485eb0554709a8abbeace890c86",
         "GUID:e0cd26848372d4e5c891c569017e11f1",
@@ -14,7 +16,8 @@
         "GUID:2765e68924a08a94ea0ea66b31c0168f",
         "GUID:8819f35a0fc84499b990e90a4ca1911f",
         "GUID:63afb046c8423dd448ae7aba042ea63d",
-        "GUID:a5baed0c9693541a5bd947d336ec7659"
+        "GUID:a5baed0c9693541a5bd947d336ec7659",
+        "GUID:2bafac87e7f4b9b418d9448d219b01ab"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
