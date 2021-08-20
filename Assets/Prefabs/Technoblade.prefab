@@ -17,13 +17,12 @@ GameObject:
   - component: {fileID: 108625178797338094}
   - component: {fileID: 108625178797338092}
   - component: {fileID: 108625178797338093}
-  - component: {fileID: 108625178797338086}
   - component: {fileID: 108625178797338091}
   - component: {fileID: 3048491766725577472}
   - component: {fileID: 824294691773278683}
   - component: {fileID: 7013334921349821737}
   - component: {fileID: 2793789030013601656}
-  - component: {fileID: 108625178374415963}
+  - component: {fileID: 8176207009058669347}
   m_Layer: 0
   m_Name: Technoblade
   m_TagString: Untagged
@@ -412,35 +411,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!114 &108625178797338086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 108625178797338088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac236ba18bfe78041a6e32c6009c01c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillInfos: []
-  equipedSkills:
-  - name: Crit
-    description: Technoblade Lands a critiacal hit on the opponent for extra damage.
-      costs 5 blood
-    damageIncrease: 0
-    cost: 5
-    waitTime: 2
-    skillTrack:
-      prefabTrack: []
-      damageTrack:
-      - damage: 40
-        statusEffect: 0
-        time: 0.2
-      animationTrack:
-      - animationName: TechnobladeBasicSwordSwing
-        time: 0
 --- !u!114 &108625178797338091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,7 +475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveID: 1
---- !u!114 &108625178374415963
+--- !u!114 &8176207009058669347
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -514,24 +484,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 108625178797338088}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68ba3b0a76477404d85af098116b9f2f, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a5dd99538f753f48acf3b6bcb1404f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillInfo:
-    name: orphan destroyer
-    description: Technoblade is the second worst thing that's happened to those orphans
-    damageIncrease: 0
-    cost: 0
-    waitTime: 2
-    skillTrack:
-      prefabTrack: []
-      damageTrack:
-      - damage: 10
-        statusEffect: 1
-        time: 0.1
-      animationTrack:
-      - animationName: TechnobladeBasicSwordSwing
-        time: 0
+  skills: []
+  references:
+    version: 1
 --- !u!1 &3535655577391564099
 GameObject:
   m_ObjectHideFlags: 0

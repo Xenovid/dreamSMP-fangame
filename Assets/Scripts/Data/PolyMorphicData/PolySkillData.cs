@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Collections;
 using Unity.Entities;
 [Serializable]
 public struct SharedSkillData{
@@ -9,6 +10,8 @@ public struct SharedSkillData{
     public float chance;
     public float recoveryTime;
     public int cost;
+    public FixedString32 name;
+    public FixedString64 description;
 }
 [PolymorphicComponentDefinition(
     "PolySkillData",
@@ -19,8 +22,7 @@ public struct SharedSkillData{
 )]
 public interface IPolySkillData
 {
-    void Update(float deltaTime, EntityManager entityManager, ref SharedSkillData sharedSkillData);
-    void UseSkill(Animator animator, EntityManager entityManager, ref SharedSkillData sharedSkillData);
+    void UseSkill( EntityManager entityManager, Entity target, Entity user, ref SharedSkillData sharedSkillData);
 
     
 }

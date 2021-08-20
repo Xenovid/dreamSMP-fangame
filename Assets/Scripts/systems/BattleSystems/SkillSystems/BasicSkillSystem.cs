@@ -43,8 +43,11 @@ public class BasicSkillSystem : SystemBase
     public Entity GetPrefab(string prefabName){
         Entity prefabHolder = GetSingletonEntity<PrefabholderTag>();
         DynamicBuffer<PrefabReferenceEntity> prefabs = GetBuffer<PrefabReferenceEntity>(prefabHolder);
-        
-        foreach(PrefabReferenceEntity prefabReference in prefabs){
+        Debug.Log(prefabName);
+
+
+        foreach (PrefabReferenceEntity prefabReference in prefabs){
+            
             if(prefabReference.prefabName  == prefabName){
                 return prefabReference.prefab;
             }

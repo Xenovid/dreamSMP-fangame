@@ -200,10 +200,10 @@ public class BattleMenuSystem : SystemBase
     }
     private void SkillButton(int skillNumber){
         Entity playerEntity = playerCharactersQuery.ToEntityArray(Allocator.Temp)[currentCharacterSelected];
-        DynamicBuffer<EquipedSkillData> equipedSkills = GetBuffer<EquipedSkillData>(playerEntity);
+        DynamicBuffer<PolySkillData> equipedSkills = GetBuffer<PolySkillData>(playerEntity);
         CharacterStats characterStats = GetComponent<CharacterStats>(playerEntity);
         //checking if there have enough points to use the move
-        if(characterStats.points >= equipedSkills[skillNumber].skill.cost){
+        if(characterStats.points >= equipedSkills[skillNumber].SharedSkillData.cost){
             AudioManager.playSound("menuchange");
             int i = 0;
             previousUI = skillSelector;
@@ -242,11 +242,9 @@ public class BattleMenuSystem : SystemBase
             else{
                 characterStats.points = 0;
             }
-            
-            animator.Play(animation.basicSwordAnimationName);
-            AudioManager.playSound("swordswing");
-            
+
             //deal damage to the enemy
+            skill.UseSkill(EntityManager, enemyUiSelection[currentEnemySelected], entity, ref skill.SharedSkillData);
 
             ecb.AddComponent(entity, new UsingSkillData{
                 target = enemyUiSelection[currentEnemySelected],
@@ -278,7 +276,7 @@ public class BattleMenuSystem : SystemBase
         battleUI.visible = false;
         uISystem.ResetFocus();
         List<Button> skillButtons = new List<Button>();
-        DynamicBuffer<EquipedSkillData> equipedSkills = GetBuffer<EquipedSkillData>(playerCharactersQuery.ToEntityArray(Allocator.Temp)[characterNumber]);
+        DynamicBuffer<PolySkillData> equipedSkills = GetBuffer<PolySkillData>(playerCharactersQuery.ToEntityArray(Allocator.Temp)[characterNumber]);
         int i = 0;
         ScrollView skillList = skillSelector.Q<ScrollView>("skill_list");
         skillList.Clear();
@@ -287,7 +285,7 @@ public class BattleMenuSystem : SystemBase
             Button skillButton = new Button();
             skillButton.focusable = true;
 
-            Skill skill = equipedSkills[i].skill;
+            SharedSkillData skill = equipedSkills[i].SharedSkillData;
             skillButton.text = skill.name.ToString();
             skillButton.clicked += () => SkillButton(z);
             skillButton.RegisterCallback<FocusEvent>(ev => UpdateSkillDescription(skill.description.ToString()));
@@ -295,7 +293,7 @@ public class BattleMenuSystem : SystemBase
             
 
             skillButton.AddToClassList("item_button");
-            skillSelector.Q<Label>("skill_desc").text = equipedSkills[i].skill.description.ToString();
+            skillSelector.Q<Label>("skill_desc").text = skill.description.ToString();
             skillList.Add(skillButton);
             skillButtons.Add(skillButton);
             if(i == 0){
