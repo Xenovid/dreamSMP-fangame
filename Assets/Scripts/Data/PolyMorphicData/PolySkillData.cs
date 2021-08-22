@@ -6,7 +6,6 @@ using Unity.Entities;
 [Serializable]
 public struct SharedSkillData{
     public Entity target;
-    public float timePassed;
     public float chance;
     public float recoveryTime;
     public int cost;
@@ -22,7 +21,7 @@ public struct SharedSkillData{
 )]
 public interface IPolySkillData
 {
-    void UseSkill( EntityManager entityManager, Entity target, Entity user, ref SharedSkillData sharedSkillData);
+    void UseSkill(int skillNumber, EntityManager entityManager, Entity target, Entity user, ref SharedSkillData sharedSkillData);
 
     
 }

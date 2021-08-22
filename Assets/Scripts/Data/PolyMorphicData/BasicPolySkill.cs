@@ -13,17 +13,19 @@ public struct BasicPolySkill : IPolySkillData
     public FixedString32 animationName;
     public FixedString32 damageEffectPrefabName;
 
-    public void UseSkill(EntityManager entityManager, Entity target, Entity user, ref SharedSkillData sharedSkillData)
+    public void UseSkill(int skillNumber, EntityManager entityManager, Entity target, Entity user, ref SharedSkillData sharedSkillData)
     {
         // getting nessesary components
         Animator animator = entityManager.GetComponentObject<Animator>(user);
 
         animator.Play(animationName.ToString());
+        
+        
         Entity damageEffectPrefab = BasicSkillSystem.instance.GetPrefab(damageEffectPrefabName.ToString());
         sharedSkillData.target = target;
-        Debug.Log(damageEffectPrefab);
 
         Entity damageEffect = entityManager.Instantiate(damageEffectPrefab);
         entityManager.SetComponentData(damageEffect, entityManager.GetComponentData<Translation>(target));
+        entityManager.AddComponentData(user, new UsingSkillData { skillNumber = skillNumber, timePassed = 0});
     }
 }

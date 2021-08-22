@@ -19,10 +19,8 @@ public class BasicSkillSystem : SystemBase
         Entities
         .WithAll<BasicSkillTag>()
         .WithoutBurst()
-        .ForEach((Entity entity, ref UsingSkillData skillData, ref BattleData battleData, in CharacterStats characterStats, in Animator animator, in Translation translation) =>{
-            // has three tracks to follow, will end once all tracks are finished
-            /*
-            bool isEmpty = true;
+        .ForEach((Entity entity, ref UsingSkillData skillData, ref BattleData battleData, in CharacterStats characterStats, in Animator animator, in Translation translation, in DynamicBuffer<PolySkillData> skills) =>{
+            // switches the function based on what skill type the used skill is
             switch(skillData.skill.CurrentTypeId){
                 case PolySkillData.TypeId.BasicPolySkill:
                     skillData.skill.SharedSkillData.timePassed += dt;
@@ -30,14 +28,9 @@ public class BasicSkillSystem : SystemBase
                         DynamicBuffer<DamageData> damages =  GetBuffer<DamageData>(skillData.skill.SharedSkillData.target);
                         damages.Add(new DamageData{damage = skillData.skill.BasicPolySkill.damage, type = skillData.skill.BasicPolySkill.damType});
                     }
+                    else if(skillData.skill.SharedSkillData.recoveryTime)
                 break;
             }
-            
-            
-            if(isEmpty){
-                ecb.RemoveComponent<BasicSkillTag>(entity);
-                ecb.RemoveComponent<UsingSkillData>(entity);
-            }*/
         }).Run();
     }
     public Entity GetPrefab(string prefabName){
