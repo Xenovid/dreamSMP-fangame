@@ -4,6 +4,7 @@ using UnityEngine;
 
 public struct UsingSkillData : IComponentData
 {
+    public Entity target;
     public float timePassed;
     public int skillNumber;
 }

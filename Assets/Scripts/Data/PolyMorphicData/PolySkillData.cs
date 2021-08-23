@@ -5,7 +5,7 @@ using Unity.Collections;
 using Unity.Entities;
 [Serializable]
 public struct SharedSkillData{
-    public Entity target;
+
     public float chance;
     public float recoveryTime;
     public int cost;

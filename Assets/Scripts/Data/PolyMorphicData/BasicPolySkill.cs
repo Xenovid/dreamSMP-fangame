@@ -22,7 +22,6 @@ public struct BasicPolySkill : IPolySkillData
         
         
         Entity damageEffectPrefab = BasicSkillSystem.instance.GetPrefab(damageEffectPrefabName.ToString());
-        sharedSkillData.target = target;
 
         Entity damageEffect = entityManager.Instantiate(damageEffectPrefab);
         entityManager.SetComponentData(damageEffect, entityManager.GetComponentData<Translation>(target));

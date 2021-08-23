@@ -17,18 +17,19 @@ public class BasicSkillSystem : SystemBase
         float dt = Time.DeltaTime;
 
         Entities
-        .WithAll<BasicSkillTag>()
         .WithoutBurst()
-        .ForEach((Entity entity, ref UsingSkillData skillData, ref BattleData battleData, in CharacterStats characterStats, in Animator animator, in Translation translation, in DynamicBuffer<PolySkillData> skills) =>{
+        .ForEach((Entity entity, ref UsingSkillData usingSkill, ref BattleData battleData, in CharacterStats characterStats, in Animator animator, in Translation translation, in DynamicBuffer<PolySkillData> skills) =>{
             // switches the function based on what skill type the used skill is
-            switch(skillData.skill.CurrentTypeId){
+            switch(skills[usingSkill.skillNumber].CurrentTypeId){
                 case PolySkillData.TypeId.BasicPolySkill:
-                    skillData.skill.SharedSkillData.timePassed += dt;
-                    if(skillData.skill.SharedSkillData.timePassed >= skillData.skill.BasicPolySkill.damageTime){
-                        DynamicBuffer<DamageData> damages =  GetBuffer<DamageData>(skillData.skill.SharedSkillData.target);
-                        damages.Add(new DamageData{damage = skillData.skill.BasicPolySkill.damage, type = skillData.skill.BasicPolySkill.damType});
+                    usingSkill.timePassed += dt;
+                    if(usingSkill.timePassed >= skills[usingSkill.skillNumber].BasicPolySkill.damageTime){
+                        DynamicBuffer<DamageData> damages =  GetBuffer<DamageData>(usingSkill.target);
+                        damages.Add(new DamageData{damage = skills[usingSkill.skillNumber].BasicPolySkill.damage, type = skills[usingSkill.skillNumber].BasicPolySkill.damType});
                     }
-                    else if(skillData.skill.SharedSkillData.recoveryTime)
+                    else if(skills[usingSkill.skillNumber].SharedSkillData.recoveryTime < usingSkill.timePassed){
+
+                    }
                 break;
             }
         }).Run();

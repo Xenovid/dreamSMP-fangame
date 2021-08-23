@@ -40,12 +40,14 @@ public class EnemyBattleAISystem : SystemBase
             {
                 
                 float randomValue = random.Value.NextFloat(0 , 1);
-                foreach(PolySkillData attack in attacks)
+                for(int i = 0; i < attacks.Length; i++)
                 {
+                    PolySkillData attack = attacks[i];
                     if (attack.SharedSkillData.chance >= randomValue)
                     {
-                        EntityManager.AddComponentData(entity, new UsingSkillData{skill = attack, target =battleSystem.playerEntities[Target]});
-                        EntityManager.AddComponent<BasicSkillTag>(entity);
+
+                        attacks[i].UseSkill(EntityManager, playerPartyEntity[Target], entity, ref attack.SharedSkillData);
+                        attacks[i] = attack;
 
                         battleData.useTime = 0;
                         float temp = random.Value.NextFloat(1, 2);

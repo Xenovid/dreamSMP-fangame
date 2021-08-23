@@ -30,7 +30,7 @@ public struct PolySkillData : IBufferElementData
 		switch (CurrentTypeId)
 		{
 			case TypeId.BasicPolySkill:
-				BasicPolySkill.UseSkill(entityManager, target, user, ref sharedSkillData);
+				//BasicPolySkill.UseSkill(entityManager, target, user, ref sharedSkillData);
 				break;
 		}
 	}
