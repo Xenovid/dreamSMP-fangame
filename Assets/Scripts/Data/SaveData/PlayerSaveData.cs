@@ -7,7 +7,7 @@ public struct PlayerSaveData
 {
     public AnimationSaveData animationSaveData;
     public ItemData[] itemInventory;
-    public SkillData[] skills;
+    //public SkillData[] skills;
     public CharacterStats characterStats;
     public MovementData movementData;
     public float3 trasition;

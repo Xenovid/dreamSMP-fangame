@@ -21,7 +21,7 @@ public struct SharedSkillData{
 )]
 public interface IPolySkillData
 {
-    void UseSkill(int skillNumber, EntityManager entityManager, Entity target, Entity user, ref SharedSkillData sharedSkillData);
+    void UseSkill(int skillNumber, EntityCommandBuffer ecb, Animator animator, Entity target, Entity user, ref SharedSkillData sharedSkillData);
 
     
 }

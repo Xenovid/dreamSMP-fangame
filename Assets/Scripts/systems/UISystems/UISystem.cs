@@ -157,7 +157,7 @@ public class UISystem : SystemBase
                 equipmentQuickMenu.Q<Button>("cancel").clicked += EquipmentCancel;
 
                 skillsQuickMenu = pauseBackground.Q<VisualElement>("skills_quickmenu");
-                skillsQuickMenu.Q<Button>("switch").clicked += SkillSwitchButton;
+                //skillsQuickMenu.Q<Button>("switch").clicked += SkillSwitchButton;
                 skillsQuickMenu.Q<Button>("cancel").clicked += SkillCancel;
 
                 Button currentWeapon = equipmentInfo.Q<Button>("current_weapon");
@@ -616,19 +616,19 @@ public class UISystem : SystemBase
         Label skillDesc = skillInfo.Q<Label>("skill_desc");
 
         NativeArray<Entity> characterEntities = characterStatsQuery.ToEntityArray(Allocator.Temp);
-        DynamicBuffer<EquipedSkillData> equipedSkills = GetBuffer<EquipedSkillData>(characterEntities[0]);
+        DynamicBuffer<PolySkillData> equipedSkills = GetBuffer<PolySkillData>(characterEntities[0]);
 
         AudioManager.playSound("menuselect");
         currentSkills.visible = true;
         currentSkills.Q<Button>("skill1").Focus();
         int i = 1;
-        foreach(EquipedSkillData skillData in equipedSkills){
-            Skill skill = skillData.skill;
-            if(skill.name == ""){
+        foreach(PolySkillData skillData in equipedSkills){
+            PolySkillData skill = skillData;
+            if(skill.SharedSkillData.name == ""){
                 currentSkills.Q<Button>("skill" + i.ToString()).text = "None";
             }
             else{
-                currentSkills.Q<Button>("skill" + i.ToString()).text = skill.name.ToString();
+                currentSkills.Q<Button>("skill" + i.ToString()).text = skill.SharedSkillData.name.ToString();
             }
             // for some reason it tracks the value until its not used, so I used a value that wont change
             int z = i;
@@ -642,7 +642,7 @@ public class UISystem : SystemBase
             i++;
         }
 
-        string descToDisplay = equipedSkills[0].skill.description.ToString();
+        string descToDisplay = equipedSkills[0].SharedSkillData.description.ToString();
         if(descToDisplay == ""){
             skillDesc.text = "No description";
         }
@@ -659,7 +659,7 @@ public class UISystem : SystemBase
         skillsQuickMenu.visible = true;
         placeQuickMenu(currentSkills.Q<Button>("skill" + currentItem), skillsQuickMenu);
     }
-    private void SkillSwitchButton(){
+   /* private void SkillSwitchButton(){
         // make sure all ui have the right visability
         NativeArray<Entity> characterEntities = characterStatsQuery.ToEntityArray(Allocator.Temp);
 
@@ -691,11 +691,12 @@ public class UISystem : SystemBase
             
         }
         characterEntities.Dispose();
-    }
+    }*/
     private void SkillCancel(){
         AudioManager.playSound("menuback");
         skillsQuickMenu.visible = false;
     }
+    /*
     private void SwitchSkill(int newSkillNumber){
         NativeArray<Entity> characterEntities = characterStatsQuery.ToEntityArray(Allocator.Temp);
         DynamicBuffer<SkillData> skills = GetBuffer<SkillData>(characterEntities[currentCharacter]);
@@ -724,6 +725,7 @@ public class UISystem : SystemBase
         currentSkills.visible = true;
         otherSkills.visible = false;
     }
+    */
     public void PauseSettingsButton(){
         AudioManager.playSound("menuselect");
         //select the ui

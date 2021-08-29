@@ -21,10 +21,8 @@ public class AnimationData : IComponentData
     public string walkRightAnimationName;
     public string walkLeftAnimationName;
 
-    public string fistIdleAnimationName;
     public string swordIdleAnimationName;
     public string takenDamageAnimationName;
-
     public string basicSwordAnimationName;
     public string characterDownAnimationName;
 }

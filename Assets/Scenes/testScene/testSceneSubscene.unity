@@ -817,7 +817,6 @@ GameObject:
   - component: {fileID: 358640989}
   - component: {fileID: 358640988}
   - component: {fileID: 358640987}
-  - component: {fileID: 358640986}
   - component: {fileID: 358640992}
   - component: {fileID: 358640991}
   m_Layer: 0
@@ -912,50 +911,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &358640986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 358640982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54726761e3493d543bc681da13f2c708, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomAttacks:
-  - attack:
-      name: staby staby
-      description: 
-      damageIncrease: 0
-      cost: 0
-      waitTime: 4
-      skillTrack:
-        prefabTrack: []
-        damageTrack:
-        - damage: 5
-          statusEffect: 0
-          time: 0.1
-        animationTrack:
-        - animationName: WilburSootStab
-          time: 0
-    chance: 0.75
-  - attack:
-      name: lamanberg 2.0
-      description: 
-      damageIncrease: 0
-      cost: 0
-      waitTime: 10
-      skillTrack:
-        prefabTrack:
-        - prefabName: explosion
-          instatiationTime: 0.1
-        damageTrack: []
-        animationTrack:
-        - animationName: WilburSootTnt
-          time: 0
-    chance: 0.25
 --- !u!114 &358640987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -982,7 +937,6 @@ MonoBehaviour:
   walkDownAnimationName: 
   walkRightAnimationName: 
   walkLeftAnimationName: 
-  fistIdleAnimationName: 
   swordIdleAnimationName: WilburSootBattleIdle
   takenDamageAnimationName: 
   basicSwordAnimationName: 
@@ -1034,11 +988,6 @@ MonoBehaviour:
     attack: 5
     defense: 0
     superArmor: 0
-  battleStats:
-    attack: 0
-    defense: 0
-    superArmor: 0
-  id: 9
   characterName: Wilbursoot
   equipedWeapon:
     power: 0

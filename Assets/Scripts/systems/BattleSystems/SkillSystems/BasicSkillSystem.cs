@@ -24,6 +24,7 @@ public class BasicSkillSystem : SystemBase
                 case PolySkillData.TypeId.BasicPolySkill:
                     usingSkill.timePassed += dt;
                     if(usingSkill.timePassed >= skills[usingSkill.skillNumber].BasicPolySkill.damageTime){
+                        
                         DynamicBuffer<DamageData> damages =  GetBuffer<DamageData>(usingSkill.target);
                         damages.Add(new DamageData{damage = skills[usingSkill.skillNumber].BasicPolySkill.damage, type = skills[usingSkill.skillNumber].BasicPolySkill.damType});
                     }

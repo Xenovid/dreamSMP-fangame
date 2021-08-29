@@ -244,7 +244,7 @@ public class BattleMenuSystem : SystemBase
             }
 
             //deal damage to the enemy
-            skill.UseSkill(EntityManager, enemyUiSelection[currentEnemySelected], entity, ref skill.SharedSkillData);
+            skill.UseSkill(currentSkill ,ecb, animator, enemyUiSelection[currentEnemySelected], entity, ref skill.SharedSkillData);
             skills[currentSkill] = skill;
 
             ecb.AddComponent(entity, new UsingSkillData{
@@ -351,7 +351,7 @@ public class BattleMenuSystem : SystemBase
         Entities
         .WithoutBurst()
         .WithStructuralChanges()
-        .ForEach((Entity entity, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref DynamicBuffer<PolySkillData> skills, ref CharacterStats characterStats) =>{
+        .ForEach((Entity entity, Animator animator, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref DynamicBuffer<PolySkillData> skills, ref CharacterStats characterStats) =>{
             if(i == currentCharacterSelected){
                 PolySkillData skill = skills[0];
                 battleUI.visible = true;
@@ -360,9 +360,10 @@ public class BattleMenuSystem : SystemBase
                 foreach(Entity ent in enemyUiSelection){
                     EnemySelectorData selector = GetComponent<EnemySelectorData>(ent);
                     selector.isSelected = false;
-                    EntityManager.SetComponentData(ent, selector);
+                    ecb.SetComponent(ent, selector);
                 }
-                skills[0].UseSkill(EntityManager, enemyUiSelection[EnemyNumber], entity, ref skill.SharedSkillData);
+                // the attack button will always use the first skill
+                skills[0].UseSkill(0 ,ecb, animator, enemyUiSelection[EnemyNumber], entity, ref skill.SharedSkillData);
                 skills[0] = skill;
 
                 ecb.AddComponent(entity, new UsingSkillData{skillNumber = 0, target = enemyUiSelection[EnemyNumber]});

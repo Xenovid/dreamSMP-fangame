@@ -103,7 +103,7 @@ public class SaveAndLoadSystem : SystemBase
         .WithoutBurst()
         .WithStructuralChanges()
         .WithAll<PlayerTag>()
-        .ForEach((Entity entity,Animator Animator,ref MovementData movementData, ref Translation translation, ref CharacterStats characterStats, ref DynamicBuffer<SkillData> skills, ref DynamicBuffer<ItemData> items, ref ToLoadData loadData) =>{
+        .ForEach((Entity entity,Animator Animator,ref MovementData movementData, ref Translation translation, ref CharacterStats characterStats, ref DynamicBuffer<PolySkillData> skills, ref DynamicBuffer<ItemData> items, ref ToLoadData loadData) =>{
             if(Animator.isActiveAndEnabled){
                 string savePath = Application.persistentDataPath +"/tempsave" + "/player" + loadData.saveID.ToString();
                 if(File.Exists(savePath)){
@@ -115,7 +115,7 @@ public class SaveAndLoadSystem : SystemBase
                     translation.Value = playerSaveData.trasition;
                     characterStats = playerSaveData.characterStats;
                     skills.Clear();
-                    foreach (var skill in playerSaveData.skills) skills.Add(skill);
+                    //foreach (var skill in playerSaveData.skills) skills.Add(skill);
                     items.Clear();
                     foreach(var item in playerSaveData.itemInventory) items.Add(item);
                 }
@@ -149,19 +149,19 @@ public class SaveAndLoadSystem : SystemBase
         .WithoutBurst()
         .WithAll<PlayerTag>()
         .WithStructuralChanges()
-        .ForEach((Animator Animator,in MovementData movementData, in Translation translation, in CharacterStats characterStats, in DynamicBuffer<SkillData> skills, in DynamicBuffer<ItemData> items, in ToSaveTag saveTag) =>{
+        .ForEach((Animator Animator,in MovementData movementData, in Translation translation, in CharacterStats characterStats, in DynamicBuffer<PolySkillData> skills, in DynamicBuffer<ItemData> items, in ToSaveTag saveTag) =>{
             string savePath = Application.persistentDataPath + "/tempsave" + "/player" + saveTag.saveID.ToString();
-            Skill[] skillssave = new Skill[skills.Length];
+            /*Skill[] skillssave = new Skill[skills.Length];
             int i = 0;
             foreach(SkillData skillData in skills){
                 skillssave[i] = skillData.skill;
                 i++;
-            }
+            }*/
 
             PlayerSaveData playerSaveData = new PlayerSaveData{
                 animationSaveData = new AnimationSaveData{shortNameHash = Animator.GetCurrentAnimatorStateInfo(0).shortNameHash, normilizedtime = Animator.GetCurrentAnimatorStateInfo(0).normalizedTime},
                 itemInventory = items.ToNativeArray(Unity.Collections.Allocator.Temp).ToArray(),
-                skills = skills.ToNativeArray(Allocator.Temp).ToArray(),
+                //skills = skills.ToNativeArray(Allocator.Temp).ToArray(),
                 characterStats = characterStats,
                 movementData = movementData,
                 trasition = translation.Value

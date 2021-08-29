@@ -12,11 +12,13 @@ public class EnemyBattleAISystem : SystemBase
     {
         m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
         battleSystem = World.GetOrCreateSystem<BattleSystem>();
+        RequireSingletonForUpdate<PlayerPartyTag>();
     }
     protected override void OnUpdate()
     {
+        var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
         float deltaTime = Time.DeltaTime;
-        EntityQuery playerPartyDataGroup = GetEntityQuery(typeof(PlayerTag));
+        EntityQuery playerPartyDataGroup = GetEntityQuery(typeof(PlayerPartyTag));
         NativeArray<Entity> playerPartyEntity = playerPartyDataGroup.ToEntityArray(Allocator.Temp);
         DynamicBuffer<PlayerPartyData> playerPartyData = GetBuffer<PlayerPartyData>(playerPartyEntity[0]);
         playerPartyEntity.Dispose();
@@ -28,7 +30,7 @@ public class EnemyBattleAISystem : SystemBase
         .WithNone<DownTag>()
         .WithoutBurst()
         .WithStructuralChanges()
-        .ForEach((Entity entity, DynamicBuffer<PolySkillData> attacks, ref BattleData battleData, ref RandomData random, in AnimationData animation, in Animator animator) =>
+        .ForEach((Entity entity, Animator animator, DynamicBuffer<PolySkillData> attacks, ref BattleData battleData, ref RandomData random, in AnimationData animation) =>
         {
             //have something to remember the ai type and do actions accordingly
             // have a list of battle attacks that you can choose
@@ -45,8 +47,8 @@ public class EnemyBattleAISystem : SystemBase
                     PolySkillData attack = attacks[i];
                     if (attack.SharedSkillData.chance >= randomValue)
                     {
-
-                        attacks[i].UseSkill(EntityManager, playerPartyEntity[Target], entity, ref attack.SharedSkillData);
+                        
+                        attacks[i].UseSkill(i ,ecb, animator, playerPartyEntity[Target], entity, ref attack.SharedSkillData);
                         attacks[i] = attack;
 
                         battleData.useTime = 0;

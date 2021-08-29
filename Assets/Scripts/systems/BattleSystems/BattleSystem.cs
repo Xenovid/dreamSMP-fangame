@@ -32,7 +32,7 @@ public class BattleSystem : SystemBase
             EntityManager.CompleteAllJobs();
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
 
-            EntityQuery BattleManagerGroup = GetEntityQuery(ComponentType.ReadWrite<BattleManagerTag>());
+           
             EntityQuery characterStatsGroup = GetEntityQuery(ComponentType.ReadWrite<CharacterStats>(), ComponentType.ReadWrite<BattleData>());
             EntityQuery PlayerParty = GetEntityQuery(ComponentType.ReadWrite<PlayerPartyData>());
             

@@ -107,9 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba75e783802bac5dfa2c40fe1eacf95d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyBattleInfos:
-  - songName: 
-    id: 0
+  enemies: []
 --- !u!114 &6581668474788148504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,11 +128,6 @@ MonoBehaviour:
     attack: 0
     defense: 0
     superArmor: 0
-  battleStats:
-    attack: 0
-    defense: 0
-    superArmor: 0
-  id: 0
   characterName: Zombie
   equipedWeapon:
     power: 0
@@ -331,26 +324,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6581668474788148515}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54726761e3493d543bc681da13f2c708, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a5dd99538f753f48acf3b6bcb1404f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomAttacks:
-  - attack:
-      name: 
-      description: 
-      damageIncrease: 0
-      cost: 0
-      waitTime: 5
-      skillTrack:
-        prefabTrack: []
-        damageTrack:
-        - damage: 1
-          statusEffect: 0
-          time: 0.1
-        animationTrack:
-        - animationName: ZombieAttack
-          time: 0
-    chance: 1
+  skills: []
+  references:
+    version: 1
 --- !u!114 &6581668474788148502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,7 +356,6 @@ MonoBehaviour:
   walkDownAnimationName: ZombieWalkDown
   walkRightAnimationName: ZombieWalkRight
   walkLeftAnimationName: ZombieWalkLeft
-  fistIdleAnimationName: 
   swordIdleAnimationName: 
   takenDamageAnimationName: 
   basicSwordAnimationName: 

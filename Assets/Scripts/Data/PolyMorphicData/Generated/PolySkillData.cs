@@ -2,6 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using Unity.Entities;
 using Unity.Mathematics;
+using UnityEngine;
 
 [Serializable]
 public struct PolySkillData : IBufferElementData
@@ -25,12 +26,12 @@ public struct PolySkillData : IBufferElementData
 	}
 
 
-	public void UseSkill(Unity.Entities.EntityManager entityManager, Unity.Entities.Entity target, Unity.Entities.Entity user, ref SharedSkillData sharedSkillData)
+	public void UseSkill(System.Int32 skillNumber, Unity.Entities.EntityCommandBuffer ecb, UnityEngine.Animator animator, Unity.Entities.Entity target, Unity.Entities.Entity user, ref SharedSkillData sharedSkillData)
 	{
 		switch (CurrentTypeId)
 		{
 			case TypeId.BasicPolySkill:
-				//BasicPolySkill.UseSkill(entityManager, target, user, ref sharedSkillData);
+				BasicPolySkill.UseSkill(skillNumber, ecb, animator, target, user, ref sharedSkillData);
 				break;
 		}
 	}
