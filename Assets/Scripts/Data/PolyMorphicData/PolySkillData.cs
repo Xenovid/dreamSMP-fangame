@@ -23,5 +23,7 @@ public interface IPolySkillData
 {
     void UseSkill(int skillNumber, EntityCommandBuffer ecb, Animator animator, Entity target, Entity user, ref SharedSkillData sharedSkillData);
 
+    String[] GetStrings();
+
     
 }

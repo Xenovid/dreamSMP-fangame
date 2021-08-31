@@ -9,7 +9,7 @@ public class CharacterPortraitAnimation : SystemBase
         Entities
         .WithoutBurst()
         .ForEach((UIAnimationData animationData) =>{
-            if(animationData.active){
+            if(animationData.active && animationData.sprites.Length != 0){
                 animationData.time += dt;
                 if (animationData.time > animationData.initialDelay){
                     if(animationData.time - animationData.initialDelay > animationData.spritePerSecond){
@@ -18,7 +18,7 @@ public class CharacterPortraitAnimation : SystemBase
                             animationData.time = 0;
                             animationData.visualElement.style.backgroundImage = Background.FromSprite(animationData.sprites[animationData.index]);
                         }
-                        else{
+                        else if(!( animationData.index >= animationData.sprites.Length)){
                             animationData.index++;
                             animationData.visualElement.style.backgroundImage = Background.FromSprite(animationData.sprites[animationData.index]);
                             animationData.time -= animationData.spritePerSecond;

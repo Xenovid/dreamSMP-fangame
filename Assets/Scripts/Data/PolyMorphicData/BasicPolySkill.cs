@@ -7,11 +7,22 @@ using UnityEngine;
 [System.Serializable]
 public struct BasicPolySkill : IPolySkillData
 { 
+    public static string[] ImportantStrings = {"skill name", " skill description" ,"animationName", "damageEffectPrefabName"};
     public int damage;
     public damageType damType;
     public float damageTime;
+    [HideInInspector]
+    public bool dealtDamage;
+    [HideInInspector]
+    public bool spawnedPrefab;
     public FixedString32 animationName;
     public FixedString32 damageEffectPrefabName;
+    public float prefabSpawnTime;
+
+    public string[] GetStrings()
+    {
+        return ImportantStrings;
+    }
 
     public void UseSkill(int skillNumber, EntityCommandBuffer ecb, Animator animator, Entity target, Entity user, ref SharedSkillData sharedSkillData)
     {
@@ -20,10 +31,8 @@ public struct BasicPolySkill : IPolySkillData
         animator.Play(animationName.ToString());
         
         
-        //Entity damageEffectPrefab = BasicSkillSystem.instance.GetPrefab(damageEffectPrefabName.ToString());
-
-        //Entity damageEffect = entityManager.Instantiate(damageEffectPrefab);
-        //entityManager.SetComponentData(damageEffect, entityManager.GetComponentData<Translation>(target));
-        ecb.AddComponent(user, new UsingSkillData { skillNumber = skillNumber, timePassed = 0});
+        
+        
+        ecb.AddComponent(user, new UsingSkillData { skillNumber = skillNumber, timePassed = 0, target = target});
     }
 }

@@ -37,6 +37,7 @@ public class InkDisplaySystem : SystemBase
 
     protected override void OnStartRunning()
     {
+        
     }
 
     protected override void OnUpdate()

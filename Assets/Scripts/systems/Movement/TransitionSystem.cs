@@ -31,6 +31,7 @@ public class TransitionSystem : SystemBase
         .WithStructuralChanges()
         .ForEach((Entity entity, ref Translation translation, ref TransitionData transitionData, ref PhysicsCollider collider) =>
         {
+            
             transitionData.timePassed += 2* dT;
             // making it so that the collision wont hit anything while moving to the location
             collider.Value.Value.Filter = CollisionFilter.Zero;
@@ -51,6 +52,7 @@ public class TransitionSystem : SystemBase
         .WithNone<PhysicsCollider>()
         .ForEach((Entity entity, ref Translation translation, ref TransitionData transitionData) =>
         {
+            
             transitionData.timePassed += 2* dT;
             // making it so that the collision wont hit anything while moving to the location
             translation.Value = math.lerp(transitionData.oldPosition, transitionData.newPosition, transitionData.timePassed);

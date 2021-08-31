@@ -48,7 +48,7 @@ public class EnemyBattleAISystem : SystemBase
                     if (attack.SharedSkillData.chance >= randomValue)
                     {
                         
-                        attacks[i].UseSkill(i ,ecb, animator, playerPartyEntity[Target], entity, ref attack.SharedSkillData);
+                        //attacks[i].UseSkill(i ,ecb, animator, playerPartyEntity[Target], entity, ref attack.SharedSkillData);
                         attacks[i] = attack;
 
                         battleData.useTime = 0;

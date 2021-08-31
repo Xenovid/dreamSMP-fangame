@@ -18,18 +18,52 @@ public class BasicSkillSystem : SystemBase
 
         Entities
         .WithoutBurst()
-        .ForEach((Entity entity, ref UsingSkillData usingSkill, ref BattleData battleData, in CharacterStats characterStats, in Animator animator, in Translation translation, in DynamicBuffer<PolySkillData> skills) =>{
+        .ForEach((Entity entity, ref DynamicBuffer<PolySkillData> skills, ref UsingSkillData usingSkill, ref BattleData battleData, in CharacterStats characterStats, in Animator animator, in Translation translation) =>{
             // switches the function based on what skill type the used skill is
             switch(skills[usingSkill.skillNumber].CurrentTypeId){
                 case PolySkillData.TypeId.BasicPolySkill:
                     usingSkill.timePassed += dt;
-                    if(usingSkill.timePassed >= skills[usingSkill.skillNumber].BasicPolySkill.damageTime){
-                        
-                        DynamicBuffer<DamageData> damages =  GetBuffer<DamageData>(usingSkill.target);
-                        damages.Add(new DamageData{damage = skills[usingSkill.skillNumber].BasicPolySkill.damage, type = skills[usingSkill.skillNumber].BasicPolySkill.damType});
-                    }
-                    else if(skills[usingSkill.skillNumber].SharedSkillData.recoveryTime < usingSkill.timePassed){
+                    if(usingSkill.timePassed >= skills[usingSkill.skillNumber].BasicPolySkill.damageTime && !skills[usingSkill.skillNumber].BasicPolySkill.dealtDamage){
+                        // have to turn it into a variable to change it
+                        PolySkillData skill = skills[usingSkill.skillNumber];
+                        skill.BasicPolySkill.dealtDamage = true;
+                        skills[usingSkill.skillNumber] = skill;
 
+                        DynamicBuffer<DamageData> damages =  GetBuffer<DamageData>(usingSkill.target);
+                        damages.Add(new DamageData{damage = skills[usingSkill.skillNumber].BasicPolySkill.damage, type = damageType.physical});
+
+                        switch(skills[usingSkill.skillNumber].BasicPolySkill.damType){
+                            case damageType.bleeding:
+                                if(HasComponent<BleedingData>(usingSkill.target)){
+                                    BleedingData bleedingData = GetComponent<BleedingData>(usingSkill.target);
+                                    bleedingData.level += 1;
+                                    SetComponent(usingSkill.target, bleedingData);
+                                }
+                                else{
+                                    ecb.AddComponent(usingSkill.target, new BleedingData{level = 1});
+                                }
+
+
+                            break;
+                        }
+                        
+                    }
+                    else if(skills[usingSkill.skillNumber].BasicPolySkill.prefabSpawnTime <= usingSkill.timePassed && !skills[usingSkill.skillNumber].BasicPolySkill.spawnedPrefab){
+                        Entity damageEffectPrefab = BasicSkillSystem.instance.GetPrefab(skills[usingSkill.skillNumber].BasicPolySkill.damageEffectPrefabName.ToString());
+
+                        Entity damageEffect = ecb.Instantiate(damageEffectPrefab);
+                        ecb.SetComponent(damageEffect, EntityManager.GetComponentData<Translation>(usingSkill.target));
+
+                        PolySkillData skill = skills[usingSkill.skillNumber];
+                        skill.BasicPolySkill.spawnedPrefab = true;
+                        skills[usingSkill.skillNumber] = skill;
+                    }
+                    else if(skills[usingSkill.skillNumber].SharedSkillData.recoveryTime <= usingSkill.timePassed){
+                        PolySkillData skill = skills[usingSkill.skillNumber];
+                        skill.BasicPolySkill.dealtDamage = false;
+                        skill.BasicPolySkill.spawnedPrefab = false;
+                        skills[usingSkill.skillNumber] = skill;
+                        ecb.RemoveComponent<UsingSkillData>(entity);
                     }
                 break;
             }
@@ -38,7 +72,7 @@ public class BasicSkillSystem : SystemBase
     public Entity GetPrefab(string prefabName){
         Entity prefabHolder = GetSingletonEntity<PrefabholderTag>();
         DynamicBuffer<PrefabReferenceEntity> prefabs = GetBuffer<PrefabReferenceEntity>(prefabHolder);
-        Debug.Log(prefabName);
+        //Debug.Log(prefabName);
 
 
         foreach (PrefabReferenceEntity prefabReference in prefabs){

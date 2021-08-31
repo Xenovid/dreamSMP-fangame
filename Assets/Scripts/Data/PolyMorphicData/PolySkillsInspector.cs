@@ -34,10 +34,19 @@ public class PolySkillsInspector : Editor
 
         if (GUILayout.Button("Create instance"))
         {
+            var skill = (IPolySkillData)Activator.CreateInstance(_implementations[_implementationTypeIndex]);
+            string[] names = skill.GetStrings();
+            importantString[] importantStrings = new importantString[names.Length];
+            for(int i = 0; i < names.Length; i++){
+                importantStrings[i].stringName = names[i];
+            }
+
+
             skillsAuthoring.skills.Add(new PolySkillInfo{
                 skill =(IPolySkillData) Activator.CreateInstance(_implementations[_implementationTypeIndex]), 
                 data = new SharedSkillData(), 
-                typeID = (PolySkillData.TypeId)Enum.Parse(typeof(PolySkillData.TypeId), _implementations[_implementationTypeIndex].FullName)
+                typeID = (PolySkillData.TypeId)Enum.Parse(typeof(PolySkillData.TypeId), _implementations[_implementationTypeIndex].FullName),
+                importantStrings =importantStrings
             });
         }
         base.OnInspectorGUI();

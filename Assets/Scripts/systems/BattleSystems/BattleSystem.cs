@@ -211,7 +211,7 @@ public class BattleSystem : SystemBase
                   NativeArray<Entity> characterEntities = characterQuery.ToEntityArray(Allocator.TempJob);
                   // adding the battle data to the players
                   Entities
-                  .WithAll<PlayerPartyTag>()
+                  .WithAll<PlayerTag>()
                   .ForEach((Entity entity, ref CharacterStats characterStats, in Translation translation) => {
                         // so that it can be moved back after battle
                         ecb.AddComponent(entity , new BeforeBattleData{previousLocation = translation.Value});
@@ -279,7 +279,7 @@ public class BattleSystem : SystemBase
             }
             Entities
             .WithoutBurst()
-            .WithNone<BattleData>()
+            .WithNone<BattleData, BattleBackgroundTag>()
             .ForEach((SpriteRenderer sprite) => {
                   Color newColor = sprite.color;
                   newColor.a = 0;

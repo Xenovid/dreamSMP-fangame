@@ -16,6 +16,8 @@ public class ChestTriggerSystem : SystemBase
     {
         m_EndSimulationEcbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
 
+        RequireSingletonForUpdate<CaravanTag>();
+
         uISystem = World.GetOrCreateSystem<UISystem>();
         inkDisplaySystem = World.GetOrCreateSystem<InkDisplaySystem>();
         inventorySystem = World.GetOrCreateSystem<InventorySystem>();

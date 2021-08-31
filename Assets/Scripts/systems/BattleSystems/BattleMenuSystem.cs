@@ -70,7 +70,7 @@ public class BattleMenuSystem : SystemBase
 
     protected override void OnUpdate()
     {
-        PlayerSkillFunctions playerSkillFunctions = new PlayerSkillFunctions();
+       
             EntityManager.CompleteAllJobs();
             float deltaTime = Time.DeltaTime;
 
@@ -247,10 +247,6 @@ public class BattleMenuSystem : SystemBase
             skill.UseSkill(currentSkill ,ecb, animator, enemyUiSelection[currentEnemySelected], entity, ref skill.SharedSkillData);
             skills[currentSkill] = skill;
 
-            ecb.AddComponent(entity, new UsingSkillData{
-                timePassed = 0,
-                skillNumber = currentSkill
-            });
             ecb.AddComponent<BasicSkillTag>(entity);
 
             // wait until you are recharged
@@ -366,7 +362,6 @@ public class BattleMenuSystem : SystemBase
                 skills[0].UseSkill(0 ,ecb, animator, enemyUiSelection[EnemyNumber], entity, ref skill.SharedSkillData);
                 skills[0] = skill;
 
-                ecb.AddComponent(entity, new UsingSkillData{skillNumber = 0, target = enemyUiSelection[EnemyNumber]});
                 ecb.AddComponent<BasicSkillTag>(entity);
                 
                 battleData.useTime = 0;
@@ -413,6 +408,7 @@ public class BattleMenuSystem : SystemBase
     }
     private void EnableMenu_OnTransitionEnd(System.Object sender, System.EventArgs e){
         if(!hasBattleStarted){
+
             // enables all the features of the menu
             Camera cam = GetEntityQuery(typeof(Camera)).ToComponentArray<Camera>()[0];
             float positionRatio = 1280.0f / cam.pixelWidth;
@@ -469,6 +465,9 @@ public class BattleMenuSystem : SystemBase
         }
     }
     private void WaitForTransition_OnBattleStart(System.Object sender, System.EventArgs e){
+        Entity backgroundEntity = GetSingletonEntity<BattleBackgroundTag>();
+        EntityManager.AddComponent<AlphaTranslationData>(backgroundEntity);
+
         uISystem.overworldOverlay.visible = false;
         uISystem.ResetFocus();
 

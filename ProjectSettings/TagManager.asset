@@ -44,6 +44,12 @@ TagManager:
   - name: Backgorund
     uniqueID: 1344328191
     locked: 0
+  - name: BattleBackground
+    uniqueID: 415139239
+    locked: 0
   - name: Overworld
     uniqueID: 1408592303
+    locked: 0
+  - name: Effects
+    uniqueID: 2054735581
     locked: 0

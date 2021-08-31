@@ -12,12 +12,18 @@ public class PolySkillsAuthoring : MonoBehaviour
 }
 [System.Serializable]
 public struct PolySkillInfo{
+
     [SerializeReference]
     public IPolySkillData skill;
     public PolySkillData.TypeId typeID;
     public SharedSkillData data;
     [SerializeField]
-    public List<string> importantStrings;
+    public importantString[] importantStrings;
+}
+[System.Serializable]
+public struct importantString{
+    public string stringName;
+    public string theString;
 }
 
 public class PolySkillsConversion : GameObjectConversionSystem
@@ -32,10 +38,10 @@ public class PolySkillsConversion : GameObjectConversionSystem
                 switch(polySkill.typeID){
                     case PolySkillData.TypeId.BasicPolySkill:
                         BasicPolySkill skill =(BasicPolySkill) polySkill.skill;
-                        skill.animationName = polySkill.importantStrings[0];
-                        skill.damageEffectPrefabName = polySkill.importantStrings[1];
-                        polySkill.data.name = polySkill.importantStrings[2];
-                        polySkill.data.description = polySkill.importantStrings[3];
+                        skill.animationName = polySkill.importantStrings[2].theString;
+                        skill.damageEffectPrefabName = polySkill.importantStrings[3].theString;
+                        polySkill.data.name = polySkill.importantStrings[0].theString;
+                        polySkill.data.description = polySkill.importantStrings[1].theString;
                         
                         skills.Add(new PolySkillData(skill, polySkill.data));
                     break;

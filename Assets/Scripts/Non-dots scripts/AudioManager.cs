@@ -172,7 +172,7 @@ public class AudioManager : MonoBehaviour
     public static void playSong(string name){
         bool wasFound = false;
         foreach(SoundData sound in gameMusic){
-            Debug.Log("found matching name");
+            //Debug.Log("found matching name");
             if(sound.soundName == name){
                 try{
                     sound.audioSource.volume = volume;
