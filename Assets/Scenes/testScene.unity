@@ -527,7 +527,6 @@ MonoBehaviour:
   - power: 0
     name: test
     description: 
-    useTime: 0
 --- !u!114 &1368963923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -851,6 +850,9 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: d50e3a2fd982e494faa0466fa61f251c, type: 3}
     audioSource: {fileID: 0}
     soundName: sellouttimer
+  - clip: {fileID: 8300000, guid: b4c66f7103d532b4f9f3452fc0d4c171, type: 3}
+    audioSource: {fileID: 0}
+    soundName: TechnoHit
   gameMusics:
   - clip: {fileID: 8300000, guid: 0b991bbf5622a9919aebe2f20d50debd, type: 3}
     audioSource: {fileID: 0}

@@ -103,7 +103,7 @@ public class BattleMenuSystem : SystemBase
                 }
                 if(battleData.useTime < battleData.maxUseTime)
                 {
-
+                    
                     VisualElement useBar = selectorUI.UI.Q<VisualElement>("use_bar");
 
                     useBar.style.width = selectorUI.UI.contentRect.width * ((battleData.useTime) / battleData.maxUseTime);
@@ -232,8 +232,9 @@ public class BattleMenuSystem : SystemBase
         Entities
         .WithoutBurst()
         .WithStructuralChanges()
-        .ForEach((DynamicBuffer<ItemData> itemInventory, AnimationData animation, Animator animator, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStats, in Entity entity) =>{
-            
+        .ForEach((DynamicBuffer<ItemData> itemInventory, Animator animator, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStats,in BasicBattleAudioData audioData, in Entity entity) =>{
+            AudioManager.playSound(audioData.attackSoundName.ToString());
+
             DynamicBuffer<PolySkillData> skills = GetBuffer<PolySkillData>(entity);
             PolySkillData skill = skills[currentSkill];
             if(characterStats.points >= skill.SharedSkillData.cost){
@@ -274,7 +275,7 @@ public class BattleMenuSystem : SystemBase
         uISystem.ResetFocus();
         List<Button> skillButtons = new List<Button>();
         DynamicBuffer<PolySkillData> equipedSkills = GetBuffer<PolySkillData>(playerCharactersQuery.ToEntityArray(Allocator.Temp)[characterNumber]);
-        int i = 0;
+        int i = 1;
         ScrollView skillList = skillSelector.Q<ScrollView>("skill_list");
         skillList.Clear();
         while(i < equipedSkills.Length){
@@ -347,8 +348,10 @@ public class BattleMenuSystem : SystemBase
         Entities
         .WithoutBurst()
         .WithStructuralChanges()
-        .ForEach((Entity entity, Animator animator, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref DynamicBuffer<PolySkillData> skills, ref CharacterStats characterStats) =>{
+        .ForEach((Entity entity, Animator animator, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref DynamicBuffer<PolySkillData> skills, ref CharacterStats characterStats, in BasicBattleAudioData audioData) =>{
             if(i == currentCharacterSelected){
+                AudioManager.playSound(audioData.attackSoundName.ToString());
+
                 PolySkillData skill = skills[0];
                 battleUI.visible = true;
                 selectorUI.UI.SetEnabled(false);
@@ -362,10 +365,10 @@ public class BattleMenuSystem : SystemBase
                 skills[0].UseSkill(0 ,ecb, animator, enemyUiSelection[EnemyNumber], entity, ref skill.SharedSkillData);
                 skills[0] = skill;
 
-                ecb.AddComponent<BasicSkillTag>(entity);
-                
+
+
                 battleData.useTime = 0;
-                battleData.maxUseTime = characterStats.equipedWeapon.useTime;                           
+                battleData.maxUseTime = skill.SharedSkillData.recoveryTime;                    
 
                 battleUI.visible = true;
                 enemySelector.visible = false;
@@ -466,7 +469,7 @@ public class BattleMenuSystem : SystemBase
     }
     private void WaitForTransition_OnBattleStart(System.Object sender, System.EventArgs e){
         Entity backgroundEntity = GetSingletonEntity<BattleBackgroundTag>();
-        EntityManager.AddComponent<AlphaTranslationData>(backgroundEntity);
+        EntityManager.AddComponentData(backgroundEntity, new AlphaTranslationData{a = 0, b = 1});
 
         uISystem.overworldOverlay.visible = false;
         uISystem.ResetFocus();
@@ -476,6 +479,9 @@ public class BattleMenuSystem : SystemBase
     }
 
     private void FinishVictoryData_OnDisplayFinished(object sender, System.EventArgs e){
+        Entity backgroundEntity = GetSingletonEntity<BattleBackgroundTag>();
+        EntityManager.AddComponentData(backgroundEntity, new AlphaTranslationData{a = 1, b = 0});
+
         inkDisplaySystem.OnVictoryDisplayFinish -= FinishVictoryData_OnDisplayFinished;
         var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
         EntityQuery battleCharacterGroup = GetEntityQuery(ComponentType.ReadWrite<CharacterStats>(), ComponentType.ReadWrite<BattleData>());

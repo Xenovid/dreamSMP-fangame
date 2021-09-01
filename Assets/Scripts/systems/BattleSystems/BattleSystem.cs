@@ -87,6 +87,9 @@ public class BattleSystem : SystemBase
                                                       label.AddToClassList("message_red");
                                                 break;
                                                 case damageType.physical:
+                                                      if(HasComponent<BasicBattleAudioData>(entity)){
+                                                            AudioManager.playSound(GetComponent<BasicBattleAudioData>(entity).hitSoundName.ToString());
+                                                      }
                                                       label.AddToClassList("message_white");
                                                 break;
                                           }
@@ -142,6 +145,9 @@ public class BattleSystem : SystemBase
                                                 label.AddToClassList("message_red");
                                           break;
                                           case damageType.physical:
+                                                if(HasComponent<BasicBattleAudioData>(entity)){
+                                                      AudioManager.playSound(GetComponent<BasicBattleAudioData>(entity).hitSoundName.ToString());
+                                                }
                                                 label.AddToClassList("message_white");
                                           break;
                                     }

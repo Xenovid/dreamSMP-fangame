@@ -32,7 +32,6 @@ public class WeaponConversionSystem : GameObjectConversionSystem
             power = weaponInfo.power,
             name = weaponInfo.name,
             description = weaponInfo.description,
-            useTime = weaponInfo.useTime,
         };
     }
     
@@ -44,12 +43,10 @@ public struct WeaponInfo{
     public string name;
     [TextArea]
     public string description;
-    public float useTime;
 }
 [System.Serializable]
 public struct Weapon {
     public int power;
     public FixedString32 name;
     public FixedString128 description;
-    public float useTime;
 }

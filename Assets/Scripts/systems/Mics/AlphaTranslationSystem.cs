@@ -15,7 +15,7 @@ public class AlphaTranslationSystem : SystemBase
 
             MaterialPropertyBlock material = new MaterialPropertyBlock();
             sprite.GetPropertyBlock(material);
-            material.SetFloat("Alpha", Mathf.Lerp(0, 1, translationData.timePassed));
+            material.SetFloat("Alpha", Mathf.Lerp(translationData.a,translationData.b, translationData.timePassed));
             sprite.SetPropertyBlock(material);
             if(translationData.timePassed > 1){
                 EntityManager.RemoveComponent<AlphaTranslationData>(entity);

@@ -10,6 +10,7 @@ public struct BasicPolySkill : IPolySkillData
     public static string[] ImportantStrings = {"skill name", " skill description" ,"animationName", "damageEffectPrefabName"};
     public int damage;
     public damageType damType;
+    
     public float damageTime;
     [HideInInspector]
     public bool dealtDamage;

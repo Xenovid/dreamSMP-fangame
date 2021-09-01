@@ -197,11 +197,9 @@ MonoBehaviour:
   - power: 9
     name: ToothPick
     description: The best way to remove teeth
-    useTime: 1
   - power: 8
     name: ToothPick2
     description: not the best way to remove teeth
-    useTime: 1
 --- !u!4 &623176116
 Transform:
   m_ObjectHideFlags: 0
@@ -594,6 +592,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Technoblade
       objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[0].data.recoveryTime
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
 --- !u!1 &108625178374415962 stripped
@@ -601,3 +603,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 108625178797338088, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
   m_PrefabInstance: {fileID: 108625178374415961}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &108625178374415963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108625178374415962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f48b95fc8f6f20e4e9d6c63b96d8c71e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitSoundName: TechnoHit
+  attackSoundName: TechnoAttack
