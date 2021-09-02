@@ -6,6 +6,5 @@ using UnityEngine.Playables;
 public class EntityPositionBehaviour : PlayableBehaviour
 {
     public float3 position;
-
-    
+    public int id;
 }

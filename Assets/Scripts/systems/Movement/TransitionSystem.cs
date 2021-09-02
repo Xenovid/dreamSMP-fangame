@@ -32,7 +32,13 @@ public class TransitionSystem : SystemBase
         .ForEach((Entity entity, ref Translation translation, ref TransitionData transitionData, ref PhysicsCollider collider) =>
         {
             
-            transitionData.timePassed += 2* dT;
+            // default duration is half a second
+            if(transitionData.duration == 0){
+                transitionData.timePassed += 2* dT;
+            }
+            else{
+                transitionData.timePassed += dT / transitionData.duration;
+            }
             // making it so that the collision wont hit anything while moving to the location
             collider.Value.Value.Filter = CollisionFilter.Zero;
             translation.Value = math.lerp(transitionData.oldPosition, transitionData.newPosition, transitionData.timePassed);
@@ -52,8 +58,14 @@ public class TransitionSystem : SystemBase
         .WithNone<PhysicsCollider>()
         .ForEach((Entity entity, ref Translation translation, ref TransitionData transitionData) =>
         {
+            // default duration is half a second
+            if(transitionData.duration == 0){
+                transitionData.timePassed += 2* dT;
+            }
+            else{
+                transitionData.timePassed += dT / transitionData.duration;
+            }
             
-            transitionData.timePassed += 2* dT;
             // making it so that the collision wont hit anything while moving to the location
             translation.Value = math.lerp(transitionData.oldPosition, transitionData.newPosition, transitionData.timePassed);
             //translation.Value = Vector3.MoveTowards(translation.Value, transitionData.newPosition, 10 * dT);

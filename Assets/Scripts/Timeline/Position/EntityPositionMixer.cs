@@ -23,11 +23,8 @@ public class EntityPositionMixer : PlayableBehaviour
                EntityPositionBehaviour input = inputPlayable.GetBehaviour();
                
                currentPosition = input.position;
-               float timeratio =(float)inputPlayable.GetTime()/ (float)inputPlayable.GetDuration();
-               float3 position = math.lerp(new float3(0,0,0), new float3(0,0,0),timeratio);
-               manager.test((inputPlayable.GetTime() /inputPlayable.GetDuration()).ToString());
-               inputPlayable.SetDuration(0);
-               inputPlayable.SetDone(true);
+
+               manager.AddPositionClip(input.position, (float)inputPlayable.GetDuration(), input.id);
            }
        }
 
