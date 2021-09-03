@@ -29,7 +29,6 @@ public class CutSceneSystem : SystemBase
                 foreach(AnimationClip animationClip in animationClips){
                     if(animationClip.id == cutsceneEntityData.id){
                         Animator animator = EntityManager.GetComponentObject<Animator>(entity);
-                        Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name);
                         animator.Play(animationClip.animationName);
                         
                     }
