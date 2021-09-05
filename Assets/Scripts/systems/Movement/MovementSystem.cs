@@ -21,6 +21,7 @@ public class MovementSystem : SystemBase
         OverworldInputData input = uiInputQuery.GetSingleton<OverworldInputData>();
 
         Entities
+        .WithNone<PausedTag>()
         .ForEach((ref Rotation rot,ref MovementData move, ref PhysicsVelocity vel, ref Translation translation) =>
         {
             move.direction = new float3(input.moveHorizontal, input.moveVertical, 0);

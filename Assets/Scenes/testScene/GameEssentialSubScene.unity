@@ -617,3 +617,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitSoundName: TechnoHit
   attackSoundName: TechnoAttack
+--- !u!114 &108625178374415964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108625178374415962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ee02d02f0578f4f968aa25222f2500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0

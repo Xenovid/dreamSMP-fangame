@@ -5,6 +5,11 @@ using Unity.Transforms;
 using Unity.Entities;
 public class CutSceneSystem : SystemBase
 {
+    public PauseSystem pauseSystem;
+    protected override void OnCreate()
+    {
+        pauseSystem = World.GetOrCreateSystem<PauseSystem>();
+    }
     protected override void OnUpdate()
     {
         if(EntityPlayableManager.instance != null){
@@ -12,8 +17,9 @@ public class CutSceneSystem : SystemBase
             //transfer the data to this system
             List<PositionClip> positionClips = EntityPlayableManager.instance.positionClips;
             List<AnimationClip> animationClips = EntityPlayableManager.instance.animationClips;
-            
-
+            if(EntityPlayableManager.instance.isPlayableFinished){
+                pauseSystem.UnPause();
+            }
             Entities
             .WithoutBurst()
             .WithStructuralChanges()
@@ -30,9 +36,10 @@ public class CutSceneSystem : SystemBase
                     if(animationClip.id == cutsceneEntityData.id){
                         Animator animator = EntityManager.GetComponentObject<Animator>(entity);
                         animator.Play(animationClip.animationName);
-                        
+                        animator.speed = 1;
                     }
                 }
+                
             }).Run();
 
             EntityPlayableManager.instance.positionClips.Clear();

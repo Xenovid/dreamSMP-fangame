@@ -29,16 +29,26 @@ public class PlayableTriggerSystem : SystemBase
                 PlayableTriggerData playableTriggerData = EntityManager.GetComponentObject<PlayableTriggerData>(entityA);
                 if(!playableTriggerData.isTriggered){
                     playableTriggerData.isTriggered = true;
-                    EntityPlayableManager.instance.SetPlayableAsset(playableTriggerData.playableAsset);
-                    EntityPlayableManager.instance.PlayPlayable();
+
+                    
+                    EntityPlayableManager.instance.PlayPlayable(playableTriggerData.index);
                     
 
                     EntityManager.SetComponentData(entityA, playableTriggerData);
                     pauseSystem.Pause();
                 }
             }
-            else if(EntityManager.HasComponent<PlayableTriggerData>(entityB)){
-                
+            else if(EntityManager.HasComponent<PlayableTriggerData>(entityB) && HasComponent<PlayerTag>(entityA)){
+                PlayableTriggerData playableTriggerData = EntityManager.GetComponentObject<PlayableTriggerData>(entityB);
+                if(!playableTriggerData.isTriggered){
+                    playableTriggerData.isTriggered = true;
+
+                    EntityPlayableManager.instance.PlayPlayable(playableTriggerData.index);
+                    
+
+                    EntityManager.SetComponentData(entityB, playableTriggerData);
+                    pauseSystem.Pause();
+                }
             }
         }
     }

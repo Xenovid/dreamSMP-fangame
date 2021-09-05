@@ -11,10 +11,18 @@ public class EntityPlayableManager : MonoBehaviour
     public static EntityPlayableManager instance;
     public List<PositionClip> positionClips = new List<PositionClip>();
     public List<AnimationClip> animationClips = new List<AnimationClip>();
+    public List<PlayableAsset> playableAssets;
+    public bool isPlayableFinished;
+    
     private void Start() {
         instance = this;
+        director.stopped += ResumeWorld_OnPlayableStoped;
+
         positionClips.Clear();
-        PlayPlayable();
+        animationClips.Clear();
+    }
+    public void ResumeWorld_OnPlayableStoped(PlayableDirector director){
+        isPlayableFinished = true;
     }
     public void AddPositionClip(float3 position, float duration, int id){
         PositionClip positionClip =new PositionClip{position = position, duration = duration, id = id};
@@ -32,8 +40,10 @@ public class EntityPlayableManager : MonoBehaviour
     public void SetPlayableAsset(PlayableAsset playableAsset){
         director.playableAsset = playableAsset;
     }
-    public void PlayPlayable(){
+    public void PlayPlayable(int playableNumber){
+        SetPlayableAsset(playableAssets[playableNumber]);
         director.Play();
+        
     }
 }
 [System.Serializable]
