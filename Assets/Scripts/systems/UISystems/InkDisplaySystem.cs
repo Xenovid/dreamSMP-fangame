@@ -151,6 +151,7 @@ public class InkDisplaySystem : SystemBase
             }
         }).Run();
 
+
         EntityManager.SetComponentData(characterMouthEntity, characterMouthAnimation);
     }
     public void SetDialogueSound(string name){
@@ -267,11 +268,32 @@ public class InkDisplaySystem : SystemBase
                             battleSystem.StartBattle(battleDataEntities[i]);
                             inkManager.inkStory.SwitchFlow("battle");
                             break;
-                        }
-                        
+                        } 
                     }
                     battleDataTags.Dispose();
                     battleDataEntities.Dispose();
+                }
+                else if(inkManager.inkStory.currentTags.Contains("playable")){
+                    // initiate playable
+                    DisableTextboxUI();
+
+                    EntityQuery playableQuery = GetEntityQuery(typeof(PlayableData));
+                    NativeArray<Entity> playableEntities = playableQuery.ToEntityArray(Allocator.Temp);
+
+                    string playableName = new string(inkManager.inkStory.currentText.ToCharArray().Where(c => !Char.IsWhiteSpace(c)).ToArray());
+                    foreach(Entity entity in playableEntities){
+                        PlayableData playableData = EntityManager.GetComponentObject<PlayableData>(entity);
+
+                        if(playableData.name == playableName){
+                            CameraData cameraData = GetSingleton<CameraData>();
+                            cameraData.currentState = CameraState.FreeForm;
+                            SetSingleton(cameraData);
+                            
+                            EntityPlayableManager.instance.PlayPlayable(playableData.index);
+                        }
+                    }
+
+                    playableEntities.Dispose();
                 }
                 else{
                     Entity messageBoard = GetSingletonEntity<UITag>();
@@ -308,6 +330,10 @@ public class InkDisplaySystem : SystemBase
                     OnVictoryDisplayFinish?.Invoke(this, EventArgs.Empty);
                     inkManager.inkStory.SwitchToDefaultFlow();
                 }
+                CameraData cameraData = GetSingleton<CameraData>();
+                cameraData.currentState = CameraState.FollingPlayer;
+                SetSingleton(cameraData);
+
                 ResetTextBox();
                 DisableTextboxUI();
             }    

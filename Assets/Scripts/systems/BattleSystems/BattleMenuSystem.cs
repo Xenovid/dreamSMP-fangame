@@ -386,6 +386,12 @@ public class BattleMenuSystem : SystemBase
         
     }
     private void ResumeGameWorld_OnTransitionEnd(System.Object sender, System.EventArgs e){
+        battleUI.visible = false;
+        enemySelector.visible = false;
+        skillSelector.visible = false;
+        itemSelector.visible = false;
+        hasBattleStarted = false;
+        
         inkDisplaySystem.ContinueStory();
         //InputGatheringSystem.currentInput = CurrentInput.overworld;
         transitionSystem.OnTransitionEnd -= ResumeGameWorld_OnTransitionEnd;
@@ -413,7 +419,7 @@ public class BattleMenuSystem : SystemBase
         if(!hasBattleStarted){
 
             // enables all the features of the menu
-            Camera cam = GetEntityQuery(typeof(Camera)).ToComponentArray<Camera>()[0];
+            Camera cam = CameraTransformRef.instance.currentCamera;
             float positionRatio = 1280.0f / cam.pixelWidth;
 
             VisualElement root = uISystem.root;

@@ -31,6 +31,8 @@ EXTERNAL playSong(songName)
         -> END
 == story ==
     = intro
+        #playable
+        test
         ~displayPortrait("technoblade")
         ~setTextSound("technoblade")
         Staaarting the streeeam

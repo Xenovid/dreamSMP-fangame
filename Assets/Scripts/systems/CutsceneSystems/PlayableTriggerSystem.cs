@@ -30,7 +30,11 @@ public class PlayableTriggerSystem : SystemBase
                 if(!playableTriggerData.isTriggered){
                     playableTriggerData.isTriggered = true;
 
-                    
+                    //ensures that the camera isn't stuck to the player
+                    CameraData cameraData = GetSingleton<CameraData>();
+                    cameraData.currentState = CameraState.FreeForm;
+                    SetSingleton(cameraData);
+
                     EntityPlayableManager.instance.PlayPlayable(playableTriggerData.index);
                     
 

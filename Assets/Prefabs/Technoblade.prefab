@@ -23,6 +23,9 @@ GameObject:
   - component: {fileID: 7013334921349821737}
   - component: {fileID: 2793789030013601656}
   - component: {fileID: 3833658709465976592}
+  - component: {fileID: 108625178374415963}
+  - component: {fileID: 108625178374415964}
+  - component: {fileID: 4991420459292756224}
   m_Layer: 0
   m_Name: Technoblade
   m_TagString: Untagged
@@ -289,7 +292,6 @@ MonoBehaviour:
     power: 10
     name: Orphan Obliterator
     description: Obliterates Orphans
-    useTime: 1
   equipedArmor:
     name: Techno Armor
     defense: 0
@@ -397,7 +399,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1408592303
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 2
   m_Sprite: {fileID: 5589925251858200589, guid: 0dda0325e174a4e4baeb9d8cc711b599, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -492,7 +494,7 @@ MonoBehaviour:
     typeID: 0
     data:
       chance: 0
-      recoveryTime: 0
+      recoveryTime: 1
       cost: 0
       name:
         utf8LengthInBytes: 0
@@ -614,6 +616,7 @@ MonoBehaviour:
         damType: 0
         damageTime: 0
         dealtDamage: 0
+        spawnedPrefab: 0
         animationName:
           utf8LengthInBytes: 0
           bytes:
@@ -682,6 +685,46 @@ MonoBehaviour:
             byte0027: 0
             byte0028: 0
             byte0029: 0
+        prefabSpawnTime: 0
+--- !u!114 &108625178374415963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108625178797338088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f48b95fc8f6f20e4e9d6c63b96d8c71e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitSoundName: TechnoHit
+  attackSoundName: TechnoAttack
+--- !u!114 &108625178374415964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108625178797338088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ee02d02f0578f4f968aa25222f2500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+--- !u!114 &4991420459292756224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108625178797338088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8acb086f26eeadf48b55efa2222513aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3535655577391564099
 GameObject:
   m_ObjectHideFlags: 0

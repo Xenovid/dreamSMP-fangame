@@ -32,6 +32,7 @@ public class EnemyBattleAISystem : SystemBase
         .WithStructuralChanges()
         .ForEach((Entity entity, Animator animator, DynamicBuffer<PolySkillData> attacks, ref BattleData battleData, ref RandomData random, in AnimationData animation) =>
         {
+            Debug.Log("making sure this is updating");
             //have something to remember the ai type and do actions accordingly
             // have a list of battle attacks that you can choose
             //ai 1, normal timers, but randomly tick the timer down, and randomly choose an attack

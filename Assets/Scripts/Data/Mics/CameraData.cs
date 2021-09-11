@@ -2,8 +2,15 @@ using Unity.Entities;
 using UnityEngine;
 
 [GenerateAuthoringComponent]
-public class CameraData : IComponentData
+public struct CameraData : IComponentData
 {
-    public Transform cameraTransform;
-    public GameObject cameraObject;
+    /// <summary>
+    /// whether the camera should be following the character
+    /// </summary>
+    public CameraState currentState;
+}
+
+public enum CameraState{
+    FollingPlayer,
+    FreeForm
 }

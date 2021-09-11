@@ -86,8 +86,11 @@ public class TransitionSystem : SystemBase
         var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
 
         // needed so the battlers are on the right location on screen
-        EntityQuery cameraQuery = GetEntityQuery(typeof(Camera));
-        Camera camera = cameraQuery.ToComponentArray<Camera>()[0];
+        Camera camera = CameraTransformRef.instance.currentCamera;
+
+        CameraData cameraData = GetSingleton<CameraData>();
+        cameraData.currentState = CameraState.FreeForm;
+        SetSingleton(cameraData);
         // finds all the players in the party and moves their positions for battle
         int i = 0;
         int playerLength = battleSystem.playerEntities.Count;

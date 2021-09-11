@@ -6,9 +6,11 @@ using Unity.Entities;
 public class CutSceneSystem : SystemBase
 {
     public PauseSystem pauseSystem;
+    public InkDisplaySystem inkDisplaySystem;
     protected override void OnCreate()
     {
         pauseSystem = World.GetOrCreateSystem<PauseSystem>();
+        inkDisplaySystem = World.GetOrCreateSystem<InkDisplaySystem>();
     }
     protected override void OnUpdate()
     {
@@ -18,7 +20,9 @@ public class CutSceneSystem : SystemBase
             List<PositionClip> positionClips = EntityPlayableManager.instance.positionClips;
             List<AnimationClip> animationClips = EntityPlayableManager.instance.animationClips;
             if(EntityPlayableManager.instance.isPlayableFinished){
-                pauseSystem.UnPause();
+                EntityPlayableManager.instance.isPlayableFinished = false;
+                inkDisplaySystem.ContinueStory();
+                //pauseSystem.UnPause();
             }
             Entities
             .WithoutBurst()
