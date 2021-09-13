@@ -32,7 +32,6 @@ public struct CharacterStats : IComponentData
 public struct Stats{
     public int attack;
     public int defense;
-    public int superArmor;
 }
 public class CharacterStatsConversion : GameObjectConversionSystem
 {

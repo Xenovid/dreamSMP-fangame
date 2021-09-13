@@ -41,7 +41,6 @@ public class PolySkillsInspector : Editor
                 importantStrings[i].stringName = names[i];
             }
 
-
             skillsAuthoring.skills.Add(new PolySkillInfo{
                 skill =(IPolySkillData) Activator.CreateInstance(_implementations[_implementationTypeIndex]), 
                 data = new SharedSkillData(), 

@@ -819,6 +819,8 @@ GameObject:
   - component: {fileID: 358640987}
   - component: {fileID: 358640992}
   - component: {fileID: 358640991}
+  - component: {fileID: 358640986}
+  - component: {fileID: 358640993}
   m_Layer: 0
   m_Name: wilbursoot
   m_TagString: Untagged
@@ -907,10 +909,24 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 32.21, y: 22.78, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1963010249}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &358640986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358640982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05183f942f60c9a4da9cb67afe4591de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: {fileID: 1963010249}
 --- !u!114 &358640987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -953,7 +969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa93c8ae4195c584ebdd322899a445d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleName: WilburSoot
+  battleName: Wilbur
 --- !u!114 &358640989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -987,7 +1003,6 @@ MonoBehaviour:
   baseStats:
     attack: 5
     defense: 0
-    superArmor: 0
   characterName: Wilbursoot
   equipedWeapon:
     power: 0
@@ -1025,6 +1040,412 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1d8502a4e8c0e046b5d1a1d4430c1f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &358640993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358640982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5dd99538f753f48acf3b6bcb1404f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skills:
+  - skill:
+      id: 0
+    typeID: 0
+    data:
+      chance: 0.7
+      recoveryTime: 3
+      cost: 0
+      name:
+        utf8LengthInBytes: 0
+        bytes:
+          offset0000:
+            byte0000: 0
+            byte0001: 0
+            byte0002: 0
+            byte0003: 0
+            byte0004: 0
+            byte0005: 0
+            byte0006: 0
+            byte0007: 0
+            byte0008: 0
+            byte0009: 0
+            byte0010: 0
+            byte0011: 0
+            byte0012: 0
+            byte0013: 0
+            byte0014: 0
+            byte0015: 0
+          byte0016: 0
+          byte0017: 0
+          byte0018: 0
+          byte0019: 0
+          byte0020: 0
+          byte0021: 0
+          byte0022: 0
+          byte0023: 0
+          byte0024: 0
+          byte0025: 0
+          byte0026: 0
+          byte0027: 0
+          byte0028: 0
+          byte0029: 0
+      description:
+        utf8LengthInBytes: 0
+        bytes:
+          offset0000:
+            byte0000: 0
+            byte0001: 0
+            byte0002: 0
+            byte0003: 0
+            byte0004: 0
+            byte0005: 0
+            byte0006: 0
+            byte0007: 0
+            byte0008: 0
+            byte0009: 0
+            byte0010: 0
+            byte0011: 0
+            byte0012: 0
+            byte0013: 0
+            byte0014: 0
+            byte0015: 0
+          offset0016:
+            byte0000: 0
+            byte0001: 0
+            byte0002: 0
+            byte0003: 0
+            byte0004: 0
+            byte0005: 0
+            byte0006: 0
+            byte0007: 0
+            byte0008: 0
+            byte0009: 0
+            byte0010: 0
+            byte0011: 0
+            byte0012: 0
+            byte0013: 0
+            byte0014: 0
+            byte0015: 0
+          offset0032:
+            byte0000: 0
+            byte0001: 0
+            byte0002: 0
+            byte0003: 0
+            byte0004: 0
+            byte0005: 0
+            byte0006: 0
+            byte0007: 0
+            byte0008: 0
+            byte0009: 0
+            byte0010: 0
+            byte0011: 0
+            byte0012: 0
+            byte0013: 0
+            byte0014: 0
+            byte0015: 0
+          byte0048: 0
+          byte0049: 0
+          byte0050: 0
+          byte0051: 0
+          byte0052: 0
+          byte0053: 0
+          byte0054: 0
+          byte0055: 0
+          byte0056: 0
+          byte0057: 0
+          byte0058: 0
+          byte0059: 0
+          byte0060: 0
+          byte0061: 0
+    importantStrings:
+    - stringName: skill name
+      theString: staby staby
+    - stringName: ' skill description'
+      theString: staby staby time
+    - stringName: animationName
+      theString: WilburSootStab
+    - stringName: damageEffectPrefabName
+      theString: default
+  - skill:
+      id: 1
+    typeID: 1
+    data:
+      chance: 0.3
+      recoveryTime: 6
+      cost: 0
+      name:
+        utf8LengthInBytes: 0
+        bytes:
+          offset0000:
+            byte0000: 0
+            byte0001: 0
+            byte0002: 0
+            byte0003: 0
+            byte0004: 0
+            byte0005: 0
+            byte0006: 0
+            byte0007: 0
+            byte0008: 0
+            byte0009: 0
+            byte0010: 0
+            byte0011: 0
+            byte0012: 0
+            byte0013: 0
+            byte0014: 0
+            byte0015: 0
+          byte0016: 0
+          byte0017: 0
+          byte0018: 0
+          byte0019: 0
+          byte0020: 0
+          byte0021: 0
+          byte0022: 0
+          byte0023: 0
+          byte0024: 0
+          byte0025: 0
+          byte0026: 0
+          byte0027: 0
+          byte0028: 0
+          byte0029: 0
+      description:
+        utf8LengthInBytes: 0
+        bytes:
+          offset0000:
+            byte0000: 0
+            byte0001: 0
+            byte0002: 0
+            byte0003: 0
+            byte0004: 0
+            byte0005: 0
+            byte0006: 0
+            byte0007: 0
+            byte0008: 0
+            byte0009: 0
+            byte0010: 0
+            byte0011: 0
+            byte0012: 0
+            byte0013: 0
+            byte0014: 0
+            byte0015: 0
+          offset0016:
+            byte0000: 0
+            byte0001: 0
+            byte0002: 0
+            byte0003: 0
+            byte0004: 0
+            byte0005: 0
+            byte0006: 0
+            byte0007: 0
+            byte0008: 0
+            byte0009: 0
+            byte0010: 0
+            byte0011: 0
+            byte0012: 0
+            byte0013: 0
+            byte0014: 0
+            byte0015: 0
+          offset0032:
+            byte0000: 0
+            byte0001: 0
+            byte0002: 0
+            byte0003: 0
+            byte0004: 0
+            byte0005: 0
+            byte0006: 0
+            byte0007: 0
+            byte0008: 0
+            byte0009: 0
+            byte0010: 0
+            byte0011: 0
+            byte0012: 0
+            byte0013: 0
+            byte0014: 0
+            byte0015: 0
+          byte0048: 0
+          byte0049: 0
+          byte0050: 0
+          byte0051: 0
+          byte0052: 0
+          byte0053: 0
+          byte0054: 0
+          byte0055: 0
+          byte0056: 0
+          byte0057: 0
+          byte0058: 0
+          byte0059: 0
+          byte0060: 0
+          byte0061: 0
+    importantStrings:
+    - stringName: skill name
+      theString: tnt
+    - stringName: ' skill description'
+      theString: simple tnt
+    - stringName: animationName
+      theString: WilburSootTnt
+    - stringName: damageEffectPrefabName
+      theString: explosion
+  references:
+    version: 1
+    00000000:
+      type: {class: BasicPolySkill, ns: , asm: BaseAssembly}
+      data:
+        damage: 2
+        damType: 1
+        damageTime: 0.2
+        dealtDamage: 0
+        spawnedPrefab: 0
+        animationName:
+          utf8LengthInBytes: 0
+          bytes:
+            offset0000:
+              byte0000: 0
+              byte0001: 0
+              byte0002: 0
+              byte0003: 0
+              byte0004: 0
+              byte0005: 0
+              byte0006: 0
+              byte0007: 0
+              byte0008: 0
+              byte0009: 0
+              byte0010: 0
+              byte0011: 0
+              byte0012: 0
+              byte0013: 0
+              byte0014: 0
+              byte0015: 0
+            byte0016: 0
+            byte0017: 0
+            byte0018: 0
+            byte0019: 0
+            byte0020: 0
+            byte0021: 0
+            byte0022: 0
+            byte0023: 0
+            byte0024: 0
+            byte0025: 0
+            byte0026: 0
+            byte0027: 0
+            byte0028: 0
+            byte0029: 0
+        damageEffectPrefabName:
+          utf8LengthInBytes: 0
+          bytes:
+            offset0000:
+              byte0000: 0
+              byte0001: 0
+              byte0002: 0
+              byte0003: 0
+              byte0004: 0
+              byte0005: 0
+              byte0006: 0
+              byte0007: 0
+              byte0008: 0
+              byte0009: 0
+              byte0010: 0
+              byte0011: 0
+              byte0012: 0
+              byte0013: 0
+              byte0014: 0
+              byte0015: 0
+            byte0016: 0
+            byte0017: 0
+            byte0018: 0
+            byte0019: 0
+            byte0020: 0
+            byte0021: 0
+            byte0022: 0
+            byte0023: 0
+            byte0024: 0
+            byte0025: 0
+            byte0026: 0
+            byte0027: 0
+            byte0028: 0
+            byte0029: 0
+        prefabSpawnTime: 0
+    00000001:
+      type: {class: ThrowablePolySkill, ns: , asm: BaseAssembly}
+      data:
+        damage: 3
+        damType: 1
+        prefabThrowDuration: 1
+        damageTime: 1.1
+        dealtDamage: 0
+        spawnedPrefab: 0
+        animationName:
+          utf8LengthInBytes: 0
+          bytes:
+            offset0000:
+              byte0000: 0
+              byte0001: 0
+              byte0002: 0
+              byte0003: 0
+              byte0004: 0
+              byte0005: 0
+              byte0006: 0
+              byte0007: 0
+              byte0008: 0
+              byte0009: 0
+              byte0010: 0
+              byte0011: 0
+              byte0012: 0
+              byte0013: 0
+              byte0014: 0
+              byte0015: 0
+            byte0016: 0
+            byte0017: 0
+            byte0018: 0
+            byte0019: 0
+            byte0020: 0
+            byte0021: 0
+            byte0022: 0
+            byte0023: 0
+            byte0024: 0
+            byte0025: 0
+            byte0026: 0
+            byte0027: 0
+            byte0028: 0
+            byte0029: 0
+        damageEffectPrefabName:
+          utf8LengthInBytes: 0
+          bytes:
+            offset0000:
+              byte0000: 0
+              byte0001: 0
+              byte0002: 0
+              byte0003: 0
+              byte0004: 0
+              byte0005: 0
+              byte0006: 0
+              byte0007: 0
+              byte0008: 0
+              byte0009: 0
+              byte0010: 0
+              byte0011: 0
+              byte0012: 0
+              byte0013: 0
+              byte0014: 0
+              byte0015: 0
+            byte0016: 0
+            byte0017: 0
+            byte0018: 0
+            byte0019: 0
+            byte0020: 0
+            byte0021: 0
+            byte0022: 0
+            byte0023: 0
+            byte0024: 0
+            byte0025: 0
+            byte0026: 0
+            byte0027: 0
+            byte0028: 0
+            byte0029: 0
+        prefabSpawnTime: 0.1
 --- !u!1001 &394217539
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42165,6 +42586,36 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6801156485005413774, guid: 49ff6351fa8225948ba78d0729b4eb41, type: 3}
   m_PrefabInstance: {fileID: 1941551163}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1963010248
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1963010249}
+  m_Layer: 0
+  m_Name: BattleOffset
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1963010249
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1963010248}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.018, y: 0.344, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 358640985}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1974193446
 GameObject:
   m_ObjectHideFlags: 0
@@ -42183,7 +42634,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1974193447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42202,8 +42653,8 @@ MonoBehaviour:
     y: 0
     z: 0
   m_PrimitiveSize:
-    x: 1.7384986
-    y: 1.8570174
+    x: 4.588422
+    y: 3.704257
     z: 1
   m_PrimitiveOrientation:
     Value:
@@ -42212,15 +42663,15 @@ MonoBehaviour:
       z: 0
     RotationOrder: 4
   m_Capsule:
-    Height: 1.8570174
-    Radius: 0.8692493
-    Axis: 1
+    Height: 4.588422
+    Radius: 1.8521285
+    Axis: 0
   m_Cylinder:
     Height: 1
-    Radius: 0.9285087
+    Radius: 2.294211
     Axis: 2
   m_CylinderSideCount: 20
-  m_SphereRadius: 0.9285087
+  m_SphereRadius: 2.294211
   m_MinimumSkinnedVertexWeight: 0.1
   m_ConvexHullGenerationParameters:
     m_SimplificationTolerance: 0.015
@@ -42662,58 +43113,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6581668474788148501, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
-      propertyPath: skills.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6581668474788148501, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
-      propertyPath: skills.Array.data[0].data.chance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6581668474788148501, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
-      propertyPath: skills.Array.data[0].skill.damage
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6581668474788148501, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
-      propertyPath: skills.Array.data[0].data.recoveryTime
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6581668474788148501, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
-      propertyPath: skills.Array.data[0].importantStrings.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6581668474788148501, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
-      propertyPath: skills.Array.data[0].importantStrings.Array.data[0].theString
-      value: zombie attack
-      objectReference: {fileID: 0}
-    - target: {fileID: 6581668474788148501, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
-      propertyPath: skills.Array.data[0].importantStrings.Array.data[1].theString
-      value: a zombie attacks
-      objectReference: {fileID: 0}
-    - target: {fileID: 6581668474788148501, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
-      propertyPath: skills.Array.data[0].importantStrings.Array.data[2].theString
-      value: ZombieAttack
-      objectReference: {fileID: 0}
-    - target: {fileID: 6581668474788148501, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
-      propertyPath: skills.Array.data[0].importantStrings.Array.data[3].theString
-      value: upercuteffect
-      objectReference: {fileID: 0}
-    - target: {fileID: 6581668474788148501, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
-      propertyPath: skills.Array.data[0].importantStrings.Array.data[0].stringName
-      value: skill name
-      objectReference: {fileID: 0}
-    - target: {fileID: 6581668474788148501, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
-      propertyPath: skills.Array.data[0].importantStrings.Array.data[1].stringName
-      value: ' skill description'
-      objectReference: {fileID: 0}
-    - target: {fileID: 6581668474788148501, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
-      propertyPath: skills.Array.data[0].importantStrings.Array.data[2].stringName
-      value: animationName
-      objectReference: {fileID: 0}
-    - target: {fileID: 6581668474788148501, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
-      propertyPath: skills.Array.data[0].importantStrings.Array.data[3].stringName
-      value: damageEffectPrefabName
-      objectReference: {fileID: 0}
     - target: {fileID: 6581668474788148505, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
       propertyPath: Values.Array.size
       value: 1

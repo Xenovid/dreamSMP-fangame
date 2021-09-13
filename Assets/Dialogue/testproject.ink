@@ -98,7 +98,7 @@ EXTERNAL playSong(songName)
         ~playSong("WilburTheme")
         Technoblade, I'm going to need those keys
         #battle
-        WilburSoot
+        Wilbur
         ~displayPortrait("technoblade")
         ~setTextSound("technoblade")
         If you want to go so bad, you could just follow me in

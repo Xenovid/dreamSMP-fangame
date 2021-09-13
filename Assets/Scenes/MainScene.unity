@@ -241,7 +241,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 377971988}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.1844292, y: -1.6655393, z: -10.305641}
+  m_LocalPosition: {x: 0.62, y: -1.96, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -325,8 +325,8 @@ MonoBehaviour:
   m_DeadZoneHeight: 0
   m_DeadZoneDepth: 0
   m_UnlimitedSoftZone: 0
-  m_SoftZoneWidth: 0.8
-  m_SoftZoneHeight: 0.8
+  m_SoftZoneWidth: 0
+  m_SoftZoneHeight: 0
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
@@ -442,8 +442,6 @@ PlayableDirector:
     value: {fileID: 609064834}
   - key: {fileID: -7603324576725176976, guid: 39b92758eacaf3e488d85acaf1c7330c, type: 2}
     value: {fileID: 609064834}
-  - key: {fileID: -1944191047054038246, guid: 39b92758eacaf3e488d85acaf1c7330c, type: 2}
-    value: {fileID: 377971991}
   m_ExposedReferences:
     m_References:
     - 8dac7fb35a7c66749b20240dd6598b7e: {fileID: 894345197}
@@ -473,10 +471,78 @@ MonoBehaviour:
       z: 0
     duration: 5
     id: 0
+  - position:
+      x: 0.4
+      y: -0.2
+      z: 0
+    duration: 4.4
+    id: 0
+  - position:
+      x: 0.4
+      y: -0.2
+      z: 0
+    duration: 4.35
+    id: 0
+  - position:
+      x: 0.4
+      y: -0.2
+      z: 0
+    duration: 4.0333333
+    id: 0
+  - position:
+      x: 0.4
+      y: -0.2
+      z: 0
+    duration: 3.7333333
+    id: 0
+  - position:
+      x: 0.4
+      y: -0.2
+      z: 0
+    duration: 3.5666666
+    id: 0
+  - position:
+      x: 0.4
+      y: -0.2
+      z: 0
+    duration: 3.3333333
+    id: 0
+  - position:
+      x: 0.4
+      y: 0
+      z: 0
+    duration: 3.5666666
+    id: 0
+  - position:
+      x: 0.4
+      y: -2
+      z: 0
+    duration: 3.5666666
+    id: 0
   animationClips:
   - animationName: TechnobladeWalkLeft
     id: 0
   - animationName: TechnobladeIdleDown
+    id: 0
+  - animationName: TechnobladeWalkLef
+    id: 0
+  - animationName: TechnobladeWalkLe
+    id: 0
+  - animationName: TechnobladeWalkL
+    id: 0
+  - animationName: TechnobladeWalk
+    id: 0
+  - animationName: TechnobladeWal
+    id: 0
+  - animationName: TechnobladeWalkR
+    id: 0
+  - animationName: TechnobladeWalkRi
+    id: 0
+  - animationName: TechnobladeWalkRig
+    id: 0
+  - animationName: TechnobladeWalkRigh
+    id: 0
+  - animationName: TechnobladeWalkRight
     id: 0
   playableAssets:
   - {fileID: 11400000, guid: 39b92758eacaf3e488d85acaf1c7330c, type: 2}
@@ -587,7 +653,7 @@ MonoBehaviour:
   m_Follow: {fileID: 377971990}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 2
+    OrthographicSize: 2.5
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -611,7 +677,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 894345196}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.1844292, y: -1.6655393, z: -20.305641}
+  m_LocalPosition: {x: 0.62, y: -1.96, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 454979401}
@@ -668,7 +734,7 @@ MonoBehaviour:
     prefabName: explosion
   - prefab: {fileID: 546090703821192143, guid: f0b6b793748832b4a8bd79b6c14a641c, type: 3}
     prefabName: default
-  - prefab: {fileID: 546090703821192143, guid: f0b6b793748832b4a8bd79b6c14a641c, type: 3}
+  - prefab: {fileID: 6506405165623064474, guid: 03e3815118b683d4ca5a9b21a0c48203, type: 3}
     prefabName: upercuteffect
 --- !u!114 &1073731654
 MonoBehaviour:
@@ -832,6 +898,7 @@ GameObject:
   - component: {fileID: 1320044257}
   - component: {fileID: 1320044256}
   - component: {fileID: 1320044260}
+  - component: {fileID: 1320044255}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -847,12 +914,32 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1320044253}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.1844292, y: -1.6655393, z: -20.305641}
+  m_LocalPosition: {x: 0.62, y: -1.96, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1320044255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320044253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88f5cead0c0b2a4eb05b5900433f8d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AssetsPPU: 32
+  m_RefResolutionX: 320
+  m_RefResolutionY: 180
+  m_UpscaleRT: 0
+  m_PixelSnapping: 0
+  m_CropFrameX: 0
+  m_CropFrameY: 0
+  m_StretchFill: 0
 --- !u!114 &1320044256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -932,7 +1019,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 2
+  orthographic size: 2.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1174,7 +1261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 421bf765255f8874b8ccd992d2575c59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 0
+  currentState: 1
 --- !u!4 &1446478274
 Transform:
   m_ObjectHideFlags: 0
@@ -1577,3 +1664,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97867da968cbce94aac0a0bde7ee8f40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2059940507
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2059940508}
+  m_Layer: 0
+  m_Name: testPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &2059940508
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2059940507}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.38, y: -2.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

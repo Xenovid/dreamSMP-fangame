@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/StartMenu.unity
     guid: 6a56304e9c27fe91b817bccef4d254e3
   - enabled: 1
-    path: Assets/Scenes/testScene.unity
+    path: Assets/Scenes/MainScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 0
     path: 
@@ -21,7 +21,7 @@ EditorBuildSettings:
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/testScene/testSceneSubscene.unity
+    path: Assets/Scenes/testScene/BeforeThePyramid.unity
     guid: bd5411a717ac0df80bba2a9b7ae75cad
   - enabled: 0
     path: 

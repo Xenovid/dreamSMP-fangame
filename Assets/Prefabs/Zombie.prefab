@@ -82,7 +82,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1408592303
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 2
   m_Sprite: {fileID: -8585762769051335824, guid: dcbaad2cf0aff174dbd8c3995ffce1bd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -120,20 +120,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71a3c05c28a7797b2b7438da58dbd418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
-  health: 20
+  maxHealth: 12
+  health: 12
   maxPoints: 0
   points: 0
   baseStats:
     attack: 0
     defense: 0
-    superArmor: 0
   characterName: Zombie
   equipedWeapon:
     power: 0
     name: 
     description: 
-    useTime: 0
   equipedArmor:
     name: 
     defense: 0
@@ -333,7 +331,7 @@ MonoBehaviour:
     typeID: 0
     data:
       chance: 1
-      recoveryTime: 3
+      recoveryTime: 5
       cost: 0
       name:
         utf8LengthInBytes: 0
@@ -438,19 +436,24 @@ MonoBehaviour:
           byte0060: 0
           byte0061: 0
     importantStrings:
-    - 
-    - 
-    - 
-    - 
+    - stringName: skill name
+      theString: zombie attack
+    - stringName: ' skill description'
+      theString: a zombie attacks
+    - stringName: animationName
+      theString: ZombieAttack
+    - stringName: damageEffectPrefabName
+      theString: upercuteffect
   references:
     version: 1
     00000000:
       type: {class: BasicPolySkill, ns: , asm: BaseAssembly}
       data:
-        damage: 0
-        damType: 0
-        damageTime: 0
+        damage: 1
+        damType: 1
+        damageTime: 0.2
         dealtDamage: 0
+        spawnedPrefab: 0
         animationName:
           utf8LengthInBytes: 0
           bytes:
@@ -519,6 +522,7 @@ MonoBehaviour:
             byte0027: 0
             byte0028: 0
             byte0029: 0
+        prefabSpawnTime: 0
 --- !u!114 &6581668474788148502
 MonoBehaviour:
   m_ObjectHideFlags: 0

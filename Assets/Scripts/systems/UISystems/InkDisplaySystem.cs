@@ -330,11 +330,13 @@ public class InkDisplaySystem : SystemBase
                     OnVictoryDisplayFinish?.Invoke(this, EventArgs.Empty);
                     inkManager.inkStory.SwitchToDefaultFlow();
                 }
-                CameraData cameraData = GetSingleton<CameraData>();
-                cameraData.currentState = CameraState.FollingPlayer;
-                SetSingleton(cameraData);
-
-                ResetTextBox();
+                if(inkManager.inkStory.currentFlowName != "battle"){
+                    CameraData cameraData = GetSingleton<CameraData>();
+                    cameraData.currentState = CameraState.FollingPlayer;
+                    SetSingleton(cameraData);
+                    ResetTextBox();
+                }
+                
                 DisableTextboxUI();
             }    
         }).Run();

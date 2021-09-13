@@ -30,9 +30,8 @@ public class EnemyBattleAISystem : SystemBase
         .WithNone<DownTag>()
         .WithoutBurst()
         .WithStructuralChanges()
-        .ForEach((Entity entity, Animator animator, DynamicBuffer<PolySkillData> attacks, ref BattleData battleData, ref RandomData random, in AnimationData animation) =>
+        .ForEach(( Animator animator, DynamicBuffer<PolySkillData> attacks, ref BattleData battleData, ref RandomData random, in Entity entity, in AnimationData animation) =>
         {
-            Debug.Log("making sure this is updating");
             //have something to remember the ai type and do actions accordingly
             // have a list of battle attacks that you can choose
             //ai 1, normal timers, but randomly tick the timer down, and randomly choose an attack
@@ -45,13 +44,13 @@ public class EnemyBattleAISystem : SystemBase
                 float randomValue = random.Value.NextFloat(0 , 1);
                 for(int i = 0; i < attacks.Length; i++)
                 {
+                   
                     PolySkillData attack = attacks[i];
+                    
                     if (attack.SharedSkillData.chance >= randomValue)
                     {
-                        
-                        //attacks[i].UseSkill(i ,ecb, animator, playerPartyEntity[Target], entity, ref attack.SharedSkillData);
+                        attacks[i].UseSkill(i ,ecb, animator, battleSystem.playerEntities[Target], entity, ref attack.SharedSkillData);
                         attacks[i] = attack;
-
                         battleData.useTime = 0;
                         float temp = random.Value.NextFloat(1, 2);
                         battleData.maxUseTime = attack.SharedSkillData.recoveryTime * temp;

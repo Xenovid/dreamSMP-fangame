@@ -4,6 +4,10 @@ using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 
+
+/*[UpdateAfter(typeof(BattleTriggerSystem))]
+[UpdateAfter(typeof(BattleSystem))]*/
+[UpdateAfter(typeof(BasicEnemyMovementSystem))]
 [UpdateAfter(typeof(MovementSystem))]
 public class CameraSystem : SystemBase
 {
@@ -25,7 +29,8 @@ public class CameraSystem : SystemBase
             case CameraState.FreeForm:
                 if(HasComponent<CameraTransitionData>(cameraDataEntity)){
                     CameraTransitionData cameraTransitionData = GetSingleton<CameraTransitionData>();
-                    cameraTransitionData.timePassed = Time.DeltaTime;
+                    
+                    cameraTransitionData.timePassed =+ Time.DeltaTime;
                     math.lerp(cameraTransitionData.oldPosition,cameraTransitionData.newPosition, cameraTransitionData.timePassed/ cameraTransitionData.duration);
                     if(cameraTransitionData.timePassed > cameraTransitionData.duration){
                         EntityManager.RemoveComponent<CameraTransitionData>(cameraDataEntity);
@@ -33,7 +38,6 @@ public class CameraSystem : SystemBase
                     else{
                         SetSingleton<CameraTransitionData>(cameraTransitionData);
                     }
-                    
                 }
             break;
         }

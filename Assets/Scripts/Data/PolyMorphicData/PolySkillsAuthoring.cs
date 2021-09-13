@@ -37,13 +37,22 @@ public class PolySkillsConversion : GameObjectConversionSystem
                 PolySkillInfo polySkill = PolySkill;
                 switch(polySkill.typeID){
                     case PolySkillData.TypeId.BasicPolySkill:
-                        BasicPolySkill skill =(BasicPolySkill) polySkill.skill;
+                        BasicPolySkill skill = (BasicPolySkill) polySkill.skill;
                         skill.animationName = polySkill.importantStrings[2].theString;
                         skill.damageEffectPrefabName = polySkill.importantStrings[3].theString;
                         polySkill.data.name = polySkill.importantStrings[0].theString;
                         polySkill.data.description = polySkill.importantStrings[1].theString;
                         
                         skills.Add(new PolySkillData(skill, polySkill.data));
+                    break;
+                    case PolySkillData.TypeId.ThrowablePolySkill:
+                        ThrowablePolySkill throwableSkill = (ThrowablePolySkill) polySkill.skill;
+                        throwableSkill.animationName = polySkill.importantStrings[2].theString;
+                        throwableSkill.damageEffectPrefabName = polySkill.importantStrings[3].theString;
+                        polySkill.data.name = polySkill.importantStrings[0].theString;
+                        polySkill.data.description = polySkill.importantStrings[1].theString;
+                        
+                        skills.Add(new PolySkillData(throwableSkill, polySkill.data));
                     break;
                 }
                 

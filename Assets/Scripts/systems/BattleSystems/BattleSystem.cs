@@ -276,7 +276,7 @@ public class BattleSystem : SystemBase
                   }
             }
             foreach(Entity entity in enemyEntities){
-                  EntityManager.AddComponent<BattleData>(entity);
+                  EntityManager.AddComponentData(entity, new BattleData{maxUseTime = 1, isRecharging = true});
                   if(HasComponent<PhysicsCollider>(entity)){
                         PhysicsCollider collider = GetComponent<PhysicsCollider>(entity);
                         collider.Value.Value.Filter = CollisionFilter.Zero;
