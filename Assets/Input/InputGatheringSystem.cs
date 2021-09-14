@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 [UpdateBefore(typeof(SaveTriggerSystem))]
 [UpdateBefore(typeof(MovementSystem))]
 [UpdateBefore(typeof(CreditsMenuSystem))]
-[UpdateBefore(typeof(ChestTriggerSystem))]
+[UpdateBefore(typeof(PolyInteractiveSystem))]
 [UpdateBefore(typeof(TextBoxSystem))]
 [UpdateBefore(typeof(UISystem))]
 public class InputGatheringSystem : ComponentSystem,

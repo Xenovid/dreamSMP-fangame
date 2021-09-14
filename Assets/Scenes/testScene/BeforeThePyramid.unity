@@ -41384,6 +41384,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2138799607, guid: afa5ba8324c31674d94e95b16f5b73e7, type: 3}
+      propertyPath: interactiveData.item.itemType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2138799607, guid: afa5ba8324c31674d94e95b16f5b73e7, type: 3}
+      propertyPath: sharedInteractiveData.isSingleUse
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2191799098087514384, guid: afa5ba8324c31674d94e95b16f5b73e7, type: 3}
       propertyPath: m_RootOrder
       value: 14
@@ -42942,6 +42950,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2138799607, guid: afa5ba8324c31674d94e95b16f5b73e7, type: 3}
+      propertyPath: interactiveData.item.itemType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2191799098087514384, guid: afa5ba8324c31674d94e95b16f5b73e7, type: 3}
       propertyPath: m_RootOrder
       value: 6

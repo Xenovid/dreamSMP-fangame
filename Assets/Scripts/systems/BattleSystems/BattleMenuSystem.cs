@@ -61,6 +61,7 @@ public class BattleMenuSystem : SystemBase
 
         playerCharactersQuery = GetEntityQuery(typeof(PlayerSelectorUI));
         battleSystem.OnBattleEnd += DisplayLoss_OnPlayerLoss;
+        RequireSingletonForUpdate<CaravanTag>();
     }
 
     protected override void OnStartRunning(){
@@ -75,11 +76,12 @@ public class BattleMenuSystem : SystemBase
             float deltaTime = Time.DeltaTime;
 
             var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
+            DynamicBuffer<ItemData> itemInventory = GetBuffer<ItemData>(GetSingletonEntity<CaravanTag>());
             
             Entities
             .WithoutBurst()
             .WithStructuralChanges()
-            .ForEach((DynamicBuffer<ItemData> itemInventory, AnimationData animation, Animator animator, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStats, in Entity entity) =>{
+            .ForEach(( AnimationData animation, Animator animator, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStats, in Entity entity) =>{
 
                 Label healthText = selectorUI.UI.Q<Label>("health_text");
                 VisualElement healthBarBase = selectorUI.UI.Q<VisualElement>("health_bar_base");
@@ -129,12 +131,11 @@ public class BattleMenuSystem : SystemBase
         battleUI .visible = false;
         itemSelector.visible = true;
 
-        DynamicBuffer<ItemData> itemInventory = EntityManager.GetBuffer<ItemData>(playerCharactersQuery.ToEntityArray(Allocator.Temp)[characterNumber]);
+        DynamicBuffer<ItemData> itemInventory = EntityManager.GetBuffer<ItemData>(GetSingletonEntity<CaravanTag>());
         int i = 0;
         int firstItemCheck = 0;
         ScrollView list1 = itemSelector.Q<ScrollView>("list1");
         ScrollView list2 = itemSelector.Q<ScrollView>("list2");
-        list1.Clear();
         list1.Clear();
         list2.Clear();
         // changing the names of the items
@@ -154,7 +155,7 @@ public class BattleMenuSystem : SystemBase
                 break;
             }
 
-            if(i < 6){
+            if(i % 2 == 0){
                 list1.Add(button);
             }
             else{
@@ -180,14 +181,14 @@ public class BattleMenuSystem : SystemBase
     private void ItemButton(int itemNumber){
         AudioManager.playSound("menuchange");
         Entity playerEntity = playerCharactersQuery.ToEntityArray(Allocator.Temp)[currentCharacterSelected];
-        DynamicBuffer<ItemData> itemInventory = EntityManager.GetBuffer<ItemData>(playerEntity);
+        DynamicBuffer<ItemData> itemInventory = EntityManager.GetBuffer<ItemData>(GetSingletonEntity<CaravanTag>());
         PlayerSelectorUI selectorUI = EntityManager.GetComponentObject<PlayerSelectorUI>(playerEntity);
         BattleData battleData = GetComponent<BattleData>(playerEntity);
         Item item = itemInventory[itemNumber].item;
         switch(item.itemType){
             case ItemType.healing:
                 DynamicBuffer<HealingData> healings = GetBuffer<HealingData>(battleSystem.playerEntities[currentPlayer]);
-                HealingData healing = new HealingData{healing = item.strength};
+                HealingData healing = new HealingData{healing = item.healingAmount};
                 healings.Add(healing);
             break;
         }

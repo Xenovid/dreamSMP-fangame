@@ -138,6 +138,7 @@ GameObject:
   - component: {fileID: 623176117}
   - component: {fileID: 623176118}
   - component: {fileID: 623176119}
+  - component: {fileID: 623176120}
   m_Layer: 0
   m_Name: Caravan
   m_TagString: Untagged
@@ -252,6 +253,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveID: 2
+--- !u!114 &623176120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623176112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b0547941443e14696f4653fc7b0d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemInfos:
+  - itemType: 1
+    name: Golden Apple
+    description: a golden apple
+    healingAmount: 5
+    regenerationRate: 0
+    regenerationDuration: 0
+    useTime: 1
 --- !u!1 &815834015
 GameObject:
   m_ObjectHideFlags: 0
@@ -438,6 +459,338 @@ PrefabInstance:
     - target: {fileID: 108625178797338088, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: m_Name
       value: Technoblade
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill
+      value: BaseAssembly BasicPolySkill
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].data.cost
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].data.recoveryTime
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.dealtDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.spawnedPrefab
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.prefabSpawnTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].importantStrings.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.byte0016
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.byte0017
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.byte0018
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.byte0019
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.byte0020
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.byte0021
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.byte0022
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.byte0023
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.byte0024
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.byte0025
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.byte0026
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.byte0027
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.byte0028
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.byte0029
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.utf8LengthInBytes
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[0].importantStrings.Array.data[0].theString
+      value: default attack
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[0].importantStrings.Array.data[1].theString
+      value: technoblade's default attack
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].importantStrings.Array.data[0].theString
+      value: Critical Hit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].importantStrings.Array.data[1].theString
+      value: hit a critical hit on the opponent
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].importantStrings.Array.data[2].theString
+      value: TechnobladeBasicSwordSwing
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].importantStrings.Array.data[3].theString
+      value: default
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].importantStrings.Array.data[0].stringName
+      value: skill name
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].importantStrings.Array.data[1].stringName
+      value: ' skill description'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].importantStrings.Array.data[2].stringName
+      value: animationName
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].importantStrings.Array.data[3].stringName
+      value: damageEffectPrefabName
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.byte0016
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.byte0017
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.byte0018
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.byte0019
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.byte0020
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.byte0021
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.byte0022
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.byte0023
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.byte0024
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.byte0025
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.byte0026
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.byte0027
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.byte0028
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.byte0029
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.offset0000.byte0000
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.offset0000.byte0001
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.offset0000.byte0002
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.offset0000.byte0003
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.offset0000.byte0004
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.offset0000.byte0005
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.offset0000.byte0006
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.offset0000.byte0007
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.offset0000.byte0008
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.offset0000.byte0009
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.offset0000.byte0010
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.offset0000.byte0011
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.offset0000.byte0012
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.offset0000.byte0013
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.offset0000.byte0014
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.animationName.bytes.offset0000.byte0015
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.utf8LengthInBytes
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.offset0000.byte0000
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.offset0000.byte0001
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.offset0000.byte0002
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.offset0000.byte0003
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.offset0000.byte0004
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.offset0000.byte0005
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.offset0000.byte0006
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.offset0000.byte0007
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.offset0000.byte0008
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.offset0000.byte0009
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.offset0000.byte0010
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.offset0000.byte0011
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.offset0000.byte0012
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.offset0000.byte0013
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.offset0000.byte0014
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833658709465976592, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: skills.Array.data[1].skill.damageEffectPrefabName.bytes.offset0000.byte0015
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2191799098087514388}
   - component: {fileID: 2191799098087514389}
   - component: {fileID: 2191799098087514390}
-  - component: {fileID: 2191799098087514387}
+  - component: {fileID: 2138799607}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2191799098087514398}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.68, y: 0.94, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1408592303
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 2
   m_Sprite: {fileID: 5526715793798131846, guid: 36a13a9fabb56da4fb0c0f9090befd42, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -291,7 +291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveID: 10
---- !u!114 &2191799098087514387
+--- !u!114 &2138799607
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -300,7 +300,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 2191799098087514398}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8b18cbc96b4ec34d9f9588d0a333cf2, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a7824c01b627344390c9b9052f02095, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Golden Apple
+  interactiveData:
+    id: 0
+  typeId: 3
+  sharedInteractiveData:
+    isSingleUse: 1
+    isTriggered: 0
+  references:
+    version: 1
+    00000000:
+      type: {class: ItemChestData, ns: , asm: BaseAssembly}
+      data:
+        item:
+          itemType: 0
+          name: Golden Apple
+          description: A Apple coated in gold. Heals 20 hp
+          healingAmount: 20
+          regenerationRate: 0
+          regenerationDuration: 0
+          useTime: 3

@@ -237,6 +237,7 @@ public class InkDisplaySystem : SystemBase
         }).Run();
     }
     public void StartCutScene(String startPoint){
+        InputGatheringSystem.currentInput = CurrentInput.ui;
         uISystem.overworldOverlay.visible = false;
         Entity messageBoard = GetSingletonEntity<UITag>();
         Text text = GetComponent<Text>(messageBoard);

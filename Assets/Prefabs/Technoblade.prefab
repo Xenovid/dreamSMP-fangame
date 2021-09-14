@@ -17,7 +17,6 @@ GameObject:
   - component: {fileID: 108625178797338094}
   - component: {fileID: 108625178797338092}
   - component: {fileID: 108625178797338093}
-  - component: {fileID: 108625178797338091}
   - component: {fileID: 3048491766725577472}
   - component: {fileID: 824294691773278683}
   - component: {fileID: 7013334921349821737}
@@ -288,7 +287,6 @@ MonoBehaviour:
   baseStats:
     attack: 8
     defense: 2
-    superArmor: 2
   characterName: Techno
   equipedWeapon:
     power: 10
@@ -414,19 +412,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!114 &108625178797338091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 108625178797338088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2b0547941443e14696f4653fc7b0d19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemInfos: []
 --- !u!114 &3048491766725577472
 MonoBehaviour:
   m_ObjectHideFlags: 0

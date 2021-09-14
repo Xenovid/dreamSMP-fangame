@@ -570,30 +570,38 @@ public class UISystem : SystemBase
         NativeArray<Entity> characterEntities = characterStatsQuery.ToEntityArray(Allocator.Temp);
 
         itemInfo.visible = true;
-        VisualElement itemList = itemInfo.Q<VisualElement>("item_list");
+        ScrollView itemList = itemInfo.Q<ScrollView>("item_list");
+        itemList.Clear();
         Label itemDesc = itemInfo.Q<Label>("item_desc");
         AudioManager.playSound("menuselect");
-        DynamicBuffer<ItemData> itemInventory = GetBuffer<ItemData>(characterEntities[0]);
-        itemList.Q<Button>("item1").Focus();
+        DynamicBuffer<ItemData> itemInventory = GetBuffer<ItemData>(GetSingletonEntity<CaravanTag>());
+        itemList.Focus();
         int i = 0;
         foreach(ItemData itemData in itemInventory){
+
             Item item = itemData.item;
             if(item.name == ""){
-                itemList.Q<Button>("item" + (i + 1).ToString()).text = "None";
+                int z = i;
+                Button itemButton = new Button();
+                itemButton.focusable = true;
+                itemButton.name = "item" + (z + 1).ToString();
+                itemButton.text = "No Name";
+                itemButton.AddToClassList("item_button");
+                itemList.Add(itemButton);
             }
             else{
                 int z = i;
-                Button currentItemButton = itemList.Q<Button>("item" + (i + 1).ToString());
-                currentItemButton.text = item.name.ConvertToString();
-                currentItemButton.clicked += () => PauseItemButton(z + 1);
+                Button itemButton = new Button();
+                itemButton.focusable = true;
+                itemButton.name = "item" + (z + 1).ToString();
+                itemButton.text = item.name.ConvertToString();
+                itemButton.AddToClassList("item_button");
+                itemButton.clicked += () => PauseItemButton(z + 1);
                 // once an item is in focus, change the description accordingly
                 string descriptionToShow = itemInventory[z].item.description.ToString() == "" ? "no description" : itemInventory[z].item.description.ToString();
-                currentItemButton.RegisterCallback<FocusEvent>(ev => UpdateDescription(itemDesc, descriptionToShow));
+                itemButton.RegisterCallback<FocusEvent>(ev => UpdateDescription(itemDesc, descriptionToShow));
+                itemList.Add(itemButton);
             }
-            i++;
-        }
-        while(i < 10){
-            itemList.Q<Button>("item" + (i + 1).ToString()).text = "None";
             i++;
         }
         string itemDescriptionToShow = itemInventory.Length > 0 ? itemInventory[0].item.description.ToString() : "";
@@ -613,6 +621,7 @@ public class UISystem : SystemBase
         RestartPauseMenu();
         skillInfo.visible = true;
         VisualElement currentSkills = skillInfo.Q<VisualElement>("current_skills");
+        ScrollView skillList = skillInfo.Q<ScrollView>("skill_list");
         Label skillDesc = skillInfo.Q<Label>("skill_desc");
 
         NativeArray<Entity> characterEntities = characterStatsQuery.ToEntityArray(Allocator.Temp);
@@ -620,28 +629,28 @@ public class UISystem : SystemBase
 
         AudioManager.playSound("menuselect");
         currentSkills.visible = true;
-        currentSkills.Q<Button>("skill1").Focus();
         int i = 1;
         foreach(PolySkillData skillData in equipedSkills){
             PolySkillData skill = skillData;
+            Button skillButton = new Button();
+            skillButton.AddToClassList("item_button");
+            skillButton.name = "skill" + i.ToString();
+            skillButton.focusable = true;
             if(skill.SharedSkillData.name == ""){
-                currentSkills.Q<Button>("skill" + i.ToString()).text = "None";
+                skillButton.text = "None";
             }
             else{
-                currentSkills.Q<Button>("skill" + i.ToString()).text = skill.SharedSkillData.name.ToString();
+                skillButton.text = skill.SharedSkillData.name.ToString();
             }
             // for some reason it tracks the value until its not used, so I used a value that wont change
             int z = i;
-            currentSkills.Q<Button>("skill" + i.ToString()).clicked += () => CurrentSkillButton(z);
-            i++;
-        }
-        while(i <= 5){
-            int z = i;
-            currentSkills.Q<Button>("skill" + i.ToString()).text = "None";
-            currentSkills.Q<Button>("skill" + i.ToString()).clicked += () => CurrentSkillButton(z);
+            skillButton.clicked += () => CurrentSkillButton(z);
+            skillButton.RegisterCallback<FocusEvent>(ev => UpdateDescription(skillDesc, skill.SharedSkillData.description.ToString()));
+            skillList.Add(skillButton);
             i++;
         }
 
+        // sets the description to the first skill
         string descToDisplay = equipedSkills[0].SharedSkillData.description.ToString();
         if(descToDisplay == ""){
             skillDesc.text = "No description";
@@ -656,76 +665,13 @@ public class UISystem : SystemBase
         var currentSkills = skillInfo.Q<VisualElement>("current_skills");
         AudioManager.playSound("menuselect");
                                                 
-        skillsQuickMenu.visible = true;
-        placeQuickMenu(currentSkills.Q<Button>("skill" + currentItem), skillsQuickMenu);
+        //skillsQuickMenu.visible = true;
+        //placeQuickMenu(currentSkills.Q<Button>("skill" + currentItem), skillsQuickMenu);
     }
-   /* private void SkillSwitchButton(){
-        // make sure all ui have the right visability
-        NativeArray<Entity> characterEntities = characterStatsQuery.ToEntityArray(Allocator.Temp);
-
-        DynamicBuffer<SkillData> skills = GetBuffer<SkillData>(characterEntities[currentCharacter]);
-        VisualElement currentSkills = skillInfo.Q<VisualElement>("current_skills");
-        VisualElement otherSkills = skillInfo.Q<VisualElement>("other_skills");
-        Label skillDesc = skillInfo.Q<Label>("skill_desc");
-        skillsQuickMenu.visible = false;
-        currentSkills.visible = false;
-        otherSkills.visible = true;
-        // can't switch unless there is at least one skill, who's description should be displayed
-        skillDesc.text = skills[0].skill.description.ToString();
-
-        ScrollView skillList = otherSkills.Q<ScrollView>("other_skills_list");
-        skillList.Clear();
-        // set up all of the other skills
-        for(int i = 1 ; i < skills.Length; i++){
-            int z = i;
-            Button newButton = new Button();
-            newButton.AddToClassList("item_button");
-            newButton.clicked += () => SwitchSkill(z);
-            if(i <= skills.Length){
-               newButton.text = skills[i].skill.name.ToString();
-            }
-            else{
-                newButton.text = "None";
-            }
-            skillList.Add(newButton);
-            
-        }
-        characterEntities.Dispose();
-    }*/
     private void SkillCancel(){
         AudioManager.playSound("menuback");
         skillsQuickMenu.visible = false;
     }
-    /*
-    private void SwitchSkill(int newSkillNumber){
-        NativeArray<Entity> characterEntities = characterStatsQuery.ToEntityArray(Allocator.Temp);
-        DynamicBuffer<SkillData> skills = GetBuffer<SkillData>(characterEntities[currentCharacter]);
-        DynamicBuffer<EquipedSkillData> equipedSkills = GetBuffer<EquipedSkillData>(characterEntities[currentCharacter]);
-        VisualElement otherSkills = skillInfo.Q<VisualElement>("other_skills");
-        VisualElement currentSkills = skillInfo.Q<VisualElement>("current_skills");
-        AudioManager.playSound("menuselect");
-        //switchskill
-        EquipedSkillData newSkill = new EquipedSkillData{skill = skills[newSkillNumber - 1].skill};
-        if(currentItem > equipedSkills.Length){
-            // nothing equiped, so nothing to add to the unequiped skills
-            skills.RemoveAt(newSkillNumber - 1);
-
-        }
-        else{
-            SkillData currentSkill = new SkillData{skill = equipedSkills[currentItem - 1].skill};
-
-            equipedSkills.RemoveAt(currentItem - 1);
-            skills.RemoveAt(newSkillNumber - 1);
-            skills.Add(currentSkill);
-        }
-        equipedSkills.Insert(currentItem -1, newSkill);
-
-        currentSkills.Q<Button>("skill" + currentItem.ToString()).text = newSkill.skill.name.ToString();
-
-        currentSkills.visible = true;
-        otherSkills.visible = false;
-    }
-    */
     public void PauseSettingsButton(){
         AudioManager.playSound("menuselect");
         //select the ui
@@ -761,34 +707,29 @@ public class UISystem : SystemBase
         itemsQuickMenu.visible = false;
 
         skillInfo.Q<VisualElement>("current_skills").visible = false;
-        skillInfo.Q<VisualElement>("other_skills").visible = false;
     }
     public void PauseItemButton(int itemNumber){
-        NativeArray<Entity> characterEntities = characterStatsQuery.ToEntityArray(Allocator.Temp);
-        DynamicBuffer<ItemData> itemInventory = GetBuffer<ItemData>(characterEntities[currentCharacter]);
-        VisualElement itemList = itemInfo.Q<VisualElement>("item_list");
+        DynamicBuffer<ItemData> itemInventory = GetBuffer<ItemData>(GetSingletonEntity<CaravanTag>());
+        ScrollView itemList = itemInfo.Q<ScrollView>("item_list");
         currentItem = itemNumber;
+        AudioManager.playSound("menuchange");
+        itemsQuickMenu.visible = true;
 
-        if(itemNumber <= itemInventory.Length){
-            AudioManager.playSound("menuchange");
-            itemsQuickMenu.visible = true;
-            placeQuickMenu(itemList.Q<Button>("item" + itemNumber), itemsQuickMenu);
-            //all items will have these features
-            itemsQuickMenu.Q<Button>("give").SetEnabled(false);
-            //add the useable selectables based on the item type
-            switch(itemInventory[itemNumber - 1].item.itemType){
-                case ItemType.healing:
-                    itemsQuickMenu.Q<Button>("use").SetEnabled(true);
-                    itemsQuickMenu.Q<Button>("use").Focus();
-                break;
-                case ItemType.none:
-                    itemsQuickMenu.Q<Button>("use").SetEnabled(false);
-                    itemsQuickMenu.Q<Button>("cancel").Focus();
-                break;
-            }
+        placeQuickMenu(itemList.Q<Button>("item" + itemNumber.ToString()), itemsQuickMenu);
+        //all items will have these features
+        itemsQuickMenu.Q<Button>("give").SetEnabled(false);
+        //add the useable selectables based on the item type
+        switch(itemInventory[itemNumber - 1].item.itemType){
+            case ItemType.healing:
+                itemsQuickMenu.Q<Button>("use").SetEnabled(true);
+                itemsQuickMenu.Q<Button>("use").Focus();
+            break;
+            case ItemType.none:
+                itemsQuickMenu.Q<Button>("use").SetEnabled(false);
+                itemsQuickMenu.Q<Button>("cancel").Focus();
+            break;
         }
 
-        characterEntities.Dispose();
     }
     private void placeQuickMenu(Button item, VisualElement quickMenu){
         quickMenu.style.right = item.contentRect.width + item.worldBound.x;
@@ -812,10 +753,10 @@ public class UISystem : SystemBase
     private void ItemUse(){
         NativeArray<CharacterStats> characterStatsList = characterStatsQuery.ToComponentDataArray<CharacterStats>(Allocator.Temp);
         NativeArray<Entity> characterEntities = characterStatsQuery.ToEntityArray(Allocator.Temp);
-        DynamicBuffer<ItemData> itemInventory = GetBuffer<ItemData>(characterEntities[currentCharacter]);
+        DynamicBuffer<ItemData> itemInventory = GetBuffer<ItemData>(GetSingletonEntity<CaravanTag>());
         DynamicBuffer<HealingData> healings = GetBuffer<HealingData>(characterEntities[currentCharacter]);
 
-        HealingData healing = new HealingData{healing = itemInventory[currentItem - 1].item.strength};
+        HealingData healing = new HealingData{healing = itemInventory[currentItem - 1].item.healingAmount};
         healings.Add(healing);
 
         itemInventory.RemoveAt(currentItem - 1);
@@ -842,7 +783,7 @@ public class UISystem : SystemBase
     } 
     private void ItemDrop(){
         NativeArray<Entity> characterEntities = characterStatsQuery.ToEntityArray(Allocator.Temp);
-        DynamicBuffer<ItemData> itemInventory = GetBuffer<ItemData>(characterEntities[currentCharacter]);
+        DynamicBuffer<ItemData> itemInventory = GetBuffer<ItemData>(GetSingletonEntity<CaravanTag>());
         itemInventory.RemoveAt(currentItem - 1);
         //exit items menu
         itemsQuickMenu.visible = false;

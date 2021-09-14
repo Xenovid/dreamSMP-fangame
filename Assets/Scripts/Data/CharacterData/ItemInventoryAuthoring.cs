@@ -20,13 +20,7 @@ public class ItemConversionSystem : GameObjectConversionSystem
             DynamicBuffer<ItemData> ItemInventory = DstEntityManager.GetBuffer<ItemData>(entity);
 
             foreach(ItemInfo itemInfo in itemInventory.itemInfos){
-                Item item = new Item{
-                    itemType = itemInfo.itemType,
-                    name = itemInfo.name,
-                    description = itemInfo.description,
-                    useTime = itemInfo.useTime,
-                    strength = itemInfo.strength
-                };
+                Item item = ItemInfoToItem(itemInfo);
                 ItemInventory.Add(new ItemData{item = item});
             }
         });
@@ -37,7 +31,9 @@ public class ItemConversionSystem : GameObjectConversionSystem
             name = itemInfo.name,
             description = itemInfo.description,
             useTime = itemInfo.useTime,
-            strength = itemInfo.strength
+            healingAmount = itemInfo.healingAmount,
+            regenerationRate = itemInfo.regenerationRate,
+            regenerationDuration = itemInfo.regenerationDuration
         };
         return item;
     }
@@ -53,8 +49,10 @@ public enum ItemType{
 public struct ItemInfo{
     public ItemType itemType;
     public string name;
-    public int strength;
     public string description;
+    public int healingAmount;
+    public int regenerationRate;
+    public float regenerationDuration;
     public float useTime;
 }
 [System.Serializable]
@@ -62,6 +60,8 @@ public struct Item{
     public ItemType itemType;
     public FixedString32 name;
     public FixedString128 description;
+    public int healingAmount;
+    public int regenerationRate;
+    public float regenerationDuration;
     public float useTime;
-    public int strength;
 }

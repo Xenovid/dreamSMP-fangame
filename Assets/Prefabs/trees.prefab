@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 3914832553692700303}
   - component: {fileID: 3914832553692700296}
   - component: {fileID: 3914832553692700302}
-  - component: {fileID: 830757584682189384}
-  - component: {fileID: 2392205143741948034}
+  - component: {fileID: 4089135083093701603}
   m_Layer: 0
   m_Name: trees
   m_TagString: Untagged
@@ -73,7 +72,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1408592303
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 8d367f4de368566499851246e6eca774, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -121,7 +120,7 @@ PolygonCollider2D:
       - {x: 0.23688841, y: 0.09157336}
       - {x: 0.17438841, y: 0.12282336}
       - {x: 0.11188841, y: 0.18532336}
---- !u!114 &830757584682189384
+--- !u!114 &4089135083093701603
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,19 +129,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 3914832553692700297}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c1f0db985e6a00a88c5b60b4d4d40d8, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a7824c01b627344390c9b9052f02095, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cutsceneName: aintro.tree
---- !u!114 &2392205143741948034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3914832553692700297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb6add9bad0bb1f4387ed85f8c590828, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  interactiveData:
+    id: 0
+  typeId: 4
+  sharedInteractiveData:
+    isSingleUse: 0
+    isTriggered: 0
+  references:
+    version: 1
+    00000000:
+      type: {class: CutsceneInteractiveData, ns: , asm: BaseAssembly}
+      data:
+        cutsceneName: aintro.tree
