@@ -41436,6 +41436,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2191799098087514390, guid: afa5ba8324c31674d94e95b16f5b73e7, type: 3}
+      propertyPath: saveID
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 2191799098087514398, guid: afa5ba8324c31674d94e95b16f5b73e7, type: 3}
       propertyPath: m_Name
       value: Chest (1)
@@ -41974,6 +41978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc29e0d8706ba7111a75f62e9c81a92b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTriggered: 0
 --- !u!4 &1612036482
 Transform:
   m_ObjectHideFlags: 0
@@ -42636,6 +42641,7 @@ GameObject:
   - component: {fileID: 1974193449}
   - component: {fileID: 1974193448}
   - component: {fileID: 1974193447}
+  - component: {fileID: 1974193451}
   m_Layer: 0
   m_Name: IntroCutsceneTrigger
   m_TagString: Untagged
@@ -42811,6 +42817,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc29e0d8706ba7111a75f62e9c81a92b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTriggered: 0
 --- !u!4 &1974193450
 Transform:
   m_ObjectHideFlags: 0
@@ -42825,6 +42832,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1974193451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974193446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 077b282e43b69114e81ec0b47c833caf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveID: 20
 --- !u!1001 &2016373040
 PrefabInstance:
   m_ObjectHideFlags: 0

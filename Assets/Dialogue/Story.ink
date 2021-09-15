@@ -1,4 +1,3 @@
-test
 -> END
 
 EXTERNAL playSound(soundName)

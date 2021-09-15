@@ -21,12 +21,14 @@ public class SaveAndLoadSystem : SystemBase
     SaveTriggerSystem saveTriggerSystem;
     bool isSaving;
     PauseSystem pauseSystem;
+    InkDisplaySystem inkDisplaySystem;
     
     protected override void OnCreate()
     {
         isSaving = false;
         uISystem = World.GetOrCreateSystem<UISystem>();
         sceneSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<SceneSystem>();
+        inkDisplaySystem = World.GetOrCreateSystem<InkDisplaySystem>();
         saveTriggerSystem = World.GetOrCreateSystem<SaveTriggerSystem>();
 
         uISystem.StartGame += LoadGame;
@@ -45,15 +47,14 @@ public class SaveAndLoadSystem : SystemBase
         
         g = ScriptableObject.CreateInstance<ReferencedUnityObjects>();
         test = ScriptableObject.CreateInstance<ReferencedUnityObjects>();
-        LoadPlayers();
-        LoadSubSceneAssests();
+        LoadAssets();
     }
  
     protected override void OnUpdate()
     {
-
-        LoadSubSceneAssests();
-        LoadPlayers();
+        LoadAssets();
+        //LoadSubSceneAssests();
+        //LoadPlayers();
     }
     public void ClearSaves(){
         if(Directory.Exists(Application.persistentDataPath + "/save1")){
@@ -66,123 +67,6 @@ public class SaveAndLoadSystem : SystemBase
             foreach(string file in Directory.GetFiles(Application.persistentDataPath + "/save1")) File.Delete(file);
             Directory.Delete(Application.persistentDataPath + "/save2");
         }
-    }
-    public void SaveSubsceneAssets(){
-        
-        //Entity sceneEntity = sceneSystem.GetSceneEntity(subScene.SceneGUID);
-        Entities
-        .WithoutBurst()
-        .ForEach((Animator animator, in ToSaveTag saveTag, in ChestTag chestTag)=>{
-            string savePath = Application.persistentDataPath + "/tempsave" + "/chestsave" + saveTag.saveID.ToString();
-            ChestSaveData chestSaveData = new ChestSaveData{isOpen = chestTag.isOpen,animationSaveData = new AnimationSaveData{ shortNameHash = animator.GetCurrentAnimatorStateInfo(0).shortNameHash, normilizedtime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime}};
-            string jsonString = JsonUtility.ToJson(chestSaveData);
-            File.WriteAllText(savePath, jsonString);
-        }).Run();
-    }
-    public void LoadSubSceneAssests(){
-        Entities
-        .WithAll<ChestTag>()
-        .WithoutBurst()
-        .WithStructuralChanges()
-        .ForEach((Entity entity, Animator animator,ref ChestTag chestTag,in ChestAnimationData animationData, in ToLoadData loadData)=>{
-            if(animator.isActiveAndEnabled){
-                string savePath = Application.persistentDataPath + "/tempsave" + "/chestsave" + loadData.saveID.ToString();
-                if(File.Exists(savePath)){
-                    string jsonString = File.ReadAllText(savePath);
-                    ChestSaveData chestSaveData = JsonUtility.FromJson<ChestSaveData>(jsonString);
-                    animator.Play(chestSaveData.animationSaveData.shortNameHash, 0 , chestSaveData.animationSaveData.normilizedtime);  
-                    chestTag.isOpen = chestSaveData.isOpen;
-                }
-                EntityManager.AddComponentData(entity, new ToSaveTag{saveID = loadData.saveID});
-                EntityManager.RemoveComponent<ToLoadData>(entity);
-            }
-        }).Run();
-    }
-    public void LoadPlayers(){
-        Entities
-        .WithoutBurst()
-        .WithStructuralChanges()
-        .WithAll<PlayerTag>()
-        .ForEach((Entity entity,Animator Animator,ref MovementData movementData, ref Translation translation, ref CharacterStats characterStats, ref DynamicBuffer<PolySkillData> skills, ref DynamicBuffer<ItemData> items, ref ToLoadData loadData) =>{
-            if(Animator.isActiveAndEnabled){
-                string savePath = Application.persistentDataPath +"/tempsave" + "/player" + loadData.saveID.ToString();
-                if(File.Exists(savePath)){
-                    string jsonString = File.ReadAllText(savePath);
-                    PlayerSaveData playerSaveData = JsonUtility.FromJson<PlayerSaveData>(jsonString);
-                    
-                    Animator.Play(playerSaveData.animationSaveData.shortNameHash, 0 , playerSaveData.animationSaveData.normilizedtime);
-                    movementData = playerSaveData.movementData;
-                    translation.Value = playerSaveData.trasition;
-                    characterStats = playerSaveData.characterStats;
-                    skills.Clear();
-                    //foreach (var skill in playerSaveData.skills) skills.Add(skill);
-                    items.Clear();
-                    foreach(var item in playerSaveData.itemInventory) items.Add(item);
-                }
-                EntityManager.AddComponentData(entity, new ToSaveTag{saveID = loadData.saveID});
-                EntityManager.RemoveComponent(entity, typeof(ToLoadData));
-            }
-            
-        }).Run();
-        Entities
-        .WithoutBurst()
-        .WithStructuralChanges()
-        .WithAll<CaravanTag>()
-        .ForEach((Entity entity, ref DynamicBuffer<WeaponData> weapons,ref DynamicBuffer<ArmorData> armors,ref DynamicBuffer<CharmData> charms,in ToLoadData loadData ) =>{
-            string savePath = Application.persistentDataPath + "/tempsave"+ "/caravan" + loadData.saveID.ToString();
-            if(File.Exists(savePath)){
-                string jsonString = File.ReadAllText(savePath);
-                CaravanSaveData caravanSaveData = JsonUtility.FromJson<CaravanSaveData>(jsonString);
-                weapons.Clear();
-                foreach(var weapon in caravanSaveData.weaponDatas)weapons.Add(weapon);
-                armors.Clear();
-                foreach(var armor in caravanSaveData.armorDatas) armors.Add(armor);
-                charms.Clear();
-                foreach(var charm in caravanSaveData.charmDatas) charms.Add(charm);
-            }
-            EntityManager.AddComponentData(entity, new ToSaveTag{saveID = loadData.saveID});
-            EntityManager.RemoveComponent(entity, typeof(ToLoadData));
-        }).Run();
-    }
-    public void SavePlayers(){
-        Entities
-        .WithoutBurst()
-        .WithAll<PlayerTag>()
-        .WithStructuralChanges()
-        .ForEach((Animator Animator,in MovementData movementData, in Translation translation, in CharacterStats characterStats, in DynamicBuffer<PolySkillData> skills, in DynamicBuffer<ItemData> items, in ToSaveTag saveTag) =>{
-            string savePath = Application.persistentDataPath + "/tempsave" + "/player" + saveTag.saveID.ToString();
-            /*Skill[] skillssave = new Skill[skills.Length];
-            int i = 0;
-            foreach(SkillData skillData in skills){
-                skillssave[i] = skillData.skill;
-                i++;
-            }*/
-
-            PlayerSaveData playerSaveData = new PlayerSaveData{
-                animationSaveData = new AnimationSaveData{shortNameHash = Animator.GetCurrentAnimatorStateInfo(0).shortNameHash, normilizedtime = Animator.GetCurrentAnimatorStateInfo(0).normalizedTime},
-                itemInventory = items.ToNativeArray(Unity.Collections.Allocator.Temp).ToArray(),
-                //skills = skills.ToNativeArray(Allocator.Temp).ToArray(),
-                characterStats = characterStats,
-                movementData = movementData,
-                trasition = translation.Value
-            };
-            string jsonString = JsonUtility.ToJson(playerSaveData);
-            File.WriteAllText(savePath, jsonString);
-        }).Run();
-        Entities
-        .WithoutBurst()
-        .WithStructuralChanges()
-        .WithAll<CaravanTag>()
-        .ForEach((in DynamicBuffer<WeaponData> weapons,in DynamicBuffer<ArmorData> armors,in DynamicBuffer<CharmData> charms,in ToSaveTag saveTag ) =>{
-            string savePath = Application.persistentDataPath + "/tempsave" + "/caravan" + saveTag.saveID.ToString();
-            CaravanSaveData caravanSaveData = new CaravanSaveData{
-                weaponDatas = weapons.ToNativeArray(Allocator.Temp).ToArray(),
-                armorDatas = armors.ToNativeArray(Allocator.Temp).ToArray(),
-                charmDatas = charms.ToNativeArray(Allocator.Temp).ToArray()
-            };
-            string jsonString = JsonUtility.ToJson(caravanSaveData);
-            File.WriteAllText(savePath, jsonString);
-        }).Run();
     }
     public void LoadTime(int saveFileNumber){
         string savePath = Application.persistentDataPath + "/save" + saveFileNumber.ToString() + "/SavePointData";
@@ -225,6 +109,10 @@ public class SaveAndLoadSystem : SystemBase
     }
     public void LoadGame(object sender, StartGameEventArgs e){
         string savePath = Application.persistentDataPath + "/save" + e.saveFileNumber.ToString();
+        CameraData cameraData = GetSingleton<CameraData>();
+        cameraData.currentState = CameraState.FollingPlayer;
+        LoadStory();
+        SetSingleton(cameraData);
         LoadTime(e.saveFileNumber);
         // clear the temp file
         CreateSaveFiles();
@@ -276,14 +164,214 @@ public class SaveAndLoadSystem : SystemBase
             sceneSystem.LoadSceneAsync(subScene.SceneGUID);
         }
     }
+    public void SaveAssets(){
+        //save position
+        Entities
+        .WithoutBurst()
+        .ForEach((in Translation translation, in ToSaveTag saveTag)=>{
+            string savePath = Application.persistentDataPath + "/tempsave" + "/traslationsave" + saveTag.saveID.ToString();
+            string jsonString = JsonUtility.ToJson(translation);
+            File.WriteAllText(savePath, jsonString);
+        }).Run();
+        //save skills
+        Entities
+        .WithoutBurst()
+        .ForEach((in DynamicBuffer<PolySkillData> skills, in ToSaveTag saveTag)=>{
+            string savePath = Application.persistentDataPath + "/tempsave" + "/skillsave" + saveTag.saveID.ToString();
+            SkillSaveData skillSaveData = new SkillSaveData{polySkillDatas = skills.ToNativeArray(Allocator.Temp).ToArray()};
+            string jsonString = JsonUtility.ToJson(skillSaveData);
+            File.WriteAllText(savePath, jsonString);
+
+        }).Run();
+        //save inventory
+        Entities
+        .WithoutBurst()
+        .WithStructuralChanges()
+        .WithAll<CaravanTag>()
+        .ForEach((in DynamicBuffer<WeaponData> weapons,in DynamicBuffer<ArmorData> armors,in DynamicBuffer<CharmData> charms, in DynamicBuffer<ItemData> items, in ToSaveTag saveTag ) =>{
+            string savePath = Application.persistentDataPath + "/tempsave" + "/caravan" + saveTag.saveID.ToString();
+            CaravanSaveData caravanSaveData = new CaravanSaveData{
+                weaponDatas = weapons.ToNativeArray(Allocator.Temp).ToArray(),
+                armorDatas = armors.ToNativeArray(Allocator.Temp).ToArray(),
+                charmDatas = charms.ToNativeArray(Allocator.Temp).ToArray(),
+                itemDatas = items.ToNativeArray(Allocator.Temp).ToArray()
+            };
+            string jsonString = JsonUtility.ToJson(caravanSaveData);
+            File.WriteAllText(savePath, jsonString);
+        }).Run();
+        //save iteractives
+        Entities
+        .WithoutBurst()
+        .ForEach((in PolyInteractiveData interactive, in ToSaveTag saveTag)=>{
+            string savePath = Application.persistentDataPath + "/tempsave" + "/interactivesave" + saveTag.saveID.ToString();
+            string jsonString = JsonUtility.ToJson(interactive);
+            File.WriteAllText(savePath, jsonString);
+        }).Run();
+        //save movement data
+        Entities
+        .WithoutBurst()
+        .ForEach((in MovementData movementData, in ToSaveTag saveTag)=>{
+            string savePath = Application.persistentDataPath + "/tempsave" + "/interactivesave" + saveTag.saveID.ToString();
+            string jsonString = JsonUtility.ToJson(movementData);
+            File.WriteAllText(savePath, jsonString);
+        }).Run();
+        //save cutscenetriggerdata
+        Entities
+        .WithoutBurst()
+        .ForEach((in CutsceneTriggerTag cutsceneTriggerTag, in ToSaveTag saveTag)=>{
+            string savePath = Application.persistentDataPath + "/tempsave" + "/cutscenetriggersave" + saveTag.saveID.ToString();
+            string jsonString = JsonUtility.ToJson(cutsceneTriggerTag);
+            File.WriteAllText(savePath, jsonString);
+        }).Run();
+        //save animation
+        Entities
+        .WithoutBurst()
+        .ForEach((Animator animator, in ToSaveTag saveTag)=>{
+            string savePath = Application.persistentDataPath + "/tempsave" + "/animationsave" + saveTag.saveID.ToString();
+            AnimationSaveData animationSaveData = new AnimationSaveData{ name = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name, normilizedtime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime};
+            string jsonString = JsonUtility.ToJson(animationSaveData);
+            File.WriteAllText(savePath, jsonString);
+        }).Run();
+    }
+    public void LoadAssets(){
+        //load position
+        Entities
+        .WithoutBurst()
+        .ForEach((ref Translation translation, in ToLoadData loadTag)=>{
+            string savePath = Application.persistentDataPath + "/tempsave" + "/traslationsave" + loadTag.saveID.ToString();
+            if(File.Exists(savePath) && loadTag.waitedFrame){
+                string jsonString =  File.ReadAllText(savePath);
+                translation = JsonUtility.FromJson<Translation>(jsonString);
+            }
+        }).Run();
+        //load skills
+        Entities
+        .WithoutBurst()
+        .ForEach((ref DynamicBuffer<PolySkillData> skills, in ToLoadData loadTag)=>{
+            string savePath = Application.persistentDataPath + "/tempsave" + "/skillsave" + loadTag.saveID.ToString();
+            if(File.Exists(savePath) && loadTag.waitedFrame){
+                string jsonString = File.ReadAllText(savePath);
+                skills.Clear();
+                SkillSaveData savedSkills = JsonUtility.FromJson<SkillSaveData>(jsonString);
+                foreach(PolySkillData skill in savedSkills.polySkillDatas){
+                    skills.Add(skill);
+                }
+            }
+        }).Run();
+        //load inventory
+        Entities
+        .WithoutBurst()
+        .WithStructuralChanges()
+        .WithAll<CaravanTag>()
+        .ForEach((ref DynamicBuffer<WeaponData> weapons,ref DynamicBuffer<ArmorData> armors,ref DynamicBuffer<CharmData> charms, ref DynamicBuffer<ItemData> items, in ToLoadData loadTag ) =>{
+            string savePath = Application.persistentDataPath + "/tempsave" + "/caravan" + loadTag.saveID.ToString();
+            if(File.Exists(savePath) && loadTag.waitedFrame){
+                string jsonString = File.ReadAllText(savePath);
+                CaravanSaveData caravanSaveData = JsonUtility.FromJson<CaravanSaveData>(jsonString);
+                weapons.Clear();
+                foreach(WeaponData weapon in caravanSaveData.weaponDatas){
+                    weapons.Add(weapon);
+                }
+                armors.Clear();
+                foreach(ArmorData armor in caravanSaveData.armorDatas){
+                    armors.Add(armor);
+                }
+                charms.Clear();
+                foreach(CharmData charm in caravanSaveData.charmDatas){
+                    charms.Add(charm);
+                }
+                items.Clear();
+                foreach(ItemData item in caravanSaveData.itemDatas){
+                    items.Add(item);
+                }
+            }
+        }).Run();
+        //load iteractives
+        Entities
+        .WithoutBurst()
+        .ForEach((Entity entity, PolyInteractiveData interactive, in ToLoadData loadTag)=>{
+            string savePath = Application.persistentDataPath + "/tempsave" + "/interactivesave" + loadTag.saveID.ToString();
+            if(File.Exists(savePath) && loadTag.waitedFrame){
+                string jsonString = File.ReadAllText(savePath);
+                interactive = JsonUtility.FromJson<PolyInteractiveData>(jsonString);
+                EntityManager.SetComponentData(entity, interactive);
+                //Debug.Log(interactive.SharedInteractiveData.isTriggered);
+            }
+        }).Run();
+        //load movement data
+        Entities
+        .WithoutBurst()
+        .ForEach((ref MovementData movementData, in ToLoadData loadTag)=>{
+            string savePath = Application.persistentDataPath + "/tempsave" + "/interactivesave" + loadTag.saveID.ToString();
+            if(File.Exists(savePath) && loadTag.waitedFrame){
+                string jsonString = File.ReadAllText(savePath);
+                movementData = JsonUtility.FromJson<MovementData>(jsonString);
+            }
+        }).Run();
+        //load animation
+        Entities
+        .WithoutBurst()
+        .ForEach((Entity entity, Animator animator, in ToLoadData loadTag)=>{
+            string savePath = Application.persistentDataPath + "/tempsave" + "/animationsave" + loadTag.saveID.ToString();
+            if(File.Exists(savePath) && loadTag.waitedFrame){
+                string jsonString = File.ReadAllText(savePath);
+                AnimationSaveData animationSaveData = JsonUtility.FromJson<AnimationSaveData>(jsonString);
+                animator.Play(animationSaveData.name, 0, animationSaveData.normilizedtime);
+            }
+        }).Run();
+        Entities
+        .WithoutBurst()
+        .ForEach((ref CutsceneTriggerTag cutsceneTriggerTag, in ToLoadData loadTag)=>{
+            string savePath = Application.persistentDataPath + "/tempsave" + "/cutscenetriggersave" + loadTag.saveID.ToString();
+            if(File.Exists(savePath) && loadTag.waitedFrame){
+                string jsonString = File.ReadAllText(savePath);
+                CutsceneTriggerTag triggersave = JsonUtility.FromJson<CutsceneTriggerTag>(jsonString);
+                cutsceneTriggerTag = triggersave;
+            }
+        }).Run();
+        Entities
+        .WithStructuralChanges()
+        .WithoutBurst()
+        .ForEach((Entity entity, ref ToLoadData loadTag) =>{
+            if(loadTag.waitedFrame){
+                EntityManager.AddComponentData(entity, new ToSaveTag{saveID = loadTag.saveID});
+                EntityManager.RemoveComponent<ToLoadData>(entity);
+            }
+            else{
+                loadTag.waitedFrame = true;
+            }
+            
+        }).Run();   
+    }
+    public void SaveStory(){
+        //save story
+        Entities
+        .WithoutBurst()
+        .WithStructuralChanges()
+        .ForEach((InkManagerData inkManager) => {
+            string savePath = Application.persistentDataPath + "/tempsave" + "/storysave";
+            string jsonString = inkManager.inkStory.state.ToJson();
+            File.WriteAllText(savePath, jsonString);
+        }).Run();
+    }
+    public void LoadStory(){
+        //load story
+        Entities
+        .WithoutBurst()
+        .WithStructuralChanges()
+        .ForEach((InkManagerData inkManager) => {
+            string savePath = Application.persistentDataPath + "/tempsave" + "/storysave";
+            string jsonString = File.ReadAllText(savePath);
+            inkManager.inkStory.state.LoadJson(jsonString);
+        }).Run();
+    }
     public void SaveGame(int saveFileNumber){
         // To do save everything
         SaveAtmosphere();
-        SavePlayers();
-        SaveSubsceneAssets();
+        SaveAssets();
+        SaveStory();
         SaveCurrentSubscenes();
         SaveTime();
-        
         // gets everything in the temp folder and pastes it into the save
         
         string savePath = Application.persistentDataPath + "/save" + saveFileNumber.ToString();
@@ -321,10 +409,14 @@ public class SaveAndLoadSystem : SystemBase
         sceneSystem.LoadSceneAsync(SubSceneReferences.Instance.EssentialsSubScene.SceneGUID);
     }
 
+    
     public void LoadSaveUI(System.Object sender, SavePointEventArg e){
-
+        inkDisplaySystem.DisplayingChoices = false;
+        inkDisplaySystem.DisableTextboxUI();
+        uISystem.overworldOverlay.visible = false;
         savePointName = e.savePointName;
         // pause the world
+        
         pauseSystem.Pause();
 
         VisualElement root = uISystem.root;
@@ -388,6 +480,9 @@ public class SaveAndLoadSystem : SystemBase
         location.text = savePointData.savePointName.ToString();
     }
 }
-
+[System.Serializable]
+public class SkillSaveData{
+    public PolySkillData[] polySkillDatas;
+}
 
 

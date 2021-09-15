@@ -7,4 +7,5 @@ public struct CaravanSaveData
     public WeaponData[] weaponDatas;
     public ArmorData[] armorDatas;
     public CharmData[] charmDatas;
+    public ItemData[] itemDatas;
 }

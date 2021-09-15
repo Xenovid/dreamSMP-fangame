@@ -8,6 +8,7 @@ public class InkManagerDataAuthoring : MonoBehaviour
     public Story inkStory {get; set;}
 }
 public class InkManagerData : IComponentData{
+    public bool instantiated;
     public TextAsset inkAssest;
     public Story inkStory {get; set;}
 }

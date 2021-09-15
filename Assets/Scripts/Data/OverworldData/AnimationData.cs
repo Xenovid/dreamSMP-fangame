@@ -28,6 +28,6 @@ public class AnimationData : IComponentData
 }
 [System.Serializable]
 public struct AnimationSaveData{
-    public int shortNameHash;
+    public string name;
     public float normilizedtime;
 }

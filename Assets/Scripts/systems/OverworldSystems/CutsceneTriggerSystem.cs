@@ -33,19 +33,23 @@ public class CutsceneTriggerSystem : SystemBase
             Entity entityA = triggerEvent.EntityA;
             Entity entityB = triggerEvent.EntityB;
 
-            if (HasComponent<CutsceneTriggerTag>(entityA) && HasComponent<InteractiveBoxCheckerData>(entityB) && uISystem.textBoxUI != null)
+            if (!HasComponent<ToLoadData>(entityA) && HasComponent<CutsceneTriggerTag>(entityA) && HasComponent<InteractiveBoxCheckerData>(entityB) && uISystem.textBoxUI != null)
             {
-                CutsceneData text = EntityManager.GetComponentObject<CutsceneData>(entityA);
-                inkDisplaySystem.StartCutScene(text.cutsceneName);
-                InputGatheringSystem.currentInput = CurrentInput.ui;
-                EntityManager.RemoveComponent<CutsceneTriggerTag>(entityA);
+                if(!GetComponent<CutsceneTriggerTag>(entityA).isTriggered){
+                    CutsceneData text = EntityManager.GetComponentObject<CutsceneData>(entityA);
+                    inkDisplaySystem.StartCutScene(text.cutsceneName);
+                    InputGatheringSystem.currentInput = CurrentInput.ui;
+                    EntityManager.SetComponentData(entityA, new CutsceneTriggerTag{isTriggered = true});
+                }
             }
-            else if (HasComponent<CutsceneTriggerTag>(entityB) && HasComponent<InteractiveBoxCheckerData>(entityA) && uISystem.textBoxUI != null)
+            else if (!HasComponent<ToLoadData>(entityB) &&HasComponent<CutsceneTriggerTag>(entityB) && HasComponent<InteractiveBoxCheckerData>(entityA) && uISystem.textBoxUI != null)
             {
-                CutsceneData text = EntityManager.GetComponentObject<CutsceneData>(entityB);
-                inkDisplaySystem.StartCutScene(text.cutsceneName);
-                InputGatheringSystem.currentInput = CurrentInput.ui;
-                EntityManager.RemoveComponent<CutsceneTriggerTag>(entityB);
+                if(!GetComponent<CutsceneTriggerTag>(entityB).isTriggered){
+                    CutsceneData text = EntityManager.GetComponentObject<CutsceneData>(entityB);
+                    inkDisplaySystem.StartCutScene(text.cutsceneName);
+                    InputGatheringSystem.currentInput = CurrentInput.ui;
+                    EntityManager.SetComponentData(entityB, new CutsceneTriggerTag{isTriggered = true});
+                }
             }
         }
         

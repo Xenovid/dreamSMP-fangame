@@ -20,6 +20,8 @@ public class InkDisplaySystem : SystemBase
     EntityQuery messageBoardQuery;
     BattleSystem battleSystem;
     EntityQuery inkQuery;
+    // prevents glitch were you can continue story without making a choice
+    public bool DisplayingChoices;
     protected override void OnCreate()
     {
         pauseSystem = World.GetOrCreateSystem<PauseSystem>();
@@ -34,12 +36,6 @@ public class InkDisplaySystem : SystemBase
         inkQuery = GetEntityQuery(typeof(InkManagerData));
         battleSystem = World.GetOrCreateSystem<BattleSystem>();
     }
-
-    protected override void OnStartRunning()
-    {
-        
-    }
-
     protected override void OnUpdate()
     {
         var ecb = m_EndSimulationEcbSystem.CreateCommandBuffer();
@@ -84,10 +80,12 @@ public class InkDisplaySystem : SystemBase
         UIInputData input = GetSingleton<UIInputData>();
         if(inkQuery.CalculateEntityCount() > 0){
             Entity inkEntity = inkQuery.GetSingletonEntity();
-
+            
             
             InkManagerData inkManager = EntityManager.GetComponentObject<InkManagerData>(inkEntity);
-            if(inkManager.inkStory == null){
+            if(inkManager.inkStory == null || !inkManager.instantiated){
+                inkManager.instantiated = true;
+                EntityManager.SetComponentData(inkEntity, inkManager);
                 // setting up story
                 inkManager.inkStory = new Story(inkManager.inkAssest.text);
                 inkManager.inkStory.BindExternalFunction("playSong", (string name) => {
@@ -237,6 +235,7 @@ public class InkDisplaySystem : SystemBase
         }).Run();
     }
     public void StartCutScene(String startPoint){
+        DisplayingChoices = false;
         InputGatheringSystem.currentInput = CurrentInput.ui;
         uISystem.overworldOverlay.visible = false;
         Entity messageBoard = GetSingletonEntity<UITag>();
@@ -253,7 +252,13 @@ public class InkDisplaySystem : SystemBase
         .WithoutBurst()
         .WithStructuralChanges()
         .ForEach((InkManagerData inkManager) => {
-            if(inkManager.inkStory.canContinue){
+            if(DisplayingChoices){
+                uISystem.textBoxUI.focusable = false;
+            }
+            else{
+                uISystem.textBoxUI.focusable = true;
+            }
+            if(inkManager.inkStory.canContinue && !DisplayingChoices){
                 inkManager.inkStory.Continue();
                 if(inkManager.inkStory.currentTags.Contains("battle")){
                     //initiate battle
@@ -276,7 +281,9 @@ public class InkDisplaySystem : SystemBase
                 }
                 else if(inkManager.inkStory.currentTags.Contains("playable")){
                     // initiate playable
+                    pauseSystem.Pause();
                     DisableTextboxUI();
+                    uISystem.overworldOverlay.visible = false;
 
                     EntityQuery playableQuery = GetEntityQuery(typeof(PlayableData));
                     NativeArray<Entity> playableEntities = playableQuery.ToEntityArray(Allocator.Temp);
@@ -324,7 +331,7 @@ public class InkDisplaySystem : SystemBase
                     
                 }
             }
-            else{
+            else if(!DisplayingChoices){
                 // story segment done
                 InputGatheringSystem.currentInput = CurrentInput.overworld;
                 if(inkManager.inkStory.currentFlowName == "victory"){
@@ -426,7 +433,9 @@ public class InkDisplaySystem : SystemBase
         EntityManager.SetComponentData(characterMouthEntity, characterMouthAnimation);
     }
     public void DisplayChoices(Button[] choices){
+        DisplayingChoices = true;
         ResetTextBox();
+        pauseSystem.Pause();
         Entity characterBaseEntity = characterBaseAnimationQuery.GetSingletonEntity();
         Entity characterEyesEntity = characterEyeAnimationQuery.GetSingletonEntity();
         Entity characterMouthEntity = characterMouthAnimationQuery.GetSingletonEntity();
@@ -459,6 +468,11 @@ public class InkDisplaySystem : SystemBase
             choice.Focus();
             playerChoiceUI.Add(choice);
         }
+        Entities
+        .WithoutBurst()
+        .ForEach((  ref TextBoxData textBoxData, ref Text text) =>{ 
+            text.isEnabled = false;
+        }).Run();
 
         EntityManager.SetComponentData(characterBaseEntity, characterBaseAnimation);
         EntityManager.SetComponentData(characterEyesEntity, characterEyeAnimation);

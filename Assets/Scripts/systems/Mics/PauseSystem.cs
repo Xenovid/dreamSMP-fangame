@@ -58,6 +58,9 @@ public class PauseSystem : SystemBase
         .ForEach((Animator animator) => {
             animator.speed = 0;
         }).Run();
+        Entities.ForEach((ref PhysicsVelocity Velocity) => {
+            Velocity.Linear = 0;
+        }).Run();
     }
     public void UnPause(){
         Entities

@@ -7,6 +7,7 @@ using UnityEngine;
 [Serializable]
 public struct PolySkillData : IBufferElementData
 {
+	[System.Serializable]
 	public enum TypeId
 	{
 		BasicPolySkill,
