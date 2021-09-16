@@ -1,9 +1,32 @@
 -> END
 
 EXTERNAL playSound(soundName)
-EXTERNAL displayPortrait(portriatName)
+EXTERNAL displayPortrait(characterName, feeling)
 EXTERNAL setTextSound(soundName)
 EXTERNAL playSong(songName)
+== tutorial ==
+    =textbox1   
+        works how you'd think a text box would work. Just remember that you can skip to the end of dialogue by clicking with your mouse.
+        Also if your afraid of losing progress you can save at any bell!
+        ->DONE
+    =techno1
+        This button is for a basic attack! Dealing a small amount of damage and inflicting the bleeding status effect
+        -> DONE
+    =techno2
+        This button is for your skills! Use blood to perform special attacks on your opponents
+        ->DONE
+    =techno3
+        This indicates that an enemy is affected by the bleeding status effect. Every so often they will take bleeding damage accorrding to how many times they've been afflitcted with the bleeding status effect. All damage done from bleeding is put into Technoblade blood meter, allowing him to perform his skills.
+        ->DONE
+    =techno4
+        This button is for items! Using a item will typically end up healing Technoblade.
+        ->DONE
+    =techno5
+        This button is for running! However I haven't yet implemented it... But once it is it'll probably be used to run from insignificant battles
+        ->DONE
+    =techno6
+        Technoblade doesn't die once his hp drops to 0. Instead the blood meter will used for his health instead. He will then only die once his blood reaches 0. 
+        ->DONE
 == aintro ==
     =tree
     it's just a tree
@@ -19,7 +42,7 @@ EXTERNAL playSong(songName)
 == thebell ==
     = thefirstbell
         ~playSound("sellouttimer")
-        ~displayPortrait("technoblade")
+        ~displayPortrait("Technoblade", "default")
         ~setTextSound("technoblade")
         #unskipable
         #slow
@@ -32,7 +55,7 @@ EXTERNAL playSong(songName)
     = intro
         #playable
         test
-        ~displayPortrait("technoblade")
+        ~displayPortrait("Technoblade", "default")
         ~setTextSound("technoblade")
         Staaarting the streeeam
         technolate?
@@ -44,10 +67,10 @@ EXTERNAL playSong(songName)
         Well Eret's pyramid is just around the corner, I just need to follow the path.
         -> END
     =wilbur
-        ~displayPortrait("technoblade")
+        ~displayPortrait("Technoblade", "default")
         ~setTextSound("technoblade")
         Wilbur?
-        ~displayPortrait("Wilbur")
+        ~displayPortrait("Wilbur", "default")
         ~setTextSound("Wilbur")
         oh hey, it's THE blade
         are you here to worship the
@@ -55,10 +78,10 @@ EXTERNAL playSong(songName)
         almighty
         Penultimate
         Pyramid
-        ~displayPortrait("technoblade")
+        ~displayPortrait("Technoblade", "default")
         ~setTextSound("technoblade")
         No, I heard there's free cookies
-        ~displayPortrait("Wilbur")
+        ~displayPortrait("Wilbur", "default")
         ~setTextSound("Wilbur")
         free cookies???
         technoblade, this structure is so much more then just a place where you can get cookies.
@@ -68,46 +91,46 @@ EXTERNAL playSong(songName)
         Penultimate
         Holy
         Pyramid
-        ~displayPortrait("technoblade")
+        ~displayPortrait("Technoblade", "default")
         ~setTextSound("technoblade")
         Wilbur, have you even been in the pyramid?
-        ~displayPortrait("Wilbur")
+        ~displayPortrait("Wilbur", "default")
         ~setTextSound("Wilbur")
         Me? No I haven't
         But that's not important. The moment I saw it 20 minutes ago, I knew it was special.
         One day may it open its magnificent locked doors for all to trensend into the next world
-        ~displayPortrait("technoblade")
+        ~displayPortrait("Technoblade", "default")
         ~setTextSound("technoblade")
         Hmm, I can't believe I didn't notice this before
-        ~displayPortrait("Wilbur")
+        ~displayPortrait("Wilbur", "default")
         ~setTextSound("Wilbur")
         YEESSSSS, TECHNOBLADE. Now can you truly see the greater meaning of the Pyramid.
-        ~displayPortrait("technoblade")
+        ~displayPortrait("Technoblade", "default")
         ~setTextSound("technoblade")
         No Wilbur it isn't that
         I found a key that says its to open up the pyramid
-        ~displayPortrait("Wilbur")
+        ~displayPortrait("Wilbur", "default")
         ~setTextSound("Wilbur")
         ...
-        ~displayPortrait("technoblade")
+        ~displayPortrait("Technoblade", "default")
         ~setTextSound("technoblade")
         What, did I say something wrong?
-        ~displayPortrait("Wilbur")
+        ~displayPortrait("Wilbur", "default")
         ~setTextSound("Wilbur")
         ~playSong("WilburTheme")
         Technoblade, I'm going to need those keys
         #battle
         Wilbur
-        ~displayPortrait("technoblade")
+        ~displayPortrait("Technoblade", "default")
         ~setTextSound("technoblade")
         If you want to go so bad, you could just follow me in
-        ~displayPortrait("Wilbur")
+        ~displayPortrait("Wilbur", "default")
         ~setTextSound("Wilbur")
         Its not that man. The problem is that my savior is a pig who has quite literally gone on the record on being an atheist. It just doesn't sit right
-        ~displayPortrait("technoblade")
+        ~displayPortrait("Technoblade", "default")
         ~setTextSound("technoblade")
         would a cookies help?
-        ~displayPortrait("Wilbur")
+        ~displayPortrait("Wilbur", "default")
         ~setTextSound("Wilbur")
         you've ruined my appetite, JUST GO!
         -> END

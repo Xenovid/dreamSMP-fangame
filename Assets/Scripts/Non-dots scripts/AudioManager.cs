@@ -119,7 +119,9 @@ public class AudioManager : MonoBehaviour
             if(sound.soundName == name){
                 try{
                     sound.audioSource.volume = volume;
-                    sound.audioSource.Play();
+                    if(!sound.audioSource.isPlaying){
+                        sound.audioSource.Play();
+                    }
                 }
                 catch(Exception e){
                     Debug.Log("something went wrong when trying to play the sound");

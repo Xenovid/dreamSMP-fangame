@@ -10,7 +10,7 @@ public class HeadsUpUISystem : SystemBase
         float dt = Time.DeltaTime;
         Entities
         .WithoutBurst()
-        .ForEach((HeadsUpUIData headsUpUI, Entity entity) => {
+        .ForEach((HeadsUpUIData headsUpUI, Entity entity, in CharacterStats characterStats) => {
             //go through each message and move its message
             if(HasComponent<BleedingData>(entity)){
                 headsUpUI.UI.Q<VisualElement>("bleeding_icon").visible = true;
@@ -18,6 +18,17 @@ public class HeadsUpUISystem : SystemBase
             else{
                 headsUpUI.UI.Q<VisualElement>("bleeding_icon").visible = false;
             }
+            if(HasComponent<BattleData>(entity)){
+                VisualElement healthbarBase = headsUpUI.UI.Q<VisualElement>("healthbar_base");
+                healthbarBase.visible = true;
+                VisualElement healthbar = healthbarBase.Q<VisualElement>("healthbar");
+                healthbar.style.width = healthbarBase.contentRect.width * ((float)characterStats.health / characterStats.maxHealth);
+            }
+            else{
+                VisualElement healthbarBase = headsUpUI.UI.Q<VisualElement>("healthbar_base");
+                healthbarBase.visible = false;
+            }
+
             for(int i = 0; i < headsUpUI.messages.Count; i++){
                 Message message = headsUpUI.messages[i];
                 message.timePassed += dt;

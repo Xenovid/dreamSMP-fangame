@@ -5,7 +5,7 @@ using System.Collections.Generic;
 [GenerateAuthoringComponent]
 public class CharacterPortraitListData : IComponentData
 {
-    public List<CharacterPortraitData> characterPortraitList = new List<CharacterPortraitData>();
+    public List<CharacterPortraitReference> characterPortraitList = new List<CharacterPortraitReference>();
 }
 [System.Serializable]
 public struct UIAnimationInfo{
@@ -14,4 +14,9 @@ public struct UIAnimationInfo{
 	public float time;
     public int index;
     public float spritePerSecond;
+}
+[System.Serializable]
+public struct CharacterPortraitReference{
+    public string characterName;
+    public List<CharacterPortraitData> characterPortraitList;
 }

@@ -99,7 +99,6 @@ public class SaveAndLoadSystem : SystemBase
     }
     public void LoadCurrentSubscenes(int saveFileNumber){
         string savePath = Application.persistentDataPath + "/save" + saveFileNumber.ToString()+ "/loadedscenes";
-        Debug.Log(savePath);
         string jsonString = File.ReadAllText(savePath);
         CurrentSubScenesData subScenesData = JsonUtility.FromJson<CurrentSubScenesData>(jsonString);
         foreach(SubScene subScene in subScenesData.subScenes){
@@ -111,7 +110,6 @@ public class SaveAndLoadSystem : SystemBase
         string savePath = Application.persistentDataPath + "/save" + e.saveFileNumber.ToString();
         CameraData cameraData = GetSingleton<CameraData>();
         cameraData.currentState = CameraState.FollingPlayer;
-        LoadStory();
         SetSingleton(cameraData);
         LoadTime(e.saveFileNumber);
         // clear the temp file
@@ -126,6 +124,7 @@ public class SaveAndLoadSystem : SystemBase
         }
         LoadCurrentSubscenes(e.saveFileNumber);
         LoadAtmosphere();
+        LoadStory();
         // loads the players
         sceneSystem.LoadSceneAsync(SubSceneReferences.Instance.EssentialsSubScene.SceneGUID);
         
@@ -171,6 +170,14 @@ public class SaveAndLoadSystem : SystemBase
         .ForEach((in Translation translation, in ToSaveTag saveTag)=>{
             string savePath = Application.persistentDataPath + "/tempsave" + "/traslationsave" + saveTag.saveID.ToString();
             string jsonString = JsonUtility.ToJson(translation);
+            File.WriteAllText(savePath, jsonString);
+        }).Run();
+        //save character stats
+        Entities
+        .WithoutBurst()
+        .ForEach((in CharacterStats characterStats, in ToSaveTag saveTag)=>{
+            string savePath = Application.persistentDataPath + "/tempsave" + "/charactersave" + saveTag.saveID.ToString();
+            string jsonString = JsonUtility.ToJson(characterStats);
             File.WriteAllText(savePath, jsonString);
         }).Run();
         //save skills
@@ -234,6 +241,18 @@ public class SaveAndLoadSystem : SystemBase
         }).Run();
     }
     public void LoadAssets(){
+        //load character stats
+        Entities
+        .WithoutBurst()
+        .ForEach((ref CharacterStats characterStats, in ToLoadData loadTag)=>{
+            string savePath = Application.persistentDataPath + "/tempsave" + "/charactersave" + loadTag.saveID.ToString();
+            if(File.Exists(savePath) && loadTag.waitedFrame){
+                
+                string jsonString = File.ReadAllText(savePath);
+                characterStats = JsonUtility.FromJson<CharacterStats>(jsonString);
+                File.WriteAllText(savePath, jsonString);
+            }
+        }).Run();
         //load position
         Entities
         .WithoutBurst()
@@ -375,7 +394,6 @@ public class SaveAndLoadSystem : SystemBase
         // gets everything in the temp folder and pastes it into the save
         
         string savePath = Application.persistentDataPath + "/save" + saveFileNumber.ToString();
-
         foreach(string file in Directory.GetFiles(savePath)){
             File.Delete(file);
         }
@@ -402,6 +420,9 @@ public class SaveAndLoadSystem : SystemBase
         AudioManager.playSong(overworldAtmosphereData.songName.ToString());
     }
     public void LoadNewGame(object sender, System.EventArgs e){
+        CameraData cameraData = GetSingleton<CameraData>();
+        cameraData.currentState = CameraState.FreeForm;
+        SetSingleton(cameraData);
         foreach(string file in Directory.GetFiles(Application.persistentDataPath + "/tempsave")){
             File.Delete(file);
         }

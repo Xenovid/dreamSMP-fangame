@@ -94,8 +94,8 @@ public class InkDisplaySystem : SystemBase
                 inkManager.inkStory.BindExternalFunction("playSound", (string name) => {
                     AudioManager.playSound(name);
                 });
-                inkManager.inkStory.BindExternalFunction("displayPortrait", (string name) => {
-                    DisplayPortriat(name);
+                inkManager.inkStory.BindExternalFunction("displayPortrait", (string characterName, string feeling) => {
+                    DisplayPortriat(characterName, feeling);
                 });
                 inkManager.inkStory.BindExternalFunction("setTextSound", (string name) => {
                     SetDialogueSound(name);
@@ -221,7 +221,7 @@ public class InkDisplaySystem : SystemBase
         EntityManager.SetComponentData(characterMouthEntity, characterMouthAnimation);
     }
     public void DisplayVictoryData(){
-        DisplayPortriat("default");
+        DisplayPortriat("empty", "default");
         Entity messageBoard = GetSingletonEntity<UITag>();
         Text text = GetComponent<Text>(messageBoard);
         Entities
@@ -361,7 +361,7 @@ public class InkDisplaySystem : SystemBase
             text.isEnabled = false;
         }).Run();
     }
-    public void DisplayPortriat(string dialoguePortraitName){
+    public void DisplayPortriat(string characterName, string feeling){
         Entity characterBaseEntity = characterBaseAnimationQuery.GetSingletonEntity();
         Entity characterEyesEntity = characterEyeAnimationQuery.GetSingletonEntity();
         Entity characterMouthEntity = characterMouthAnimationQuery.GetSingletonEntity();
@@ -370,7 +370,7 @@ public class InkDisplaySystem : SystemBase
         UIAnimationData characterEyeAnimation = EntityManager.GetComponentObject<UIAnimationData>(characterEyesEntity);
         UIAnimationData characterMouthAnimation = EntityManager.GetComponentObject<UIAnimationData>(characterMouthEntity);
 
-        CharacterPortraitData characterPortraitData = GetPortriatList(dialoguePortraitName);
+        CharacterPortraitData characterPortraitData = GetPortriatList(characterName, feeling);
                     // updating the portrait
         characterBaseAnimation.visualElement.style.backgroundImage = Background.FromSprite(characterPortraitData.portraits[0]);
         characterEyeAnimation.visualElement.style.backgroundImage = Background.FromSprite(characterPortraitData.eyeAnimations[0]);
@@ -384,21 +384,32 @@ public class InkDisplaySystem : SystemBase
         characterEyeAnimation.active = characterEyeAnimation.sprites.Length > 1;
         characterMouthAnimation.active = characterMouthAnimation.sprites.Length > 1;
     }
-    public CharacterPortraitData GetPortriatList(string name){
-        if(name == "") name = "default";
-        Entity characterPortriatHolderEntity = GetSingletonEntity<CharacterPortraitHolderTag>();
-        CharacterPortraitListData allPortraitsList = EntityManager.GetComponentObject<CharacterPortraitListData>(characterPortriatHolderEntity);
+    public CharacterPortraitData GetPortriatList(string characterName, string feeling){
+        if(characterName != ""){
+            if(feeling == "") feeling = "default";
+            Entity characterPortriatHolderEntity = GetSingletonEntity<CharacterPortraitHolderTag>();
+            CharacterPortraitListData allPortraitsList = EntityManager.GetComponentObject<CharacterPortraitListData>(characterPortriatHolderEntity);
 
-        foreach(CharacterPortraitData characterPortraitData in allPortraitsList.characterPortraitList){
-            if(characterPortraitData.name == name){
-                return characterPortraitData;
+            foreach(CharacterPortraitReference characterPortraitref in allPortraitsList.characterPortraitList){
+                if(characterPortraitref.characterName == characterName){
+                    foreach(CharacterPortraitData characterPortraitData in characterPortraitref.characterPortraitList){
+                        if(characterPortraitData.name == feeling){
+                             return characterPortraitData;
+                        }
+                    }
+                   
+                }
             }
+            Debug.Log("feeling not found");
+            if(feeling != "default"){
+                return GetPortriatList(characterName, "default");
+            }
+            Debug.Log("defualt not found");
+            }
+        else{
+
         }
-        Debug.Log("name not found");
-        if(name != "default"){
-            return GetPortriatList(default);
-        }
-        Debug.Log("defualt not found");
+        
         return new CharacterPortraitData();
         
     }
@@ -444,7 +455,7 @@ public class InkDisplaySystem : SystemBase
         UIAnimationData characterEyeAnimation = EntityManager.GetComponentObject<UIAnimationData>(characterEyesEntity);
         UIAnimationData characterMouthAnimation = EntityManager.GetComponentObject<UIAnimationData>(characterMouthEntity);
 
-        CharacterPortraitData characterPortraitData = GetPortriatList("technoblade");
+        CharacterPortraitData characterPortraitData = GetPortriatList("technoblade", "default");
         // updating the portrait
         characterBaseAnimation.visualElement.style.backgroundImage = Background.FromSprite(characterPortraitData.portraits[0]);
         characterEyeAnimation.visualElement.style.backgroundImage = Background.FromSprite(characterPortraitData.eyeAnimations[0]);
@@ -485,7 +496,7 @@ public class InkDisplaySystem : SystemBase
             text.dialogueSoundName = "default";
             Label textBoxText = uISystem.textBoxUI.Q<Label>("TextBoxText");
             textBoxText.text = "";
-            DisplayPortriat("default");
+            DisplayPortriat("empty", "default");
         }).Run();
     }
 }
