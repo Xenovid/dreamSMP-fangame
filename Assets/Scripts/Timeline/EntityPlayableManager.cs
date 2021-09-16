@@ -44,6 +44,15 @@ public class EntityPlayableManager : MonoBehaviour
         SetPlayableAsset(playableAssets[playableNumber]);
         director.Play();
         isPlayableFinished = false;
+    }
+    public void PlayPlayable(string playableName){
+        foreach(PlayableAsset playable in playableAssets){
+            if(playableName == playable.name){
+                SetPlayableAsset(playable);
+                director.Play();
+                isPlayableFinished = false;
+            }
+        }
         
     }
 }

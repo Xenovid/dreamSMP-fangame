@@ -1,9 +1,11 @@
+#if(UNITY_EDITOR)
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
 using System.Linq;
+
 [CustomEditor(typeof(PolyInteractiveAuthoring))]
 public class PolyInteractiveInspector : Editor
 {
@@ -50,3 +52,4 @@ public class PolyInteractiveInspector : Editor
     }
 
 }
+#endif

@@ -12,6 +12,7 @@ using System.IO;
 using UnityEngine.Tilemaps;
 public class BattleMenuSystem : SystemBase
 {
+    Action cachedHandler;
     PauseSystem pauseSystem;
     public event EventHandler OnContinue;
     SceneSystem sceneSystem;
@@ -199,7 +200,7 @@ public class BattleMenuSystem : SystemBase
         battleUI.visible = true;
         itemSelector.visible = false;
     }
-    private void SkillButton(int skillNumber){
+    public void SkillButton(int skillNumber){
         Entity playerEntity = playerCharactersQuery.ToEntityArray(Allocator.Temp)[currentCharacterSelected];
         DynamicBuffer<PolySkillData> equipedSkills = GetBuffer<PolySkillData>(playerEntity);
         CharacterStats characterStats = GetComponent<CharacterStats>(playerEntity);
@@ -216,14 +217,18 @@ public class BattleMenuSystem : SystemBase
                 int z = i;
                 EnemySelectorUI enemySelectorUI = EntityManager.GetComponentObject<EnemySelectorUI>(enemySelectorEntities[i]);
                 Button button = enemySelectorUI.enemySelectorUI.Q<Button>("Base");
-                button.clicked += () => SkillEnemySelectButton(z, skillNumber, button);
+                int tempNumber = skillNumber;
+                cachedHandler = () => SkillEnemySelectButton(z, tempNumber, button);
+                button.clicked += cachedHandler;
                 i++;
             }   
             enemySelectorEntities.Dispose();
         }
         
     }
-    private void SkillEnemySelectButton(int enemyNumber, int currentSkill, Button selectButton){
+    public void SkillEnemySelectButton(int enemyNumber, int currentSkill, Button selectButton){
+        selectButton.clicked -= cachedHandler;
+        cachedHandler = null;
         AudioManager.playSound("menuselect");
         battleUI.Focus();
         EntityQuery enemyUiSelectionGroup = GetEntityQuery(typeof(EnemySelectorUI), typeof(EnemySelectorData));
@@ -233,11 +238,11 @@ public class BattleMenuSystem : SystemBase
         Entities
         .WithoutBurst()
         .WithStructuralChanges()
-        .ForEach((DynamicBuffer<ItemData> itemInventory, Animator animator, PlayerSelectorUI selectorUI,int entityInQueryIndex, ref BattleData battleData, ref CharacterStats characterStats,in BasicBattleAudioData audioData, in Entity entity) =>{
+        .ForEach(( Animator animator, PlayerSelectorUI selectorUI,int entityInQueryIndex,ref DynamicBuffer<PolySkillData> skills, ref BattleData battleData, ref CharacterStats characterStats,in BasicBattleAudioData audioData, in Entity entity) =>{
             AudioManager.playSound(audioData.attackSoundName.ToString());
 
-            DynamicBuffer<PolySkillData> skills = GetBuffer<PolySkillData>(entity);
             PolySkillData skill = skills[currentSkill];
+            Debug.Log(skill.SharedSkillData.name);
             if(characterStats.points >= skill.SharedSkillData.cost){
                 characterStats.points -= skill.SharedSkillData.cost;
             }
@@ -259,7 +264,7 @@ public class BattleMenuSystem : SystemBase
             battleUI.visible = true;
             enemySelector.visible = false;
         }).Run();
-        selectButton.clicked -= () => SkillEnemySelectButton(enemyNumber, currentSkill, selectButton);
+        
 
         enemyUiSelection.Dispose();
     }
@@ -295,7 +300,7 @@ public class BattleMenuSystem : SystemBase
             skillSelector.Q<Label>("skill_desc").text = skill.description.ToString();
             skillList.Add(skillButton);
             skillButtons.Add(skillButton);
-            if(i == 0){
+            if(i == 1){
                 UpdateSkillDescription(skill.description.ToString());
                 skillButton.Focus();
             }
@@ -333,7 +338,8 @@ public class BattleMenuSystem : SystemBase
             int z = i;
             EnemySelectorUI enemySelectorUI = EntityManager.GetComponentObject<EnemySelectorUI>(enemySelectorEntities[i]);
             Button button = enemySelectorUI.enemySelectorUI.Q<Button>("Base");
-            button.clicked += () => AttackEnemySelectButton(z, button);
+            cachedHandler = () => AttackEnemySelectButton(z, button);
+            button.clicked += cachedHandler;
             i++;
         }   
         enemySelectorEntities.Dispose();
@@ -376,8 +382,8 @@ public class BattleMenuSystem : SystemBase
             }
             i++;
         }).Run();
-
-        selectButton.clicked -= () => AttackEnemySelectButton(EnemyNumber, selectButton);
+        selectButton.clicked -= cachedHandler;
+        cachedHandler = null;
         enemyUiSelection.Dispose();
         
         //deal damage to the enemy
@@ -580,13 +586,6 @@ public class BattleMenuSystem : SystemBase
         losingBackground.visible = false;
         saveAndLoadSystem.LoadLastSavePoint();
         InputGatheringSystem.currentInput = CurrentInput.overworld;
-        Entities
-        .WithoutBurst()
-        .WithStructuralChanges()
-        .WithAll<PlayerTag>()
-        .ForEach((Animator animator, in AnimationData animationData) => {
-            animator.Play(animationData.idleRightAnimationName);
-        }).Run();
     }
     public void LossReturnToTitleButton(){
         losingBackground.visible = false;

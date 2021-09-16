@@ -287,7 +287,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 377971988}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.62, y: -1.96, z: 0}
+  m_LocalPosition: {x: -2.27, y: -2.23, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -478,7 +478,7 @@ PlayableDirector:
   m_GameObject: {fileID: 609064832}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 39b92758eacaf3e488d85acaf1c7330c, type: 2}
+  m_PlayableAsset: {fileID: 11400000, guid: ac1f189018d7f974d85984f652385ce3, type: 2}
   m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -489,6 +489,8 @@ PlayableDirector:
   - key: {fileID: -7603324576725176976, guid: 39b92758eacaf3e488d85acaf1c7330c, type: 2}
     value: {fileID: 609064834}
   - key: {fileID: -3190427110586745454, guid: 39b92758eacaf3e488d85acaf1c7330c, type: 2}
+    value: {fileID: 377971991}
+  - key: {fileID: -6151849534194684924, guid: ac1f189018d7f974d85984f652385ce3, type: 2}
     value: {fileID: 377971991}
   m_ExposedReferences:
     m_References:
@@ -594,6 +596,7 @@ MonoBehaviour:
     id: 0
   playableAssets:
   - {fileID: 11400000, guid: 39b92758eacaf3e488d85acaf1c7330c, type: 2}
+  - {fileID: 11400000, guid: ac1f189018d7f974d85984f652385ce3, type: 2}
   isPlayableFinished: 0
 --- !u!4 &609064835
 Transform:
@@ -726,7 +729,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 894345196}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.62, y: -1.96, z: -10}
+  m_LocalPosition: {x: -2.27, y: -2.23, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 454979401}
@@ -978,7 +981,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1320044253}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.62, y: -1.96, z: -10}
+  m_LocalPosition: {x: -0.76338077, y: -2.21948, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1692,7 +1695,45 @@ MonoBehaviour:
     characterPortraitList:
     - name: default
       portraits:
-      - {fileID: 21300000, guid: dfd2eb1573051704ab034e9d00963e8c, type: 3}
+      - {fileID: 21300000, guid: a8b86b38cea3b3c47a2065f5493711e6, type: 3}
+      eyeAnimations:
+      - {fileID: 21300000, guid: a8b86b38cea3b3c47a2065f5493711e6, type: 3}
+      - {fileID: 21300000, guid: 2bb2e57d15ace584ea0d72a619cb3775, type: 3}
+      - {fileID: 21300000, guid: 9ab11faf5ebd16c4d8f83af974e8b752, type: 3}
+      - {fileID: 21300000, guid: 2bb2e57d15ace584ea0d72a619cb3775, type: 3}
+      mouthAnimations:
+      - {fileID: 0}
+    - name: surprised
+      portraits:
+      - {fileID: 21300000, guid: ca09c4796c49ebf45b21019554543e65, type: 3}
+      eyeAnimations:
+      - {fileID: 0}
+      mouthAnimations:
+      - {fileID: 0}
+    - name: silent
+      portraits:
+      - {fileID: 21300000, guid: dbaee2ed6f7dee749ac91b3c49a6e5ac, type: 3}
+      eyeAnimations:
+      - {fileID: 0}
+      mouthAnimations:
+      - {fileID: 0}
+    - name: choatic
+      portraits:
+      - {fileID: 21300000, guid: 0b8210ea47be29c4588bbc3c3e1e17f1, type: 3}
+      eyeAnimations:
+      - {fileID: 0}
+      mouthAnimations:
+      - {fileID: 0}
+    - name: disgusted
+      portraits:
+      - {fileID: 21300000, guid: 37c812e3304ea6b448925416fdf5db8a, type: 3}
+      eyeAnimations:
+      - {fileID: 0}
+      mouthAnimations:
+      - {fileID: 0}
+    - name: kindaangry
+      portraits:
+      - {fileID: 21300000, guid: 988fe857f7fc06a4da13fd76250fac41, type: 3}
       eyeAnimations:
       - {fileID: 0}
       mouthAnimations:

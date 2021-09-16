@@ -50,11 +50,9 @@ EXTERNAL playSong(songName)
         ~setTextSound("bell")
         #technoblade
         subscribe to Technoblade!!!!!
-        -> END
+        -> DONE
 == story ==
     = intro
-        #playable
-        test
         ~displayPortrait("Technoblade", "default")
         ~setTextSound("technoblade")
         Staaarting the streeeam
@@ -65,14 +63,17 @@ EXTERNAL playSong(songName)
         It's a trap?
         Look it could be a trap and I'm ganged up on by 5 people and I lose one of my three lives. Or I could get cookies. I think the benefits vastly outweigh the potential downsides.
         Well Eret's pyramid is just around the corner, I just need to follow the path.
-        -> END
+        -> DONE
     =wilbur
+        #playable
+        WilburBattle
         ~displayPortrait("Technoblade", "default")
         ~setTextSound("technoblade")
         Wilbur?
-        ~displayPortrait("Wilbur", "default")
+        ~displayPortrait("Wilbur", "surprised")
         ~setTextSound("Wilbur")
         oh hey, it's THE blade
+        ~displayPortrait("Wilbur", "default")
         are you here to worship the
         great
         almighty
@@ -81,7 +82,7 @@ EXTERNAL playSong(songName)
         ~displayPortrait("Technoblade", "default")
         ~setTextSound("technoblade")
         No, I heard there's free cookies
-        ~displayPortrait("Wilbur", "default")
+        ~displayPortrait("Wilbur", "kindaangry")
         ~setTextSound("Wilbur")
         free cookies???
         technoblade, this structure is so much more then just a place where you can get cookies.
@@ -102,20 +103,20 @@ EXTERNAL playSong(songName)
         ~displayPortrait("Technoblade", "default")
         ~setTextSound("technoblade")
         Hmm, I can't believe I didn't notice this before
-        ~displayPortrait("Wilbur", "default")
+        ~displayPortrait("Wilbur", "choatic")
         ~setTextSound("Wilbur")
         YEESSSSS, TECHNOBLADE. Now can you truly see the greater meaning of the Pyramid.
         ~displayPortrait("Technoblade", "default")
         ~setTextSound("technoblade")
         No Wilbur it isn't that
         I found a key that says its to open up the pyramid
-        ~displayPortrait("Wilbur", "default")
+        ~displayPortrait("Wilbur", "silent")
         ~setTextSound("Wilbur")
         ...
         ~displayPortrait("Technoblade", "default")
         ~setTextSound("technoblade")
         What, did I say something wrong?
-        ~displayPortrait("Wilbur", "default")
+        ~displayPortrait("Wilbur", "silent")
         ~setTextSound("Wilbur")
         ~playSong("WilburTheme")
         Technoblade, I'm going to need those keys
@@ -124,16 +125,16 @@ EXTERNAL playSong(songName)
         ~displayPortrait("Technoblade", "default")
         ~setTextSound("technoblade")
         If you want to go so bad, you could just follow me in
-        ~displayPortrait("Wilbur", "default")
+        ~displayPortrait("Wilbur", "disgusted")
         ~setTextSound("Wilbur")
         Its not that man. The problem is that my savior is a pig who has quite literally gone on the record on being an atheist. It just doesn't sit right
         ~displayPortrait("Technoblade", "default")
         ~setTextSound("technoblade")
         would a cookies help?
-        ~displayPortrait("Wilbur", "default")
+        ~displayPortrait("Wilbur", "disgusted")
         ~setTextSound("Wilbur")
         you've ruined my appetite, JUST GO!
-        -> END
+        -> DONE
 == victory ==
 You Won
--> END
+-> DONE

@@ -67,6 +67,7 @@ public class AudioManager : MonoBehaviour
                 try{
                     dialogue.audioSource.volume = volume;
                     dialogue.audioSource.Play();
+                    
                 }
                 catch(Exception e){
                     Debug.Log("something went wrong when trying to play the dialogue");
@@ -119,9 +120,7 @@ public class AudioManager : MonoBehaviour
             if(sound.soundName == name){
                 try{
                     sound.audioSource.volume = volume;
-                    if(!sound.audioSource.isPlaying){
-                        sound.audioSource.Play();
-                    }
+                    sound.audioSource.Play();
                 }
                 catch(Exception e){
                     Debug.Log("something went wrong when trying to play the sound");

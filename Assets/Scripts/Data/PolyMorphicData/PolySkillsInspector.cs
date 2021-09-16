@@ -1,3 +1,4 @@
+#if(UNITY_EDITOR)
 using System;
 using System.Linq;
 using System.Reflection.Emit;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using System.Reflection;
 using UnityEngine;
+
 [CustomEditor(typeof(PolySkillsAuthoring))]
 public class PolySkillsInspector : Editor
 {
@@ -61,3 +63,4 @@ public class PolySkillsInspector : Editor
     }
 
 }
+#endif

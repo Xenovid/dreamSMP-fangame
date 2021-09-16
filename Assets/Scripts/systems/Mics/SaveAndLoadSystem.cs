@@ -25,6 +25,7 @@ public class SaveAndLoadSystem : SystemBase
     
     protected override void OnCreate()
     {
+        CreateSaveFiles();
         isSaving = false;
         uISystem = World.GetOrCreateSystem<UISystem>();
         sceneSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<SceneSystem>();
@@ -69,7 +70,7 @@ public class SaveAndLoadSystem : SystemBase
         }
     }
     public void LoadTime(int saveFileNumber){
-        string savePath = Application.persistentDataPath + "/save" + saveFileNumber.ToString() + "/SavePointData";
+        string savePath = Application.persistentDataPath + "/tempsave" + "/SavePointData";
         string jsonString = File.ReadAllText(savePath);
         SavePointData savePointData = JsonUtility.FromJson<SavePointData>(jsonString);
         SetSingleton<SavePointData>(savePointData);
@@ -97,8 +98,8 @@ public class SaveAndLoadSystem : SystemBase
         string jsonString = JsonUtility.ToJson(subScenesData);
         File.WriteAllText(savePath, jsonString);
     }
-    public void LoadCurrentSubscenes(int saveFileNumber){
-        string savePath = Application.persistentDataPath + "/save" + saveFileNumber.ToString()+ "/loadedscenes";
+    public void LoadCurrentSubscenes(){
+        string savePath = Application.persistentDataPath + "/tempsave"+ "/loadedscenes";
         string jsonString = File.ReadAllText(savePath);
         CurrentSubScenesData subScenesData = JsonUtility.FromJson<CurrentSubScenesData>(jsonString);
         foreach(SubScene subScene in subScenesData.subScenes){
@@ -107,22 +108,28 @@ public class SaveAndLoadSystem : SystemBase
 
     }
     public void LoadGame(object sender, StartGameEventArgs e){
-        string savePath = Application.persistentDataPath + "/save" + e.saveFileNumber.ToString();
+        CreateSaveFiles();
+        if(e.saveFileNumber != 0){
+            string savePath = Application.persistentDataPath + "/save" + e.saveFileNumber.ToString();
+
+            foreach(string file in Directory.GetFiles(Application.persistentDataPath + "/tempsave")){
+            File.Delete(file);
+            }
+            // load the temp file up with the data
+            foreach(string file in Directory.GetFiles(savePath)){
+                string fileSavePath = Path.Combine(Application.persistentDataPath + "/tempsave", Path.GetFileName(file));
+                File.Copy(file, fileSavePath);
+            }
+        }
+        
         CameraData cameraData = GetSingleton<CameraData>();
         cameraData.currentState = CameraState.FollingPlayer;
         SetSingleton(cameraData);
         LoadTime(e.saveFileNumber);
         // clear the temp file
-        CreateSaveFiles();
-        foreach(string file in Directory.GetFiles(Application.persistentDataPath + "/tempsave")){
-            File.Delete(file);
-        }
-        // load the temp file up with the data
-        foreach(string file in Directory.GetFiles(savePath)){
-            string fileSavePath = Path.Combine(Application.persistentDataPath + "/tempsave", Path.GetFileName(file));
-            File.Copy(file, fileSavePath);
-        }
-        LoadCurrentSubscenes(e.saveFileNumber);
+       
+        
+        LoadCurrentSubscenes();
         LoadAtmosphere();
         LoadStory();
         // loads the players
@@ -132,6 +139,7 @@ public class SaveAndLoadSystem : SystemBase
     public void CreateSaveFiles(){
         if(!Directory.Exists(Application.persistentDataPath + "/tempsave")) Directory.CreateDirectory(Application.persistentDataPath + "/tempsave");
         if(!Directory.Exists(Application.persistentDataPath + "/save1")) Directory.CreateDirectory(Application.persistentDataPath + "/save1");
+        if(!Directory.Exists(Application.persistentDataPath + "/save2")) Directory.CreateDirectory(Application.persistentDataPath + "/save2");
     }
     public void UnLoadSubScenes(){
         
@@ -145,15 +153,20 @@ public class SaveAndLoadSystem : SystemBase
         }).Run();
     }
     public void LoadLastSavePoint(){
+        sceneSystem.UnloadScene(SubSceneReferences.Instance.EssentialsSubScene.SceneGUID);
+        List<SubScene> subScenes = new List<SubScene>();
         Entities
-        .WithAll<PlayerTag>()
         .WithoutBurst()
-        .ForEach((ref Translation translation, in ToSaveTag saveTag) =>{
-            string savePath = Application.persistentDataPath + "/tempsave" +  "/player" + saveTag.saveID.ToString();
-            string jsonString = File.ReadAllText(savePath);
-            PlayerSaveData playerSaveData = JsonUtility.FromJson<PlayerSaveData>(jsonString);
-            translation.Value = playerSaveData.trasition;
+        .WithNone<EssentialsSubSceneTag>()
+        .ForEach((Entity entity, in SubScene subScene) =>{
+            if(sceneSystem.IsSceneLoaded(entity)){
+                subScenes.Add(subScene);
+            }
         }).Run();
+        foreach(SubScene scene in subScenes){
+            sceneSystem.UnloadScene(scene.SceneGUID);
+        }
+        LoadGame(this, new StartGameEventArgs{saveFileNumber = 0});
 
         LoadAtmosphere();
         string savePath = Application.persistentDataPath + "/tempsave" +  "/loadedscenes";
@@ -443,16 +456,18 @@ public class SaveAndLoadSystem : SystemBase
         VisualElement root = uISystem.root;
         VisualElement fileSelectUI = root.Q<VisualElement>("overworld_file_select");
 
-        UpdateSaveFileUI(fileSelectUI);
+        UpdateSaveFileUI(fileSelectUI, true);
         fileSelectUI.visible = true;
     }
-    public void UpdateSaveFileUI(VisualElement saveFileUI){
+    public void UpdateSaveFileUI(VisualElement saveFileUI, bool isSaving = false){
         saveFileUI.visible = true;
         bool selectedFile = false;
         for(int i = 1; i <= 2; i++){
+            Debug.Log(i);
             TemplateContainer fileContainer = saveFileUI.Q<TemplateContainer>("save_file" + i.ToString());
             Button currentFile = fileContainer.Q<Button>("background");
-            if(File.Exists(Application.persistentDataPath + "/save" + i.ToString() + "/SavePointData")){
+            if(File.Exists(Application.persistentDataPath + "/save" + i.ToString() + "/SavePointData") || (isSaving)){
+                currentFile.SetEnabled(true);
                 Label currentTime = currentFile.Q<Label>("time");
                 
                 string savePath = Application.persistentDataPath + "/save" + i.ToString() + "/SavePointData";

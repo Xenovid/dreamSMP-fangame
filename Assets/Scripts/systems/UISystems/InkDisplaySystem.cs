@@ -281,6 +281,10 @@ public class InkDisplaySystem : SystemBase
                 }
                 else if(inkManager.inkStory.currentTags.Contains("playable")){
                     // initiate playable
+                    CameraData cameraData = GetSingleton<CameraData>();
+                    cameraData.currentState = CameraState.FreeForm;
+                    SetSingleton(cameraData);
+
                     pauseSystem.Pause();
                     DisableTextboxUI();
                     uISystem.overworldOverlay.visible = false;
@@ -289,6 +293,8 @@ public class InkDisplaySystem : SystemBase
                     NativeArray<Entity> playableEntities = playableQuery.ToEntityArray(Allocator.Temp);
 
                     string playableName = new string(inkManager.inkStory.currentText.ToCharArray().Where(c => !Char.IsWhiteSpace(c)).ToArray());
+                    EntityPlayableManager.instance.PlayPlayable(playableName);
+                    /*
                     foreach(Entity entity in playableEntities){
                         PlayableData playableData = EntityManager.GetComponentObject<PlayableData>(entity);
 
@@ -299,7 +305,7 @@ public class InkDisplaySystem : SystemBase
                             
                             EntityPlayableManager.instance.PlayPlayable(playableData.index);
                         }
-                    }
+                    }*/
 
                     playableEntities.Dispose();
                 }
@@ -337,15 +343,15 @@ public class InkDisplaySystem : SystemBase
                 if(inkManager.inkStory.currentFlowName == "victory"){
                     OnVictoryDisplayFinish?.Invoke(this, EventArgs.Empty);
                     inkManager.inkStory.SwitchToDefaultFlow();
+                    
                 }
-                if(inkManager.inkStory.currentFlowName != "battle"){
+                else if(inkManager.inkStory.currentFlowName != "battle"){
                     CameraData cameraData = GetSingleton<CameraData>();
                     cameraData.currentState = CameraState.FollingPlayer;
                     SetSingleton(cameraData);
                     ResetTextBox();
+                    DisableTextboxUI();
                 }
-                
-                DisableTextboxUI();
             }    
         }).Run();
     }
@@ -455,7 +461,7 @@ public class InkDisplaySystem : SystemBase
         UIAnimationData characterEyeAnimation = EntityManager.GetComponentObject<UIAnimationData>(characterEyesEntity);
         UIAnimationData characterMouthAnimation = EntityManager.GetComponentObject<UIAnimationData>(characterMouthEntity);
 
-        CharacterPortraitData characterPortraitData = GetPortriatList("technoblade", "default");
+        CharacterPortraitData characterPortraitData = GetPortriatList("Technoblade", "default");
         // updating the portrait
         characterBaseAnimation.visualElement.style.backgroundImage = Background.FromSprite(characterPortraitData.portraits[0]);
         characterEyeAnimation.visualElement.style.backgroundImage = Background.FromSprite(characterPortraitData.eyeAnimations[0]);
