@@ -44033,6 +44033,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 740898198103091578, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
+      propertyPath: itemData.chance
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 6581668474788148505, guid: e61a11f8ac3df2d43bfc10f15414245d, type: 3}
       propertyPath: Values.Array.size
       value: 1

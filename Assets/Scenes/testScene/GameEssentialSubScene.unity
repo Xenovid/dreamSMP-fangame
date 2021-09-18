@@ -332,6 +332,260 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1166748393
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1166748395}
+  - component: {fileID: 1166748394}
+  - component: {fileID: 1166748396}
+  m_Layer: 0
+  m_Name: technobladeSkillUnlocks
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1166748394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166748393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5dd99538f753f48acf3b6bcb1404f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skills:
+  - skill:
+      id: 0
+    typeID: 0
+    data:
+      chance: 0
+      recoveryTime: 0.5
+      cost: 3
+      name:
+        utf8LengthInBytes: 0
+        bytes:
+          offset0000:
+            byte0000: 0
+            byte0001: 0
+            byte0002: 0
+            byte0003: 0
+            byte0004: 0
+            byte0005: 0
+            byte0006: 0
+            byte0007: 0
+            byte0008: 0
+            byte0009: 0
+            byte0010: 0
+            byte0011: 0
+            byte0012: 0
+            byte0013: 0
+            byte0014: 0
+            byte0015: 0
+          byte0016: 0
+          byte0017: 0
+          byte0018: 0
+          byte0019: 0
+          byte0020: 0
+          byte0021: 0
+          byte0022: 0
+          byte0023: 0
+          byte0024: 0
+          byte0025: 0
+          byte0026: 0
+          byte0027: 0
+          byte0028: 0
+          byte0029: 0
+      description:
+        utf8LengthInBytes: 0
+        bytes:
+          offset0000:
+            byte0000: 0
+            byte0001: 0
+            byte0002: 0
+            byte0003: 0
+            byte0004: 0
+            byte0005: 0
+            byte0006: 0
+            byte0007: 0
+            byte0008: 0
+            byte0009: 0
+            byte0010: 0
+            byte0011: 0
+            byte0012: 0
+            byte0013: 0
+            byte0014: 0
+            byte0015: 0
+          offset0016:
+            byte0000: 0
+            byte0001: 0
+            byte0002: 0
+            byte0003: 0
+            byte0004: 0
+            byte0005: 0
+            byte0006: 0
+            byte0007: 0
+            byte0008: 0
+            byte0009: 0
+            byte0010: 0
+            byte0011: 0
+            byte0012: 0
+            byte0013: 0
+            byte0014: 0
+            byte0015: 0
+          offset0032:
+            byte0000: 0
+            byte0001: 0
+            byte0002: 0
+            byte0003: 0
+            byte0004: 0
+            byte0005: 0
+            byte0006: 0
+            byte0007: 0
+            byte0008: 0
+            byte0009: 0
+            byte0010: 0
+            byte0011: 0
+            byte0012: 0
+            byte0013: 0
+            byte0014: 0
+            byte0015: 0
+          byte0048: 0
+          byte0049: 0
+          byte0050: 0
+          byte0051: 0
+          byte0052: 0
+          byte0053: 0
+          byte0054: 0
+          byte0055: 0
+          byte0056: 0
+          byte0057: 0
+          byte0058: 0
+          byte0059: 0
+          byte0060: 0
+          byte0061: 0
+    importantStrings:
+    - stringName: skill name
+      theString: Orphan Obliterate
+    - stringName: ' skill description'
+      theString: Instant kill Orphans
+    - stringName: animationName
+      theString: TechnobladeBasicSwordSwing
+    - stringName: damageEffectPrefabName
+      theString: default
+  references:
+    version: 1
+    00000000:
+      type: {class: BasicPolySkill, ns: , asm: BaseAssembly}
+      data:
+        damage: 7
+        damType: 1
+        damageTime: 0.2
+        dealtDamage: 0
+        spawnedPrefab: 0
+        animationName:
+          utf8LengthInBytes: 0
+          bytes:
+            offset0000:
+              byte0000: 0
+              byte0001: 0
+              byte0002: 0
+              byte0003: 0
+              byte0004: 0
+              byte0005: 0
+              byte0006: 0
+              byte0007: 0
+              byte0008: 0
+              byte0009: 0
+              byte0010: 0
+              byte0011: 0
+              byte0012: 0
+              byte0013: 0
+              byte0014: 0
+              byte0015: 0
+            byte0016: 0
+            byte0017: 0
+            byte0018: 0
+            byte0019: 0
+            byte0020: 0
+            byte0021: 0
+            byte0022: 0
+            byte0023: 0
+            byte0024: 0
+            byte0025: 0
+            byte0026: 0
+            byte0027: 0
+            byte0028: 0
+            byte0029: 0
+        damageEffectPrefabName:
+          utf8LengthInBytes: 0
+          bytes:
+            offset0000:
+              byte0000: 0
+              byte0001: 0
+              byte0002: 0
+              byte0003: 0
+              byte0004: 0
+              byte0005: 0
+              byte0006: 0
+              byte0007: 0
+              byte0008: 0
+              byte0009: 0
+              byte0010: 0
+              byte0011: 0
+              byte0012: 0
+              byte0013: 0
+              byte0014: 0
+              byte0015: 0
+            byte0016: 0
+            byte0017: 0
+            byte0018: 0
+            byte0019: 0
+            byte0020: 0
+            byte0021: 0
+            byte0022: 0
+            byte0023: 0
+            byte0024: 0
+            byte0025: 0
+            byte0026: 0
+            byte0027: 0
+            byte0028: 0
+            byte0029: 0
+        prefabSpawnTime: 0.1
+--- !u!4 &1166748395
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166748393}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1166748396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166748393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b118d41a860f4754aaefa3c6b976f93c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &108625178374415961
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -350,6 +604,18 @@ PrefabInstance:
     - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: maxPoints
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: baseStats.attack
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedWeapon.power
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 108625178797338080, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
+      propertyPath: equipedArmor.defense
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 108625178797338087, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
       propertyPath: m_RootOrder
@@ -738,3 +1004,38 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 108625178797338088, guid: ca840576a668e2e46ae817cabc5225b8, type: 3}
   m_PrefabInstance: {fileID: 108625178374415961}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &108625178374415963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108625178374415962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44aff398d645a774fb7271f1b8d3f047, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LevelCAP: 0
+  currentLVL: 1
+  currentEXP: 19
+  requiredEXP: 20
+--- !u!114 &108625178374415964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108625178374415962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e07e57dcc06da04badb12b9f2750776, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingLevel: 1
+  levelRewards:
+  - healthBonus: 2
+    attackBonus: 1
+    defenceBonus: 1
+    pointsBonus: 1
+    skillUnlockIndex: 0

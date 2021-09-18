@@ -264,18 +264,38 @@ public class UISystem : SystemBase
         pauseBackground.visible = true;
 
         VisualElement currentCharacterUI = pauseBackground.Q<VisualElement>("character" + (currentCharacter + 1).ToString());
+
         Label healthBarText = currentCharacterUI.Q<Label>("health_text");
         VisualElement healthBarBase = currentCharacterUI.Q<VisualElement>("health_bar_base");
         VisualElement healthBar = currentCharacterUI.Q<VisualElement>("health_bar");
+
         VisualElement bloodBar = currentCharacterUI.Q<VisualElement>("blood_bar");
         VisualElement bloodBarBase = currentCharacterUI.Q<VisualElement>("blood_bar_base");
         Label bloodBarText = currentCharacterUI.Q<Label>("blood_text");
+
+        Label currentLevel = currentCharacterUI.Q<Label>("current_level");
+        Label currentAttack = currentCharacterUI.Q<Label>("current_attack");
+        Label currentDefence = currentCharacterUI.Q<Label>("current_defence");
+        Label neededEXP = currentCharacterUI.Q<Label>("EXP");
+
+        
+
+
         CharacterStats characterStats = characterStatsList[currentCharacter];
+        LevelData levelData = GetComponent<LevelData>(characterEntities[currentCharacter]);
+
+        currentLevel.text = "LVL " + levelData.currentLVL.ToString();
+        currentAttack.text = "ATK: " + (characterStats.baseStats.attack + characterStats.equipedWeapon.power).ToString();
+        currentDefence.text = "DEF: " + (characterStats.baseStats.defense + characterStats.equipedArmor.defense).ToString();
+        neededEXP.text = "EXP needed: " + (levelData.requiredEXP - levelData.currentEXP).ToString();
+
         healthBar.style.width = healthBarBase.contentRect.width * (characterStats.health / characterStats.maxHealth);
         healthBarText.text = "HP: " + characterStats.health.ToString() + "/" + characterStats.maxHealth.ToString();
 
         bloodBar.style.width = bloodBarBase.contentRect.width * (characterStats.points / characterStats.maxPoints);
         bloodBarText.text = "Blood: " + characterStats.points.ToString() + "/" + characterStats.maxPoints.ToString();
+
+
 
         characterEntities.Dispose();
     }

@@ -100,6 +100,15 @@ public class InkDisplaySystem : SystemBase
                 inkManager.inkStory.BindExternalFunction("setTextSound", (string name) => {
                     SetDialogueSound(name);
                 });
+                inkManager.inkStory.BindExternalFunction("levelUp", () => {
+                    LevelUp();
+                });
+                inkManager.inkStory.BindExternalFunction("updateEXPGold", () => {
+                    UpdateEXPGold();
+                });
+                inkManager.inkStory.BindExternalFunction("GetNextBattleItem", () => {
+                    GetNextBattleItem();
+                });
             }
             
         }
@@ -127,7 +136,7 @@ public class InkDisplaySystem : SystemBase
                     while (textBoxData.timeFromLastChar >= textBoxData.textSpeed && !textBoxData.isFinishedPage){
                         string textString = text.text.ToString();
                         textBoxData.currentChar++;
-                        if(textString[textBoxData.currentChar -1] != ' '){
+                        if(textString.Length > textBoxData.currentChar && textString[textBoxData.currentChar -1] != ' '){
                             AudioManager.playDialogue(text.dialogueSoundName.ToString());
                         }
                         
@@ -151,6 +160,79 @@ public class InkDisplaySystem : SystemBase
 
 
         EntityManager.SetComponentData(characterMouthEntity, characterMouthAnimation);
+    }
+    public void LevelUp(){
+        Entity technoEntity = GetSingletonEntity<TechnoData>();
+        LevelData levelData = GetComponent<LevelData>(technoEntity);
+
+        Entity unlockableSkillsEntity = GetSingletonEntity<UnlockableSkillsTag>();
+        
+
+        LevelUpRewardData levelUpRewardData = EntityManager.GetComponentObject<LevelUpRewardData>(technoEntity);
+        Entity inkEntity = inkQuery.GetSingletonEntity(); 
+        InkManagerData inkManager = EntityManager.GetComponentObject<InkManagerData>(inkEntity);
+
+        if(levelData.currentEXP >= ((levelData.currentLVL * 20 )+ ((levelData.currentLVL - 1) * 10 ))){
+
+            // leveled up
+            levelData.currentEXP -= ((levelData.currentLVL * 20 )+ ((levelData.currentLVL - 1) * 10));
+            levelData.currentLVL += 1;
+            levelData.requiredEXP = ((levelData.currentLVL * 20 )+ ((levelData.currentLVL - 1) * 10 ));
+            
+            
+            LevelReward levelReward = levelUpRewardData.levelRewards[levelData.currentLVL - levelUpRewardData.startingLevel - 1];
+            CharacterStats characterStats = GetComponent<CharacterStats>(technoEntity);
+            characterStats.baseStats.attack += levelReward.attackBonus;
+            characterStats.baseStats.defense += levelReward.defenceBonus;
+            characterStats.maxPoints += levelReward.pointsBonus;
+            characterStats.maxHealth += levelReward.healthBonus;
+            SetComponent(technoEntity, characterStats);
+
+            Entity UnlockableSkillEntity = GetSingletonEntity<UnlockableSkillsTag>();
+            DynamicBuffer<PolySkillData> unlockableSkills = GetBuffer<PolySkillData>(UnlockableSkillEntity);
+
+            if(levelReward.skillUnlockIndex < 0 && levelReward.skillUnlockIndex >= unlockableSkills.Length){
+                inkManager.inkStory.EvaluateFunction("updateLevelInfo", "Technoblade", "", levelReward.attackBonus, levelReward.defenceBonus, levelReward.pointsBonus, levelReward.healthBonus);
+            }
+            else{
+                DynamicBuffer<PolySkillData> skills = GetBuffer<PolySkillData>(technoEntity);
+                skills.Insert(1, unlockableSkills[levelReward.skillUnlockIndex]);
+                inkManager.inkStory.EvaluateFunction("updateLevelInfo", "Technoblade", unlockableSkills[levelReward.skillUnlockIndex].SharedSkillData.name.ToString(), levelReward.attackBonus, levelReward.defenceBonus, levelReward.pointsBonus, levelReward.healthBonus);
+            }
+
+
+        }
+        else{
+            // no more level ups
+            inkManager.inkStory.EvaluateFunction("updateLevelInfo", "", "", 0, 0, 0, 0);
+        }
+        SetComponent(technoEntity, levelData);
+        
+    }
+    public void UpdateEXPGold(){
+        Entity inkEntity = inkQuery.GetSingletonEntity(); 
+        InkManagerData inkManager = EntityManager.GetComponentObject<InkManagerData>(inkEntity);
+        BattleRewardData battleRewardData = GetSingleton<BattleRewardData>();
+
+        inkManager.inkStory.EvaluateFunction("updateEXPandGold", battleRewardData.totalEXP, battleRewardData.totalGold);
+    }
+    public void GetNextBattleItem(){
+        BattleRewardData battleRewardData = GetSingleton<BattleRewardData>();
+        Entity inkEntity = inkQuery.GetSingletonEntity(); 
+        InkManagerData inkManager = EntityManager.GetComponentObject<InkManagerData>(inkEntity);
+
+        Entity caravan = GetSingletonEntity<CaravanTag>();
+        DynamicBuffer<ItemData> itemDatas = GetBuffer<ItemData>(caravan);
+        if(battleRewardData.items.Length > 0){
+            inkManager.inkStory.EvaluateFunction("updateItemInfo", battleRewardData.items[0].item.name.ToString());
+
+            itemDatas.Add(battleRewardData.items[0]);
+            battleRewardData.items.RemoveAt(0);
+            SetSingleton(battleRewardData);
+        }
+        else{
+            inkManager.inkStory.EvaluateFunction("updateItemInfo", "");
+        }
     }
     public void SetDialogueSound(string name){
         Entity messageBoard =  messageBoardQuery.GetSingletonEntity();

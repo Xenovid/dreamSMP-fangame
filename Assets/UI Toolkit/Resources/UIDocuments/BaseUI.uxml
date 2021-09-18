@@ -43,8 +43,8 @@
             <ui:Label text="Tools/Software used:" display-tooltip-when-elided="true" name="toolsTitle" style="-unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;);" />
             <ui:Label text="Unity, aseprite, lmms, and visual studio code" display-tooltip-when-elided="true" name="toolsused" style="-unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;);" />
             <ui:Label text="Fonts:  ELFBOYCLASSIC and Press Start 2P" display-tooltip-when-elided="true" style="-unity-font: resource(&apos;Fonts &amp; Materials/press-start-2p-font/PressStart2P-vaV7&apos;);" />
-            <ui:Label text="Art&#10;" display-tooltip-when-elided="true" style="color: rgba(0, 0, 0, 255); font-size: 30px; -unity-text-align: upper-center;" />
-            <ui:Label text="Suzuki.artz: Wilbursoot character portraits&#10;" display-tooltip-when-elided="true" style="color: rgba(0, 0, 0, 255);" />
+            <ui:Label text="Art&#10;" display-tooltip-when-elided="true" style="color: rgb(0, 0, 0); font-size: 30px; -unity-text-align: upper-center;" />
+            <ui:Label text="Suzuki.artz: Wilbursoot character portraits&#10;" display-tooltip-when-elided="true" style="color: rgb(0, 0, 0);" />
         </ui:ScrollView>
     </ui:VisualElement>
     <ui:VisualElement name="file_select" style="position: absolute; width: 100%; height: 100%; visibility: hidden; background-color: rgb(60, 60, 60); align-items: flex-start;">
@@ -190,18 +190,10 @@
                         <ui:VisualElement name="blood_bar" style="flex-grow: 1; background-color: rgb(188, 9, 0); width: 10%;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="current_skills" style="flex-direction: row; display: none;">
-                    <ui:VisualElement name="list1" style="flex-grow: 1;">
-                        <ui:Label text="none" display-tooltip-when-elided="true" name="skill1" />
-                        <ui:Label text="none" display-tooltip-when-elided="true" name="skill2" />
-                        <ui:Label text="none" display-tooltip-when-elided="true" name="skill3" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="list2" style="flex-grow: 1;">
-                        <ui:Label text="none" display-tooltip-when-elided="true" name="skill4" />
-                        <ui:Label text="none" display-tooltip-when-elided="true" name="skill5" />
-                        <ui:Label text="none" display-tooltip-when-elided="true" name="skill6" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
+                <ui:Label text="LVL 1" display-tooltip-when-elided="true" name="current_level" style="padding-top: 12px; padding-bottom: 12px; font-size: 14px;" />
+                <ui:Label text="ATK: 1" display-tooltip-when-elided="true" name="current_attack" style="margin-top: 0; margin-bottom: 12px;" />
+                <ui:Label text="DEF: 1" display-tooltip-when-elided="true" name="current_defence" style="border-bottom-width: 12px;" />
+                <ui:Label text="EXP needed: " display-tooltip-when-elided="true" name="EXP" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="equipment_quickmenu" class="quick_menu" style="visibility: hidden;">
@@ -235,7 +227,7 @@
     <ui:VisualElement name="null_focus" tooltip="removes focus on objects that shouldn&apos;t have focus" focusable="true" style="width: 0; height: 0;" />
     <ui:Button text="&#10;" display-tooltip-when-elided="true" enable-rich-text="false" name="textbox" style="position: absolute; top: 0; height: 100%; width: 100%; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; flex-direction: row; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; visibility: hidden; background-color: rgba(228, 228, 228, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0;">
         <ui:VisualElement name="CharacterImage" style="width: 350px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; min-width: 0; flex-shrink: 0; height: 350px; position: absolute; bottom: 139px;">
-            <ui:VisualElement name="character_base" style="flex-shrink: 0; flex-grow: 1; background-image: url(&apos;/Assets/Art/CharacterPortraits/wilbur2croped.png#wilbur2croped&apos;);" />
+            <ui:VisualElement name="character_base" style="flex-shrink: 0; flex-grow: 1; background-image: url(&apos;/Assets/Art/CharacterPortraits/eret_concerned_portrait.png&apos;);" />
             <ui:VisualElement name="character_eyes" style="position: absolute; width: 100%; height: 100%;" />
             <ui:VisualElement name="character_mouth" style="position: absolute; width: 100%; height: 100%;" />
         </ui:VisualElement>

@@ -15,6 +15,9 @@ public class AudioManager : MonoBehaviour
 
     public static float volume = .1f;
     
+    private void Start() {
+    }
+
     public static void changeVolume(float newVolume){
         volume = newVolume;
 

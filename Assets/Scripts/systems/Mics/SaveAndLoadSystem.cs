@@ -177,6 +177,14 @@ public class SaveAndLoadSystem : SystemBase
         }
     }
     public void SaveAssets(){
+        //save level data
+        Entities
+        .WithoutBurst()
+        .ForEach((in LevelData levelData, in ToSaveTag saveTag)=>{
+            string savePath = Application.persistentDataPath + "/tempsave" + "/levelsave" + saveTag.saveID.ToString();
+            string jsonString = JsonUtility.ToJson(levelData);
+            File.WriteAllText(savePath, jsonString);
+        }).Run();
         //save position
         Entities
         .WithoutBurst()
@@ -254,6 +262,17 @@ public class SaveAndLoadSystem : SystemBase
         }).Run();
     }
     public void LoadAssets(){
+        //load leveldata
+        Entities
+        .WithoutBurst()
+        .ForEach((ref LevelData levelData, in ToLoadData loadTag)=>{
+            string savePath = Application.persistentDataPath + "/tempsave" + "/levelsave" + loadTag.saveID.ToString();
+            if(File.Exists(savePath) && loadTag.waitedFrame){
+                string jsonString = File.ReadAllText(savePath);
+                levelData = JsonUtility.FromJson<LevelData>(jsonString);
+                File.WriteAllText(savePath, jsonString);
+            }
+        }).Run();
         //load character stats
         Entities
         .WithoutBurst()

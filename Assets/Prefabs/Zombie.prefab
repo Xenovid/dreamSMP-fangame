@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 8487859158436272762}
   - component: {fileID: 5096407178319633397}
   - component: {fileID: 8349599627664974248}
+  - component: {fileID: 740898198103091578}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Untagged
@@ -657,3 +658,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ca9ad0a4e514314f9001e2c53131644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &740898198103091578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6581668474788148515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c310563064dde64298a33ae22fec260, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EXP: 3
+  gold: 0
+  itemData:
+    item:
+      itemType: 0
+      name: carrot
+      description: a carrot
+      healingAmount: 5
+      regenerationRate: 0
+      regenerationDuration: 0
+      useTime: 2
+    chance: 1

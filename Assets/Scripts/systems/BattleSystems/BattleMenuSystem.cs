@@ -550,7 +550,26 @@ public class BattleMenuSystem : SystemBase
             NativeArray<Entity> beforeBattleDatas = beforeBattleGroup.ToEntityArray(Allocator.TempJob);
 
             // if the player wins, give them some awards and give them some kind 
-            // if the player loses, set them to their last respawn point
+            
+            Entity technoEntity = GetSingletonEntity<TechnoData>();
+            LevelData levelData = GetComponent<LevelData>(technoEntity);
+            BattleRewardData battleRewardData = new BattleRewardData();
+            //add total exp, total gold and items
+            foreach(Entity enemyEntity in battleSystem.enemyEntities){
+                if(EntityManager.HasComponent<EnemyRewardData>(enemyEntity)){
+                    EnemyRewardData rewardData = EntityManager.GetComponentObject<EnemyRewardData>(enemyEntity);
+                    RandomData randomData = GetComponent<RandomData>(enemyEntity);
+                    float randomValue = randomData.Value.NextFloat(0, 1);
+                    battleRewardData.totalEXP += rewardData.EXP;
+                    battleRewardData.totalGold += rewardData.gold;
+                    // seeing if the player gets the item
+                    if(randomValue < rewardData.itemData.chance)battleRewardData.items.Add(new ItemData{item = ItemConversionSystem.ItemInfoToItem(rewardData.itemData.item)});
+                }
+            }
+            levelData.currentEXP += battleRewardData.totalEXP;
+            SetComponent(technoEntity, levelData);
+            SetSingleton(battleRewardData);
+
 
             //if a character loses or wins, say the results
             //since they aren't in a battle, remove the battle data
